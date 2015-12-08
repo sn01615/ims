@@ -1,0 +1,12 @@
+-- 2015年1月5日 陈罗勇 执行下列操作
+1.删除、备份zii目录
+2.views目录保留了中文内容，其余删除
+3.删除、备份vendors目录
+4.删除、备份validators目录
+5.删除、备份messages目录
+6.删除、备份i18n目录
+7.删除、备份gii目录
+8.删除、备份console目录
+9.删除、备份cli目录
+10.删除、备份yiic,yiic.bat,yiic.php,yiilite.php,yii-powered.png,yiit.php文件
+11.删除、备份test目录
