@@ -1,0 +1,8 @@
+/.buildpath
+/.project
+_notes
+/.settings
+/rockmongo-mst
+/protected/runtime/*.log
+/demo
+/sql
