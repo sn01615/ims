@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<link rel="stylesheet" type="text/css" href="public/template/css/index.css" />
+</head>
+
+<body class="disputeDel">
+<div class="TCGB cusInfoTC TC1200" id="more_div">
+        <div class="TCBox">
+            <h2>
+                <ul>
+                    <li class="active">{$lang.history.cust_info}</li>
+                    <li>{$lang.history.buy_his}</li>
+                    <li>{$lang.history.msg_his}</li>
+                </ul>
+                <span class="TCClose" id="cancelUser"><i class="icon-remove iconBtnS" id="CloseMoreWindow" title="{$lang.history.close_title}"></i></span>
+            </h2>
+            <div class="TCBody">
+                <!--客户信息-->
+                <div class="cusInfo cusBox" style="display:block;" id="window_client_info">
+                    <p>{$lang.cust_info.cust_name}<span t="name">{$lang.cust_info.default_name}</span></p>
+                    <ul class="nameVal" id="window_client_info_l">
+                        <li><span class="">{$lang.cust_info.buyer_id}</span><span class="rightVal" t="id">{$lang.cust_info.default_buyer_id}</span></li>
+                        <li><span class="">{$lang.cust_info.email}</span><span class="rightVal" t="mail">{$lang.cust_info.default_email}</span></li>
+                        <li><span class="">{$lang.cust_info.register_addr}</span><span class="rightVal" t="regaddr">{$lang.cust_info.default_register_addr}</span></li>
+                        <li style="display:none;"><span class="">{$lang.cust_info.register_date}</span><span class="rightVal" t="RegistrationDate"></span></li>
+                        <li style="display:none;">
+                        <span class="">{$lang.cust_info.appraise} <i class="iconPos" style="margin-right:-5px;"></i>： </span><span t="bPositive"></span>
+                        <span style="margin-left:15px;"><i class="iconNeu" style="margin-right:-5px;"></i>：<span t="bNeutral"></span>
+                        <span style="margin-left:15px;"><i class="iconNeg" style="margin-right:-5px;"></i>：</span><span t="bNegative"></span>
+                        </li>
+                    </ul>
+                    <ul class="nameVal" style="display:none;">
+                        <li><span class="">{$lang.cust_info.det_info.paypal_id}</span><span class="rightVal" t="pid">(●'◡'●)</span></li>
+                        <li><span class="">{$lang.cust_info.det_info.email}</span><span class="rightVal" t="pmail">(●'◡'●)</span></li>
+                        <li><span class="">{$lang.cust_info.det_info.shipping_addr}</span><span class="rightVal" t="praddr">(●'◡'●)</span></li>
+                    </ul>
+                </div>
+                <!--购物历史-->
+                <div class="buyHistory cusBox" style="display:none;" id="buyHistory_div">
+                    <table class="table" style="table-layout:auto;">
+                        <col width="100">
+                        <col>
+                        <col>
+                        <col>
+                        <col width="140">
+                        <col>
+                        <col width="80">
+                        <col>
+                        <col width="80">
+                        <col width="50">
+                        <thead>
+                            <tr>
+                                <th>{$lang.buy_his.account_id}</th>
+                                <th>{$lang.buy_his.item_info}</th>
+                                <th>{$lang.buy_his.quantity}</th>
+                                <th>{$lang.buy_his.price}</th>
+                                <th>{$lang.buy_his.order_time}</th>
+                                <th>{$lang.buy_his.transaction_info}</th>
+                                <th>{$lang.buy_his.shipping_addr}</th>
+                                <th>{$lang.buy_his.order_status}</th>
+                                <th>{$lang.buy_his.appraise}</th>
+                                <th>{$lang.buy_his.remark}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="10" style="padding:10px;"><img src="public/template/img/loader.gif" width="31" height="31"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!--事件历史 start-->
+                <div class="incHistory cusBox" style="display:none;">
+                    <div class="incHis incHisLeft">
+                        <h3 id="his_msg_title"></h3>
+                        <div class="boxCon" id="his_msg_box">
+                            <div id="his_msg_box2" style="height:410px; overflow:auto; word-break:break-all;">
+                                <div style="margin:50px auto; text-align:center;"><img src="public/template/img/loader.gif" width="31" height="31"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="incHisright">
+                        <p class="downUpBtn upBtn" title="{$lang.msg_his.prev_page}" id="his_msgs_up"><i></i></p>
+                        <ul id="his_msgs_ul" data-page="1">
+                            <li style="text-align:center; padding:12px;"><img src="public/template/img/loader.gif" width="31" height="31"></li>
+                        </ul>
+                        <p class="downUpBtn downBtn" title="{$lang.msg_his.next_page}" id="his_msgs_down"><i></i></p>
+                    </div>
+                </div>
+                <!--事件历史 end-->
+            </div>
+        </div>
+</div>
+<div class="content" caseid="" type="" status="">
+	<!--插入图片弹窗 start-->
+	 <div class="TCGB TC450 addImgTC" style="z-index:80;">
+		 <div class="TCBox">
+		     <h2><span title="TCtitle">{$lang.upload_pic.upload_title}</span><span class="TCClose" id="cancelUserPic"><i class="icon-remove iconBtnS" id="CloseAdd" title="{$lang.upload_pic.close_title}"></i></span></h2>
+		      <div class="TCBody" user-id="" data-type="add">
+		           <div id="drop-area-div">
+		              <p>{$lang.upload_pic.tip_1}</p>
+		              <div class="uploadBtnBox">
+		              <span>{$lang.upload_pic.tip_2}</span>
+		              <input type="file" name="files[]"  accept="image/*" multiple title='Click to add Images'>
+		              </div>
+		           </div>
+		           <div class="clear"></div>
+		           <p>{$lang.upload_pic.tip_3}</p>
+		           <p>{$lang.upload_pic.tip_4}</p>
+		           <ul class="imglist_addwindow" id="imglistli">
+		             <!--上传图片显示区-->
+		           </ul>
+		     </div>
+		     <input type="hidden" value="1215154" name="tmpdir" id="id_file">
+		        <div class="TCFoot">
+		           <span id="determine"><a class="subBtn" style="margin:0;">{$lang.upload_pic.submit}</a></span>
+		       </div>
+		</div>
+	</div>
+	<!--插入图片弹窗 end-->
+    <!--顶部（返回-上一页，下一页）-->
+    <div class="top">
+        <div class="leftTopLeft"  id="leftTopLeft"  title="{$lang.head.back_title}"></div>
+        <div class="leftTopRight">
+            <span class="preBtn pageBtn" title="{$lang.head.pre_return}" id="pre" msg-type="" data-id=""><i class="icon-chevron-left"></i></span>
+            <span class="nextBtn pageBtn" title="{$lang.head.next_return}" id="next" msg-type="" data-id=""><i class="icon-chevron-left"></i></span>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <!--纠纷判决-->
+    <div class="dpdBox1 nameVal">
+        <h3>
+            <span style="float:left;">Return Request</span>
+            <!--<small style="float:right;">最晚退款期限：<span id="limitDate"></span></small>
+            --><div class="clear"></div>
+        </h3>
+        <div class="boxCon">
+            <ul class="top" style="display:none" id="top">
+            </ul>
+            <div class="bottom">
+                <ul class="bottomLeft" id="left">
+                </ul>
+                <ul class="bottomRight" id="right">
+                    <li style="text-align:right;"><a href="javascript:;" class="fontLink" title="{$lang.more_title}" id="more_btn">{$lang.more_action}</a></li>
+                </ul>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+    <!--图片展示-->
+
+    <!--订单信息-->
+    <div class="orderInfo">
+        <div class="boxCon" id="orderinfo" style="padding:0;">
+    </div>
+    </div>
+    <div class="conBottom">
+        <div class="conBottomL">
+           <div class="dpdBoxImg" >
+                <ul id="fileData">
+                </ul>
+            </div>
+            <!--历史消息-->
+            <div class="dpdBox2">
+                <h3>{$lang.order_info.msg_his.title}</h3>
+                <p style="border-top:1px solid #ccc;height:30px;line-height:30px;padding-left:20px;background:url(public/template/img/msgbg1.jpg)">
+                    <span style="" id="picture">{$lang.order_info.msg_his.link}</span>
+                    <a href="" style="color:#40A3CE;"></a>
+                </p>
+                <ul id="history">
+                </ul>
+            </div>
+        </div>
+        <div class="conBottomR">
+            <!--处理方式-->
+            <div class="dpdBox3">
+                <h3>{$lang.deal.deal_title}</h3>
+                <div class="boxCon ">
+                    <p>
+                        <span class="spanMode span60">{$lang.deal.deal_option}</span>
+                        <select name="" id="return_deal">
+                        </select>
+                    </p>
+                    <div id="">
+                        <p style="display:none" id="returnAddr"> <span class="spanMode span60">{$lang.deal.return_addr}</span>
+                        </p>
+                        <p style="display:none" id="contactMan"> <span class="spanMode span60">{$lang.deal.link_man}</span>
+                        </p>
+                        <p style="display:none" id="RMA"><span class="spanMode span60">{$lang.deal.rma}</span>
+                            <input type="text" id="dateSel">
+                        </p>
+                        <p style="display:none" id="cash"><span class="spanMode span60">{$lang.deal.price}</span>
+                            <input type="text" id="">
+                        </p>
+                        <p style="display:none" id="docs">
+                        <a href="#" class="fontLinkBtn" title="{$lang.deal.uplaod_title}" id="addFile">{$lang.deal.upload_pic}</a>
+                                    <!--默认隐藏，插入图片时显示-->
+			            <ul class="imglist_addwindow" style="display:block;">
+			            </ul>
+                        </p>
+                        <p id="ebayHelp" style="display:none">
+                        <span class="spanMode span60">{$lang.deal.reason}</span>
+                        <select name="" id="reasonList">
+                            <option value="TROUBLE_COMMUNICATION_WITH_BUYER" selected="">{$lang.deal.reason_option1}</option>
+                            <option value="OTHER">{$lang.deal.reason_option2}</option>
+                        </select>
+                        </p>
+                        <!--回复模板-->
+                        <p style="display:none"> <span class="spanMode span60">{$lang.deal.template}</span> <span id="classbox" ></span> </p>
+                        <textarea name="" id="text" style="display:none"></textarea>
+                        <p>
+                            <input type="submit" value="{$lang.deal.deal_submit}" class="subBtn" id="deal">
+                        </p>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+            <!--备注-->
+            <div class="dpdBox4">
+                <h3>{$lang.remark.remark_title}<span>{$lang.remark.remark_tip}</span></h3>
+                <div class="boxCon ">
+                    <p>
+                        <textarea id="note-text"></textarea>
+                        <input type="submit" value="{$lang.remark.remark_save}" class="subBtn" id="sub-note">
+                        <div class="clear"></div>
+                    </p>
+                    <ul class="remark" id="note">
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<script src="public/template/js/jquery-1.8.3.min.js"></script>
+<script src="public/lang/{$lang_dir}/js/lang.js"></script>
+<script src="public/template/js/bootstrap.min.js"></script>
+<script src="public/template/js/bootstrap-datetimepicker.min.js"></script>
+<script src="public/template/js/bootstrap-datetimepicker.zh-CN.js"></script>
+<script src="public/template/js/common.js"></script>
+<script src="public/template/js/returndet_biz.js"></script>
+<script src="public/template/js/lightbox.min.js"></script>
+<link rel="stylesheet" type="text/css" href="public/template/css/lightbox.css">
+<script src="public/template/js/dmuploader.js"></script>
+</body>
+</html>

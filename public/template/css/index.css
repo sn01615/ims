@@ -1,0 +1,713 @@
+﻿body,button,div,form,h1,h2,h3,h4,h5,h6,hr,input,li,ol,select,span,p,td,textarea,th,ul,iframe { padding: 0; font-size: 100%; font-weight: normal; margin: 0; }
+i { display: inline-block; vertical-align: middle; background-image: url("../img/icon_s.png"); background-repeat: no-repeat; }
+.disputeDel i { background-image: url("../img/icon_s.png") !important; }
+/*滚动条样式*/
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: rgba(0, 0, 0, .2); }
+::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, .3); border-radius: 3px; }
+body { font-family: 'Microsoft Yahei', '微软雅黑', arial, '宋体', Arial, Helvetica; }
+img{ border:none; }
+a { text-decoration: none; color: #666; }
+input,select,textarea { outline: none; border: 1px solid #ccc; }
+textarea{ resize:none; }
+input { *border: none; }
+ul,li { list-style: none; }
+label { cursor: pointer; margin-right: 30px; }
+label input { vertical-align: middle; margin-right:5px; }
+.clear { clear: both; }
+/*手势光标*/
+.pointer{ cursor:pointer; }
+.pointer:hover{ color: #40A3CE; }
+/*提示字体颜色*/
+.redFont { color: red; }
+.yellowFont { color: yellow; }
+.greenFont { color: green; }
+small { color: #A0A0A0; }
+.garyFont { color: #ccc; }
+.fontBtn { cursor: pointer; background: #21769B; color: #fff; padding: 2px 6px; border-radius: 10px; font-size:12px; border:none; }
+.fontBtn:hover { background: #40A3CE; }
+.fontLink { color: #40A3CE; }
+.fontLinkBtn { color: #40A3CE; cursor: pointer; text-decoration: underline; }
+.btnGray{ background:#ccc !important; cursor:not-allowed; }
+/*红色提示框*/
+.redBorder { border: 1px solid red !important; }
+/*输入框宽度*/
+.inp200{ width:200px; }
+.inp150{ width:150px; }
+.inp100{ width:100px; }
+/*状态提示框*/
+.stateBox { margin: 6% auto 0 auto; width: 400px; padding: 20px 20px; border-radius: 10px; background: #6AAFCE; color: #fff; font-size: 30px; text-align: center; font-family: "微软雅黑"; }
+/*确认框模拟*/
+.confirmBox { } .confirmBox .TCBody p { text-align: center; font-size: 16px; color: #666; margin: 20px 0 40px 0; }
+.confirmBox .TCBody .yes { margin-right: 20px; }
+/*输入框样式*/
+input[type="text"],
+input[type="password"],
+select { padding: 2px 5px; height: 24px; border-radius: 3px; border: 1px solid #ccc; }
+/*提交/确定按钮样式*/
+.subBtn { padding: 5px 25px; border-radius: 5px; color: #fff; background: #40A3CE; cursor: pointer; border: none; font-family: inherit;-moz-user-select:none;-webkit-user-select:none;user-select:none;}
+.subBtn:hover { background: #21769B !important; }
+/*加载层-loading*/
+.loading { z-index: 9; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, .6) url("../img/loader.gif") no-repeat center;cursor:progress;}
+/*SM加载层-SMload*/
+.SMload { min-height: 30px; }
+.SMload img { width: 20px !important; height: 20px !important; margin-left: 180px; }
+/*顶部提示层--hint(层级最高-10) start*/
+.hint { position: fixed; top: -100px; left: 50%; margin-left: -15%; width: 30%; padding: 20px; border-radius: 3px; z-index: 10; font-size: 20px; box-shadow: 0 2px 10px #e5e5e5; font-weight: bold; text-align: center; }
+.hintClose { width: 20px; height: 20px; text-align: center; line-height: 20px; position: absolute; top: 5px; right: 3px; cursor: pointer; font-size: 14px; -webkit-transition: all .5s; }
+.hint:hover .hintClose { transform: scale(2); }
+/*成功提示*/
+.hint_s { color: #468847; background: #DFF0D8; }
+/*失败提示*/
+.hint_f { color: #E55F62; background: #F2A5A7; }
+/*警告提示*/
+.hint_w { color: #C39653; background: #FDF8E4; }
+/*顶部提示层--hint(层级最高-10) start*/
+/* 下拉框模拟 */
+.comboBox { position: relative; color: #fff; z-index: 1; border: 1px solid #0D729C; }
+.comboBox:hover { border: 1px solid #fff; background: #3EA4CC; }
+.comboBox .defaultBox { height: 25px; line-height: 25px; padding: 0 10px; margin-top: -3px; }
+.comboBox .defaultOp { position: relative; display: inline-block; margin-right: 2px; }
+.comboBox .defaultBox em { font-style: normal; }
+.comboBox .defaultBox b { position: absolute; top: 2px; right: -2px; width: 8px; height: 8px; border-radius: 4px; background: #DB3434; display: none; }
+.comboBox .defaultBox i,.addTagTC i.icon-angle-down{ margin-top: 6px; width: 18px; height: 14px; display: inline-block; background-position: -100px -80px; }
+.comboBox .selList { display: none; position: absolute; top: 20px; left: -1px; width: 100%; border: 1px solid #fff; border-top: none; background: #3EA4CC; }
+.comboBox .selList li { height: 20px; line-height: 20px; padding: 5px 10px; cursor: pointer; position: relative; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.comboBox .selList li:hover { background: #5EB1CF; }
+.comboBox .selList li b { position: absolute; right: 2px; top: 3px; padding: 0 2px; background: #DB3434; font-weight: normal; font-size: 12px; line-height: 1; border-radius: 10px; }
+.spanMode {display: inline-block; height: 25px; line-height: 25px; text-align: right; }
+.spanMode+span { display: inline-block; }
+/*鼠标经过气泡提示模块样式 --start--*/
+#tooltip-y {font:12px/20px "微软雅黑"; position: fixed; display: none; z-index: 9998; width: 400px; border: 2px solid #40A3CE; background: #fff; padding: 15px; border-radius: 5px; word-break: break-all; box-shadow: 2px 2px 5px #999; color: #666; }
+#tooltip-y span{display:block;max-height:200px;width:100%;overflow:auto;}
+#tooltip-y .tooltip-arrows{ position: absolute; z-index:9999; left: 12px; top: -12px; width: 0; height: 0; font-size: 0; line-height: 0; content: ''; border-left: 8px solid transparent; border-right: 8px solid transparent; }
+/*箭头向上*/
+#tooltip-y-top{ border-bottom: 12px solid #40A3CE; }
+/*箭头向下*/
+#tooltip-y-bottom{ border-top: 12px solid #40A3CE; }
+/*鼠标经过气泡提示模块样式 --end--*/
+/* span宽度类型 */
+.span60 { width: 60px; }
+.span80 { width: 80px; }
+.span100 { width: 100px; }
+.span120 { width: 120px; }
+.span140 { width: 140px; }
+/* 弹窗样式----------------*/
+/*弹窗背景*/
+.TCGB { position: fixed; width: 100%; height: 100%; top: 0; left: 0; background: rgba(255, 255, 255, .6); z-index: 8; display: none; }
+/*弹窗内容*/
+.TCBox { position: relative; background: #fff; border-radius: 5px; overflow: hidden; position: absolute; left: 50%; top: 30px; font-size: 12px; z-index: 100; border: 1px solid #ccc \9; box-shadow: 2px 2px 10px #666; }
+/*弹窗标题*/
+.TCBox h2,
+.cusdet .rightRemark h2 { padding: 0 0 0 15px; font-size: 16px; height: 30px; line-height: 30px; background: #40A3CE; color: #fff; font-weight: normal; cursor: move; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; }
+.TCBox h2 .TCtitle { float: left; }
+.TCBox h2 .TCClose { float: right; display: block; cursor: pointer; padding: 6px 10px 5px 10px; }
+.TCBox h2 .TCClose:hover { transform: scale(1.5); }
+.TCBox .TCBody { max-height: 600px; overflow: auto; padding: 25px 15px 15px 15px; }
+.TCBox select { height: 30px; border-radius: 3px; }
+.TCBox p { margin-bottom: 10px; min-height: 30px; }
+.TCBox .spanMode { font-size: 14px; text-align: right; margin-right: 15px; }
+/*弹窗尾部-保存-取消等按钮*/
+.TCFoot { height: 60px; line-height: 60px; text-align: center; position: relative; bottom: 0; }
+/*300PX宽度弹窗*/
+.TC300 .TCBox { width: 300px; margin-left: -150px; }
+/*400PX宽度弹窗*/
+.TC400 .TCBox { width: 400px; margin-left: -200px; }
+/*450PX宽度弹窗*/
+.TC450 .TCBox { width: 450px; margin-left: -225px; }
+.TC500 .TCBox { width: 500px; margin-left: -250px; }
+/*600PX宽度弹窗*/
+.TC600 .TCBox { width: 600px; margin-left: -300px; }
+/*800PX宽度弹窗*/
+.TC800 .TCBox { width: 900px; margin-left: -450px; }
+/*1000PX宽度弹窗*/
+.TC1000 .TCBox { width: 1000px; margin-left: -500px; }
+.TC1200 .TCBox { width: 1200px; margin-left: -600px; }
+.TC_90 .TCBox { width: 90%; margin-left: -45%; }
+/*上下页按钮样式*/
+.pageBtnBox { float: right; }
+.pageBtnBox select{ margin: 7px 15px 0 0; vertical-align: top; background: none; border: none; font-size: 16px; float: left\9; width:auto; min-width:40px; }
+.pageBtn { display: inline-block; float: left\9; padding: 10px 20px; line-height: 30px; background: #fff; border: 1px solid #ccc; cursor: pointer; }
+.pageBtn:hover { border: 1px solid #40A3CE; }
+.pageBtn i { display: block; width: 10px; height: 12px; }
+.preBtn { border-radius: 8px 0 0 8px; }
+.preBtn i { background-position: -80px -60px; }
+.nextBtn { border-radius: 0 8px 8px 0; margin-left: -7px; }
+.nextBtn i { background-position: -100px -60px; }
+.notOpBtn { background: #ccc; cursor: not-allowed; }
+.notOpBtn i { background-position-y: -40px; }
+.notOpBtn:hover { border: 1px solid #ccc; }
+/*流程进度步骤样式*/
+.schedule{margin-bottom:10px;height:30px;}
+.schedule li{ list-style:none; height:30px; line-height:30px; float:left; padding:0 20px 0 30px; background:#e9e9e9; position:relative; text-align:center; font-size:12px; color:#666; margin-right:5px; }
+.schedule li:last-child{border-radius:0 20px 20px 0;}
+.schedule li.active{ background:#F5563C;color:#fff;}
+.schedule li:before{ display:block; content: ''; width:15px; height:30px; border-radius:0 15px 15px 0; background:#fff; position:absolute; left:0px; z-index: 1; top:0; }
+.schedule li:after{ display:block; content: ''; width:15px; height:30px; border-radius:0 15px 15px 0; background:#e9e9e9; position:absolute; right:-14px; z-index: 2; top:0; }
+.schedule li.active:after{background:#f5563c;}
+.schedule li:first-child:before{ display:none; }
+.schedule li:last-child:after{ display:none; }
+/*搜索样式*/
+.search { float: left; width:244px; margin-left: 20px; height: 27px; position:relative; background:#fff; }
+.search .dfVal{ width:195px; height:27px; text-align: left; line-height:27px; padding-left:5px; position: absolute; left:0; top:0; }
+.search input { padding: 0 5px; width:189px; height: 25px; position:absolute; left:0; top:0; border-radius: 0; border-right: none; background:none; z-index: 1; }
+.searchBtn { display: block; background: #40A3CE; height: 25px; line-height: 23px; padding: 0 10px 0 15px; border: 1px solid #40A3CE; border-left: none; color: #fff; border-radius: 0 3px 3px 0; cursor: pointer; position:absolute; right:0; top:0; }
+.searchBtn:hover { background: #0D729C; }
+.search i { display: block; margin-top: 5px; width: 18px; height: 18px; background-position: 0 -80px; }
+/* 首页框架 index-- start */
+/*用户引导块*/
+.guide{ width:100%; height:100%; position:absolute; top:0; z-index: 999; }
+.guide img{ width:100%; }
+.guide .guideClose{ position:fixed; right:0; top:0; width:80px; height:60px; background:url("../img/yingdaoclose.png") no-repeat; }
+.header { width: 100%; height: 45px; background: #0D729C; font-size: 14px; color: #fff; }
+.header .logo { float: left; width: 130px; padding: 10px 10px 0 40px; }
+.header>ul { padding-top: 11px; float: left; }
+.header>ul>li { float: left; padding: 0 10px; border-left: 1px solid #4B98B9; min-width: 100px; text-align: center; }
+.header ul li ul li { text-align: left !important; }
+.header>ul>li:last-child { border-right: 1px solid #4B98B9; }
+.header li select { background: #0D729C; border: none; }
+.header .sign { float: right; padding: 12px 30px 0 20px;}
+.header .sign #username,.header .signRight,.header  #signRight i {display:inline-block;}
+.header  i { width: 18px; height: 18px; margin: 0 0 0 15px; cursor: pointer; }
+.header .sign .comboBox{border-right:1px solid #4B98B9;border-left:1px solid #4B98B9;margin-left:10px;}
+.header .sign .comboBox:hover{border-color:#fff;}
+.header .sign .comboBox i{margin-left:5px;}
+.header .reFull { background-position: -40px -60px; }
+.header .reFull.active { background-position-x: -60px; }
+.header .reSmall { display: none; }
+.header .icon-signout { background-position: -20px -60px; }
+.sidebar { position: absolute; left: 0; top: 45px; z-index: 0; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; width: 179px; background: #f2f2f2; color: #555; font-size: 18px; border-right: 1px solid #ccc; overflow: auto; }
+.sidebar a { color: #333; text-decoration: none; display: inline-block; width: 100%; font-size: 12px; }
+.sidebar h2 { padding-left: 30px; position: relative; height: 36px; line-height: 36px; color: #fff; background: #40A3CE; border-top: 1px solid #5DABCE; border-bottom: 1px solid #1A7EA9; }
+.sidebar h2 a { color: #fff; font-size: 16px; }
+.sidebar i { position: absolute; width: 18px; height: 18px; }
+/*第一级菜单图标*/
+
+.sidebar h2 i { left: 15px; top: 14px; background-position: -40px -20px; }
+.sidebar h2 i.active { background-position-x: -60px; }
+.sidebar h3 i.active { background-position-x: -100px; }
+/*第二级菜单图标*/
+
+.sidebar h3 i { left: -15px; top: 11px; background-position: -80px -20px; }
+.sidebar .tabRight{ position:absolute; right:0; top:10px; width:40px; background:red; }
+.sidebar .tabRight i{ top:0; left:0; background-position:-100px -160px; }
+.sidebar .tabRight i.iconSetTab{ margin-left:20px; background-position:-100px -180px; }
+.sidebar i.iconTab{ width:12px; height:12px; border-radius: 2px; }
+.addTagTC .iconTab{ width:16px; height:16px; border-radius: 2px; }
+/*添加标签弹窗*/
+.addTagTC .iconTab,.mTagTC .iconTab{ display:inline-block; }
+.addTagTC .selColorBox{ width:120px; }
+.addTagTC .tagColorList{ width:120px; background:#fff; border:1px solid #ccc; padding:5px; margin-top:-1px; }
+.addTagTC .tagColorList li{ display:inline-block; margin:5px; cursor:pointer; pading:5px; }
+.addTagTC .tagColorList li .iconTab:hover{ box-shadow: 1px 1px 3px #000; }
+.addTagTC .defaultBox{ width:120px; padding:5px 0 5px 10px; border:1px solid #ccc; cursor:pointer; }
+.addTagTC .defaultBox .icon-angle-down{ margin-top:-4px; margin-left:80px; }
+/*管理标签弹窗*/
+.mTagTC table .iconTab{ margin-right:10px; vertical-align: middle; width:12px; height:12px; }
+.mTagTC table td,.mTagTC table th{ text-align: left !important; }
+.mTagTC table input[type="text"]{ display:none; }
+.sideF2,.sideF3,.sideF4 { padding-left: 30px; background: #fff; display: none; }
+.sideF3 { padding-left: 10px; }
+.sidebar h3 { position: relative; height: 30px; line-height: 30px; cursor: pointer; }
+.sidebar h3 b { color: #333; margin-left: 5px; margin-top:-5px; display:inline-block; width:50px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; vertical-align:middle; }
+.sidebar h3:hover a,
+.sidebar .action2F a { color: #40A3CE; /*border-left:5px solid #40A3CE; */; }
+.sidebar .action2F{ }
+/*导航客户评价样式*/
+
+.sidebar .appraiseLi>ul>li h3 { padding-left: 20px; }
+.sidebar .appraiseLi>ul h3:first-child { padding-left: 0; }
+.sidebar .appraiseLi>ul h3 i { left: -2px; top: 8px; }
+/*右边主要内容 main*/
+.indexPage{ min-width:1200px; }
+.main { margin-left: 180px; }
+/* 收件箱样式---------------------------------start */
+
+.content { font-size: 14px; padding: 15px; }
+/*标记选择框*/
+
+.table .comboBox { width: 100px; height: 25px; margin-left: 10px; line-height: 25px; float: left; border-radius: 9px; border: 1px solid #ccc; color: #000; background: #fff; font-weight: normal; }
+.table .comboBox:hover { background: #fff; }
+.table .comboBox .defaultBox { height: 25px; line-height: 25px; margin-top: 0; }
+.table .defaultBox i,.addTagTC i.icon-angle-down{ background-position-y: -100px; }
+.table .comboBox ul { top: 19px; background: #fff; border: 1px solid #ccc; border-top: none; text-align: left; box-shadow: 0px 2px 5px #ccc; border-radius: 0 0 5px 5px; overflow: hidden; }
+.table .comboBox ul li { width: calc(100% - 20px); padding: 0 10px; height: 30px; line-height: 30px; }
+.table .comboBox ul li span { display: block; width: calc(100% - 20px); padding: 0 10px; height: 29px; }
+.table .comboBox ul li:first-child { margin-top: 10px; }
+.table .comboBox ul li: nth-child(even) span { border-bottom: 1px dotted #999; }
+.table .comboBox ul li: last-child span { border: none; }
+.table .comboBox ul li:hover { background: none; }
+.table .comboBox ul li:hover { background: #f2f2f2; }
+/* 收件箱样式---------------------------------end */
+/*table 样式*/
+
+.noBgBtn { float: left; display: block; height: 25px; line-height: 25px; padding: 0 20px; border: 1px solid #ccc; background: #fff; border-radius: 10px; cursor: pointer; margin-left: 10px;-moz-user-select:none;-webkit-user-select:none;user-select:none;}
+.noBgBtn:hover { border: 1px solid #40A3CE; }
+.addUserBtn { background: #40A3CE; float: right; color: #fff; margin-right: 20px; }
+.inBoxConTop select { height: 27px; padding: 0 10px; border-radius: 10px; background: #fff; border: 1px solid #ccc; float: left; margin-left: 10px; }
+.table { width: 100%; border-collapse: collapse; font-size: 12px; text-align: left; border: 1px solid #ccc; table-layout: fixed; font-family: arial, '宋体'; }
+.table thead th { font-size: 14px; font-weight: bold; }
+.table thead tr:first-child { height: 45px; background: #f2f2f2; }
+.table tbody input[type="checkbox"] { margin-top: 4px; }
+.table tr{ padding: 0 5px;border-bottom:1px solid #ccc;}
+/* 未读邮件样式 */
+
+.table .unread td,
+.table .unread td span { font-weight: bold; }
+.table tbody tr:hover { background: #F2F2F2; }
+.table th,
+.table tbody td {text-align: left; vertical-align: middle; word-break: break-all; padding:10px 5px 7px; }
+.table th:first-child,
+.table td:first-child { text-align: center; }
+/* 表格图标样式 */
+.table .icon-envelope,
+.table .icon-warning-sign,
+.table .icon-reply,
+.table .icon-acc,
+.table .readed{ display:inline-block; margin-top: 3px; width: 18px; height: 18px; }
+.table .icon-envelope { /*未读图标*/
+    margin-right:10px; background-position: 0 -40px; }
+.table .readed{ /*已读图标*/
+    background-position: -20px -40px; margin-right:10px; }
+.table .icon-warning-sign { /*错误邮件图标*/
+    background-position: -40px -80px; }
+.table .icon-reply { /*已回复图标*/
+    margin-right:10px; background-position: -60px -80px; }
+.table .icon-acc { /*附件图标*/
+    background-position: -80px -180px; margin-right:10px; }
+/*默认隐藏的图标（鼠标经过出现）*/
+
+.iconBtnH,
+.iconBtnS { width: 18px; height: 18px; display: none; cursor: pointer; color: #ccc; }
+/*默认显示的图标*/
+
+.iconBtnS { display: block !important; }
+.table tbody tr:hover .iconBtnH { display: block; }
+.icon-time { background-position: -40px 0 !important; }
+.icon-star { background-position: -20px 0 !important; display: block !important; }
+.icon-remove { background-position: -20px -120px; }
+.icon-close { width: 19px; height: 19px; background-position: -80px -120px; }
+.icon-remark{ width:18px; height:18px; background-position:0 -140px; }
+.starTimed { background-position: -60px 0 !important; display: block !important; }
+.table .iconTd { text-align: center; }
+.table tfoot td { line-height: 0; padding: 10px; background: #f2f2f2; }
+/* 首页框架 index-- end */
+/*消息列表样式-------------------------------------------*/
+.msglist .table tbody td>span { display: block;float:left;width:80%;overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.table thead .right { float: right; margin-right: 15px; }
+/* 回复模板样式--------------------------------------------- */
+
+.replyTemplate .table { float: right; }
+.conTopSel { height: 30px; }
+.conTopSel select { padding: 2px 10px; }
+.replyTC select { min-width: 60px; }
+.replyTC input[type="text"]{ width:388px; }
+.replyTC textarea { width: 388px; height: 60px; padding:5px; vertical-align: top; }
+.classify { float: left; width: 300px; border: 1px solid #ccc; }
+.classify h2 { height: 45px; line-height: 45px; padding: 0 15px; background: #f2f2f2; border-bottom: 1px solid #ccc; margin-bottom: 5px; }
+.classify h2 span { +float: left; }
+.classify h2 a { float: right; color: #40A3CE; }
+#new_class_box { overflow: auto; }
+#new_class_box .cBtn { margin-left: 10px; }
+#new_class_box .icon-plus { margin-top: 0px; background-position: -60px -100px; }
+/*邮件详情样式-------------------------------------------*/
+#his_msg_box2 font { display:block; text-align:justify; word-break:break-all; line-height:1.5em; }
+.emailDetails #note-text{ width:100%; height:80px; }
+.emailDetails { font-size: 14px; }
+.emailDetails .left { outline: 1px solid #ccc; float: left; overflow: hidden; }
+.emailDetails .leftTop { background: #f2f2f2; line-height: 25px; border-bottom: 1px solid #ccc; padding: 5px 10px; }
+/*编辑和纠纷详细页返回箭头*/
+
+.disputeDel .leftTopLeft,
+.ppdisputeDel .leftTopLeft { float: left; width: 52px; height: 40px; background: url("../img/backBtn.png") no-repeat 0 center; cursor: pointer; }
+/*.emailDetails .addImgTC .aaa{ float:left; }*/
+/*.emailDetails .addImgTC .aaa+div{ float:left; margin:-3px 0 0 15px; }*/
+
+.emailDetails .addImgTC p { margin-bottom: 5px; color: #ccc; min-height: 0; }
+.emailDetails .addImgTC a { color: #2786e4; margin-left: 10px; }
+.emailDetails .addImgTC a:hover { text-decoration: underline; }
+.emailDetails .addImgTC .fileBox { display: none; }
+.emailDetails .addImgTC .imglist_addwindow { margin-top: 10px; }
+.emailDetails .addImgTC li,
+.emailDetails .imgShow li,
+.cusdet .imglist_addwindow li,
+.feedbacklist .imglist_addwindow li{ display: inline-block; position: relative; margin-right: 14px; border: 1px solid #ccc; width: 70px; height: 60px; /*background: url(../img/case.png) center no-repeat; */; }
+.emailDetails .addImgTC li:last-child,
+.cusdet .imglist_addwindow li:last-child { margin-right: 0; }
+.emailDetails li i.icon-close,
+.cusdet .imglist_addwindow li i.icon-close,
+.feedbacklist .imglist_addwindow li i.icon-close { position: absolute; right: -10px; top: -10px; z-index: 2; }
+.emailDetails .addImgTC a.subBtn { color: #fff; text-decoration: none; }
+.disputeDel .leftTopLeft:hover { background-position: -52px center; }
+.emailDetails .leftTopRight .pageBtn { margin-top: 4px; }
+.emailDetails .leftTopLeft { float: left; width: 80%; }
+.emailDetails .leftTopRight { float: right; }
+.emailDetails .leftTopRight >i { margin-top: 4px; }
+.emailDetails .leftTopRight >i,
+.emailDetails .leftTopRight span { float: left; }
+.emailDetails .leftShow { border-bottom: 1px solid #ccc; overflow: auto; }
+/*邮件头*/
+
+.emailDetails .emailHead { background: #f5f5f5; padding: 15px !important; }
+.emailDetails .emailHead .fixP { height: 20px; line-height: 20px; }
+.emailDetails .emailHead span { text-align: left; font-weight: bold; height: 20px; line-height: 20px; }
+/*邮件体*/
+
+.emailDetails .emailBody { padding: 15px; line-height: 30px; }
+#msgContent>div { padding: 0 15px; }
+/*邮件编辑区*/
+
+.emailDetails .leftEdit { position: relative; }
+/*邮件图片显示*/
+.emailDetails .imgShow{ top: -117px; }
+.emailDetails .imgShow,
+.feedbacklist .imgShow{ position: absolute; padding: 5px 0 10px 10px; height: 100px; border: 1px solid #ccc; background: #f2f2f2; color: #666; display: none; }
+.emailDetails .imgShow .rightBtn,
+.feedbacklist .imgShow .rightBtn{ position: absolute; left: -22px; top: -1px; text-align: center; height: 60px; line-height: 25px; width: 20px; border-top-left-radius: 5px; border-bottom-left-radius: 20px; background: #eae9e9; border: 1px solid #ccc; cursor: pointer; }
+.emailDetails .imgShow .rightBtn:hover,
+.feedbacklist .imgShow .rightBtn:hover { background: #ccc; }
+.emailDetails .imgShow h3,
+.feedbacklist .imgShow h3 { margin-bottom: 15px; }
+.emailDetails .editHead { height: 30px; line-height: 30px; background: #f2f2f2; }
+.emailDetails .editHead select { min-width: 80px; margin-left: 10px; }
+.emailDetails .editBody { border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; padding: 2px 10px; }
+.emailDetails .editBody textarea { width: 100%; height: 125px; border: none; font-size: 14px; font-family: "microsoft yahei"; }
+.emailDetails .editBody .sentIcon { background: url("../img/get.png") center no-repeat; }
+.emailDetails .editFoot { height: 37px; line-height: 32px; padding: 0 10px; background: #f2f2f2; text-align: right; }
+.emailDetails .editFootL { float: left; text-align: left; }
+.emailDetails .editFootL input { vertical-align: middle; }
+.emailDetails .editFootR { float: right; color: #ccc; padding-top: 3px; }
+.emailDetails .editFootR input { margin-left: 15px; }
+.emailDetails .editFoot p input { vertical-align: middle; }
+.emailDetails .editFootL a { color: #40A3CE; margin-left: 20px; text-decoration: underline; }
+.emailDetails .editFoot #sendMsg { padding: 5px 30px; color: #fff; background: #40A3CE; border-radius: 10px; cursor: pointer; }
+.emailDetails .right { float: right; width: 600px; }
+.emailDetails .right table { margin-top: 15px; }
+.emailDetails .rightBox { border: 1px solid #ccc; font-size: 12px; }
+.emailDetails .rightBox { margin-bottom: 15px; }
+.emailDetails .rightTop { text-align: center; }
+.emailDetails .rightBody { padding: 15px; }
+.emailDetails .rightBody a { text-decoration: underline; color: #40A3CE; }
+.emailDetails .itemInfo>p { margin: 5px 0 20px 0; }
+.emailDetails .rightBody img { width: 96px; height: 80px; float: left; margin-right: 15px; }
+.emailDetails .rightBody p img { width: 22px; height: 22px; float: none; margin: 0; }
+.emailDetails .itemText { float: left; margin-top: -5px; }
+.emailDetails .right p { margin: 5px 0; }
+.nameVal .leftName { display: inline-block; min-width: 125px; vertical-align: top; text-align: right; }
+.emailDetails .rightVal { display: inline-block; max-width: 440px; }
+.emailDetails .itemInfo .rightVal { width: 330px; }
+.emailDetails .remark h2 { font-size: 16px; padding: 10px; }
+.emailDetails .cusinfoBox { position: relative; }
+.emailDetails .cusinfoBox .more { position: absolute; right: 10px; top: 5px; padding: 5px; cursor: pointer; }
+.emailDetails .cusinfoBox .more:hover { text-decoration: underline; }
+/*信息源-客户信cusInfoTC息弹窗*/
+
+.cusInfoTC .TCBox p { margin-bottom: 0; }
+.cusInfoTC h2 { padding: 0; }
+.cusInfoTC h2 li,
+.cusdet .left .tab li { float: left; padding: 0 10px; cursor: pointer; }
+.cusInfoTC h2 li:hover,
+.cusInfoTC h2 li.active { background: #fff; color: #40A3CE; }
+.cusInfoTC .table { width: 100%; }
+.cusInfoTC .nameVal { width: 450px; border: 1px solid #ccc; float: left; padding: 5px 10px; margin-right: 20px; }
+.cusInfoTC .nameVal:last-child { margin: 0; }
+.cusInfoTC .nameVal li { margin: 5px auto; }
+.cusInfoTC .nameVal .leftName { width: auto; }
+.cusInfoTC .nameVal .rightVal { width: 200px; }
+.cusInfoTC .incHistory h3 { background: #f2f2f2; line-height: 25px; margin-bottom: 15px; padding-left: 15px; }
+.cusInfoTC .incHisLeft { float: left; border: 1px solid #ccc; width: 700px; padding-bottom: 15px; }
+.cusInfoTC .incHisright { float: right; border: 1px solid #ccc; }
+.cusInfoTC .incHisright li { line-height: 30px; border-bottom: 1px solid #ccc; cursor: pointer; padding: 0 15px; width: 400px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.cusInfoTC .incHisright li>p{ width: 360px; float:left; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.cusInfoTC .incHisright li>span{ float:right; }
+.cusInfoTC .incHisright li:first-child { border-top: 1px solid #ccc; }
+.cusInfoTC .incHisright li:hover,
+.cusInfoTC .incHisright li.active { color: #40A3CE; background: #f2f2f2; }
+.cusInfoTC .incHisright .downUpBtn { padding: 10px; background: #f2f2f2; margin: 0; cursor: pointer; min-height: 20px !important; }
+.cusInfoTC .incHisright .downUpBtn i { display: block; width: 18px; height: 20px; margin: 0 auto; }
+.cusInfoTC .incHisright .downUpBtn:hover i { background-position-x: -18px; }
+.cusInfoTC .incHisright .upBtn i { background-position: 0 -160px; }
+.cusInfoTC .incHisright .downBtn i { background-position: 0 -180px; }
+/*邮件详情>信息源>备注*/
+
+.emailDetails .remark ul { max-height: 80px; margin-top: 5px; overflow: auto; }
+.emailDetails .right .remark input[type="text"] { width: 98%; margin: 10px 0; }
+.ppdisputeDel .right .remark input[type="text"] { width: 337px; margin: 10px 0; }
+.emailDetails .right .remark .spanMode { text-align: left; float: none; }
+.emailDetails .right .remark p span { color: #999; }
+.emailDetails .right .remark p { text-align: right; }
+/*用户管理页面样式------------------------------------*/
+.userManagement .table th,
+.userManagement .table td { text-align: center; }
+/*编辑图标*/
+.icon-edit { background-position: -80px 0; }
+/*删除图标*/
+.icon-trash { background-position: -100px 0; }
+/*增加图标*/
+.icon-plus { margin-top: 3px; background-position: 0 -120px; }
+.userManagement #set_user_shop_window_ckbs label{width:80px;display:inline-block;overflow:hidden;}
+/*店铺设置页面样式-----------------------------------*/
+/*纠纷列表页面样式-----------------------------------*/
+
+.disputeList .disputListTable th,
+.disputeList .disputListTable td { text-align: center; }
+.disputeList .searchDiv,
+.disputeList .searchDiv p,
+.returnrequest .searchDiv,
+.returnrequest .searchDiv p,
+.feedbacklist .searchDiv,
+.feedbacklist .searchDiv p,
+.cusmanage .searchDiv,
+.cusmanage .searchDiv p { float: left; }
+.disputeList .searchDiv select,
+.disputeList .searchDiv input[type="text"],
+.returnrequest .searchDiv select,
+.returnrequest .searchDiv input[type="text"] { width: 150px; height: 25px !important; padding: 2px 0 2px 5px; }
+.disputeList .searchDiv select,
+.returnrequest .searchDiv select,
+.feedbacklist .searchDiv select,
+.cusmanage .searchDiv select { width: 150px; height: 30px !important; padding: 2px 0 2px 5px; overflow: hidden; white-space: nowrap; }
+.disputeList .searchDiv p,
+.returnrequest .searchDiv p,
+.feedbacklist .searchDiv p,
+.cusmanage .searchDiv p { margin-left: 20px; }
+.disputeList .addUserBtn { margin-top: 1px; }
+.disputeList .TCBox p select { width: 213px; }
+.disputeList .tableBox { margin-top: 40px; padding-top: 20px; border-top-style: double; border-color: #ccc; }
+.disputeList .tableBox table { margin-bottom: 30px; }
+.disputeList .tableBox label { margin-right: 30px; }
+.disputeList .tableBox th,
+.disputeList .tableBox td { text-align: center; line-height: 22px; font-weight: normal !important; font-size: 12px !important; padding: 5px; }
+.disputeList .tableBox td span: nth-child(2) { border-top: 1px dotted #ccc; }
+.disputeList .tableBox th span { /*    display: block; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; */; }
+.disputeList .tableBox td img { width: 50px; height: 50px; }
+.disputeList .tableBox p { line-height: 30px; }
+.disputeDel .dpdBox1 .leftName { width: auto; }
+.disputeDel .dpdBox1 .top .rightVal { width: 80%; }
+.disputeDel .dpdBox1 .bottom .rightVal { width: 80%; }
+/*eBay纠纷明细*/
+
+.disputeDel .leftTopRight,
+.ppdisputeDel .leftTopRight { float: right; }
+.disputeDel .dpdBox1,
+.disputeDel .dpdBox2,
+.disputeDel .dpdBox3,
+.disputeDel .dpdBox4,
+.disputeDel .dpdBoxImg,
+.ppdisputeDel .conBox { margin-bottom: 10px; border: 1px solid #ccc; font-size: 12px; }
+.disputeDel .dpdBoxImg li{display:inline-block;}
+.disputeDel .dpdBoxImg li img{width:70px;height:60px;}
+.disputeDel .table { margin: 0 0 10px 0; }
+.disputeDel .table td img { width: 50px; height: 50px; }
+.disputeDel .table thead tr:first-child th { /*text-align: left; */    /*padding-left: 20px; */    font-weight: normal; font-size: 16px; font-family: "微软雅黑"; }
+.disputeDel .table thead tr:first-child th span { float: right; margin-right: 20px; color: #0A6AA1; cursor: pointer; font-size: 12px; }
+.disputeDel .boxCon,
+.ppdisputeDel .boxCon { padding: 15px; }
+.disputeDel .table thead tr { height: 35px; padding: 0; line-height: 35px; }
+.disputeDel h3,
+.ppdisputeDel h2 { min-height: 35px; line-height: 35px; background: #f2f2f2; font-size: 16px; padding-left: 20px; word-break:break-all; }
+.disputeDel .dpdBox1 .top { border-bottom: 1px dashed #ccc; padding: 0 0 10px 0; margin-bottom: 10px; }
+.disputeDel .dpdBox1 .bottomLeft { float: left; width: 50%; border-right: 1px dashed #ccc; }
+.disputeDel .dpdBox1 .bottomRight { float: left; padding-left: 15px; width: 45%; }
+.disputeDel .dpdBox1 ul li { line-height: 21px; }
+.disputeDel .conBottomL { float: left; width: 50%; }
+.disputeDel .conBottomR { width: 49%; float: right; }
+.disputeDel .orderInfo th { padding-left: 8px !important; text-align: center !important; }
+.disputeDel .orderInfo td { text-align: center !important; }
+.disputeDel .evaluate i { width: 20px; height: 20px; margin: 0 auto; }
+i.iconNone { background: none !important; }
+i.iconPos { width: 20px; height: 20px; background-position: -40px -160px !important; /*好评图标*/; }
+i.iconNeu { width: 20px; height: 20px; background-position: -60px -160px !important; /*中评图片*/; }
+i.iconNeg { width: 20px; height: 20px; background-position: -80px -160px !important; /*差评图标*/; }
+i.iconSend { background-position: -40px -180px; cursor: pointer; }
+i.iconSended { background-position: -60px -180px; cursor:pointer; }
+i.iconSended:hover {	border: 1px dashed #F60;}
+i.iconSend:hover { background-position: -60px -180px; }
+/*历史消息*/
+.disputeDel .dpdBox2 { padding-bottom: 20px; }
+.disputeDel .dpdBox2 li,
+.incHis li { position: relative; margin-top: 10px; padding: 0 8px; }
+.buyerMSG { text-align: left; margin-right: 100px; }
+.sellerMSG { text-align: right; margin-left: 100px; }
+.sellerMSG div { text-align: left; }
+.sellerMSG p:first-child { text-align: right; }
+.MSGC { padding: 10px; border-radius: 5px; display: inline-block; background: #C7E5F3; word-break: break-all; }
+.MSGC i,
+#msg_orders_list i { background: none !important; display: inline; }
+.sellerMSG .MSGC { background: #e5e5e5; }
+/*为气泡添加左箭头*/
+
+.buyerMSG:before { position: absolute; left: 0; top: 5px; width: 0; height: 0; border-bottom: 6px solid transparent; border-top: 6px solid transparent; border-right: 8px solid #C7E5F3; font-size: 0; line-height: 0; content: ''; }
+/*为气泡添加右箭头*/
+
+.sellerMSG:before { position: absolute; right: 0; top: 5px; width: 0; height: 0; border-bottom: 6px solid transparent; border-top: 6px solid transparent; border-left: 8px solid #e5e5e5; font-size: 0; line-height: 0; content: ''; }
+.disputeDel .dpdBox3 p,
+.disputeDel .dpdBox4 p { margin-bottom: 10px; }
+.disputeDel .dpdBox3 p span,
+.disputeDel .dpdBox4 p span { line-height: 30px; }
+.disputeDel .dpdBox3 p .spanMode+span,
+.disputeDel .dpdBox4 p .spanMode+span { display: inline-block; width: 80%; vertical-align: top; }
+.disputeDel .dpdBox3 p select { height: 30px; }
+.disputeDel .dpdBox3 textarea { width: 100%; height: 80px; margin-bottom: 10px; }
+.disputeDel .dpdBox3 input[type="text"] { width: 150px; }
+.disputeDel .dpdBox4 input[type="text"] { width: 80%; }
+.disputeDel .dpdBox4 textarea { width: 80%; height: 50px; font-size: 14px; }
+.disputeDel .dpdBox4 h2 span { font-size: 12px; color: #666; margin-left: 15px; }
+.disputeDel input[type="submit"].subBtn { height: 30px; line-height: 1px; float: right; }
+.disputeDel .remark { max-height: 80px; overflow: auto; }
+.disputeDel .remark li,
+.emailDetails .remark li,
+.ppdisputeDel .remark li,
+.feedbacklist .remark li,
+.cusdet .remark li { line-height: 20px; border-bottom: 1px dashed #ccc; word-break: break-all; }
+.disputeDel .dealTable tbody tr:first-child { display: table-row; }
+.disputeDel .dealTable tbody tr { display: none; }
+.disputeDel .dealTable td { text-align: center; }
+/*PayPal纠纷明细----------------------------------------*/
+/* .ppdisputeDel .left { float: left; }
+.ppdisputeDel .left .boxCon .table { margin-top: 15px; }
+.ppdisputeDel .left .table td,
+.ppdisputeDel .left .table th { text-align: center; position: relative; }
+.ppdisputeDel .left .fontLink:hover+.monTC { display: block; }
+.ppdisputeDel .left .monTC { display: none; position: absolute; left: -40%; top: 70px; border: 1px solid #ccc; background: #fff; min-width: 200px; padding: 10px; text-align: left; border-radius: 5px; color: #999; z-index: 2; }
+.ppdisputeDel .left .monTC:before { position: absolute; left: 45%; top: -10px; width: 20px; height: 20px; background: url("../img/icon_s.png") -60px -120px no-repeat; content: ''; }
+事件历史-系统消息
+
+.ppdisputeDel .incHis .boxCon { padding: 0 5px 15px 5px; }
+系统信息样式
+
+.ppdisputeDel .systemMSG { background: #fffaae; border: 1px solid #f1c40f; border-radius: 10px; width: 50%; margin: 0 auto; }
+.ppdisputeDel .systemMSG2 { background: #ddd; border-radius: 10; width: 50%; border: none; text-align: center; }
+.ppdisputeDel .systemMSG .systemCon { padding: 0 5px; }
+.ppdisputeDel .systemMSG h3 { font-size: 16px; font-weight: bold; }
+.ppdisputeDel .systemMSG label { display: inline-block; margin-right: 30px; font-size: 12px; }
+.ppdisputeDel .systemMSG label input { vertical-align: top; margin-right: 5px; }
+.ppdisputeDel .systemMSG textarea { width: 100%; height: 50px; }
+.ppdisputeDel .systemMSG .systemConFoot { text-align: right; margin: 15px 0; }
+.ppdisputeDel .fileBox { margin: 15px 0; }
+.ppdisputeDel .fileBox li { display: inline-block; padding: 5px 20px; background: #40A3CE; color: #fff; cursor: pointer; margin-left: 15px; }
+.ppdisputeDel .fileBox li:hover { background: #1A7EA9; }
+.ppdisputeDel .fileBox .fileCon { position: relative; margin-top: 15px; padding: 10px; border: 1px solid #ccc; }
+.ppdisputeDel .fileBox .fileCon:before { position: absolute; left: 30px; top: -10px; width: 20px; height: 20px; background: url("../img/icon_s.png") -60px -120px no-repeat; content: ''; }
+.ppdisputeDel .processWay li { border-bottom: 1px solid #ccc; }
+.ppdisputeDel .processWay li:last-child { border: none; }
+.ppdisputeDel .processWay h3 { height: 30px; line-height: 30px; padding-left: 20px; font-size: 14px; cursor: pointer; }
+.ppdisputeDel .processWay h3:hover { background: #f2f2f2; }
+.ppdisputeDel .processWay i { width: 12px; height: 15px; display: inline-block; background: url(../img/icon_s.png) -80px -20px no-repeat; }
+.ppdisputeDel .processWay li>div { padding: 5px 20px 20px 30px; }
+.ppdisputeDel .processWay li p,
+.ppdisputeDel .right .boxCon p { min-height: 25px; line-height: 25px; margin-top: 5px; }
+.ppdisputeDel .subP { text-align: right; }
+.ppdisputeDel .processWay li textarea { width: 100%; height: 80px; margin: 8px 0; }
+.ppdisputeDel .processWay .acBox { display: none; }
+.ppdisputeDel .processWay .refundBox { border: 1px solid #ccc; padding: 10px; margin: 20px; }
+.ppdisputeDel .right { width: 400px; float: right; }
+.ppdisputeDel .remark input[type="text"] { width: 100%; padding: 0; }
+.ppdisputeDel .remark ul { max-height: 300px; overflow: auto; } */
+#msgContent > #Title { display: none; }
+#msgContent > #ItemDetails { display: none; }
+.textleft { text-align: left; }
+#rscount { text-align: right; float: right; clear: both; margin-right: 14px; font-size: 12px; margin-top: 3px; }
+/*新图片上传插件样式*/
+
+#drop-area-div { border: 3px dashed #40A3CE; text-align: center; margin-bottom: 15px; padding: 10px; }
+#drop-area-div p { font-size: 30px; font-weight: bold; color: #74C4E8; }
+#drop-area-div .uploadBtnBox { position: relative; width: 100px; height: 30px; line-height: 30px; background: #40A3CE; color: #fff; cursor: pointer; border-radius: 5px; margin: 0 auto; }
+#drop-area-div .uploadBtnBox:hover { background: #21769B; }
+#drop-area-div input { position: absolute; top: 0; left: 0; width: 100px; height: 30px; background: red; opacity: 0; }
+/*客户评价页面样式====================================================*/
+
+.feedbacklist .cusInfoTC select { width: 50%; }
+.feedbacklist .cusInfoTC .iconPj,.msgdetail .cusInfoTC .iconPj{ margin-left:5px; }
+.feedbacklist .cusInfoTC .iconPj i,.msgdetail .cusInfoTC .iconPj i{ margin-right:-5px; }
+.feedbacklist .leftTag { width: 50%; float: left; }
+.feedbacklist .leftTag li,
+.cusdet .sideTab>li { border: 1px solid #ccc; margin-top: -1px; }
+.feedbacklist .leftTag h3,
+.cusdet .sideTab>li h3 {position:relative;height: 30px; line-height: 30px; padding: 0 10px; background: #F2F2F2; cursor: pointer; z-index: 3;}
+.feedbacklist .leftTag h3 i,
+.cusdet .sideTab>li h3 i { background-position: -80px -20px; width: 16px; height: 16px; }
+.feedbacklist .leftTag .leftTagCon { padding: 15px; display: none; }
+.feedbacklist .cusInfoTC .reviewsText { line-height: 30px; font-size: 14px; color: #666; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc; margin-top: 15px; }
+.feedbacklist .TCGB .cusRev p { margin-bottom: 15px; }
+.feedbacklist .cusInfoTC textarea,
+.feedbacklist .batchReplyTC textarea,
+.cusdet textarea { width: 100%; height: 80px; }
+.feedbacklist .rightRemark { float: right; width: 45%; border: 1px solid #ccc; padding: 15px; }
+.feedbacklist .rightRemark h3,
+.cusmanage .rightRemark h3 { font-size: 16px; margin-bottom: 10px; }
+.feedbacklist .msgModelSel select{ max-width:90px; margin:0 5px 10px 0; padding:0; }
+.feedbacklist .msgModelSel #temp_msg{margin:0 5px 10px 0;},
+.feedbacklist .msgModelSel #temp_feedback{ display:inline-block; width:480px; vertical-align:top; margin-top:-5px; }
+.feedbacklist .imgShow{ bottom:-1px; right:-1px; z-index: 2;}
+.feedbacklist #ReplyClient{ display:block; width:100%; margin:5px 0; word-break: break-all; }
+.feedbacklist #orderList td>a>img{ width:76px; height:76px; }
+/*客户管理详情页面样式===============================*/
+.cusdet{ min-width:1200px; }
+.cusmanage .cusmanageInfoTC .right i { margin: 0 3px 0 10px; }
+.cusmanage .cusmanageInfoTC .right .rightRemark { border: 1px solid #ccc; padding: 10px; }
+/*.ui-tooltip-content { font-size: 12px; font-weight: normal; }*/
+.cusdet .left { float: left; width:70%; }
+.cusdet .TCBox p { min-height: 10px; }
+.cusdet .left table td { text-align: center; }
+.cusdet .left .tab { border-bottom: 1px solid #ccc; margin-bottom: 15px; height: 31px; line-height: 31px; }
+.cusdet .left .tab li { height: 30px; background: #40A3CE; border: 1px solid #ccc; margin-right: -1px; color: #fff; }
+.cusdet .left .tab li:hover,
+.cusdet .left .tab li.active { background: #fff; color: #000; border-bottom: 1px solid #fff; }
+.cusdet table tr { cursor: auto; }
+.cusdet thead th,
+.cusdet td { font-size: 12px; text-align: center; line-height: 15px; padding: 10px 5px; }
+.cusdet table hr { margin: 5px 0; height: 1px; border: none; border-top: 1px dotted #ccc; }
+.cusdet .right { float: right; width: 400px; }
+.cusdet .cusInfo { display: inline-block; border: 1px solid #ccc; padding: 15px; margin-bottom: 15px; }
+.cusdet .cusInfo li { line-height: 25px; }
+.cusdet i { width: 18px; height: 18px; margin: 0 3px 0 10px; }
+.cusdet .right .rightRemark { border: 1px solid #ccc; }
+.cusdet .right .remark { padding: 15px 10px; }
+.cusdet .right .remark li { line-height: 30px; }
+.cusdet .imglist_addwindow li{ margin-right: 10px; }
+.cusdet .sideTab{ margin-bottom:15px; }
+.cusdet .sideTab>li h3 { padding-right: 50px; height: 40px; line-height: 40px; position: relative; }
+.cusdet .sideTab h3 span{ display:inline-block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cusdet .sideTab h3 .ject{ width:70%; }
+.cusdet .sideTab>li h3 i { position: absolute; right: 10px; top: 15px; }
+.cusdet .sideTab>li h3 .name { border-right: 1px solid #ccc; font-weight:bold; margin-right: 10px; padding: 0 10px 0 0; }
+.cusdet .sideTab>li h3 .reDate{ float:right; }
+.cusdet .sideTab>li ul { max-height: 400px; overflow: auto; display: none; }
+.cusdet .dialogBox li { padding: 0 8px; position: relative; margin: 10px 200px 10px 0; }
+.cusdet .dialogBox li.sellerMSG { padding: 0 8px; position: relative; margin: 10px 0 10px 200px; }
+/*标签列表页面样式========================================*/
+.msglist .table .labelTd{float:right}
+.icon-tab{ background-position:-100px -140px; }
+.nui-tag{ float:left; margin-right:5px; height:20px; line-height:20px; border-width:1px; border-style: solid; font-size:12px; border-radius:3px; cursor:pointer; background:none !important; }
+/*标签颜色*/
+.nui-tag1{ border-color:#F09E47; color:#F09E47; background:#F09E47; }
+.nui-tag2{ border-color:#3796BE; color:#3796BE; background:#3796BE; }
+.nui-tag3{ border-color:#B54143; color:#B54143; background:#B54143; }
+.nui-tag4{ border-color:#AEDEA4; color:#AEDEA4; background:#AEDEA4; }
+.nui-tag5{ border-color:#F2D1A8; color:#F2D1A8; background:#F2D1A8; }
+.nui-tag6{ border-color:#A5DAEA; color:#A5DAEA; background:#A5DAEA; }
+.nui-tag7{ border-color:#F3C9DF; color:#F3C9DF; background:#F3C9DF; }
+.nui-tag8{ border-color:#C8AD24; color:#C8AD24; background:#C8AD24; }
+.nui-tag9{ border-color:#CF69E2; color:#CF69E2; background:#CF69E2; }
+.nui-tag10{ border-color:#9D9D9D; color:#9D9D9D; background:#9D9D9D; }
+.nui-tag11{ border-color:#373737; color:#373737; background:#373737; }
+.nui-tag12{ border-color:#ECE0A4; color:#ECE0A4; background:#ECE0A4; }
+.nui-tag13{ border-color:#EFC0F6; color:#EFC0F6; background:#EFC0F6; }
+.nui-tag14{ border-color:#D9D9D9; color:#D9D9D9; background:#D9D9D9; }
+.nui-tag15{ border-color:#E7E5E6; color:#E7E5E6; background:#E7E5E6; }
+.nui-tag16{ border-color:#48A91B; color:#48A91B; background:#48A91B; }
+.nui-tag-text{ padding:0px 5px; }
+.nui-tag-text,.nui-tag-close{ display:block; float:left; height:20px; overflow:hidden; }
+.nui-tag-close{ width:0; margin-right:-1px; border-left:1px solid red; border-color: inherit; text-align:center; }
+.labelTc{ display:none; border:1px solid #ccc; position:absolute; left:0; top:0; background:#fff; padding:5px 15px 5px 10px; box-shadow: 0px 2px 15px #999; }
+.labelTc li{ margin-bottom:5px; padding:2px 10px; border:1px solid #fff; cursor:pointer; border-radius:5px; }
+.labelTc li:hover{ border:1px solid #ccc; }
+.labelTc .iconTab{ display:inline-block; width:12px; height:12px; border-radius:2px; margin-right:10px; }
+#item_detail_div{ position:relative; }
+#item_detail_div_br{ color:#F00; position:absolute; right:45px; bottom:10px; }
+#item_detail_div_br a{ color:#F00; }
+#msg_labels{ margin-top:6px; }
+#imsversion{ position:absolute; left:15px; bottom:12px; font-size:10px; font-weight:normal; z-index: 0; }
+#question_type,#message_type{font-size: 12px;line-height: 25px;color:#666;}
+#question_type label,#message_type label{display:inline-block;margin-right:20px;}

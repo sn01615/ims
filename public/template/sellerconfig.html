@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>config</title>
+<link rel="stylesheet" type="text/css" href="public/template/css/index.css" />
+<!-- {literal} -->
+<style>
+	table td,table th{text-align:left !important;padding:10px 30px !important;}
+	table tbody tr{background:none !important;}
+</style>
+<!-- {/literal} -->
+</head>
+<body>
+	<div class="content">
+		<form id="nosubmit_form" onSubmit="return false;">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>{$lang.title}</th>
+					</tr>
+				</thead>
+				<tbody>
+					<td>
+						<p class="dispatch">
+							<span>{$lang.task_assign}</span>
+							<label><input name="taskAssign" type="radio" value="1" checked="checked">{$lang.account}</label> 
+							<label><input name="taskAssign" type="radio" value="2" disabled title="开发中。。">{$lang.sku}</label> 
+							<label><input name="taskAssign" type="radio" value="3">{$lang.account_sku} </label>
+						</p>
+					</td>	
+				</tbody>
+				<tfoot>
+					<tr>
+						<td>
+							<div class="SetFooter">
+								<input type="button" name="" value="保存" id="saveconfig" class="subBtn"> 
+							</div>
+						</td>
+					</tr>
+				</tfoot>
+			</div>
+		</table>
+		</form>
+	</div>
+</body>
+<script src="public/template/js/jquery-1.8.3.min.js"></script> 
+<script src="public/lang/{$lang_dir}/js/lang.js"></script>
+<script src="public/template/js/common.js"></script> 
+<script src="public/template/js/configset_biz.js"></script>
+</html>

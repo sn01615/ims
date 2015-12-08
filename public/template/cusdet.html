@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<link rel="stylesheet" type="text/css" href="public/template/css/index.css" />
+</head>
+
+<body class="cusdet">
+<div class="content">
+<!--插入图片弹窗 start-->
+ <div class="TCGB TC450 addImgTC" style="z-index:80;">
+	 <div class="TCBox">
+	     <h2><span title="TCtitle">{$lang.upload_pic.title}</span><span class="TCClose" id="cancelUserPic"><i class="icon-remove iconBtnS" id="CloseAdd" title="{$lang.upload_pic.close_tip}"></i></span></h2>
+	      <div class="TCBody" user-id="" data-type="add">
+	           <div id="drop-area-div">
+	              <p>{$lang.upload_pic.tip1}</p>
+	              <div class="uploadBtnBox">
+	              <span>{$lang.upload_pic.tip2}</span>
+	              <input type="file" name="files[]"  accept="image/*" multiple title='Click to add Images' id="choose_pic">
+	              </div>
+	           </div>
+	           <div class="clear"></div>
+	           <p>{$lang.upload_pic.tip3}</p>
+	           <p>{$lang.upload_pic.tip4}</p>
+	           <ul class="imglist_addwindow" id="imglistli">
+	             <!--上传图片显示区-->
+	           </ul>
+	     </div>
+	     <input type="hidden" value="1215154" name="tmpdir" id="id_file">
+	        <div class="TCFoot">
+	           <span id="determine"><a class="subBtn" style="margin:0;">{$lang.upload_pic.save}</a></span>
+	       </div>
+	</div>
+</div>
+<!--插入图片弹窗 end-->
+<!--给客户发信息弹窗-->
+<div class="TCGB TC450" id="more_div">
+    <div class="TCBox">
+        <h2> <span class="TCtitle"> {$lang.contract_buyer.title} </span> <span class="TCClose"> <i class="icon-remove iconBtnS" id="close_btn"> </i> </span> </h2>
+        <div class="TCBody"> 
+            <!--标题-->
+            <!-- <p> 我是标题我是标题我是标题我是标题我是标题我是标题我是标题我是标题我是标题我是标题我是标题我是标题我是标题我是标题我是标题我是标题 </p> -->
+            <p><span>{$lang.contract_buyer.account}</span><span id="shopAccount"></span></p>
+            <p> <span> {$lang.contract_buyer.item_id}</span> <span id="msgItem"></span> </p>
+            <p> <span> {$lang.contract_buyer.template} </span> 
+            	<span id="msgTemp"></span>
+            </p>
+            <p style="text-align:left;margin-bottom:20px;">
+                <textarea style="margin-bottom:5px;"id="msgText"></textarea>
+                <span class="fontLinkBtn" style="margin-right:220px;" id="addFile"> {$lang.contract_buyer.add_file}</span> <small>{$lang.contract_buyer.add_file_tip} <span class="fontLink" id="msg_length"> 1000 </span> {$lang.contract_buyer.add_file_tip1} </small> </p>
+            <!--默认隐藏，插入图片时显示-->
+            <ul class="imglist_addwindow" style="display:block;">
+            </ul>
+        </div>
+        <p style="padding:5px 15px 15px 15px;">
+            <label>
+                <input type="checkbox" name="" id="isSendMyMSg" />
+              {$lang.contract_buyer.send_to_me}</label>
+            <span class="subBtn" style="margin-left:130px;" id="sendMsg" data-shopid="">{$lang.contract_buyer.send}</span> </p>
+    </div>
+</div>
+<div class="cusTop"> 
+    <!--客户基本信息-->
+    <div class="cusInfo">
+        <ul id="base_info_ul">
+            <!-- <li style="display:block;"> <span> 客户名： </span> <span t="name">  </span> </li> -->
+            <li style="display:block;"> <span> {$lang.cust_info.client_id} </span> <span t="clientID">  </span> </li>
+            <li style="display:block;"> <span>{$lang.cust_info.email} </span> <span t="email"> </span> </li>
+            <li style="display:block;"> <span> {$lang.cust_info.register_addr} </span> <span t="site">  </span> </li>
+            <li style="display:block;"> <span> {$lang.cust_info.register_date}</span> <span t="registerDate"> </span> </li>
+            <li style="display:block;">
+             <span> {$lang.cust_info.appraise} </span> 
+             <i class="iconPos"> </i><span t="bPositive"> </span> 
+             <i class="iconNeu"> </i><span t="bNeutral"> </span> 
+             <i class="iconNeg"> </i><span t="bNegative"></span> 
+             </li>
+        </ul>
+    </div>
+</div>
+<!--左边内容-->
+<div class="left">
+    <ul class="tab">
+        <li class="active"> {$lang.left_content.buy_his} </li>
+        <li> {$lang.left_content.msg_his}</li>
+        <li> {$lang.left_content.case_his}</li>
+        <li> {$lang.left_content.return_his} </li>
+    </ul>
+    <!--购物历史-->
+    <div class="cusRev cusBox" style="display:block;" id="buyHistory_div">
+        <table class="table">
+            <col width="50" />
+            <col />
+            <col width="75" />
+            <col width="75" />
+            <col />
+            <col width="40" />
+            <col width="70" />
+            <col width="70" />
+            <col width="40" />
+            <col width="60" />
+            <thead>
+                <tr>
+                    <th> {$lang.buy_his.account_id}</th>
+                    <th> {$lang.buy_his.item_info}</th>
+                    <th> {$lang.buy_his.item_det} </th>
+                    <th> {$lang.buy_his.order_time}</th>
+                    <th> {$lang.buy_his.transaction_det}</th>
+                    <th> {$lang.buy_his.shipping_addr}</th>
+                    <th> {$lang.buy_his.status}</th>
+                    <th> {$lang.buy_his.remark} </th>
+                    <th> {$lang.buy_his.feedback} </th>
+                    <th> {$lang.buy_his.contract_buyer}</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <!--消息历史-->
+    <div class="cusBox" style="display:none;">
+        <ul class="sideTab">
+        </ul>
+        <p id="pageCount"></p>
+    </div>
+    <!--case-->
+    <div class="buyHistory cusBox" style="display:none;" id="case_history">
+        <table class="table">
+            <col />
+            <col />
+            <col />
+            <col width="150" />
+            <col />
+            <col width="70" />
+            <thead>
+                <tr>
+                    <th> {$lang.case_his.account_id}</th>
+                    <th> {$lang.case_his.item_info} </th>
+                    <th> {$lang.case_his.reason}</th>
+                    <th> {$lang.case_his.open_time} </th>
+                    <th> {$lang.case_his.case_status} </th>
+                    <th> {$lang.case_his.operation} </th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <!--returns-->
+    <div class="incHistory cusBox" style="display:none;" id="return_history">
+        <table class="table">
+            <col />
+            <col />
+            <col />
+            <col width="150" />
+            <col />
+            <col width="70" />
+            <thead>
+                <tr>
+                    <th> {$lang.return_his.account_id} </th>
+                    <th> {$lang.return_his.item_info}</th>
+                    <th> {$lang.return_his.reason}</th>
+                    <th> {$lang.return_his.open_time}</th>
+                    <th> {$lang.return_his.return_status} </th>
+                    <th> {$lang.return_his.operation} </th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div> 
+    <!--右边内容-->
+    <div class="right"> 
+        <!--客户备注-->
+        <div class="rightRemark">
+            <h2> {$lang.remark.title} </h2>
+            <div class="remark">
+                <p>
+                    <textarea id="note-text"></textarea>
+                </p>
+                <p style="text-align:left;margin:10px 0;"> <span> {$lang.remark.item_option}
+                        <select name="" id="itemoptions" style="vertical-align:middle; width:40%;">
+                    </select>
+                    </span> </p>
+                <p style="text-align:right;">
+                    <button class="subBtn" id="sub-note"> {$lang.remark.save} </button>
+                </p>
+                <ul id="note">
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="clear"> </div>
+</div>
+<script type="text/javascript" src="public/template/js/jquery-1.8.3.min.js"></script>
+<script src="public/lang/{$lang_dir}/js/lang.js"></script>
+<script src="public/template/js/common.js"></script>
+<script src="public/template/js/cusdet_biz.js"></script>
+<script src="public/template/js/lightbox.min.js"></script>
+<link rel="stylesheet" type="text/css" href="public/template/css/lightbox.css">
+<script src="public/template/js/dmuploader.js"></script>
+{literal} 
+<script type="text/javascript">
+	tabFun('.left .tab li', '.left .cusBox');
+</script> 
+{/literal}
+</body>
+</html>

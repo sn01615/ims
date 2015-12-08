@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<link rel="stylesheet" type="text/css" href="public/template/css/index.css" />
+ <!-- {literal} -->
+	<style>
+ 		table td,table th {text-align: center !important;}
+        .nameVal .leftName{width:90px;}
+        .addTable input[type="text"]{width:70px;}
+        .addTable select{width:150px;}
+	</style>
+ <!-- {/literal} -->
+</head>
+
+<body>
+	<!-- 详情弹窗 start -->
+	<div class="TCGB TC1200 addTagTC" id="more_det">
+        <div class="TCBox">
+            <h2><span class="TCtitle">{$lang.title}</span><span class="TCClose" id="window_close"><i class="icon-remove iconBtnS" title="{$lang.close_tip}" id=""></i></span></h2>
+            <div class="TCBody">
+            	<div>
+            		<span>{$lang.tips}</span>
+            		<ul class="nameVal" id="buyerInfo">
+                        <li><span class="">{$lang.buyerid}: </span><span class="rightVal" t="buyerid"><a href="" target="_blank" class="fontLinkBtn"></a></span></li>
+                        <li><span class="">{$lang.location}：</span><span class="rightVal" t="address"></span></li>
+                    </ul>
+            	</div>
+            	<table class="table" style="margin:20px 0;">
+            	<col width="120" />
+            	<col width="500"/>
+            	<col />
+            	<col />
+            	<col />
+	            	<thead>
+	            		<tr>
+	            			<th>{$lang.item_id}</th>
+	            			<th>{$lang.item_title}</th>
+	            			<th>{$lang.quantity}</th>
+	            			<th>{$lang.price}</th>
+	            			<th>{$lang.amount}</th>
+	            		</tr>
+	            	</thead>
+	            	<tbody id="order_det">
+	            	</tbody>
+            	</table>
+            	<div>
+                    <table class="addTable" style="margin-bottom:10px">
+                    <thead >
+                        <tr>
+                            <th colspan="4" style="text-align:left !important;padding:10px 0;">{$lang.service}</th>
+                        </tr>
+                    </thead>
+                    	<tbody id="shippingInfo">
+	                        <tr>
+	                            <td><select name="" id="shippingService"></select></td>
+	                            <td><input type="text" name="" id="serviceCost" value="" align="right" class="postalCharge"></td>
+	                            <td><span id="currencyID"></span></td>
+	                            <td></td>
+	                        </tr>
+                        </tbody>
+                    </table>
+            		<!-- <button class="subBtn">添加</button> -->
+            		<p><a href="#" class="fontLinkBtn" id="add_more">{$lang.add_service}</a></p>
+            		<p><span>{$lang.discount} </span><input type="text" name="" id="discount" value="" align="right"><span id="dis_currencyID"></span></p>
+            	</div>
+            	<div style="border-top:1px solid #ccc;padding:20px 0 0 0;">
+            		<p style="margin-bottom:0;">{$lang.tip}</p>
+            		<p id="msgText">
+            		<textarea style="width:50%;padding:10px;height:100px;" id="instructions"></textarea>
+            		<small>{$lang.entry_limit}<span class="fontLink">500</span>{$lang.bytes}</small>
+            		</p>
+            		<p style="margin-top:10px;"><label><input type="checkbox" name="" id="isSendMe">{$lang.isSendMe}</label></p>
+            		<button class="subBtn" id="sendInvoices" data-orderid="" data-ebay-order-id>{$lang.send_invoice}</button>
+            		
+            	</div>
+            </div>
+        </div>
+    </div>
+	<!-- 详情弹窗 end -->
+	<div class="content returnrequest">
+		<!-- 纠纷列表 start -->
+		<table class="table" cellpadding="0" cellspacing="0">
+			<col width="80" />
+			<col width="100"/>
+			<col width="150" />
+			<col />
+			<col width="100" />
+			<col width="100" />
+			<col width="100" />
+			<col width="140" />
+			<col width="140" />
+			<col width="100" />
+			<col width="90" />
+			<thead>
+				<tr>
+					<th colspan="11">
+						<div class="searchDiv">
+							<p>
+								<span>{$lang.buyerid}</span>
+								<input type="text" name="" / id="custinfo">
+							</p>
+							<p>
+								<input type="submit" value="{$lang.search_title}" class="subBtn" style="margin-top:2px;" id="search"/>
+							</p>
+						</div>
+					</th>
+				</tr>
+				<tr>
+					<th>{$lang.photo}</th>
+					<th>{$lang.account}</th>
+					<th>{$lang.order_id}</th>
+					<th>{$lang.item_info}</th>
+					<th>{$lang.quantity}</th>
+					<th>{$lang.price}</th>
+					<th>{$lang.amount}</th>
+					<th>{$lang.order_time}</th>
+					<th>{$lang.buyerid}</th>
+					<th>{$lang.send_count}</th>
+					<th>{$lang.action}</th>
+				</tr>
+			</thead>
+			<tbody id="orderlist">
+				<!-- 数据输出 start -->
+				<!-- 数据输出 end -->
+			</tbody>
+			<tfoot>
+				<!--下面tr为表格底行（页面跳转行）-->
+				<tr>
+					<td id="paginationNavBar" colspan="11" style="text-align:right;padding-right:40px;">
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+		<!-- 纠纷列表 end -->
+	</div>
+	<script type="text/javascript" src="public/template/js/jquery-1.8.3.min.js"></script>
+	 <script src="public/lang/{$lang_dir}/js/lang.js"></script>
+	<script type="text/javascript" src="public/template/js/common.js"></script>
+	<script src="public/template/js/lightbox.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="public/template/css/lightbox.css">
+	<script type="text/javascript" src="public/template/js/urgepay_biz.js"></script>
+	<script>
+	</script>
+</body>
+
+</html>

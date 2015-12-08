@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv = "X-UA-Compatible" content = "IE=edge,chrome=1" />
+        <link rel="stylesheet" type="text/css" href="public/template/css/index.css" />
+    </head>
+    <body>
+        <div class="content userManagement">
+           <!-- 新增用户弹窗 -->
+            <div class="TCGB TC400" id="userDetail">
+                <div class="TCBox">
+                        <h2><span title="TCtitle" id="userDetail_title">{$lang.add_user.title}</span><span class="TCClose" id="cancelUser"><i class="icon-remove iconBtnS" title="{$lang.add_user.close_tip}"></i></span></h2>
+                    <div class="TCBody" user-id="" data-type=''>
+                        <p><span class="spanMode span80"><font class="redFont">*</font>{$lang.add_user.login_name}</span><input class="inp150" name="loginname" type="text" maxlength="15"><span></span></p>
+                        <p><span class="spanMode span80"><font class="redFont">*</font>{$lang.add_user.password}</span><input class="inp150" name="password" type="password" placeholder="{$lang.add_user.pass_tip}"><span></span></p>
+                        <p><span class="spanMode span80"><font class="redFont">*</font>{$lang.add_user.name}</span><input class="inp150" type="text" name="name" /><span></span></p>
+                        <p><span class="spanMode span80">{$lang.add_user.phone}</span><input class="inp150" type="text" name="telephone" /><span></span></p>
+                        <p><span class="spanMode span80">{$lang.add_user.email}</span><input class="inp150" type="text" name="email" /><span></span></p>
+                    </div>
+                    <div class="TCFoot">
+                        <span class="subBtn" id="determine">{$lang.add_user.determine}</span>
+                    </div>
+                </div>
+            </div>
+            <!-- 店铺选择 -->
+            <div class="TCGB TC500" id="set_user_shop_window">
+                <div class="TCBox">
+                        <h2><span title="TCtitle">{$lang.shop_option.title}</span><span class="TCClose"><i class="icon-remove iconBtnS" id="set_user_shop_window_closebtn" title="{$lang.shop_option.close_tip}"></i></span></h2>
+                    <div class="TCBody" id="set_user_shop_window_ckbs"></div>
+                     <div class="TCFoot">
+                         <span class="subBtn" id="set_user_shop_window_btn">{$lang.shop_option.save}</span>
+                     </div>
+                </div>
+            </div>
+            <!-- 用户列表 -->
+            <table class="table" cellpadding="0" cellspacing="0">
+                <col width="70"/>
+                <col width=""/>
+                <col width=""/>
+                <col width=""/>
+                <col width=""/>
+                <col width=""/>
+                <col width="70"/>
+                <col width="70"/>
+                <thead>
+                    <tr class="inBoxConTop">
+                        <th colspan="8">
+                            <span class="noBgBtn" id="allDelete">{$lang.user_list.del_user}</span>
+                            <div class="search">
+                                <p class="dfVal"></p>
+                                <input type="text" name="" id="searchName"/>
+                                <span class="searchBtn" id="search" title="{$lang.user_list.search}"><i class="icon-search"></i></span>
+                            </div>
+                            <span class="noBgBtn addUserBtn" title="{$lang.user_list.add_user_title}" id="addUser"><i class="icon-plus iconBtnS"></i></span>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th><input type="checkbox" name="" id="userchoose" /></th>
+                        <th>{$lang.user_list.serial_num}</th>
+                        <th>{$lang.user_list.login_name}</th>
+                        <th>{$lang.user_list.name}</th>
+                        <th>{$lang.user_list.phone}</th>
+                        <th>{$lang.user_list.right}</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="userlist">
+                    <!-- 数据输出 start -->
+            		<tr><td colspan="8" align="center">&hellip;</td></tr>
+                    <!-- 数据输出 end -->
+                </tbody>
+                <tfoot>
+                <!--下面tr为表格底行（页面跳转行）-->
+                    <tr>
+                        <td id="paginationNavBar" colspan="8" style="text-align:right;"></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <script type="text/javascript" src="public/template/js/jquery-1.8.3.min.js"></script>
+        <script src="public/lang/{$lang_dir}/js/lang.js"></script>
+        <script type="text/javascript" src="public/template/js/common.js"></script>
+        <script type="text/javascript" src="public/template/js/usermanage_biz.js"></script>
+    </body>
+</html>

@@ -1,0 +1,57 @@
+<?php
+
+/**
+ * @desc index.html 語言包
+ * @author hetao
+ * @date 2015-10-10
+ */
+return array(
+    'buyerinfo' => '客戶信息',
+    'buyhistory' => '購物歷史',
+    'msghistory' => '消息歷史',
+    'click_close' => '點擊關閉',
+    'Customer_Name' => '客戶名',
+    'not_available' => '暫無',
+    'E_mail' => '郵箱',
+    'registered_address' => '註冊地址',
+    'registration_date' => '註冊日期',
+    'The_comments' => '給出的評價',
+    'shipping_address' => '收貨地址',
+    'accounts' => '帳號',
+    'commodity' => '商品',
+    'quantity' => '數量',
+    'transaction_price' => '成交價',
+    'Order_time' => '下單時間',
+    'payment_method' => '付款方式',
+    'Transaction_number' => '交易號',
+    'order_address' => '訂單地址',
+    'order_status' => '訂單狀態',
+    'Testimonials' => '客戶評價',
+    'remark' => '備註',
+    'Add_address' => '新增臨時退貨地址',
+    'effective_address' => '此地址只對case有效，如果你要永久更改退貨地址，請前往My eBay地址管理',
+    'Contact_Person' => '聯繫人',
+    'Street_Address1' => '街道地址1',
+    'Street_Address2' => '街道地址2',
+    'County' => '縣市',
+    'oblast' => '州',
+    'state' => '國家',
+    'postcode' => '郵編',
+    'Certificate' => '選填',
+    'save' => '保存',
+    'Return_list' => '返回列表',
+    'previous_record' => '上一條',
+    'next_record' => '下一條',
+    'View_more' => '點擊查看更多',
+    'Disputes_detail' => '糾紛明細',
+    'More' => '更多',
+    'My_dealing' => '我的處理',
+    'processing_mode' => '處理方式',
+    'forwarding_agent' => '承運商',
+    'booking_note' => '物流單號',
+    'Dateinput' => '日期選擇',
+    'Write_amount' => '填寫金額',
+    'reply_with' => '回复模板',
+    'confirm' => '確定',
+    'save_system' => '僅保存於本系統'
+);

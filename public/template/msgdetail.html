@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<link rel="stylesheet" type="text/css" href="public/template/css/index.css" />
+<link rel="stylesheet" type="text/css" href="public/template/css/uploadify.css" />
+<link rel="icon" href="favicon.ico" mce_href="favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" mce_href="favicon.ico" type="image/x-icon">
+<!--<link rel="icon" href="animated_favicon1.gif" type="image/gif" >-->
+<!-- {literal} -->
+<style>
+    .logisticsInfoTC h3{font-size:16px;font-weight:bold;}
+    .logisticsInfoTC h4{padding:10px 0;font-size:14px;font-weight:bold;border-bottom:1px solid #ccc;margin-bottom:10px;}
+    .logisticsInfoTC li{line-height:25px;}
+    .logisticsInfoTC li span{font-weight:bold;}
+</style>
+<!-- {/literal} -->
+</head>
+<body class="msgdetail">
+<div class="content emailDetails" id="emailDetail" mid="{$mids}" msg-type="{$msgtype}">
+    <!--物流信息弹窗 start-->
+    <div class="TCGB TC800 logisticsInfoTC" id="logistics_window">
+        <div class="TCBox">
+            <h2><span title="TCtitle">{$lang.logistics_window.logistics}</span><span class="TCClose"><i class="icon-remove iconBtnS" title="{$lang.com.clickclose}" id="logistics_window_close"></i></span></h2>
+            <div class="TCBody">
+                <h3 id="logistics_detail_h3">loading...</h3>
+                <div>
+                    <h4>{$lang.logistics_window.tracking_history}</h4>
+                    <ul class="schedule" id="tracking_status">
+                        <li>Pick Up</li>
+                        <li>Processed</li>
+                        <li>In Transit</li>
+                        <li>Delivered</li>
+                    </ul>
+                    <p style="display:none;">Your time zone：Local Scan Time . Select time zone：<select name="" id=""><option value="">select</option></select></p>
+                    <table class="table" style="margin-bottom:10px;">
+                        <col width="100"/>
+                        <col width="100"/>
+                        <col width="200"/>
+                        <col />
+                        <thead>
+                            <tr>
+                                <th>{$lang.logistics_window.Date}</th>
+                                <th>{$lang.logistics_window.Time}</th>
+                                <th>{$lang.logistics_window.Location}</th>
+                                <th>{$lang.logistics_window.Activity}</th>
+                            </tr>
+                        </thead>
+                        <tbody id="logistics_detail_tr">
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h4>{$lang.logistics_window.package_details}</h4>
+                    <ul id="logistics_package_detail"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--物流信息弹窗 end-->
+
+    <!--插入图片弹窗 start-->
+    <div class="TCGB TC450 addImgTC">
+        <div class="TCBox">
+            <h2><span title="TCtitle">{$lang.insertimgwindow.title}</span><span class="TCClose" id="cancelUser"><i class="icon-remove iconBtnS" id="CloseAdd" title="{$lang.com.clickclose}"></i></span></h2>
+            <div class="TCBody" user-id="" data-type="add">
+                <div id="drop-area-div">
+                    <p>{$lang.insertimgwindow.uploadtip}</p>
+                    <div class="uploadBtnBox">
+                        <span>{$lang.insertimgwindow.selectfile}...</span>
+                        <input type="file" name="files[]"  accept="image/*" multiple title='Click to add Images'>
+                    </div>
+                </div>
+                <div class="clear"></div>
+                {$lang.insertimgwindow.uploadlimit}
+                <ul class="imglist_addwindow" id="imglistli">
+                    <!--上传图片显示区-->
+                </ul>
+            </div>
+            <input type="hidden" value="1215154" name="tmpdir" id="id_file">
+            <div class="TCFoot">
+                <span id="determine"><a class="subBtn" style="margin:0;">{$lang.insertimgwindow.OK}</a></span>
+            </div>
+        </div>
+    </div>
+    <!--插入图片弹窗 end-->
+    <!--信息源-客户信息弹窗start-->
+    <div class="TCGB cusInfoTC TC1200" id="more_div">
+        <div class="TCBox">
+            <h2>
+                <ul>
+                    <li class="active">{$lang.more.buyerinfo}</li>
+                    <li>{$lang.more.buyhistory}</li>
+                    <li>{$lang.more.msghistory}</li>
+                </ul>
+                <span class="TCClose"><i class="icon-remove iconBtnS" id="CloseMoreWindow" title="{$lang.com.clickclose}"></i></span>
+            </h2>
+            <div class="TCBody">
+                <!--客户信息-->
+                <div class="cusInfo cusBox" style="display:block;" id="window_client_info">
+                    <p>{$lang.more.buyerinfowindow.buyername}：<span t="name">{$lang.more.buyerinfowindow.none}</span></p>
+                    <ul class="nameVal" id="window_client_info_l">
+                        <li><span class="leftName">{$lang.more.buyerinfowindow.buyeruserid}：</span><span class="rightVal" t="id">{$lang.more.buyerinfowindow.none}</span></li>
+                        <li><span class="leftName">{$lang.com.email}：</span><span class="rightVal" t="mail">{$lang.more.buyerinfowindow.none}</span></li>
+                        <li><span class="leftName">{$lang.more.buyerinfowindow.regaddr}：</span><span class="rightVal" t="regaddr">{$lang.more.buyerinfowindow.none}</span></li>
+                        <li style="display:none;"><span class="leftName">{$lang.more.buyerinfowindow.regdate}：</span><span class="rightVal" t="RegistrationDate"></span></li>
+                        <!--<li style="display:none;"><span class="leftName">好评率：</span><span class="rightVal" t="PositiveFeedbackPercent"></span></li>
+                        <li style="display:none;">
+                        <span class="leftName">好评数：</span><span class="" t="Positive"></span>
+                        <span class="">中评数：</span><span class="" t="Neutral"></span>
+                        <span class="">差评数：</span><span class="" t="Negative"></span>
+                        </li>-->
+                        <li style="display:none;">
+                            <span class="leftName">{$lang.more.buyerinfowindow.feedback}:</span>
+                            <span class="iconPj"><i class="iconPj iconPos"></i>：</span><span t="bPositive"></span>
+                            <span class="iconPj"><i class="iconPj iconNeu"></i>：</span><span t="bNeutral"></span>
+                            <span class="iconPj"><i class="iconPj iconNeg"></i>：</span><span t="bNegative"></span>
+                        </li>
+                    </ul>
+                    <ul class="nameVal" id="window_client_info_r" style="display:none;">
+                        <li><span class="leftName">PayPal ID：</span><span class="rightVal" t="paypalid"></span></li>
+                        <li style="display:none;"><span class="leftName">{$lang.more.buyerinfowindow.regaddr}：</span><span class="rightVal" t="praddr">(●'◡'●)</span></li>
+                    </ul>
+                </div>
+                <!--购物历史-->
+                <div class="buyHistory cusBox" style="display:none;" id="buyHistory_div">
+                    <table class="table" style="table-layout:auto;">
+                        <col width="100">
+                        <col>
+                        <col>
+                        <col>
+                        <col width="140">
+                        <col>
+                        <col width="80">
+                        <col>
+                        <col width="80">
+                        <col width="50">
+                        <thead>
+                            <tr>
+                                <th>{$lang.more.shop_history.seller}</th>
+                                <th>{$lang.more.shop_history.sku}</th>
+                                <th>{$lang.more.shop_history.quantity}</th>
+                                <th>{$lang.more.shop_history.price}</th>
+                                <th>{$lang.more.shop_history.order_time}</th>
+                                <th>{$lang.more.shop_history.payment_info}</th>
+                                <th>{$lang.more.shop_history.order_address}</th>
+                                <th>{$lang.more.shop_history.order_status}</th>
+                                <th>{$lang.more.shop_history.evaluate}</th>
+                                <th>{$lang.more.shop_history.comment}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="10" style="padding:10px;"><img src="public/template/img/loader.gif" width="31" height="31"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!--事件历史 start-->
+                <div class="incHistory cusBox" style="display:none;">
+                    <div class="incHis incHisLeft">
+                        <h3 id="his_msg_title"></h3>
+                        <div class="boxCon" id="his_msg_box">
+                            <!--<ul id="his_msg_box_ul" style="height:410px; overflow:auto; word-break:break-all;"></ul>-->
+                            <div id="his_msg_box2" style="height:410px; overflow:auto; word-break:break-all;">
+                                <div style="margin:50px auto; text-align:center;"><img src="public/template/img/loader.gif" width="31" height="31"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="incHisright">
+                        <p class="downUpBtn upBtn" title="{$lang.more.history_msg.up}" id="his_msgs_up"><i></i></p>
+                        <ul id="his_msgs_ul" data-page="1">
+                            <li style="text-align:center; padding:12px;"><img src="public/template/img/loader.gif" width="31" height="31"></li>
+                        </ul>
+                        <p class="downUpBtn downBtn" title="{$lang.more.history_msg.down}" id="his_msgs_down"><i></i></p>
+                    </div>
+                </div>
+                <!--事件历史 end-->
+            </div>
+        </div>
+    </div>
+    <!--信息源-客户信息弹窗end-->
+    <div class="left">
+        <!--邮件详情顶部 start-->
+        <div class="leftTop">
+            <div class="leftTopLeft">
+                <b id="t_subject">:)</b>
+                <div id="msg_labels"></div>
+            </div>
+            <div class="leftTopRight" id="topRight"><div style="display:none;" id="rscount"></div></div>
+            <div class="clear"></div>
+        </div>
+        <!--邮件详情顶部 end-->
+        <div class="clear"></div>
+        <!--邮件详情显示区 start-->
+        <div class="leftShow">
+            <div class="boxCon incHis">
+                <ul id="msgHisContents"></ul>
+            </div>
+            <div id="msgContent"></div>
+        </div>
+        <!--邮件详情显示区 end-->
+        <!--邮件详情编辑区 start-->
+        <div class="leftEdit">
+            <div class="editHead" id="class_box">
+            </div>
+            <div class="editBody">
+                <textarea name="" id="sendContent"></textarea>
+            </div>
+            <div class="editFoot">
+                <div>
+                    <div class="editFootL">
+                        <label>
+                            <input type="checkbox" name="MyEmail" id="MyEmail" />{$lang.more.msg_input.send_to_myemail}
+                            <a href="#" title="{$lang.more.msg_input.insert_btn_title}" id="addFile">{$lang.more.msg_input.insert_btn_text}</a>
+                        </label>
+                    </div>
+                    <div class="editFootR" id="StrLength">
+                        <span>{$lang.more.msg_input.send}</span>
+                        <input type="button" class="subBtn" value="{$lang.more.msg_input.sendbtn_value}" id="sendMsg" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <!--已上传图片展示区-->
+            <div class="imgShow">
+                <span class="rightBtn" on="false">{$lang.more.msg_input.imgshow.open}</span>
+                <h3>{$lang.more.msg_input.imgshow.info}：</h3>
+                <ul class="imglist_addwindow">
+                    <!--上传图片显示区-->
+                </ul>
+            </div>
+        </div>
+        <!--邮件详情编辑区 end-->
+    </div>
+    <!-- 右边信息源 start-->
+    <div class="right">
+        <!--客户信息-->
+        <div class="rightBox cusinfoBox">
+            <span class="fontLink more" title="{$lang.more.rightinfo.more_txt}" id="more_btn">{$lang.more.rightinfo.more_title}&gt;&gt;</span>
+            <div class="rightBody nameVal" id="rval_1"></div>
+        </div>
+        <div class="rightBox itemInfo">
+            <div class="rightBody nameVal" id="itemText">
+                <p id="item_title_p"><a href="javascript:;" title="{$lang.more.rightinfo.item_link_title}" target="_blank"></a></p>
+                <div id="item_detail_div">
+                    <div id="item_detail_div_br"></div>
+                    <a data-lightbox="example-set-r" href="" id="info_item_img" style="display:none;">
+                        <img src="">
+                    </a>
+                    <div class="itemText">
+                        <p style="display:none;" id="info_item_itemid"><span class="leftName">{$lang.more.rightinfo.item_info.item_id}：</span><span class="rightVal"></span></p>
+                        <p style="display:none;" id="info_item_location"><span class="leftName">{$lang.more.rightinfo.item_info.item_local}：</span><span class="rightVal"></span></p>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <table class="table" id="msg_orders_list" style="display:none; table-layout:auto;">
+                    <thead>
+                        <tr>
+                            <th style="width:110px;">{$lang.more.rightinfo.order_th.order_id}</th>
+                            <th>{$lang.more.rightinfo.order_th.pro_info}</th>
+                            <th style="width:12%;">{$lang.more.rightinfo.order_th.quantity}</th>
+                            <th style="width:11%;">{$lang.more.rightinfo.order_th.price}</th>
+                            <th style="width:15%;">{$lang.more.rightinfo.order_th.time}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+                <table class="table" id="msg_payment" style="display:none; table-layout:auto;">
+                    <thead>
+                        <tr>
+                            <th>{$lang.more.rightinfo.payment_th.payment_info}</th>
+                            <th>{$lang.more.rightinfo.payment_th.distribution}</th>
+                            <th>{$lang.more.rightinfo.payment_th.ship_time}</th>
+                            <th style="width:11%;">{$lang.more.rightinfo.payment_th.feedback}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="line-height:1.5em;"></td>
+                            <td style="line-height:1.5em;word-break:break-all;"></td>
+                            <td style="line-height:1.1em;"></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!--<div class="rightBox">
+            <div class="rightBody nameVal" id="infoSource">
+            </div>
+        </div>-->
+        <div class="rightBox remark">
+            <h2>{$lang.more.rightinfo.order_note}<small style="margin-left:10px;">{$lang.more.rightinfo.order_note_tip}</small></h2>
+            <div class="rightBody" id="remarkS"></div>
+        </div>
+    </div>
+    <!-- 右边信息源 end-->
+    <div class="clear"></div>
+</div>
+<script src="public/template/js/jquery-1.8.3.min.js"></script>
+<script src="public/lang/{$lang_dir}/js/lang.js"></script>
+<script src="public/template/js/msgdetail_eft.js"></script>
+<script src="public/template/js/common.js"></script>
+<script src="public/template/js/moment.min.js"></script>
+<script src="public/template/js/moment-timezone-with-data.min.js"></script>
+<script src="public/template/js/dmuploader.js"></script>
+<script src="public/template/js/msgdetail_biz.js"></script>
+<script src="public/template/js/lightbox.min.js"></script>
+<link rel="stylesheet" type="text/css" href="public/template/css/lightbox.css">
+</body>
+</html>

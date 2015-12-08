@@ -1,0 +1,57 @@
+<?php
+
+/**
+ * @desc index.html 语言包
+ * @author hetao
+ * @date 2015-10-10
+ */
+return array(
+    'buyerinfo' => 'Buyer Info',
+    'buyhistory' => 'Order History',
+    'msghistory' => 'Message History',
+    'click_close' => 'Click close',
+    'Customer_Name' => 'Buyer Name',
+    'not_available' => 'none',
+    'E_mail' => 'E-mail',
+    'registered_address' => 'registered address',
+    'registration_date' => 'Registration Date',
+    'The_comments' => 'feedback',
+    'shipping_address' => 'Address',
+    'accounts' => 'Account',
+    'commodity' => 'Item',
+    'quantity' => 'quantity',
+    'transaction_price' => 'transaction price',
+    'Order_time' => 'Order Date',
+    'payment_method' => 'Payment method',
+    'Transaction_number' => 'TransactionId',
+    'order_address' => 'Address',
+    'order_status' => 'Status',
+    'Testimonials' => 'feedback',
+    'remark' => 'Note',
+    'Add_address' => 'add return address',
+    'effective_address' => 'This address is only effective for the case, if you want to permanently change the return address, please go to My eBay address management',
+    'Contact_Person' => 'Contact',
+    'Street_Address1' => 'Street1',
+    'Street_Address2' => 'Street2',
+    'County' => 'City',
+    'oblast' => 'State/province',
+    'state' => 'country',
+    'postcode' => 'postcode',
+    'Certificate' => 'Optional',
+    'save' => 'Save',
+    'Return_list' => 'Return list',
+    'previous_record' => 'previous',
+    'next_record' => 'next',
+    'View_more' => 'More',
+    'Disputes_detail' => 'Dispute detail',
+    'More' => 'More',
+    'My_dealing' => 'My dealing',
+    'processing_mode' => 'Actions',
+    'forwarding_agent' => 'carrier',
+    'booking_note' => 'Tracking Num',
+    'Dateinput' => 'Date Pick',
+    'Write_amount' => 'Amount',
+    'reply_with' => 'Templates',
+    'confirm' => 'OK',
+    'save_system' => 'Only saved in this system'
+);

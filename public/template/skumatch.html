@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <link rel="stylesheet" type="text/css" href="public/template/css/index.css" />
+    <!-- {literal} -->
+        <style>
+            table.table th,table.table td{text-align: center;}
+            .iconBtnS{margin:0 auto;}
+        </style>
+    <!-- {/literal} -->
+</head>
+<body>
+    <div class="content">
+        <!-- 导入弹窗 -->
+        <div class="TCGB TC500 addImgTC" id="import_excel_wd">
+            <div class="TCBox">
+                <h2><span title="TCtitle">{$lang.import_excel}</span><span class="TCClose"><i class="icon-remove iconBtnS" id="import_excel_close_btn" title="{$lang.click_close}"></i></span></h2>
+                <div class="TCBody" user-id="" data-type="add">
+                    <div id="drop-area-div">
+                        <p>{$lang.drag_upload}</p>
+                        <div class="uploadBtnBox">
+                            <span>{$lang.select_file}...</span>
+                            <input type="file" name="files[]" accept="application/vnd.ms-excel" multiple title="Click to add Excel" id="">
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div id="filelist"></div>
+                </div>
+                <div class="TCFoot">
+                    <span><a href="public/SKU分配模板.xls" target="_blank">{$lang.template_download}</a></span>
+                    <span><a class="subBtn" style="margin:0;" id="submit_excel">{$lang.OK}</a></span>
+                </div>
+            </div>
+        </div>
+        <!-- 添加弹窗 -->
+        <div class="TCGB TC400 addImgTC" id="add_sku_match_wd">
+            <div class="TCBox">
+                <h2><span title="TCtitle" id="add_sku_match_wd_tt">{$lang.add}</span><span class="TCClose"><i class="icon-remove iconBtnS" id="add_sku_match_close_btn" title="{$lang.click_close}"></i></span></h2>
+                <div class="TCBody">
+                    <p><span class="spanMode span80"><font class="redFont">*</font>{$lang.SKU}：</span><input class="inp150" type="text" id="ipt_sku"><span></span></p>
+                    <p><span class="spanMode span80"><font class="redFont">*</font>{$lang.user}：</span><select name="" class="inp150" id="seller_users_list"></select></p>
+                </div>
+                <div class="TCFoot">
+                    <span class="subBtn" id="add_sku_match_submit">{$lang.OK}</span>
+                    <span class="subBtn" id="add_sku_match_cancel">{$lang.CANCEL}</span>
+                </div>
+            </div>
+        </div>
+        <table class="table" cellpadding="0" cellspacing="0">
+            <col width="100"/>
+            <col />
+            <col />
+            <col width="100"/>
+            <col width="100"/>
+            <!-- 表格头部 -->
+            <thead>
+                <tr class="inBoxConTop">
+                    <th colspan="5">
+                        <span class="noBgBtn" id="pldl_btn">{$lang.batch_delete}</span>
+                        <span class="noBgBtn" id="add_sku_match_btn">{$lang.add2}</span>
+                        <span class="noBgBtn" id="import_excel_btn">{$lang.import}</span>
+                        <div class="right">
+                            <div class="search">
+                                <p class="dfVal"></p>
+                                <input type="text" name="" id="keywords" />
+                                <span class="searchBtn" title="{$lang.searchbtn}" id="search_btn"><i class="icon-search"></i></span> </div>
+                        </div>
+                    </th>
+                </tr>
+                <tr>
+                    <th>
+                        <input type="checkbox" name="" id="checkall" />
+                    </th>
+                    <th>{$lang.SKU}</th>
+                    <th>{$lang.user}</th>
+                    <th>{$lang.edit}</th>
+                    <th>{$lang.delete}</th>
+                </tr>
+            </thead>
+            <!-- 表格内容 输出邮件列表 -->
+            <tbody id="skulist"></tbody>
+            <!-- 表格尾部 -->
+            <tfoot>
+                <tr>
+                    <td colspan="2" style="text-align:left;">{$lang.defaultuser}：
+                        <select name="" id="sku_default_user"><option value=""></option></select>
+                    </td>
+                    <td colspan="3" style="text-align:right;" id="paginationNavBar"></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <script src="public/template/js/jquery-1.8.3.min.js"></script>
+    <script src="public/lang/{$lang_dir}/js/lang.js"></script>
+    <script src="public/template/js/common.js"></script>
+    <script src="public/template/js/dmuploader.js"></script>
+    <script src="public/template/js/skumatch_biz.js"></script>
+    <!-- {literal} -->
+    <script></script>
+    <!-- {/literal} -->
+</body>
+
+</html>

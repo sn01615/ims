@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="renderer" content="webkit">
+        <meta http-equiv = "X-UA-Compatible" content = "IE=edge,chrome=1" />
+        <link rel="stylesheet" href="public/template/css/login.css" />
+    </head>
+    <body class="register">
+        <!-- 头部 -->
+        <div class="header"></div>  
+        <!-- 主要内容 -->
+        <div class="main">
+            <div class="mainHead">
+                <h2>{$lang.register.welcometitle}</h2>
+                <div class="headRight">{$lang.register.hadaccount}<a href="?r=home/Login">{$lang.register.loginnow}</a></div>
+            </div>
+            <div class="mainBody">
+                <!-- 用户信息填写  -->
+                <div class="mainBodyCon" style="" id="inputS">
+                    <!-- 用户名 -->
+                     <p data-state="0">
+                        <span class="inpTit">{$lang.register.username}：</span>
+                        <input name="" type="text" id="username" maxlength="16">
+                        <span class="spanHint"></span>
+                    </p>
+                    <!-- 密码 -->
+                    <p data-state="0">
+                        <span class="inpTit">{$lang.register.password}：</span>
+                        <input type="password" name="" id="password" />
+                        <span class="spanHint"></span>
+                    </p>
+                    <!-- 确认密码 -->
+                    <p data-state="0">
+                        <span class="inpTit">{$lang.register.passconfirm}：</span>
+                        <input type="password" name="" id="conpassword" />
+                        <span class="spanHint"></span>
+                    </p>
+                    <!-- 姓名 -->
+                    <p data-state="0">
+                        <span class="inpTit">{$lang.register.name}：</span>
+                        <input type="text" name="" id="realname" maxlength="6" />
+                        <span class="spanHint"></span>
+                    </p>
+                    <!-- 联系电话 -->
+                    <p data-state="0">
+                        <span class="inpTit">{$lang.register.telephone}：</span>
+                        <input type="text" name="" id="phone" />
+                        <span class="spanHint"></span>
+                    </p>
+                    <!-- 电子邮箱 -->
+                    <p data-state="0">
+                        <span class="inpTit">{$lang.register.email}：</span>
+                        <input type="text" name="" id="email" maxlength="100" />
+                        <span class="spanHint"></span>
+                    </p>
+                    <!-- 验证码 -->
+                    <div class="verifyBox">
+                        <span class="inpTit">{$lang.register.verify}：</span>
+                        <input type="text" name="" id="verify"  class="verifyInp"/>
+                        <div  class="verifyImg"><img id="verifyCore" src =""  alt="{$lang.register.updateverifytit}" height="30" width="90" style="cursor: pointer; " /></div>
+                        <span id="next" class="updata">{$lang.register.updateverify}</span>
+                        <span class="verifyerr spanHint"></span>
+                        <div class="clear"></div>
+                    </div>
+                    <p  data-state="1">
+                        <span class="inpTit"></span>
+                        <input type="submit" value="{$lang.register.registerbtn}" id="register" class="sub" />
+                    </p>
+                </div>
+                <!-- 注册成功提示-默认隐藏 -->
+                <div class="registerSuc" style="display:none;">
+                    <img src="public/template/img/registerCom.jpg" height="78" width="325" alt="" />
+                    <p><b>5</b>{$lang.register.autologin}</p>
+                    <p><input type="submit" value="{$lang.register.loginnow}" id="login" class="sub" /></p>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript" src="public/template/js/jquery-1.8.3.min.js"></script>
+		<script src="public/lang/{$lang_dir}/js/lang.js"></script>
+        <script type="text/javascript" src="public/template/js/register_biz.js"></script>
+    </body>
+</html>
