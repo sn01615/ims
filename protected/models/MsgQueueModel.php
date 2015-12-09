@@ -405,9 +405,9 @@ class MsgQueueModel extends BaseModel
         if (empty($msgId) || empty($content)) {
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '内容不能为空');
         }
-
+        
         $replyInfo = MsgReplyDAO::getInstance()->getShopMsgInfo($msgId);
-
+        
         if ($replyInfo !== false) {
             if ($replyInfo['ResponseEnabled'] == '0') {
                 return $this->handleApiFormat(EnumOther::ACK_WARNING, '', '这条消息不能回复');
@@ -418,16 +418,16 @@ class MsgQueueModel extends BaseModel
             $replyInfo['content'] = $content;
             $replyInfo['copy'] = boolConvert::toInt01($copy);
             $replyInfo['imgUrl'] = json_encode($imgUrl);
-
+            
             $queuePk = EbayMsgReplyQueueDAO::getInstance()->iinsert($replyInfo, true);
-
+            
             // push memcache queue
             $key = 'msg_reply_queue_mem';
             $replyInfo['down_queue_id'] = $queuePk;
             iMemQueue::getInstance()->push($key, $replyInfo);
-
+            
             if ($queuePk !== false) {
-
+                
                 // 写日志
                 $columns = array(
                     'msg_id' => $replyInfo['msg_id'],
@@ -439,7 +439,7 @@ class MsgQueueModel extends BaseModel
                     'create_time' => time()
                 );
                 MsgReplyLogDAO::getInstance()->iinsert($columns);
-
+                
                 // 标记为回复
                 $columns = array(
                     'Replied' => boolConvert::toStr01(true)
@@ -449,29 +449,13 @@ class MsgQueueModel extends BaseModel
                     ':msg_id' => $msgId
                 );
                 MsgDAO::getInstance()->iupdate($columns, $conditions, $params);
-
+                
                 $result = array();
                 $result['Pk'] = $queuePk;
-
-                // 发送邮件通知
-                ob_start();
-                echo "时间：\n";
-                echo date('Y-m-d H:i:s');
-                echo "\n";
-                echo time();
-                echo "\n";
-                echo "回复日志：\n";
-                var_export($columns);
-                echo "\n\n回复内容：\n";
-                var_export($replyInfo);
-                $text = ob_get_clean();
-                $subject = "消息回复通知 发送人：" . Yii::app()->session['userInfo']['username'] . "\n";
-                $to = Yii::app()->params['logmails'];
-                SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
-
+                
                 return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $result, '');
             } else {
-
+                
                 // 发送邮件通知
                 ob_start();
                 echo "时间：\n";
@@ -487,11 +471,11 @@ class MsgQueueModel extends BaseModel
                 $subject = "消息回复失败通知：推送队列失败\n";
                 $to = Yii::app()->params['logmails'];
                 SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
-
+                
                 return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '提交失败');
             }
         } else {
-
+            
             // 发送邮件通知
             ob_start();
             echo "时间：\n";
@@ -507,11 +491,11 @@ class MsgQueueModel extends BaseModel
             $subject = "消息回复失败通知：【严重错误】getShopMsgInfo 失败\n";
             $to = Yii::app()->params['logmails'];
             SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
-
+            
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '提交失败，严重错误，getShopMsgInfo失败');
         }
     }
-
+    
     /**
      * @desc 获取消息回复队列里的消息是否已回复成功(阻塞式)
      * @param int $qpk
