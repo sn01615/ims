@@ -137,7 +137,7 @@ class ReturnModel extends BaseModel
                         // 明细
                         if (isset($value['text_json']['ReturnDetail']) && is_array($value['text_json']['ReturnDetail']) && isset($value['text_json']['ReturnDetail'][$returnId_id])) {
                             $det = json_decode($value['text_json']['ReturnDetail'][$returnId_id], true);
-                            if ($det['ackValue'] == 'Success') {
+                            if ($det['ackValue'] == 'SUCCESS') {
                                 $columns_det = array(
                                     'return_id' => $return_id,
                                     'S_buyerLoginName' => isset($det['summary']['buyerLoginName']) ? $det['summary']['buyerLoginName'] : '',
@@ -375,8 +375,8 @@ class ReturnModel extends BaseModel
                                     AllShipmentTrackingDAO::getInstance()->iinsert($columns_tracking);
                                 }
                             } else {
-                                file_put_contents('parseReturnDetailErr.log', $return_id . "\n", FILE_APPEND);
-                                file_put_contents('parseReturnDetailErr.log', $doc . "\n", FILE_APPEND);
+                                file_put_contents('parseReturnDetailErr.log', $returnId_id . "\n", FILE_APPEND);
+                                file_put_contents('parseReturnDetailErr.log', $value['text_json']['ReturnDetail'][$returnId_id] . "\n", FILE_APPEND);
                             }
                         }
                         if (isset($value['text_json']['ActivityOptions']) && is_array($value['text_json']['ActivityOptions']) && isset($value['text_json']['ActivityOptions'][$returnId_id])) {
