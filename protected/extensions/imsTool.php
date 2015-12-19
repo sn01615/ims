@@ -247,7 +247,7 @@ class imsTool
     }
     
     /**
-     * @desc 删除飞打印字符
+     * @desc 删除非打印字符
      * @param $str $param 需要过滤的字符串
      * @param string $note 标题前缀
      * @author YangLong

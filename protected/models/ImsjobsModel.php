@@ -275,6 +275,8 @@ class ImsjobsModel extends BaseModel
                         }
                     }
                     
+                    $task['content'] = imsTool::removeNonPrintable($task['content'], __METHOD__);
+                    
                     $apiResult = $this->replyMessage($task['content'], $task['ExternalMessageID'], $task['Sender'], $task['token'], $task['copy'], $picPathArr);
                     
                     if ($apiResult['state'] === 0) {
