@@ -2651,7 +2651,7 @@ class EbayOtherInfoModel extends BaseModel
         $params = array(
             ':create_time' => time() - 3600 * 24
         );
-        $msgouts = MsgReplyLogDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar');
+        $msgouts = MsgCreateLogDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar');
         echo "{$msgouts}\n";
         
         $text = ob_get_clean();
