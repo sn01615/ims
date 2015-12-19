@@ -6,3 +6,4 @@ _notes
 /protected/runtime/*.log
 /demo
 /sql
+/_compareTemp
