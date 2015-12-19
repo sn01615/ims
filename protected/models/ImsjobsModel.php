@@ -593,10 +593,10 @@ class ImsjobsModel extends BaseModel
      * @author  liaojianwen
      * @date  2015-08-27
      */
-    public function addMessagesToPartner($token,$itemId,$body,$isSendEmail = '',$picPath,$receiveUserID,$siteId)
+    public function addMessagesToPartner($token, $itemId, $body, $isSendEmail = '', $picPath, $receiveUserID, $siteId)
     {
         $callName = 'AddMemberMessageAAQToPartner';
-
+        
         if (Yii::app()->params['ebay_api_production']) {
             $this->serverUrl = 'https://api.ebay.com/ws/api.dll';
         } else {
@@ -606,27 +606,26 @@ class ImsjobsModel extends BaseModel
         $requestXmlBody = '<?xml version="1.0" encoding="utf-8"?>
         <AddMemberMessageAAQToPartnerRequest xmlns="urn:ebay:apis:eBLBaseComponents">
         <RequesterCredentials>
-        <eBayAuthToken>'.$token.'</eBayAuthToken>
+        <eBayAuthToken>' . $token . '</eBayAuthToken>
         </RequesterCredentials>
-        <ItemID ComplexType="ItemIDType">'.$itemId.'</ItemID>
+        <ItemID ComplexType="ItemIDType">' . $itemId . '</ItemID>
         <MemberMessage ComplexType="MemberMessageType">
         <QuestionType>General</QuestionType>';
-        if(!empty($isSendEmail)){
-           $requestXmlBody .='<EmailCopyToSender>'.$isSendEmail.'</EmailCopyToSender>';
+        if (! empty($isSendEmail)) {
+            $requestXmlBody .= '<EmailCopyToSender>' . $isSendEmail . '</EmailCopyToSender>';
         }
-        $requestXmlBody .='<RecipientID>'.$receiveUserID.'</RecipientID>
+        $requestXmlBody .= '<RecipientID>' . $receiveUserID . '</RecipientID>
         <Subject>Thank You for your purchase</Subject>
-        <body>'.$body.'</body>';
-        if(!empty($picPath)){
-            foreach ($picPath as  $photo) {
-                $requestXmlBody .='<MessageMedia>
-                    <MediaURL>'.$photo.'</MediaURL>
-                    <MediaName>'.rand(11111, 99999).'</MediaName>
+        <body>' . $body . '</body>';
+        if (! empty($picPath)) {
+            foreach ($picPath as $photo) {
+                $requestXmlBody .= '<MessageMedia>
+                    <MediaURL>' . $photo . '</MediaURL>
+                    <MediaName>' . rand(11111, 99999) . '</MediaName>
                 </MessageMedia>';
             }
-
         }
-        $requestXmlBody .='</MemberMessage>
+        $requestXmlBody .= '</MemberMessage>
         </AddMemberMessageAAQToPartnerRequest>​';
         $session = new eBaySession($this->serverUrl);
         $session->headers[] = "X-EBAY-API-COMPATIBILITY-LEVEL:{$version}";
@@ -635,7 +634,7 @@ class ImsjobsModel extends BaseModel
         $session->headers[] = "X-EBAY-API-CERT-NAME:" . $this->certID;
         $session->headers[] = "X-EBAY-API-SITEID:{$siteId}";
         $session->headers[] = "X-EBAY-API-CALL-NAME:{$callName}";
-
+        
         $responseXml = $session->sendHttpRequest($requestXmlBody);
         return $responseXml;
     }

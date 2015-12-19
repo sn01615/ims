@@ -335,7 +335,17 @@ class EbayFeedbackTransactionModel extends BaseModel
         $siteId = $parameters['siteId'];
         $imgUrl = $parameters['imgUrl'];
         $picPathArr = array();
-        $runcount= 0;
+        $runcount = 0;
+        
+        // 写下日志
+        $columns = array(
+            'shop_id' => $shop_id,
+            'recipient_id' => $contactUser,
+            'body' => $content,
+            'create_time' => time()
+        );
+        MsgCreateLogDAO::getInstance()->iinsert($columns);
+        
         if (! empty($imgUrl) && ! empty($token)) {
             if (is_array($imgUrl)) {
                 foreach ($imgUrl as $v) {
@@ -347,14 +357,14 @@ class EbayFeedbackTransactionModel extends BaseModel
                     } else {
                         iMongo::getInstance()->setCollection('UploadPictureErr')->insert(array(
                             'imsApiUrl' => $imsApiUrl,
-                            'result'=>$result,
+                            'result' => $result,
                             'ErrorCode' => $result->Errors->ErrorCode,
                             'LongMessage' => $result->Errors->LongMessage,
                             'ShortMessage' => $result->Errors->ShortMessage,
                             'time' => time()
                         ));
-                        if($runcount < 3){
-                            $runcount++;
+                        if ($runcount < 3) {
+                            $runcount ++;
                             goto label;
                         }
                     }
@@ -369,41 +379,25 @@ class EbayFeedbackTransactionModel extends BaseModel
         $res = ImsjobsModel::model()->addMessagesToPartner($token, $itemId, $content, $sendMyMsg, $picPathArr, $contactUser, $siteId);
         $doc = phpQuery::newDocumentXML($res);
         phpQuery::selectDocument($doc);
-        if(!isset($result)){
+        if (! isset($result)) {
             $result = '';
         }
         if (pq('Ack')->html() === 'Success') {
             iMongo::getInstance()->setCollection('addMessagesToPartner')->insert(array(
-            'result' => $res,
-            'parameters'=>$parameters,
-            'time' => time()
+                'result' => $res,
+                'parameters' => $parameters,
+                'time' => time()
             ));
-            // 发送邮件通知
-            ob_start();
-            echo "apiResult：\n";
-            var_export($res);
-            echo "Shop: \n";
-            var_export($shop_id);
-            echo "sender: \n";
-            var_export($nick_name);
-            echo "\n\n回复内容：\n";
-            var_export($content);
-            echo "\n\n图片信息：\n";
-            var_export($picPathArr);
-            echo "\n\nUploadPicture result：\n";
-            var_export($result);
-            $text = ob_get_clean();
-            $subject = "给客户发消息成功通知 [Success]\n";
-            $to = Yii::app()->params['logmails'];
-            SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
+            
             return $this->handleApiFormat(EnumOther::ACK_SUCCESS, '');
         } else {
             iMongo::getInstance()->setCollection('addMessagesToPartnerErr')->insert(array(
-            'result' => $res,
-            'parameters'=>$parameters,
-            'time' => time()
+                'result' => $res,
+                'parameters' => $parameters,
+                'time' => time()
             ));
-             // 发送邮件通知
+            
+            // 发送邮件通知
             ob_start();
             echo "apiResult：\n";
             var_export($res);
@@ -417,9 +411,9 @@ class EbayFeedbackTransactionModel extends BaseModel
             $subject = "给客户发消息失败通知 [Failure]\n";
             $to = Yii::app()->params['logmails'];
             SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
+            
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, '');
         }
-        
     }
 
     /**

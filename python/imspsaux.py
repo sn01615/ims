@@ -1,10 +1,10 @@
 #-*- coding: UTF-8 -*-
 '''
-@desc IMS 定时任务进程监控脚本
+@desc IMS 瀹氭椂浠诲姟杩涚▼鐩戞帶鑴氭湰
 @author YangLong
 @date 2015-11-03
 '''
-import smtplib,os,socket
+import smtplib,os,socket,time
 from email.mime.text import MIMEText
 
 mailto_list=['long.yang@xytinc.com']
@@ -31,6 +31,7 @@ def send_mail(to_list,sub,content):
         return False
 
 if __name__ == '__main__':
+    time.sleep(15)
     fp=os.popen("ps aux | grep -E 'php|CPU' | grep -v grep | grep -E 'ImsJobs|CPU'")
     x=fp.read()
     if not send_mail(mailto_list,"ps aux at "+socket.gethostname(),x):
