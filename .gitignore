@@ -7,3 +7,5 @@ _notes
 /demo
 /sql
 /_compareTemp
+/public/compile/*.html.php
+/php_errors.log

@@ -153,129 +153,201 @@ class EbayListingModel extends BaseModel
      */
     public function parseEbayListing($listing)
     {
-            $dids = array();
-            if ($listing['Ack'] == 'Success' && is_array($listing['body'])) {
-                foreach ($listing['body'] as $key => &$value) {
-                    $listingData = unserialize(base64_decode($value['text_json']));
-                    $doc = phpQuery::newDocumentXML($listingData);
-                    phpQuery::selectDocument($doc);
-                    if(pq('Ack')->html() =='Success'){
-                        $_item = pq('ItemArray')->find('Item');
-                        $item_length =  $_item->length;
-                        for($i = 0; $i< $item_length; $i++){
-                            
-                            $columns_listing = array(
-                                'down_id' => $value['down_id'],
-                                'shop_id' => $value['shop_id'],
-                                'auto_pay' => boolConvert::toInt01($_item->eq($i)->find('>AutoPay')->html()),
-                                'country_code' => $_item->eq($i)->find('>Currency')->html(),
-                                'site' => $_item->eq($i)->find('>Site')->html(),
-                                'title' => $_item->eq($i)->find('>Title')->html(),
-                                'item_id' => $_item->eq($i)->find('>ItemID')->html(),
-                                'relist_parent_id' => $_item->eq($i)->find('RelistParentID')->html(),
-                                'sku' => $_item->eq($i)->find('>SKU')->html(),
-                                'quantity' => $_item->eq($i)->find('>Quantity')->html(),
-                                'quantity_sold' => $_item->eq($i)->find('>SellingStatus>QuantitySold')->html(),
-                                'listing_type' => $_item->eq($i)->find('>ListingType')->html(),
-                                'listing_status' => $_item->eq($i)->find('>SellingStatus>ListingStatus')->html(),
-                                'private_listing' => boolConvert::toInt01($_item->eq($i)->find('>PrivateListing')->html()),
-                                'item_revised' => boolConvert::toInt01($_item->eq($i)->find('>ReviseStatus>ItemRevised')->html()),
-                                'out_of_stock_control' => boolConvert::toInt01($_item->eq($i)->find('>OutOfStockControl')->html()),
-                                'primary_category_id' => $_item->eq($i)->find('>PrimaryCategory>CategoryID')->html(),
-                                'primary_category_name' => $_item->eq($i)->find('>PrimaryCategory>CategoryName')->html(),
-                                'secondary_category_id' => $_item->eq($i)->find('>SecondaryCategory>CategoryID')->html(),
-                                'secondary_category_name' => $_item->eq($i)->find('>SecondaryCategory>CategoryName')->html(),
-                                'dispatch_time_max' =>$_item->eq($i)->find('>DispatchTimeMax')->html(),
-                                'view_item_url' => $_item->eq($i)->find('>ListingDetails>ViewItemURL')->html(),
-                                'gallery_url' => $_item->eq($i)->find('>PictureDetails>GalleryURL')->html(),
-                                'buy_it_now_price' => $_item->eq($i)->find('>BuyItNowPrice')->html(),
-                                'b_currencyID' => $_item->eq($i)->find('>BuyItNowPrice')->attr('currencyID'),
-                                'current_price' => $_item->eq($i)->find('>SellingStatus>CurrentPrice')->html(),
-                                'c_currencyID' => $_item->eq($i)->find('>SellingStatus>CurrentPrice')->attr('currencyID'),
-                                'currency' => $_item->eq($i)->find('>Currency')->html(),
-                                'location' => $_item->eq($i)->find('>Location')->html(),
-                                'hit_count' => $_item->eq($i)->find('>HitCount')->html(),
-                                'start_time' => strtotime($_item->eq($i)->find('>ListingDetails>StartTime')->html()),
-                                'end_time' => strtotime($_item->eq($i)->find('>ListingDetails>EndTime')->html())
-                            );
-                            foreach ($columns_listing as $key => $columns) {
-                                if (empty($columns)) {
-                                    unset($columns_listing['$key']);
-                                }
-                                
-                            }
-                            $_conditions = array(
-                                'item_id' => $columns_listing['item_id']
-                            );
-                            EbayListingDAO::getInstance()->isExists($_conditions, true);
-                            if (isset($_conditions['listing_id']) && $_conditions['listing_id'] > 0) {
-                                $conditions = 'listing_id=:listing_id';
-                                $ps = array(
-                                    ':listing_id' => $_conditions['listing_id']
-                                );
-                                unset($columns_listing['item_id']);
-                                EbayListingDAO::getInstance()->iupdate($columns_listing, $conditions, $ps);
-                                $listing_id = $_conditions['listing_id'];
-                            } else {
-                                EbayListingDAO::getInstance()->insert($columns_listing);
-                                $listing_id = EbayListingDAO::getInstance()->getLastInsertID();
-                            }
-                            if(empty($listing_id)){
-                                continue;
-                            }
-                            // 支付方式
-                            $paymentMethods = $_item->eq($i)->find('>PaymentMethods');
-                            $payment_length = $paymentMethods->length;
-                            $conditions = 'listing_id=:listing_id';
-                            $params = array(
-                                ':listing_id' => $listing_id
-                            );
-                            // 支付方式删除
-                            EbayListingPaymentMethodsDAO::getInstance()->idelete($conditions, $params);
-                            for ($j = 0; $j < $payment_length; $j ++) {
-                                $paymentMethodInfo = array(
-                                    'listing_id' => $listing_id,
-                                    'payment_methods' => $_item->eq($i)->eq($j)->find('>PaymentMethods')->html()
-                                );
-                               EbayListingPaymentMethodsDAO::getInstance()->iinsert($paymentMethodInfo);
-                            }
-                            
-                            // Listing的描述
-                            $descInfo = array(
-                                'listing_id' => $listing_id,
-                                'description' => $_item->eq($i)->find('>Description')->html()
-                            );
-                            // listing描述写入
-                            EbayListingDescDAO::getInstance()->ireplaceinto($descInfo,$conditions,$params);
-                            
-                            // Listing的多属性SKU
-                            $variations =  $_item->eq($i)->find('>Variations>Variation');
-                            $variation_length = $variations->length;
-                            EbayListingSkuDAO::getInstance()->idelete($conditions, $params);
-                            for ($k = 0; $k < $variation_length ; $k++){
-                                $skuInfo = array(
-                                    'listing_id' => $listing_id,
-                                    'sku' => $variations->eq($k)->find('>SKU')->html(),
-                                    'start_price' => $variations->eq($k)->find('>StartPrice')->html(),
-                                    'quantity' =>$variations->eq($k)->find('>Quantity')->html(),
-                                    'quantity_sold' => $variations->eq($k)->find('>SellingStatus>QuantitySold')->html(),
-                                    'create_time' => time()
-                                );
-                                EbayListingSkuDAO::getInstance()->iinsert($skuInfo);
+        $dids = array();
+        if ($listing['Ack'] == 'Success' && is_array($listing['body'])) {
+            foreach ($listing['body'] as $key => &$value) {
+                $listingData = unserialize(base64_decode($value['text_json']));
+                $doc = phpQuery::newDocumentXML($listingData);
+                phpQuery::selectDocument($doc);
+                if (pq('Ack')->html() == 'Success') {
+                    $_item = pq('ItemArray')->find('Item');
+                    $item_length = $_item->length;
+                    for ($i = 0; $i < $item_length; $i ++) {
+                        
+                        $columns_listing = array(
+                            'down_id' => $value['down_id'],
+                            'shop_id' => $value['shop_id'],
+                            'auto_pay' => boolConvert::toInt01($_item->eq($i)
+                                ->find('>AutoPay')
+                                ->html()),
+                            'country_code' => $_item->eq($i)
+                                ->find('>Currency')
+                                ->html(),
+                            'site' => $_item->eq($i)
+                                ->find('>Site')
+                                ->html(),
+                            'title' => $_item->eq($i)
+                                ->find('>Title')
+                                ->html(),
+                            'item_id' => $_item->eq($i)
+                                ->find('>ItemID')
+                                ->html(),
+                            'relist_parent_id' => $_item->eq($i)
+                                ->find('RelistParentID')
+                                ->html(),
+                            'sku' => $_item->eq($i)
+                                ->find('>SKU')
+                                ->html(),
+                            'quantity' => $_item->eq($i)
+                                ->find('>Quantity')
+                                ->html(),
+                            'quantity_sold' => $_item->eq($i)
+                                ->find('>SellingStatus>QuantitySold')
+                                ->html(),
+                            'listing_type' => $_item->eq($i)
+                                ->find('>ListingType')
+                                ->html(),
+                            'listing_status' => $_item->eq($i)
+                                ->find('>SellingStatus>ListingStatus')
+                                ->html(),
+                            'private_listing' => boolConvert::toInt01($_item->eq($i)
+                                ->find('>PrivateListing')
+                                ->html()),
+                            'item_revised' => boolConvert::toInt01($_item->eq($i)
+                                ->find('>ReviseStatus>ItemRevised')
+                                ->html()),
+                            'out_of_stock_control' => boolConvert::toInt01($_item->eq($i)
+                                ->find('>OutOfStockControl')
+                                ->html()),
+                            'primary_category_id' => $_item->eq($i)
+                                ->find('>PrimaryCategory>CategoryID')
+                                ->html(),
+                            'primary_category_name' => $_item->eq($i)
+                                ->find('>PrimaryCategory>CategoryName')
+                                ->html(),
+                            'secondary_category_id' => $_item->eq($i)
+                                ->find('>SecondaryCategory>CategoryID')
+                                ->html(),
+                            'secondary_category_name' => $_item->eq($i)
+                                ->find('>SecondaryCategory>CategoryName')
+                                ->html(),
+                            'dispatch_time_max' => $_item->eq($i)
+                                ->find('>DispatchTimeMax')
+                                ->html(),
+                            'view_item_url' => $_item->eq($i)
+                                ->find('>ListingDetails>ViewItemURL')
+                                ->html(),
+                            'gallery_url' => $_item->eq($i)
+                                ->find('>PictureDetails>GalleryURL')
+                                ->html(),
+                            'buy_it_now_price' => $_item->eq($i)
+                                ->find('>BuyItNowPrice')
+                                ->html(),
+                            'b_currencyID' => $_item->eq($i)
+                                ->find('>BuyItNowPrice')
+                                ->attr('currencyID'),
+                            'current_price' => $_item->eq($i)
+                                ->find('>SellingStatus>CurrentPrice')
+                                ->html(),
+                            'c_currencyID' => $_item->eq($i)
+                                ->find('>SellingStatus>CurrentPrice')
+                                ->attr('currencyID'),
+                            'currency' => $_item->eq($i)
+                                ->find('>Currency')
+                                ->html(),
+                            'location' => $_item->eq($i)
+                                ->find('>Location')
+                                ->html(),
+                            'hit_count' => $_item->eq($i)
+                                ->find('>HitCount')
+                                ->html(),
+                            'start_time' => strtotime($_item->eq($i)
+                                ->find('>ListingDetails>StartTime')
+                                ->html()),
+                            'end_time' => strtotime($_item->eq($i)
+                                ->find('>ListingDetails>EndTime')
+                                ->html())
+                        );
+                        foreach ($columns_listing as $key => $columns) {
+                            if (empty($columns)) {
+                                unset($columns_listing['$key']);
                             }
                         }
-                    } else {
-                        iMongo::getInstance()->setCollection('ErrorEbayListingData')->insert(array(
-                            'down_id' => $value['down_id'],
-                            'text_json' => $value['text_json'],
-                            'time' => time()
-                        ));
+                        $_conditions = array(
+                            'item_id' => $columns_listing['item_id']
+                        );
+                        EbayListingDAO::getInstance()->isExists($_conditions, true);
+                        if (isset($_conditions['listing_id']) && $_conditions['listing_id'] > 0) {
+                            $conditions = 'listing_id=:listing_id';
+                            $ps = array(
+                                ':listing_id' => $_conditions['listing_id']
+                            );
+                            unset($columns_listing['item_id']);
+                            EbayListingDAO::getInstance()->iupdate($columns_listing, $conditions, $ps);
+                            $listing_id = $_conditions['listing_id'];
+                        } else {
+                            EbayListingDAO::getInstance()->insert($columns_listing);
+                            $listing_id = EbayListingDAO::getInstance()->getLastInsertID();
+                        }
+                        if (empty($listing_id)) {
+                            continue;
+                        }
+                        // 支付方式
+                        $paymentMethods = $_item->eq($i)->find('>PaymentMethods');
+                        $payment_length = $paymentMethods->length;
+                        $conditions = 'listing_id=:listing_id';
+                        $params = array(
+                            ':listing_id' => $listing_id
+                        );
+                        // 支付方式删除
+                        EbayListingPaymentMethodsDAO::getInstance()->idelete($conditions, $params);
+                        for ($j = 0; $j < $payment_length; $j ++) {
+                            $paymentMethodInfo = array(
+                                'listing_id' => $listing_id,
+                                'payment_methods' => $_item->eq($i)
+                                    ->eq($j)
+                                    ->find('>PaymentMethods')
+                                    ->html()
+                            );
+                            EbayListingPaymentMethodsDAO::getInstance()->iinsert($paymentMethodInfo);
+                        }
+                        
+                        // Listing的描述
+                        $descInfo = array(
+                            'listing_id' => $listing_id,
+                            'description' => $_item->eq($i)
+                                ->find('>Description')
+                                ->html()
+                        );
+                        // listing描述写入
+                        EbayListingDescDAO::getInstance()->ireplaceinto($descInfo, $conditions, $params);
+                        
+                        // Listing的多属性SKU
+                        $variations = $_item->eq($i)->find('>Variations>Variation');
+                        $variation_length = $variations->length;
+                        EbayListingSkuDAO::getInstance()->idelete($conditions, $params);
+                        for ($k = 0; $k < $variation_length; $k ++) {
+                            $skuInfo = array(
+                                'listing_id' => $listing_id,
+                                'sku' => $variations->eq($k)
+                                    ->find('>SKU')
+                                    ->html(),
+                                'start_price' => $variations->eq($k)
+                                    ->find('>StartPrice')
+                                    ->html(),
+                                'quantity' => $variations->eq($k)
+                                    ->find('>Quantity')
+                                    ->html(),
+                                'quantity_sold' => $variations->eq($k)
+                                    ->find('>SellingStatus>QuantitySold')
+                                    ->html(),
+                                'create_time' => time()
+                            );
+                            EbayListingSkuDAO::getInstance()->iinsert($skuInfo);
+                        }
                     }
-                    $dids[] = $value['down_id'];
+                } else {
+                    iMongo::getInstance()->setCollection('ErrorEbayListingData')->insert(array(
+                        'down_id' => $value['down_id'],
+                        'text_json' => $value['text_json'],
+                        'time' => time()
+                    ));
                 }
-                unset($value);
+                $dids[] = $value['down_id'];
             }
-            return $dids;
+            unset($value);
+        }
+        return $dids;
     }
 
     /**
@@ -286,18 +358,20 @@ class EbayListingModel extends BaseModel
      * @date 2015-08-26
      * @return Ambigous <multitype:, boolean, multitype:string array string >
      */
-    public function getItemURL($itemid,$sellerId)
+    public function getItemURL($itemid, $sellerId)
     {
         if (empty($itemid) && empty($sellerId)) {
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, '');
         }
-       $result = EbayListingDAO::getInstance()->findByAttributes(array('item_id'=>$itemid),array('gallery_url'));
-       if(empty($result)){
-          return $this->handleApiFormat(EnumOther::ACK_FAILURE, '','the gallery_url is not found');
-       }
-       return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $result);
-        
+        $result = EbayListingDAO::getInstance()->findByAttributes(array(
+            'item_id' => $itemid
+        ), array(
+            'gallery_url'
+        ));
+        if (empty($result)) {
+            return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', 'the gallery_url is not found');
+        }
+        return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $result);
     }
-    
     
 }

@@ -2017,11 +2017,10 @@ class ApiController extends Controller
     {
         $this->apichecklogin(ActionsEnum::FEEDBACK_READ);
         
-        $itemid= CInputFilter::getString('itemid');
+        $itemid = CInputFilter::getString('itemid');
         $clientid = CInputFilter::getString('clientid');
-        $result = EbayFeedbackTransactionModel::model()->getFeedbackNote($itemid,$clientid);
+        $result = EbayFeedbackTransactionModel::model()->getFeedbackNote($itemid, $clientid);
         $this->renderJson($result);
-        
     }
     
     /**
