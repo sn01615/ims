@@ -1781,6 +1781,9 @@ WHERE
             'getUserInfoNoSW' => array(
                 'holdtime' => 3600
             ),
+            'eBayGetUserF' => array(
+                'holdtime' => 3600 * 24
+            )
         );
         foreach ($clearArray as $key => $value) {
             $criteria = array(
