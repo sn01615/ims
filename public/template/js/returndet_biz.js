@@ -1132,18 +1132,13 @@ $(document).ready(function(e){
     var textOption = $('#text');
     $('#deal').on('click',function(){
         var options = $('#return_deal').val();
-        var RMA;
-        var returnAddr;
-        var PartAmount;
-        var text;
-        var reason;
-        var currencyId;
+        var RMA, returnAddr, PartAmount, text, reason, currencyId, param;
         var myDate = new Date();
-        var Thours = myDate.getFullYear()+'-'+(myDate.getMonth()+1)+'-'+myDate.getDate()+' '+myDate.getHours()+':'+myDate.getMinutes()+':'+myDate.getSeconds();
+        var Thours = myDate.getFullYear() + '-' + (myDate.getMonth() + 1) + '-' + myDate.getDate() + ' ' + myDate.getHours() + ':' + myDate.getMinutes() + ':' + myDate.getSeconds();
         switch(options){
             case 'approve':
                 RMA = $('#RMA input').val();
-                var param ={'RMA':RMA,'returnid':global_info.returnid};
+                param ={'RMA':RMA,'returnid':global_info.returnid};
                 $.get('?r=api/ApproveReturn',param,function(data,status){
                     if(status ==='success'){
                         if(data.Ack === 'Success'){
@@ -1182,7 +1177,7 @@ $(document).ready(function(e){
                 });
                 break;
             case 'issueRefund':
-                var param={'returnid':global_info.returnid};
+                param={'returnid':global_info.returnid};
                 $.get('?r=api/IssueReturnRefund',param,function(data,status){
                     if(status ==='success'){
                         if(data.Ack ==='Success'){
@@ -1231,7 +1226,7 @@ $(document).ready(function(e){
                 }
                 text = textOption.val();
                 currencyId = $('#cash span').eq(1).html()
-                var param={'partamount':PartAmount,'currencyId':currencyId,'text':text,'returnid':global_info.returnid};
+                param={'partamount':PartAmount,'currencyId':currencyId,'text':text,'returnid':global_info.returnid};
                 $.get('?r=api/IssueReturnPartRefund',param,function(data,status){
                     if(status ==='success'){
                         if(data.Ack ==='Success'){
@@ -1275,7 +1270,7 @@ $(document).ready(function(e){
                     hintShow('hint_w',lang.returndet_biz.deal.msg_null+'请填写message');
                     return ;
                 }
-                var param={'text':text,'returnid':global_info.returnid};
+                param={'text':text,'returnid':global_info.returnid};
                 $.get('?r=api/SendReturnMsg',param,function(data,status){
                     if(status ==='success'){
                         if(data.Ack ==='Success'){
@@ -1317,7 +1312,7 @@ $(document).ready(function(e){
             case 'ebayHelp':
                 reason = $('#reasonList').val()
                 text = textOption.val();
-                var param={'reason':reason,'text':text,'returnid':global_info.returnid};
+                param={'reason':reason,'text':text,'returnid':global_info.returnid};
                 $.get('?r=api/ReturnAskHelp',param,function(data,status){
                     if(status ==='success'){
                         if(data.Ack ==='Success'){
@@ -1359,7 +1354,7 @@ $(document).ready(function(e){
                 break;
             case 'decline':
                 text = textOption.val();
-                var param={'text':text,'returnid':global_info.returnid};
+                param={'text':text,'returnid':global_info.returnid};
                 $.get('?r=api/DeclineReturn',param,function(data,status){
                     if(status === 'success'){
                         if(data.Ack ==='Success'){
