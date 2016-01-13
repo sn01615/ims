@@ -334,7 +334,7 @@ $(document).ready(function(e){
                                         
                                         (function(){
                                             // 获取item备注
-                                        	var _key = x;
+                                            var _key = x;
                                             $.get('?r=api/GetItemNotes',{itemId:data.Body[x].Item_ItemID},function(data,textStatus){
                                                 if(data.Ack=='Success'){
                                                     var noteText=[];
@@ -444,99 +444,99 @@ $(document).ready(function(e){
                             $(this).removeClass('active');
                         });
                         if($(this).data('msgid')){
-	                        $(this).addClass('active');
-	                        $("#his_msg_box2").html('<div style="margin:50px auto; text-align:center;"><img src="public/template/img/loader.gif" width="31" height="31"></div>');
-	                        $.get('?r=api/getMsg',{msgid:$(this).data('msgid')},function(data,textStatus){
-	                            // 历史消息内容
-	                            removeloading();
-	                            if(textStatus=='success'){
-	                                if(data.Ack ==='Success'){
-	                                    
-	                                    var $msgtext=$('<div>'+data.Body.Text+'</div>');
-	                                    $msgtext.find('meta').remove();
-	                                    $msgtext.find('img').each(function(index, element) {
-	                                        if($(element).attr('src')!==undefined && $(element).attr('src').indexOf('button')==-1 && $(element).attr('src').indexOf('ebaystatic')==-1){
-	                                            if($(element).parent('a').length==0){
-	                                                $(element).replaceWith('<a>'+$(element)[0].outerHTML+'</a>');
-	                                            }
-	                                        }
-	                                    });
-	                                    $msgtext.find('img').each(function(index, element) {
-	                                        if($(element).attr('src')!==undefined && $(element).attr('src').indexOf('button')==-1
-	                                         && $(element).attr('src').indexOf('ebaystatic')==-1
-	                                         && $(element).attr('src').indexOf('/globalAssets/')==-1
-	                                         && $(element).attr('src').indexOf('/icon/')==-1
-	                                         && $(element).attr('src').indexOf('/roveropen/')==-1){
-	                                            $(element).parent('a').attr('data-lightbox','imgGroup14');
-	                                            var imgurl = $(element).attr('src').toString().replace(/(%24|\$)_\d+(?=\.(jpg|png|jpeg|gif|bmp|tif)\??)/i,'$_10');
-	                                            $(element).parent('a').attr('href', imgurl);
-	                                        }
-	                                    });
-	                                    $msgtext.find('a').each(function(index, element) {
-	                                        if($(element).attr('href')!==undefined && $(element).attr('href').indexOf('http://')!=-1){
-	                                            $(element).attr('target','_blank');
-	                                        }
-	                                    });
-	                                    
-	                                    $msgtext.find('>#Header').each(function(index, element) {
-	                                        $(element).hide();
-	                                    });
-	                                    
-	                                    $msgtext.find('>#Title').each(function(index, element) {
-	                                        $(element).hide();
-	                                    });
-	                                    
-	                                    $msgtext.find('>#ReferenceId').each(function(index, element) {
-	                                        $(element).hide();
-	                                    });
-	                                    
-	                                    $msgtext.find('>#Footer').each(function(index, element) {
-	                                        $(element).hide();
-	                                    });
-	                                    
-	                                    $msgtext.find('>#MarketSaftyTip').each(function(index, element) {
-	                                        $(element).hide();
-	                                    });
-	                                    
-	                                    $msgtext.find('#version3').each(function(index, element) {
-	                                        $(element).hide();
-	                                    });
-	                                    
-	                                    $msgtext.find('.FooterSeparator').hide().next('table').hide();
-	                                    
-	                                    $msgtext.find('>div').each(function(index, element) {
-	                                        $(element).addClass($(element).attr('id'));
-	                                        $(element).removeAttr('id');
-	                                    });
-	                                    
-	                                    $msgtext.find('>.RawHtmlText>div').each(function(index, element) {
-	                                        if ($(element).attr('id')!=undefined) {
-	                                            $(element).addClass('L2'+$(element).attr('id'));
-	                                            $(element).removeAttr('id');
-	                                        };
-	                                    });
-	                                    
-	                                    $msgtext.find('img[src="http://q.ebaystatic.com/aw/pics/s.gif"]').closest('table').hide();
-	                                    $msgtext.find('img[src="http://q.ebaystatic.com/aw/pics/s.gif"]').remove();
-	                                    // $msgtext.find('img[src="http://p.ebaystatic.com/aw/pics/hk/buttons/btnRespond.gif"]').closest('div').hide();
-	                                    // $msgtext.find('img[src="http://p.ebaystatic.com/aw/pics/at/buttons/btnRespond.gif"]').closest('div').hide();
-	                                    var reg = /\/[a-zA-Z]{2}\/buttons\/btnRespond\.gif/g;
-	                                    $msgtext.find('img').each(function(index, element) {
-	                                        var res = $(element).attr('src').match(reg);
-	                                        if(res != null) {
-	                                            $(element).closest('div').hide();
-	                                        }
-	                                    });
-	                                    
-	                                    $("#his_msg_box2").html($msgtext);
-	                                    $("#his_msg_title").html(data.Body.Subject);
-	                                }else{
-	                                    // hintShow('hint_f','服务器错误!');
-	                                }
-	                            }else{
-	                                // hintShow('hint_f','网络错误!');
-	                            }
-	                        })
+                            $(this).addClass('active');
+                            $("#his_msg_box2").html('<div style="margin:50px auto; text-align:center;"><img src="public/template/img/loader.gif" width="31" height="31"></div>');
+                            $.get('?r=api/getMsg',{msgid:$(this).data('msgid')},function(data,textStatus){
+                                // 历史消息内容
+                                removeloading();
+                                if(textStatus=='success'){
+                                    if(data.Ack ==='Success'){
+                                        
+                                        var $msgtext=$('<div>'+data.Body.Text+'</div>');
+                                        $msgtext.find('meta').remove();
+                                        $msgtext.find('img').each(function(index, element) {
+                                            if($(element).attr('src')!==undefined && $(element).attr('src').indexOf('button')==-1 && $(element).attr('src').indexOf('ebaystatic')==-1){
+                                                if($(element).parent('a').length==0){
+                                                    $(element).replaceWith('<a>'+$(element)[0].outerHTML+'</a>');
+                                                }
+                                            }
+                                        });
+                                        $msgtext.find('img').each(function(index, element) {
+                                            if($(element).attr('src')!==undefined && $(element).attr('src').indexOf('button')==-1
+                                             && $(element).attr('src').indexOf('ebaystatic')==-1
+                                             && $(element).attr('src').indexOf('/globalAssets/')==-1
+                                             && $(element).attr('src').indexOf('/icon/')==-1
+                                             && $(element).attr('src').indexOf('/roveropen/')==-1){
+                                                $(element).parent('a').attr('data-lightbox','imgGroup14');
+                                                var imgurl = $(element).attr('src').toString().replace(/(%24|\$)_\d+(?=\.(jpg|png|jpeg|gif|bmp|tif)\??)/i,'$_10');
+                                                $(element).parent('a').attr('href', imgurl);
+                                            }
+                                        });
+                                        $msgtext.find('a').each(function(index, element) {
+                                            if($(element).attr('href')!==undefined && $(element).attr('href').indexOf('http://')!=-1){
+                                                $(element).attr('target','_blank');
+                                            }
+                                        });
+                                        
+                                        $msgtext.find('>#Header').each(function(index, element) {
+                                            $(element).hide();
+                                        });
+                                        
+                                        $msgtext.find('>#Title').each(function(index, element) {
+                                            $(element).hide();
+                                        });
+                                        
+                                        $msgtext.find('>#ReferenceId').each(function(index, element) {
+                                            $(element).hide();
+                                        });
+                                        
+                                        $msgtext.find('>#Footer').each(function(index, element) {
+                                            $(element).hide();
+                                        });
+                                        
+                                        $msgtext.find('>#MarketSaftyTip').each(function(index, element) {
+                                            $(element).hide();
+                                        });
+                                        
+                                        $msgtext.find('#version3').each(function(index, element) {
+                                            $(element).hide();
+                                        });
+                                        
+                                        $msgtext.find('.FooterSeparator').hide().next('table').hide();
+                                        
+                                        $msgtext.find('>div').each(function(index, element) {
+                                            $(element).addClass($(element).attr('id'));
+                                            $(element).removeAttr('id');
+                                        });
+                                        
+                                        $msgtext.find('>.RawHtmlText>div').each(function(index, element) {
+                                            if ($(element).attr('id')!=undefined) {
+                                                $(element).addClass('L2'+$(element).attr('id'));
+                                                $(element).removeAttr('id');
+                                            };
+                                        });
+                                        
+                                        $msgtext.find('img[src="http://q.ebaystatic.com/aw/pics/s.gif"]').closest('table').hide();
+                                        $msgtext.find('img[src="http://q.ebaystatic.com/aw/pics/s.gif"]').remove();
+                                        // $msgtext.find('img[src="http://p.ebaystatic.com/aw/pics/hk/buttons/btnRespond.gif"]').closest('div').hide();
+                                        // $msgtext.find('img[src="http://p.ebaystatic.com/aw/pics/at/buttons/btnRespond.gif"]').closest('div').hide();
+                                        var reg = /\/[a-zA-Z]{2}\/buttons\/btnRespond\.gif/g;
+                                        $msgtext.find('img').each(function(index, element) {
+                                            var res = $(element).attr('src').match(reg);
+                                            if(res != null) {
+                                                $(element).closest('div').hide();
+                                            }
+                                        });
+                                        
+                                        $("#his_msg_box2").html($msgtext);
+                                        $("#his_msg_title").html(data.Body.Subject);
+                                    }else{
+                                        // hintShow('hint_f','服务器错误!');
+                                    }
+                                }else{
+                                    // hintShow('hint_f','网络错误!');
+                                }
+                            })
                     }
                     });
                     
@@ -959,7 +959,7 @@ $(document).ready(function(e){
                             option += '<option value="msg" >'+lang.returndet_biz.return_deal.msg+'</option>';
                             break;
                         case 'SUBMIT_DOC':
-//                        	option += '<option value="doc">'+lang.returndet_biz.return_deal.docs+'</option>';//@todo API 上传图片的还有些问题
+//                          option += '<option value="doc">'+lang.returndet_biz.return_deal.docs+'</option>';//@todo API 上传图片的还有些问题
                             break;
                         case 'SELLER_ESCALATE':
                             option += '<option value="ebayHelp" >'+lang.returndet_biz.return_deal.ebay_help+'</option>';
@@ -974,23 +974,23 @@ $(document).ready(function(e){
                 $('#return_deal').html(option);
                 change();
                 (function(){
-                	$.get('?r=api/GetDocCount',{'returnid':global_info.returnid},function(data,status){
-                		 var pictureText;
-                		 if(status==='success' && data.Ack ==='Success'){
-                			 if(data.Body[0].num > 0){
-                				 pictureText = lang.returndet_biz.return_deal.pic_text1;
-                			 } else {
-                				 pictureText = lang.returndet_biz.return_deal.pic_text2;
-                			 }
-                	        var picture; 
-                	        if(getCookie('username') =='guest'){
-                	            picture ='<a target="_blank" style="color:#40A3CE;">'+pictureText+'</a>';
-                	        } else {
-                	            picture ='<a href="'+$URL+'"target="_blank" style="color:#40A3CE;">'+pictureText+'</a>';
-                	        }
-                	        $('#picture').html(picture);
-                		 }
-                	});
+                    $.get('?r=api/GetDocCount',{'returnid':global_info.returnid},function(data,status){
+                         var pictureText;
+                         if(status==='success' && data.Ack ==='Success'){
+                             if(data.Body[0].num > 0){
+                                 pictureText = lang.returndet_biz.return_deal.pic_text1;
+                             } else {
+                                 pictureText = lang.returndet_biz.return_deal.pic_text2;
+                             }
+                            var picture; 
+                            if(getCookie('username') =='guest'){
+                                picture ='<a target="_blank" style="color:#40A3CE;">'+pictureText+'</a>';
+                            } else {
+                                picture ='<a href="'+$URL+'"target="_blank" style="color:#40A3CE;">'+pictureText+'</a>';
+                            }
+                            $('#picture').html(picture);
+                         }
+                    });
                 })();
             }
             
@@ -1017,21 +1017,21 @@ $(document).ready(function(e){
                     RequestReason = $('#requestreason').data('reason');
                     $('.tips').remove();
                     switch(RequestReason){
-                    	case 'NO_LONGER_NEED_ITEM':
-                    	case 'FOUND_BETTER_PRICE':
-                    	case 'NO_REASON':
-                    		$('#RMA').after('<small class="tips">'+lang.returndet_biz.chang.tip1+'</small>');
-                    		break;
-                    	case 'WRONG_SIZE':
-                    		$('#RMA').after('<small class="tips">'+lang.returndet_biz.chang.tip2+'</small>');
-                    		break;
-                    	case 'ARRIVED_DAMAGED':
-                    	case 'DEFECTIVE_ITEM':
-                    	case 'DIFFER_FROM_LISTING':
-                    	case 'FAKE_OR_COUNTERFEIT':
-                    	case 'MISSING_PARTS':
-                    		$('#RMA').after('<small class="tips">'+lang.returndet_biz.chang.tip3+'</small>');
-                    		break;
+                        case 'NO_LONGER_NEED_ITEM':
+                        case 'FOUND_BETTER_PRICE':
+                        case 'NO_REASON':
+                            $('#RMA').after('<small class="tips">'+lang.returndet_biz.chang.tip1+'</small>');
+                            break;
+                        case 'WRONG_SIZE':
+                            $('#RMA').after('<small class="tips">'+lang.returndet_biz.chang.tip2+'</small>');
+                            break;
+                        case 'ARRIVED_DAMAGED':
+                        case 'DEFECTIVE_ITEM':
+                        case 'DIFFER_FROM_LISTING':
+                        case 'FAKE_OR_COUNTERFEIT':
+                        case 'MISSING_PARTS':
+                            $('#RMA').after('<small class="tips">'+lang.returndet_biz.chang.tip3+'</small>');
+                            break;
                     }
                     $('#classbox').parent().hide();
                     $('#text').hide();
@@ -1143,76 +1143,76 @@ $(document).ready(function(e){
         switch(options){
             case 'approve':
                 RMA = $('#RMA input').val();
-                param ={'RMA':RMA,'returnid':global_info.returnid};
+                var param ={'RMA':RMA,'returnid':global_info.returnid};
                 $.get('?r=api/ApproveReturn',param,function(data,status){
                     if(status ==='success'){
-                    	if(data.Ack === 'Success'){
-	                        var uploadId = data.Body.returnRma;
-	                        (function(){
-	                            if(uploadId > 0){
-	                                stateBoxFun('show',lang.returndet_biz.deal.waiting);
-	                                $.get('?r=api/GetReturnTrueAct',{'id':uploadId,'type':'returnRma'},function(result,return_status){
-	                                    removeloading();
-	                                    if(return_status === 'success' && result.Ack === 'Success'){
-	                                        if(result.Body =='success'){
-	                                            stateBoxFun('show',lang.returndet_biz.deal.synch_suc);
-	                                            addHistroyResponse(Thours,'SELLER','SELLER_APPROVE_REQUEST','');
-	                                            addHistroyResponse(Thours,'SELLER','SELLER_PROVIDE_RMA',RMA);
-	                                            $('#RMA input').val('');
-	                                            setInterval(function(){
-	                                                $('body .stateGB').remove();
-	                                            },2000);
-	                                        } else {
-	                                            hintShow('hint_f',lang.returndet_biz.deal.synch_err);
-	                                        }
-	                                    }else{
-	                                        hintShow('hint_f',lang.returndet_biz.deal.synch_err);
-	                                        stateBoxFun('hide',lang.returndet_biz.deal.synch_err);
-	                                    }
-	                                    
-	                                })
-	                            } else {
-	                                 hintShow('hint_f',lang.returndet_biz.deal.synch_err);
-	                            }
-	                        })();
-                    	} else if(data.Error == 'User authentication fails'){
+                        if(data.Ack === 'Success'){
+                            var uploadId = data.Body.returnRma;
+                            (function(){
+                                if(uploadId > 0){
+                                    stateBoxFun('show',lang.returndet_biz.deal.waiting);
+                                    $.get('?r=api/GetReturnTrueAct',{'id':uploadId,'type':'returnRma'},function(result,return_status){
+                                        removeloading();
+                                        if(return_status === 'success' && result.Ack === 'Success'){
+                                            if(result.Body =='success'){
+                                                stateBoxFun('show',lang.returndet_biz.deal.synch_suc);
+                                                addHistroyResponse(Thours,'SELLER','SELLER_APPROVE_REQUEST','');
+                                                addHistroyResponse(Thours,'SELLER','SELLER_PROVIDE_RMA',RMA);
+                                                $('#RMA input').val('');
+                                                setInterval(function(){
+                                                    $('body .stateGB').remove();
+                                                },2000);
+                                            } else {
+                                                hintShow('hint_f',lang.returndet_biz.deal.synch_err);
+                                            }
+                                        }else{
+                                            hintShow('hint_f',lang.returndet_biz.deal.synch_err);
+                                            stateBoxFun('hide',lang.returndet_biz.deal.synch_err);
+                                        }
+                                        
+                                    })
+                                } else {
+                                     hintShow('hint_f',lang.returndet_biz.deal.synch_err);
+                                }
+                            })();
+                        } else if(data.Error == 'User authentication fails'){
                             hintShow('hint_w',lang.ajaxinfo.permission_denied);
                         }
                     } 
                 });
                 break;
             case 'issueRefund':
-                param={'returnid':global_info.returnid};
+                var param={'returnid':global_info.returnid};
                 $.get('?r=api/IssueReturnRefund',param,function(data,status){
                     if(status ==='success'){
-                    	if(data.Ack ==='Success'){
-	                        var uploadId = data.Body.returnRefund;
-	                        (function(){
-	                            if(uploadId > 0){
-	                                stateBoxFun('show',lang.returndet_biz.deal.waiting);
-	                                $.get('?r=api/GetReturnTrueAct',{'id':uploadId,'type':'returnRefund'},function(result,return_status){
-	                                    removeloading();
-	                                    if(return_status === 'success' && result.Ack === 'Success'){
-	                                        if(result.Body =='success'){
-	                                            stateBoxFun('show',lang.returndet_biz.deal.synch_suc);
-	                                            addHistroyResponse(Thours,'SELLER','SELLER_ISSUE_REFUND','');
-	                                            setInterval(function(){
-	                                                $('body .stateGB').remove();
-	                                            },2000);
-	                                        } else {
-	                                            hintShow('hint_f',lang.returndet_biz.deal.synch_err);
-	                                        }
-	                                    }else{
-	                                        hintShow('hint_f',lang.returndet_biz.deal.synch_err);
-	                                        stateBoxFun('hide',lang.returndet_biz.deal.synch_err);
-	                                    }
-	                                    
-	                                })
-	                            } else {
-	                                 hintShow('hint_f',lang.returndet_biz.deal.synch_err);
-	                            }
-	                        })();
-                    	} else if(data.Error == 'User authentication fails'){
+                        if(data.Ack ==='Success'){
+                            var uploadId = data.Body.returnRefund;
+                            (function(){
+                                if(uploadId > 0){
+                                    stateBoxFun('show',lang.returndet_biz.deal.waiting);
+                                    $.get('?r=api/GetReturnTrueAct',{'id':uploadId,'type':'returnRefund'},function(result,return_status){
+                                        removeloading();
+                                        if(return_status === 'success' && result.Ack === 'Success'){
+                                            if(result.Body =='success'){
+                                                stateBoxFun('show',lang.returndet_biz.deal.synch_suc);
+                                                addHistroyResponse(Thours,'SELLER','SELLER_ISSUE_REFUND','');
+                                                setInterval(function(){
+                                                    $('body .stateGB').remove();
+                                                },2000);
+                                            } else {
+                                                hintShow('hint_f',lang.returndet_biz.deal.synch_err);
+                                            }
+                                        }else{
+                                            hintShow('hint_f',lang.returndet_biz.deal.synch_err);
+                                            stateBoxFun('hide',lang.returndet_biz.deal.synch_err);
+                                        }
+                                        
+                                    })
+                                } else {
+                                     hintShow('hint_f',lang.returndet_biz.deal.synch_err);
+                                }
+                            })();
+                        } else if(data.Error == 'User authentication fails'){
                             hintShow('hint_w',lang.ajaxinfo.permission_denied);
                         }
                     }
@@ -1231,39 +1231,39 @@ $(document).ready(function(e){
                 }
                 text = textOption.val();
                 currencyId = $('#cash span').eq(1).html()
-                param={'partamount':PartAmount,'currencyId':currencyId,'text':text,'returnid':global_info.returnid};
+                var param={'partamount':PartAmount,'currencyId':currencyId,'text':text,'returnid':global_info.returnid};
                 $.get('?r=api/IssueReturnPartRefund',param,function(data,status){
                     if(status ==='success'){
-                    	if(data.Ack ==='Success'){
-	                        var uploadId = data.Body.returnPartRefund;
-	                        (function(){
-	                            if(uploadId > 0){
-	                                stateBoxFun('show',lang.returndet_biz.deal.waiting);
-	                                $.get('?r=api/GetReturnTrueAct',{'id':uploadId,'type':'returnPartRefund'},function(result,return_status){
-	                                    removeloading();
-	                                    if(return_status === 'success' && result.Ack === 'Success'){
-	                                        if(result.Body =='success'){
-	                                            stateBoxFun('show',lang.returndet_biz.deal.synch_suc);
-	                                            addHistroyResponse(Thours,'SELLER','SELLER_OFFER_PARTIAL_REFUND',text);
-	                                            textOption.val('');
-	                                            $('#cash input').val('');
-	                                            setInterval(function(){
-	                                                $('body .stateGB').remove();
-	                                            },2000);
-	                                        } else {
-	                                            hintShow('hint_f',lang.returndet_biz.deal.synch_err);
-	                                        }
-	                                    }else{
-	                                        hintShow('hint_f',lang.returndet_biz.deal.synch_err);
-	                                        stateBoxFun('hide',lang.returndet_biz.deal.synch_err);
-	                                    }
-	                                    
-	                                })
-	                            } else {
-	                                 hintShow('hint_f',lang.returndet_biz.deal.synch_err);
-	                            }
-	                        })();
-                    	} else if(data.Error == 'User authentication fails'){
+                        if(data.Ack ==='Success'){
+                            var uploadId = data.Body.returnPartRefund;
+                            (function(){
+                                if(uploadId > 0){
+                                    stateBoxFun('show',lang.returndet_biz.deal.waiting);
+                                    $.get('?r=api/GetReturnTrueAct',{'id':uploadId,'type':'returnPartRefund'},function(result,return_status){
+                                        removeloading();
+                                        if(return_status === 'success' && result.Ack === 'Success'){
+                                            if(result.Body =='success'){
+                                                stateBoxFun('show',lang.returndet_biz.deal.synch_suc);
+                                                addHistroyResponse(Thours,'SELLER','SELLER_OFFER_PARTIAL_REFUND',text);
+                                                textOption.val('');
+                                                $('#cash input').val('');
+                                                setInterval(function(){
+                                                    $('body .stateGB').remove();
+                                                },2000);
+                                            } else {
+                                                hintShow('hint_f',lang.returndet_biz.deal.synch_err);
+                                            }
+                                        }else{
+                                            hintShow('hint_f',lang.returndet_biz.deal.synch_err);
+                                            stateBoxFun('hide',lang.returndet_biz.deal.synch_err);
+                                        }
+                                        
+                                    })
+                                } else {
+                                     hintShow('hint_f',lang.returndet_biz.deal.synch_err);
+                                }
+                            })();
+                        } else if(data.Error == 'User authentication fails'){
                             hintShow('hint_w',lang.ajaxinfo.permission_denied);
                         }
                     }
@@ -1275,39 +1275,39 @@ $(document).ready(function(e){
                     hintShow('hint_w',lang.returndet_biz.deal.msg_null+'请填写message');
                     return ;
                 }
-                param={'text':text,'returnid':global_info.returnid};
+                var param={'text':text,'returnid':global_info.returnid};
                 $.get('?r=api/SendReturnMsg',param,function(data,status){
                     if(status ==='success'){
-                    	if(data.Ack ==='Success'){
-	                        var uploadId = data.Body.returnMsg;
-	                        (function(){
-	                            if(uploadId > 0){
-	                                stateBoxFun('show',lang.returndet_biz.lang.returndet_biz.deal.waiting);
-	                                $.get('?r=api/GetReturnTrueAct',{'id':uploadId,'type':'returnMsg'},function(result,return_status){
-	                                    removeloading();
-	                                    if(return_status === 'success' && result.Ack === 'Success'){
-	                                        if(result.Body =='success'){
-	                                            stateBoxFun('show',lang.returndet_biz.deal.synch_suc);
-	                                            addHistroyResponse(Thours,'SELLER','SELLER_SEND_MESSAGE',text);
-	                                            textOption.val('');
-	                                            setInterval(function(){
-	                                                $('body .stateGB').remove();
-	                                            },2000);
-	                                        } else {
-	                                            hintShow('hint_f',lang.returndet_biz.deal.synch_err);
-	                                        }
-	                                    }else{
-	                                        hintShow('hint_f',lang.returndet_biz.deal.synch_err);
-	                                        stateBoxFun('hide',lang.returndet_biz.deal.synch_err);
-	                                    }
-	                                    
-	                                })
-	                            } else {
-	                                 hintShow('hint_f',lang.returndet_biz.deal.synch_err);
-	                            }
-	                            
-	                        })();
-                    	} else if(data.Error == 'User authentication fails'){
+                        if(data.Ack ==='Success'){
+                            var uploadId = data.Body.returnMsg;
+                            (function(){
+                                if(uploadId > 0){
+                                    stateBoxFun('show',lang.returndet_biz.lang.returndet_biz.deal.waiting);
+                                    $.get('?r=api/GetReturnTrueAct',{'id':uploadId,'type':'returnMsg'},function(result,return_status){
+                                        removeloading();
+                                        if(return_status === 'success' && result.Ack === 'Success'){
+                                            if(result.Body =='success'){
+                                                stateBoxFun('show',lang.returndet_biz.deal.synch_suc);
+                                                addHistroyResponse(Thours,'SELLER','SELLER_SEND_MESSAGE',text);
+                                                textOption.val('');
+                                                setInterval(function(){
+                                                    $('body .stateGB').remove();
+                                                },2000);
+                                            } else {
+                                                hintShow('hint_f',lang.returndet_biz.deal.synch_err);
+                                            }
+                                        }else{
+                                            hintShow('hint_f',lang.returndet_biz.deal.synch_err);
+                                            stateBoxFun('hide',lang.returndet_biz.deal.synch_err);
+                                        }
+                                        
+                                    })
+                                } else {
+                                     hintShow('hint_f',lang.returndet_biz.deal.synch_err);
+                                }
+                                
+                            })();
+                        } else if(data.Error == 'User authentication fails'){
                             hintShow('hint_w',lang.ajaxinfo.permission_denied);
                         }
                     }
@@ -1317,40 +1317,40 @@ $(document).ready(function(e){
             case 'ebayHelp':
                 reason = $('#reasonList').val()
                 text = textOption.val();
-                param={'reason':reason,'text':text,'returnid':global_info.returnid};
+                var param={'reason':reason,'text':text,'returnid':global_info.returnid};
                 $.get('?r=api/ReturnAskHelp',param,function(data,status){
                     if(status ==='success'){
-                    	if(data.Ack ==='Success'){
-	                        var uploadId = data.Body.returnEbayHelp;
-	                        (function(){
-	                            if(uploadId > 0){
-	                                stateBoxFun('show',lang.returndet_biz.deal.waiting);
-	                                $.get('?r=api/GetReturnTrueAct',{'id':uploadId,'type':'returnEbayHelp'},function(result,return_status){
-	                                    removeloading();
-	                                    if(return_status === 'success' && result.Ack === 'Success'){
-	                                        if(result.Body =='success'){
-	                                            stateBoxFun('show',lang.returndet_biz.deal.synch_suc);
-	                                            addHistroyResponse(Thours,'SELLER','SELLER_ESCALATE',text);
-	                                            textOption.val('');
-	                                            setInterval(function(){
-	                                                $('body .stateGB').remove();
-	                                            },2000);
-	                                            
-	                                        } else {
-	                                             hintShow('hint_f',lang.returndet_biz.deal.synch_err);
-	                                        }
-	                                    }else{
-	                                        hintShow('hint_f',lang.returndet_biz.deal.synch_err);
-	                                        stateBoxFun('hide',lang.returndet_biz.deal.synch_err);
-	                                    }
-	                                    
-	                                })
-	                            } else {
-	                                 hintShow('hint_f',lang.returndet_biz.deal.synch_err);
-	                            }
-	                            
-	                        })();
-                    	} else if(data.Error == 'User authentication fails'){
+                        if(data.Ack ==='Success'){
+                            var uploadId = data.Body.returnEbayHelp;
+                            (function(){
+                                if(uploadId > 0){
+                                    stateBoxFun('show',lang.returndet_biz.deal.waiting);
+                                    $.get('?r=api/GetReturnTrueAct',{'id':uploadId,'type':'returnEbayHelp'},function(result,return_status){
+                                        removeloading();
+                                        if(return_status === 'success' && result.Ack === 'Success'){
+                                            if(result.Body =='success'){
+                                                stateBoxFun('show',lang.returndet_biz.deal.synch_suc);
+                                                addHistroyResponse(Thours,'SELLER','SELLER_ESCALATE',text);
+                                                textOption.val('');
+                                                setInterval(function(){
+                                                    $('body .stateGB').remove();
+                                                },2000);
+                                                
+                                            } else {
+                                                 hintShow('hint_f',lang.returndet_biz.deal.synch_err);
+                                            }
+                                        }else{
+                                            hintShow('hint_f',lang.returndet_biz.deal.synch_err);
+                                            stateBoxFun('hide',lang.returndet_biz.deal.synch_err);
+                                        }
+                                        
+                                    })
+                                } else {
+                                     hintShow('hint_f',lang.returndet_biz.deal.synch_err);
+                                }
+                                
+                            })();
+                        } else if(data.Error == 'User authentication fails'){
                             hintShow('hint_w',lang.ajaxinfo.permission_denied);
                         }
                     }
@@ -1359,55 +1359,55 @@ $(document).ready(function(e){
                 break;
             case 'decline':
                 text = textOption.val();
-                param={'text':text,'returnid':global_info.returnid};
+                var param={'text':text,'returnid':global_info.returnid};
                 $.get('?r=api/DeclineReturn',param,function(data,status){
                     if(status === 'success'){
-                    	if(data.Ack ==='Success'){
-	                        var uploadId = data.Body.returnDecline;
-	                        (function(){
-	                            if(uploadId > 0){
-	                                stateBoxFun('show',lang.returndet_biz.deal.waiting);
-	                                $.get('?r=api/GetReturnTrueAct',{'id':uploadId,'type':'returnDecline'},function(result,return_status){
-	                                    removeloading();
-	                                    if(return_status === 'success' && result.Ack === 'Success'){
-	                                        if(result.Body =='success'){
-	                                            stateBoxFun('show',lang.returndet_biz.deal.synch_suc);
-	                                            addHistoryResponse(Thours,'SELLER','SELLER_DECLINE_REQUEST',text);
-	                                            textOption.val('');
-	                                            setInterval(function(){
-	                                                $('body .stateGB').remove();
-	                                            },2000);
-	                                        } else {
-	                                             hintShow('hint_f',lang.returndet_biz.deal.synch_err);
-	                                        }
-	                                    }else{
-	                                        hintShow('hint_f',lang.returndet_biz.deal.synch_err);
-	                                        stateBoxFun('hide',lang.returndet_biz.deal.synch_err);
-	                                    }
-	                                    
-	                                })
-	                            } else {
-	                                 hintShow('hint_f',lang.returndet_biz.deal.synch_err);
-	                            }
-	                            
-	                        })();
-                    	} else if(data.Error == 'User authentication fails'){
+                        if(data.Ack ==='Success'){
+                            var uploadId = data.Body.returnDecline;
+                            (function(){
+                                if(uploadId > 0){
+                                    stateBoxFun('show',lang.returndet_biz.deal.waiting);
+                                    $.get('?r=api/GetReturnTrueAct',{'id':uploadId,'type':'returnDecline'},function(result,return_status){
+                                        removeloading();
+                                        if(return_status === 'success' && result.Ack === 'Success'){
+                                            if(result.Body =='success'){
+                                                stateBoxFun('show',lang.returndet_biz.deal.synch_suc);
+                                                addHistoryResponse(Thours,'SELLER','SELLER_DECLINE_REQUEST',text);
+                                                textOption.val('');
+                                                setInterval(function(){
+                                                    $('body .stateGB').remove();
+                                                },2000);
+                                            } else {
+                                                 hintShow('hint_f',lang.returndet_biz.deal.synch_err);
+                                            }
+                                        }else{
+                                            hintShow('hint_f',lang.returndet_biz.deal.synch_err);
+                                            stateBoxFun('hide',lang.returndet_biz.deal.synch_err);
+                                        }
+                                        
+                                    })
+                                } else {
+                                     hintShow('hint_f',lang.returndet_biz.deal.synch_err);
+                                }
+                                
+                            })();
+                        } else if(data.Error == 'User authentication fails'){
                             hintShow('hint_w',lang.ajaxinfo.permission_denied);
                         }
                     }
                 });
                 break;
             case 'doc'://$todo
-            	$.post('?r=api/SubmitDocs',{'returnid':global_info.returnid,'imgurl':img},function(data,status){
-            		if(status ==='success'){
-            			if(data.Ack ==='Success'){
-            				
-            			} else if(data.Error == 'User authentication fails'){
+                $.post('?r=api/SubmitDocs',{'returnid':global_info.returnid,'imgurl':img},function(data,status){
+                    if(status ==='success'){
+                        if(data.Ack ==='Success'){
+                            
+                        } else if(data.Error == 'User authentication fails'){
                             hintShow('hint_w',lang.ajaxinfo.permission_denied);
                         }
-            		}
-            	});
-            	break;
+                    }
+                });
+                break;
             default :
                     hintShow('hint_w',lang.returndet_biz.deal.select_deal);
                     break;
@@ -1447,20 +1447,20 @@ $(document).ready(function(e){
         var partCash = /^[0-9]+(.[0-9]{1,2})?$/;
         var cashs = $('#cash input');
         cashs.on('blur',function(){
-        	var cost = cashs.val();
-        	if(isNaN(cost)){
-            	$('#cash small').empty();
-            	$('<small>'+lang.returndet_biz.money_confirm+'</small>').appendTo('#cash').css({'color':'red'});
-        	} else {
-	            if(!partCash.test(cost)){
-	            	$('#cash small').empty();
-	            	$('<small>'+lang.returndet_biz.money_confirm+'</small>').appendTo('#cash').css({'color':'red'});
-	            }else{
-	            	var bb = parseFloat(cost.replace(/^0+/,0));
-	            	cashs.val(bb);//除去多余的零
-	            	$('#cash small').css({'color':'#666'});
-	            }
-        	}
+            var cost = cashs.val();
+            if(isNaN(cost)){
+                $('#cash small').empty();
+                $('<small>'+lang.returndet_biz.money_confirm+'</small>').appendTo('#cash').css({'color':'red'});
+            } else {
+                if(!partCash.test(cost)){
+                    $('#cash small').empty();
+                    $('<small>'+lang.returndet_biz.money_confirm+'</small>').appendTo('#cash').css({'color':'red'});
+                }else{
+                    var bb = parseFloat(cost.replace(/^0+/,0));
+                    cashs.val(bb);//除去多余的零
+                    $('#cash small').css({'color':'#666'});
+                }
+            }
         });
     }());
     
@@ -1570,16 +1570,16 @@ $(document).ready(function(e){
      * @date 2015-10-10
      */
     function getPictureById(return_id){
-    	$.get('?r=api/GetPictureById',{'id':return_id},function(data,status){
-    		if(status ==='success' && data.Ack ==='Success'){
-    			var M = data.Body;
-    			var files = '';
-    			for(var i in M){
-    				files += '<li><a href="'+M[i].path+'" data-lightbox="example-set-6"><img src="'+M[i].resizePath+'" width="70px" height="60px"></a></li>';
-    			}
-    			$('#fileData').append(files);
-    		}
-    	})
+        $.get('?r=api/GetPictureById',{'id':return_id},function(data,status){
+            if(status ==='success' && data.Ack ==='Success'){
+                var M = data.Body;
+                var files = '';
+                for(var i in M){
+                    files += '<li><a href="'+M[i].path+'" data-lightbox="example-set-6"><img src="'+M[i].resizePath+'" width="70px" height="60px"></a></li>';
+                }
+                $('#fileData').append(files);
+            }
+        })
     }
     $('#determine').on('click',function(){
         if($('#imglistli').find('li').length==0){
@@ -1630,16 +1630,16 @@ $(document).ready(function(e){
                 }
             },
             onUploadError: function(id, message){
-            	hintShow('hint_w',lang.returndet_biz.upload_pic.network_err+message);
+                hintShow('hint_w',lang.returndet_biz.upload_pic.network_err+message);
             },
             onFileTypeError: function(file){
-            	hintShow('hint_w',lang.returndet_biz.upload_pic.type_err);
+                hintShow('hint_w',lang.returndet_biz.upload_pic.type_err);
             },
             onFileSizeError: function(file){
                 hintShow('hint_w',lang.returndet_biz.upload_pic.size_err);
             },
             onFileExtError: function(file){
-            	hintShow('hint_w',lang.returndet_biz.upload_pic.file_ext_err);
+                hintShow('hint_w',lang.returndet_biz.upload_pic.file_ext_err);
             },
             onFilesMaxError: function(file){
                 hintShow('hint_w',lang.returndet_biz.upload_pic.file_count_err);
