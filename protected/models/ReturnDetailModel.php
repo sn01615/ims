@@ -403,10 +403,11 @@ class ReturnDetailModel extends BaseModel
                 $paramArr['itemizedRefundDetail'] = serialize(compact('itemRefundDetail'));
                 $paramArr['create_time'] = time();
                 $paramArr['handle_type'] = __FUNCTION__;
-                $result2 = ReturnHandleLogDAO::getInstance()->insert($paramArr);
+                $result2 = ReturnHandleLogDAO::getInstance()->iinsert($paramArr);
+                
                 if ($result === false || $result1 === false || $result2 === false) {
                     ReturnHistoryDAO::getInstance()->rollback();
-                    return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
+                    return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败,已回滚');
                 } else {
                     ReturnHistoryDAO::getInstance()->commit();
                     return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $return, '');
