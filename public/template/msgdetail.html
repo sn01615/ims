@@ -213,14 +213,14 @@
                 <textarea name="" id="sendContent"></textarea>
             </div>
             <div class="editFoot">
-                <div>
-                    <div class="editFootL">
+                <div style="position:relative;">
+                    <div class="editFootL" style="position:absolute;">
                         <label>
                             <input type="checkbox" name="MyEmail" id="MyEmail" />{$lang.more.msg_input.send_to_myemail}
                             <a href="#" title="{$lang.more.msg_input.insert_btn_title}" id="addFile">{$lang.more.msg_input.insert_btn_text}</a>
                         </label>
                     </div>
-                    <div class="editFootR" id="StrLength">
+                    <div class="editFootR" id="StrLength" style="position:absolute; right:0px;">
                         <span>{$lang.more.msg_input.send}</span>
                         <input type="button" class="subBtn" value="{$lang.more.msg_input.sendbtn_value}" id="sendMsg" />
                     </div>
