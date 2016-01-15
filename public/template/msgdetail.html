@@ -214,15 +214,15 @@
             </div>
             <div class="editFoot">
                 <div style="position:relative;">
-                    <div class="editFootL" style="position:absolute;">
+                    <div class="editFootL" style="width:50%;">
                         <label>
+                            <a href="#" title="{$lang.more.msg_input.insert_btn_title}" id="addFile" style="float:right;">{$lang.more.msg_input.insert_btn_text}</a>
                             <input type="checkbox" name="MyEmail" id="MyEmail" />{$lang.more.msg_input.send_to_myemail}
-                            <a href="#" title="{$lang.more.msg_input.insert_btn_title}" id="addFile">{$lang.more.msg_input.insert_btn_text}</a>
                         </label>
                     </div>
-                    <div class="editFootR" id="StrLength" style="position:absolute; right:0px;">
+                    <div class="editFootR" id="StrLength" style="width:50%;">
+                        <input type="button" class="subBtn" value="{$lang.more.msg_input.sendbtn_value}" style="float:right;" id="sendMsg" />
                         <span>{$lang.more.msg_input.send}</span>
-                        <input type="button" class="subBtn" value="{$lang.more.msg_input.sendbtn_value}" id="sendMsg" />
                     </div>
                     <div class="clear"></div>
                 </div>
