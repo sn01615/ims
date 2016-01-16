@@ -2332,6 +2332,16 @@ class EbayOtherInfoModel extends BaseModel
         $result = getByCurl::get($url);
         $result = json_decode($result, true);
         if (empty($result)) {
+            // 异常发邮件
+            $subject = "ECS PAYPAL API 调用异常";
+            ob_start();
+            var_dump($result);
+            var_dump($TransactionID);
+            var_dump($BuyerID);
+            $text = ob_get_clean();
+            $to = Yii::app()->params['logmails'];
+            SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
+            
             return $this->handleApiFormat(EnumOther::ACK_WARNING, $result);
         } else {
             if (isset($result['data']['body']) && is_array($result['data']['body'])) {
