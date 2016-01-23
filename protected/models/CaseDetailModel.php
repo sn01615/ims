@@ -235,7 +235,7 @@ class CaseDetailModel extends BaseModel
             );
             $conditions = CaseResponseHistoryDAO::getInstance()->getPk() . '=' . $caseId;
             $params = array();
-            $number = CaseResponseHistoryDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar');
+            $number = CaseResponseHistoryDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar', array(), '', 'number desc');
             empty($number) ? $number = 1 : $number ++;
             
             // 临时日志
