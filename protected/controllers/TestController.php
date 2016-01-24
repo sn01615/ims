@@ -415,4 +415,17 @@ eot;
         $params = array();
         CaseActivityOptionsDAO::getInstance()->iselect($columns, $conditions, $params);
     }
+
+    public function actionTest24()
+    {
+        $caseId=15;
+        $columns = array(
+            'number'
+        );
+        $conditions = 'case_id=' . $caseId;
+        $params = array();
+        $number = CaseResponseHistoryDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar', array(), '', 'number desc');
+        var_dump($number);
+        empty($number) ? $number = 1 : $number ++;
+    }
 }

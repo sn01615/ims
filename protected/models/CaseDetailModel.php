@@ -233,7 +233,7 @@ class CaseDetailModel extends BaseModel
             $columns = array(
                 'number'
             );
-            $conditions = CaseResponseHistoryDAO::getInstance()->getPk() . '=' . $caseId;
+            $conditions = 'case_id=' . $caseId;
             $params = array();
             $number = CaseResponseHistoryDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar', array(), '', 'number desc');
             empty($number) ? $number = 1 : $number ++;
