@@ -148,7 +148,7 @@ class ReturnUpdateModel extends BaseModel
                             $xmldata['FileData'][$return_id] = gmdate('/Y/m/d/') . EnumOther::LOG_DIR_RETURN_TEMP_UPDATE_TAG;
                         }
                         
-                        file_put_contents('xxxxx_runtime.log', $return_id . ' time:' . (microtime(true) - $_st) . "\n", FILE_APPEND);
+                        file_put_contents('xxxxx_runtime.log', $i . ' ' . $return_id . ' time:' . (microtime(true) - $_st) . "\n", FILE_APPEND);
                     }
                     $columns = array(
                         'seller_id' => $Queue['seller_id'],

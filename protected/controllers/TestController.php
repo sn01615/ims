@@ -418,7 +418,7 @@ eot;
 
     public function actionTest24()
     {
-        $caseId=15;
+        $caseId = 15;
         $columns = array(
             'number'
         );
@@ -427,5 +427,11 @@ eot;
         $number = CaseResponseHistoryDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar', array(), '', 'number desc');
         var_dump($number);
         empty($number) ? $number = 1 : $number ++;
+    }
+
+    public function actionTest25()
+    {
+        iMemcache::getInstance()->set('test', true, 50);
+        var_dump(iMemcache::getInstance()->get('test'));
     }
 }
