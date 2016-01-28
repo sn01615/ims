@@ -40,9 +40,9 @@ class ReturnUpdateModel extends BaseModel
                 );
                 ReturnUpdateQueueDAO::getInstance()->idelete($conditions, $params);
                 $_time = time();
-                for ($i = 0; $i < 6; $i ++) {
-                    $fromDate = $_time - ($i + 1) * 30 * 24 * 3600;
-                    $toDate = $_time - $i * 30 * 24 * 3600;
+                for ($i = 0; $i < 45; $i ++) {
+                    $fromDate = $_time - ($i + 1) * 24 * 3600;
+                    $toDate = $_time - $i * 24 * 3600;
                     $params = array(
                         'seller_id' => $shop['seller_id'],
                         'shop_id' => $shop['shop_id'],
@@ -84,7 +84,16 @@ class ReturnUpdateModel extends BaseModel
     {
         DaemonLockTool::lock(__METHOD__ . rand(1, 1));
         
+        $startTime = time();
+        
+        label1:
+        
+        if (time() - $startTime > 555) {
+            return false;
+        }
+        
         $pagesize = 10;
+        
         $Queues = ReturnUpdateQueueDAO::getInstance()->getUpdateQueueData(EnumOther::RETURN_EXECUTESIZE);
         if ($Queues !== false) {
             foreach ($Queues as $key => $Queue) {
@@ -111,6 +120,9 @@ class ReturnUpdateModel extends BaseModel
                     }
                     
                     for ($i = 0; $i < $length; $i ++) {
+                        
+                        $_st = microtime(true);
+                        
                         $return_id = $returns->eq($i)
                             ->find('ns1_ReturnId>ns1_id')
                             ->html();
@@ -135,6 +147,8 @@ class ReturnUpdateModel extends BaseModel
                             // $xmldata['FileData'][$return_id] = ReturnDownModel::model()->getFileData($return_id, $Queue['token']);
                             $xmldata['FileData'][$return_id] = gmdate('/Y/m/d/') . EnumOther::LOG_DIR_RETURN_TEMP_UPDATE_TAG;
                         }
+                        
+                        file_put_contents('xxxxx_runtime.log', $return_id . ' time:' . (microtime(true) - $_st) . "\n", FILE_APPEND);
                     }
                     $columns = array(
                         'seller_id' => $Queue['seller_id'],
@@ -171,9 +185,11 @@ class ReturnUpdateModel extends BaseModel
                     }
                 }
             }
+            
+            goto label1;
         } else {
-            return false;
+            sleep(5);
+            goto label1;
         }
     }
-    
 }
