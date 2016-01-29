@@ -159,6 +159,17 @@ class LogisticsModel extends BaseModel
                         ':ServiceCode' => $packageInfo['ShippingMethod']['ServiceCode'],
                         ':ServiceName' => $packageInfo['ShippingMethod']['ServiceName']
                     );
+                    
+                    if (empty($columns['ServiceCode']) || empty($columns['ServiceName'])) {
+                        // 发送邮件通知
+                        ob_start();
+                        echo json_encode($result);
+                        $text = ob_get_clean();
+                        $subject = "Ck1ShippingMethod 数据异常";
+                        $to = Yii::app()->params['logmails'];
+                        SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
+                    }
+                    
                     $ck1_shipping_method_id = Ck1ShippingMethodDAO::getInstance()->ireplaceinto($columns, $conditions, $params, true);
                 }
                 
