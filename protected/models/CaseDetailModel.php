@@ -238,14 +238,6 @@ class CaseDetailModel extends BaseModel
             $number = CaseResponseHistoryDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar', array(), '', 'number desc');
             empty($number) ? $number = 1 : $number ++;
             
-            // 临时日志
-            $subject = "调试： 回复Case消息";
-            ob_start();
-            var_dump($caseId, $caseType, $role, $responseText, $sellerId, $caseId_id);
-            $text = ob_get_clean();
-            $to = Yii::app()->params['logmails'];
-            SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
-            
             CaseHistoryDAO::getInstance()->begintransaction();
             try {
                 $param['case_id'] = $caseId;
