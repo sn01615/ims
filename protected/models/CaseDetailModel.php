@@ -462,19 +462,19 @@ class CaseDetailModel extends BaseModel
                     'create_time' => time()
                 );
                 $result2 = CaseUploadQueueDAO::getInstance()->iinsert($columns);
-                //以下部分是插入我的操作日志表的代码
-        		$username = isset(Yii::app()->session['userInfo']['username']) ? Yii::app()->session['userInfo']['username'] : 0;
-        		if ($username !== 0) {
-        		    $paramArr['handle_user'] = $username;
-        		} else {
-         		    return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '用户未登陆');
-        		}
-        		$paramArr['case_id'] = $caseId;
-        		$paramArr['caseType'] = $caseType;
-        		$paramArr['responseText'] = $responseText;
-        		$paramArr['create_time'] = time();
-        		$paramArr['handle_type'] = __FUNCTION__;
-        		$result3 = CaseHandleLogDAO::getInstance()->insert($paramArr);
+                // 以下部分是插入我的操作日志表的代码
+                $username = isset(Yii::app()->session['userInfo']['username']) ? Yii::app()->session['userInfo']['username'] : 0;
+                if ($username !== 0) {
+                    $paramArr['handle_user'] = $username;
+                } else {
+                    return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '用户未登陆');
+                }
+                $paramArr['case_id'] = $caseId;
+                $paramArr['caseType'] = $caseType;
+                $paramArr['responseText'] = $responseText;
+                $paramArr['create_time'] = time();
+                $paramArr['handle_type'] = __FUNCTION__;
+                $result3 = CaseHandleLogDAO::getInstance()->insert($paramArr);
                 if ($result === false || $result2 === false || $result3 === false) {
                     CaseHistoryDAO::getInstance()->rollback();
                     return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');

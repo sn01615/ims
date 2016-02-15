@@ -508,46 +508,44 @@ class ReturnUploadModel extends BaseModel
          
      }
      
-     /**
-      * @desc 获取return部分退款是否成功
-      * @author liaojianwen
-      * @date 2015-08-10
-      * @param string $uploadId
-      * @param string $actionType return操作项
-      * @return
-      */
-     public function getReturnReply($uploadId,$actionType)
-     {
-         if (empty($uploadId)) {
-             $this->handleApiFormat(EnumOther::ACK_FAILURE, '', 'uploadId(队列表ID)不能为空！');
-         }
-         
-         label1:
-         $startTime = time();
-         $result = CRedisHelper::getInstance()->get(md5($actionType . $uploadId));
-         if ($result === false) {
-         }
-         
-         iMongo::getInstance()->setCollection('____Return____')->insert(array(
-         'result' => $result,
-         'time' => time()
-         ));
-         
-         if ($result == 'success' || $result =='err') {
-             CRedisHelper::getInstance()->set(md5($actionType . $uploadId), '', 1);
-             if ($result == 'success') {
-                 return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $result);
-             } else {
-                 $error = unserialize(CRedisHelper::getInstance()->get(md5($actionType . $uploadId . 'result')));
-                 return $this->handleApiFormat(EnumOther::ACK_FAILURE, $result, $error);
-             }
-         } else {
-             if ($startTime > (time() - 180)) {
-                 sleep(1);
-                 goto label1;
-             }
-             return $this->handleApiFormat(EnumOther::ACK_FAILURE, $result, $error);
-         }
-         
-     }
+    /**
+     * @desc 获取return部分退款是否成功
+     * @author liaojianwen
+     * @date 2015-08-10
+     * @param string $uploadId
+     * @param string $actionType return操作项
+     * @return
+     */
+    public function getReturnReply($uploadId, $actionType)
+    {
+        if (empty($uploadId)) {
+            $this->handleApiFormat(EnumOther::ACK_FAILURE, '', 'uploadId(队列表ID)不能为空！');
+        }
+        
+        label1:
+        $startTime = time();
+        $result = CRedisHelper::getInstance()->get(md5($actionType . $uploadId));
+        if ($result === false) {}
+        
+        iMongo::getInstance()->setCollection('____Return____')->insert(array(
+            'result' => $result,
+            'time' => time()
+        ));
+        
+        if ($result == 'success' || $result == 'err') {
+            CRedisHelper::getInstance()->set(md5($actionType . $uploadId), '', 1);
+            if ($result == 'success') {
+                return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $result);
+            } else {
+                $error = unserialize(CRedisHelper::getInstance()->get(md5($actionType . $uploadId . 'result')));
+                return $this->handleApiFormat(EnumOther::ACK_FAILURE, $result, $error);
+            }
+        } else {
+            if ($startTime > (time() - 180)) {
+                sleep(1);
+                goto label1;
+            }
+            return $this->handleApiFormat(EnumOther::ACK_FAILURE, $result, $error);
+        }
+    }
 }
