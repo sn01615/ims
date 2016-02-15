@@ -170,6 +170,11 @@ class LogisticsModel extends BaseModel
                         SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
                     }
                     
+                    if (empty($columns['ServiceName'])) {
+                        unset($columns['ServiceName']);
+                        unset($columns[':ServiceName']);
+                    }
+                    
                     $ck1_shipping_method_id = Ck1ShippingMethodDAO::getInstance()->ireplaceinto($columns, $conditions, $params, true);
                 }
                 

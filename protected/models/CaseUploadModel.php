@@ -597,8 +597,8 @@ class CaseUploadModel extends BaseModel
      */
     public function provideReturnInfo($Queue)
     {
-        $uploadData = unserialize($Queue['upload_data']);    
-    
+        $uploadData = unserialize($Queue['upload_data']);
+        
         $caseId = $uploadData['caseId_id'];
         $caseType = $uploadData['caseType'];
         $token = $Queue['token'];
@@ -610,19 +610,19 @@ class CaseUploadModel extends BaseModel
         $stateOrProvince = $uploadData['stateOrProvince'];
         $street1 = $uploadData['street1'];
         $street2 = $uploadData['street2'];
-        $result = CaseDownModel::model()->provideReturnInfo($caseId,$caseType,$token,$city,$country,$name,$postalCode,$stateOrProvince,$street1,$street2);
+        $result = CaseDownModel::model()->provideReturnInfo($caseId, $caseType, $token, $city, $country, $name, $postalCode, $stateOrProvince, $street1, $street2);
         
         $doc = phpQuery::newDocumentXML($result);
         phpQuery::selectDocument($doc);
         if (pq('ack')->html() == 'Success') {
-            // file_put_contents(__FUNCTION__ . 'Success.log', $doc . "\n", FILE_APPEND);
             iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
                 'type' => 'Success',
                 'Queue' => serialize($Queue),
-                'uploadData'=>$uploadData,
+                'uploadData' => $uploadData,
                 'xml' => $result,
                 'time' => time()
             ));
+            
             // 发送邮件通知
             ob_start();
             echo "apiResult：\n";
@@ -633,16 +633,17 @@ class CaseUploadModel extends BaseModel
             $subject = "Case 提供退货地址成功通知 [Success]\n";
             $to = Yii::app()->params['logmails'];
             SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
+            
             return $Queue['case_upload_queue_id'];
         } else {
-            // file_put_contents(__FUNCTION__ . 'Err.log', $doc . "\n", FILE_APPEND);
             iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
                 'type' => 'Err',
                 'Queue' => serialize($Queue),
-                'uploadData'=>$uploadData,
+                'uploadData' => $uploadData,
                 'xml' => $result,
                 'time' => time()
             ));
+            
             // 发送邮件通知
             ob_start();
             echo "apiResult：\n";
@@ -653,6 +654,7 @@ class CaseUploadModel extends BaseModel
             $subject = "Case 提供退货地址失败通知 [Failure]\n";
             $to = Yii::app()->params['logmails'];
             SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
+            
             return false;
         }
     }
