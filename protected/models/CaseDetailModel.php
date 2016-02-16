@@ -307,9 +307,18 @@ class CaseDetailModel extends BaseModel
         if ($token === false) {
             return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', 'CaseID Error.');
         } else {
+            $columns = array(
+                'number'
+            );
+            $conditions = 'case_id=' . $caseId;
+            $params = array();
+            $number = CaseResponseHistoryDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar', array(), '', 'number desc');
+            empty($number) ? $number = 1 : $number ++;
+            
             CaseHistoryDAO::getInstance()->begintransaction();
             try {
                 $param['case_id'] = $caseId;
+                $param['number'] = $number;
                 $param['creationDate'] = time();
                 $param['note'] = $responseText;
                 $param['activityDetial_description'] = 'Seller provided tracking information for shipment.';
@@ -374,9 +383,18 @@ class CaseDetailModel extends BaseModel
         if ($token === false) {
             return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', 'CaseID Error.');
         } else {
+            $columns = array(
+                'number'
+            );
+            $conditions = 'case_id=' . $caseId;
+            $params = array();
+            $number = CaseResponseHistoryDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar', array(), '', 'number desc');
+            empty($number) ? $number = 1 : $number ++;
+            
             CaseHistoryDAO::getInstance()->begintransaction();
             try {
                 $param['case_id'] = $caseId;
+                $param['number'] = $number;
                 $param['creationDate'] = time();
                 $param['note'] = $responseText;
                 $param['activityDetial_description'] = 'Seller provided shipping information.';
@@ -439,9 +457,18 @@ class CaseDetailModel extends BaseModel
         if ($token === false) {
             return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', 'CaseID Error.');
         } else {
+            $columns = array(
+                'number'
+            );
+            $conditions = 'case_id=' . $caseId;
+            $params = array();
+            $number = CaseResponseHistoryDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar', array(), '', 'number desc');
+            empty($number) ? $number = 1 : $number ++;
+            
             CaseHistoryDAO::getInstance()->begintransaction();
             try {
                 $param['case_id'] = $caseId;
+                $param['number'] = $number;
                 $param['creationDate'] = time();
                 $param['note'] = $responseText;
                 $param['activityDetial_description'] = 'Seller issued full refund to buyer.';
@@ -503,9 +530,18 @@ class CaseDetailModel extends BaseModel
         if ($token === false) {
             return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', 'CaseID Error.');
         } else {
+            $columns = array(
+                'number'
+            );
+            $conditions = 'case_id=' . $caseId;
+            $params = array();
+            $number = CaseResponseHistoryDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar', array(), '', 'number desc');
+            empty($number) ? $number = 1 : $number ++;
+            
             CaseHistoryDAO::getInstance()->begintransaction();
             try {
                 $param['case_id'] = $caseId;
+                $param['number'] = $number;
                 $param['creationDate'] = time();
                 $param['note'] = $responseText;
                 $param['activityDetial_description'] = 'Seller issued partial refund to buyer.';
@@ -567,6 +603,14 @@ class CaseDetailModel extends BaseModel
         if ($token === false) {
             return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', 'CaseID Error.');
         } else {
+            $columns = array(
+                'number'
+            );
+            $conditions = 'case_id=' . $caseId;
+            $params = array();
+            $number = CaseResponseHistoryDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar', array(), '', 'number desc');
+            empty($number) ? $number = 1 : $number ++;
+            
             CaseHistoryDAO::getInstance()->begintransaction();
             try {
                 $country = $address['country'];
@@ -578,6 +622,7 @@ class CaseDetailModel extends BaseModel
                 $postcode = $address['postcode'];
                 $merchantAuth = $address['merchantAuth'];
                 $param['case_id'] = $caseId;
+                $param['number'] = $number;
                 $param['creationDate'] = time();
                 $param['note'] = $responseText;
                 $param['activityDetial_description'] = 'Seller provide return address and issued a refund.';
@@ -639,9 +684,18 @@ class CaseDetailModel extends BaseModel
         if ($token === false) {
             return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', 'CaseID Error.');
         } else {
+            $columns = array(
+                'number'
+            );
+            $conditions = 'case_id=' . $caseId;
+            $params = array();
+            $number = CaseResponseHistoryDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar', array(), '', 'number desc');
+            empty($number) ? $number = 1 : $number ++;
+            
             CaseHistoryDAO::getInstance()->begintransaction();
             try {
                 $param['case_id'] = $caseId;
+                $param['number'] = $number;
                 $param['creationDate'] = time();
                 $param['note'] = $responseText;
                 $param['activityDetial_description'] = 'Seller ask ebay help';
@@ -718,6 +772,14 @@ class CaseDetailModel extends BaseModel
         if ($token === false) {
             return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', 'CaseID Error.');
         } else {
+            $columns = array(
+                'number'
+            );
+            $conditions = 'case_id=' . $caseId;
+            $params = array();
+            $number = CaseResponseHistoryDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar', array(), '', 'number desc');
+            empty($number) ? $number = 1 : $number ++;
+            
             CaseHistoryDAO::getInstance()->begintransaction();
             try {
                 $name = $addr['name'];
@@ -729,6 +791,7 @@ class CaseDetailModel extends BaseModel
                 $postalCode = $addr['postalCode'];
                 $returnMerchandiseAuthorization = $rma;
                 $param['case_id'] = $caseId;
+                $param['number'] = $number;
                 $param['creationDate'] = time();
                 $param['activityDetial_description'] = 'Seller provided return address.';
                 $param['author_role'] = 'SELLER';
@@ -778,59 +841,67 @@ class CaseDetailModel extends BaseModel
      * @author liaojianwen
      * @date 2015-07-22
      */
-    public function appealEbay($caseId,$caseType,$appealReason,$responseText,$caseId_id,$sellerId)
+    public function appealEbay($caseId, $caseType, $appealReason, $responseText, $caseId_id, $sellerId)
     {
-      if (empty($caseId) || empty($caseType) || empty($appealReason) || empty($caseId_id)) {
+        if (empty($caseId) || empty($caseType) || empty($appealReason) || empty($caseId_id)) {
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '数据不能为空');
         }
-      $token = CaseDAO::getInstance()->lawfulCaseID($caseId, $sellerId);
-      if ($token === false) {
+        $token = CaseDAO::getInstance()->lawfulCaseID($caseId, $sellerId);
+        if ($token === false) {
             return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', 'CaseID Error.');
-      } else {
-           CaseHistoryDAO::getInstance()->begintransaction();
-           try {
-             $param['case_id'] = $caseId;
-             $param['creationDate'] = time();
-             $param['note'] = $responseText;
-             $param['activityDetial_description'] = 'Seller appeal for help';
-             $param['author_role'] = 'SELLER';
-             $result = CaseHistoryDAO::getInstance()->insert($param);
-             $columns = array(
+        } else {
+            $columns = array(
+                'number'
+            );
+            $conditions = 'case_id=' . $caseId;
+            $params = array();
+            $number = CaseResponseHistoryDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar', array(), '', 'number desc');
+            empty($number) ? $number = 1 : $number ++;
+            
+            CaseHistoryDAO::getInstance()->begintransaction();
+            try {
+                $param['case_id'] = $caseId;
+                $param['number'] = $number;
+                $param['creationDate'] = time();
+                $param['note'] = $responseText;
+                $param['activityDetial_description'] = 'Seller appeal for help';
+                $param['author_role'] = 'SELLER';
+                $result = CaseHistoryDAO::getInstance()->insert($param);
+                $columns = array(
                     'upload_type' => __FUNCTION__,
                     'upload_data' => serialize(compact('caseId_id', 'caseType', 'appealReason', 'responseText')),
                     'token' => $token['token'],
                     'create_time' => time()
                 );
-             $result2 = CaseUploadQueueDAO::getInstance()->iinsert($columns);
-             //以下部分是插入我的操作日志表的代码
-             $username = isset(Yii::app()->session['userInfo']['username']) ? Yii::app()->session['userInfo']['username'] : 0;
-             if ($username !== 0) {
-        		  $paramArr['handle_user'] = $username;
-             } else {
-         		  return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '用户未登陆');
-             }
-        	 $paramArr['case_id'] = $caseId;
-        	 $paramArr['caseType'] = $caseType;
-        	 $paramArr['responseText'] = $responseText;
-        	 $paramArr['create_time'] = time();
-        	 $paramArr['handle_type'] = __FUNCTION__;
-        	 $paramArr['reason'] = $appealReason;
-        	 $result3 = CaseHandleLogDAO::getInstance()->insert($paramArr);
-             if ($result === false || $result2 === false || $result3 === false) {
+                $result2 = CaseUploadQueueDAO::getInstance()->iinsert($columns);
+                // 以下部分是插入我的操作日志表的代码
+                $username = isset(Yii::app()->session['userInfo']['username']) ? Yii::app()->session['userInfo']['username'] : 0;
+                if ($username !== 0) {
+                    $paramArr['handle_user'] = $username;
+                } else {
+                    return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '用户未登陆');
+                }
+                $paramArr['case_id'] = $caseId;
+                $paramArr['caseType'] = $caseType;
+                $paramArr['responseText'] = $responseText;
+                $paramArr['create_time'] = time();
+                $paramArr['handle_type'] = __FUNCTION__;
+                $paramArr['reason'] = $appealReason;
+                $result3 = CaseHandleLogDAO::getInstance()->insert($paramArr);
+                if ($result === false || $result2 === false || $result3 === false) {
+                    CaseHistoryDAO::getInstance()->rollback();
+                    return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
+                } else {
+                    CaseHistoryDAO::getInstance()->commit();
+                    return $this->handleApiFormat(EnumOther::ACK_SUCCESS, '');
+                }
+            } catch (Exception $e) {
                 CaseHistoryDAO::getInstance()->rollback();
                 return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
-             } else {
-                CaseHistoryDAO::getInstance()->commit();
-                return $this->handleApiFormat(EnumOther::ACK_SUCCESS, '');
-             }
-           } catch (Exception $e) {
-                CaseHistoryDAO::getInstance()->rollback();
-                return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
-          }
-      }
-    
-    
+            }
+        }
     }
+    
     /**
      * @desc 添加case
      * @param array $orderInfo  
