@@ -1231,6 +1231,23 @@ class MsgDownModel extends BaseModel
 
                 $msgpk = MsgDAO::getInstance()->ireplaceinto($columns, $conditions, $params, true);
                 
+                if (is_array($msgpk)) {
+                    // 消息数据重复
+                    // 发送邮件通知
+                    ob_start();
+                    echo '$msgpk:';
+                    var_dump($msgpk);
+                    $text = ob_get_clean();
+                    $subject = "Fatal error: msg 数据重复";
+                    $to = Yii::app()->params['logmails'];
+                    SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
+                    
+                    $msgpk = array_pop($msgpk);
+                    if (is_array($msgpk)) {
+                        $msgpk = array_pop($msgpk);
+                    }
+                }
+                
                 // URL字段分表
                 $columns = array(
                     'msg_id' => $msgpk,
