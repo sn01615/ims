@@ -418,7 +418,7 @@ select { padding: 2px 5px; height: 24px; border-radius: 3px; border: 1px solid #
 .cusInfoTC .incHisLeft { float: left; border: 1px solid #ccc; width: 700px; padding-bottom: 15px; }
 .cusInfoTC .incHisright { float: right; border: 1px solid #ccc; }
 .cusInfoTC .incHisright li { line-height: 30px; border-bottom: 1px solid #ccc; cursor: pointer; padding: 0 15px; width: 400px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-.cusInfoTC .incHisright li>p{ width: 360px; float:left; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.cusInfoTC .incHisright li>p{ width: 330px; float:left; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .cusInfoTC .incHisright li>span{ float:right; }
 .cusInfoTC .incHisright li:first-child { border-top: 1px solid #ccc; }
 .cusInfoTC .incHisright li:hover,
