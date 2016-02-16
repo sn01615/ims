@@ -182,7 +182,7 @@ class CaseUpdateModel extends BaseModel
         $Queues = CaseUpdateQueueDAO::getInstance()->getUpdateQueueData(EnumOther::DOWN_EXECUTESIZE);
         
         if ($Queues !== false) {
-            $pageSize = 20;
+            $pageSize = 25;
             foreach ($Queues as $key => $Queue) {
                 $page = 0;
                 while (true) {
