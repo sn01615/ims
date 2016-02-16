@@ -220,7 +220,7 @@ class ReturnUploadModel extends BaseModel
          $result = ReturnDownModel::model()->issueReturnRefund($returnId_id,$itemizedRefundDetail,$token);
          $res = json_decode($result,true);
         if ($res['ackValue'] === 'SUCCESS') {
-            CRedisHelper::getInstance()->set(md5('returnRefund' . $Queue['return_upload_queue_id']), 'success', 3600);
+            iMemcache::getInstance()->set(md5('returnRefund' . $Queue['return_upload_queue_id']), 'success', 3600);
             iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
                 'type' => 'Success',
                 'Queue' => $Queue,
@@ -240,8 +240,8 @@ class ReturnUploadModel extends BaseModel
             SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
             return $Queue['return_upload_queue_id'];
         } else {
-            CRedisHelper::getInstance()->set(md5('returnRefund' . $Queue['return_upload_queue_id']), 'err', 3600);
-            CRedisHelper::getInstance()->set(md5('returnRefund' . $Queue['return_upload_queue_id'] . 'result'), serialize($res), 3600);
+            iMemcache::getInstance()->set(md5('returnRefund' . $Queue['return_upload_queue_id']), 'err', 3600);
+            iMemcache::getInstance()->set(md5('returnRefund' . $Queue['return_upload_queue_id'] . 'result'), serialize($res), 3600);
             iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
                 'type' => 'Err',
                 'Queue' => $Queue,
@@ -282,7 +282,7 @@ class ReturnUploadModel extends BaseModel
         $result = ReturnDownModel::model()->issuePartialRefund($returnId_id, $amount, $currencyId, $comments, $token);
         $res = json_decode($result, true);
         if ($res['ackValue'] === 'SUCCESS') {
-            CRedisHelper::getInstance()->set(md5('returnPartRefund' . $Queue['return_upload_queue_id']), 'success', 3600);
+            iMemcache::getInstance()->set(md5('returnPartRefund' . $Queue['return_upload_queue_id']), 'success', 3600);
             iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
                 'type' => 'Success',
                 'Queue' => $Queue,
@@ -302,8 +302,8 @@ class ReturnUploadModel extends BaseModel
             SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
             return $Queue['return_upload_queue_id'];
         } else {
-            CRedisHelper::getInstance()->set(md5('returnPartRefund' . $Queue['return_upload_queue_id']), 'err', 3600);
-            CRedisHelper::getInstance()->set(md5('returnPartRefund' . $Queue['return_upload_queue_id'] . 'result'), serialize($res), 3600);
+            iMemcache::getInstance()->set(md5('returnPartRefund' . $Queue['return_upload_queue_id']), 'err', 3600);
+            iMemcache::getInstance()->set(md5('returnPartRefund' . $Queue['return_upload_queue_id'] . 'result'), serialize($res), 3600);
             iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
                 'type' => 'Err',
                 'Queue' => $Queue,
@@ -342,7 +342,7 @@ class ReturnUploadModel extends BaseModel
         $result = ReturnDownModel::model()->sendMessage($returnId_id, $comments, $token);
         $res = json_decode($result, true);
         if ($res['ackValue'] === 'SUCCESS') {
-            CRedisHelper::getInstance()->set(md5('returnMsg' . $Queue['return_upload_queue_id']), 'success', 3600);
+            iMemcache::getInstance()->set(md5('returnMsg' . $Queue['return_upload_queue_id']), 'success', 3600);
             iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
                 'type' => 'Success',
                 'Queue' => $Queue,
@@ -362,8 +362,8 @@ class ReturnUploadModel extends BaseModel
             SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
             return $Queue['return_upload_queue_id'];
         } else {
-            CRedisHelper::getInstance()->set(md5('returnMsg' . $Queue['return_upload_queue_id']), 'err', 3600);
-            CRedisHelper::getInstance()->set(md5('returnMsg' . $Queue['return_upload_queue_id'] . 'result'), serialize($res), 3600);
+            iMemcache::getInstance()->set(md5('returnMsg' . $Queue['return_upload_queue_id']), 'err', 3600);
+            iMemcache::getInstance()->set(md5('returnMsg' . $Queue['return_upload_queue_id'] . 'result'), serialize($res), 3600);
             iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
                 'type' => 'Err',
                 'Queue' => $Queue,
@@ -403,7 +403,7 @@ class ReturnUploadModel extends BaseModel
         $result = ReturnDownModel::model()->askEbayHelp($returnId_id, $comments, $reason, $token);
         $res = json_decode($result, true);
         if ($res['ackValue'] === 'SUCCESS') {
-            CRedisHelper::getInstance()->set(md5('returnEbayHelp' . $Queue['return_upload_queue_id']), 'success', 3600);
+            iMemcache::getInstance()->set(md5('returnEbayHelp' . $Queue['return_upload_queue_id']), 'success', 3600);
             iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
                 'type' => 'Success',
                 'Queue' => $Queue,
@@ -423,8 +423,8 @@ class ReturnUploadModel extends BaseModel
             SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
             return $Queue['return_upload_queue_id'];
         } else {
-            CRedisHelper::getInstance()->set(md5('returnEbayHelp' . $Queue['return_upload_queue_id']), 'err', 3600);
-            CRedisHelper::getInstance()->set(md5('returnEbayHelp' . $Queue['return_upload_queue_id'] . 'result'), serialize($res), 3600);
+            iMemcache::getInstance()->set(md5('returnEbayHelp' . $Queue['return_upload_queue_id']), 'err', 3600);
+            iMemcache::getInstance()->set(md5('returnEbayHelp' . $Queue['return_upload_queue_id'] . 'result'), serialize($res), 3600);
             iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
                 'type' => 'Err',
                 'Queue' => $Queue,
@@ -464,7 +464,7 @@ class ReturnUploadModel extends BaseModel
         $result = ReturnDownModel::model()->declineRequest($returnId_id, $comments, $token);
         $res = json_decode($result, true);
         if ($res['ackValue'] === 'SUCCESS') {
-            CRedisHelper::getInstance()->set(md5('returnDecline' . $Queue['return_upload_queue_id']), 'success', 3600);
+            iMemcache::getInstance()->set(md5('returnDecline' . $Queue['return_upload_queue_id']), 'success', 3600);
             iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
                 'type' => 'Success',
                 'Queue' => $Queue,
@@ -484,8 +484,8 @@ class ReturnUploadModel extends BaseModel
             SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
             return $Queue['return_upload_queue_id'];
         } else {
-            CRedisHelper::getInstance()->set(md5('returnDecline' . $Queue['return_upload_queue_id']), 'err', 3600);
-            CRedisHelper::getInstance()->set(md5('returnDecline' . $Queue['return_upload_queue_id'] . 'result'), serialize($res), 3600);
+            iMemcache::getInstance()->set(md5('returnDecline' . $Queue['return_upload_queue_id']), 'err', 3600);
+            iMemcache::getInstance()->set(md5('returnDecline' . $Queue['return_upload_queue_id'] . 'result'), serialize($res), 3600);
             iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
                 'type' => 'Err',
                 'Queue' => $Queue,
@@ -526,7 +526,7 @@ class ReturnUploadModel extends BaseModel
         
         $startTime = time();
         
-        $result = CRedisHelper::getInstance()->get(md5($actionType . $uploadId));
+        $result = iMemcache::getInstance()->get(md5($actionType . $uploadId));
         if ($result === false) {}
         
         iMongo::getInstance()->setCollection('____Return____')->insert(array(
@@ -536,11 +536,11 @@ class ReturnUploadModel extends BaseModel
         ));
         
         if ($result == 'success' || $result == 'err') {
-            CRedisHelper::getInstance()->set(md5($actionType . $uploadId), '', 1);
+            iMemcache::getInstance()->set(md5($actionType . $uploadId), '', 1);
             if ($result == 'success') {
                 return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $result);
             } else {
-                $error = unserialize(CRedisHelper::getInstance()->get(md5($actionType . $uploadId . 'result')));
+                $error = unserialize(iMemcache::getInstance()->get(md5($actionType . $uploadId . 'result')));
                 return $this->handleApiFormat(EnumOther::ACK_FAILURE, $result, $error);
             }
         } else {

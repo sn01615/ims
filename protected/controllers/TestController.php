@@ -200,6 +200,7 @@ class TestController extends Controller
     public function actionTest12()
     {
         $key = 1111;
+//         var_dump(CRedisHelper::getInstance()->set($key,8888,10));
         var_dump(CRedisHelper::getInstance()->get($key));
     }
 

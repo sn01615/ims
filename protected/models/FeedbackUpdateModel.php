@@ -78,11 +78,11 @@ class FeedbackUpdateModel extends BaseModel
      */
     public function executeFeedbackUpdateQueue()
     {
-         DaemonLockTool::lock(__METHOD__);
+        DaemonLockTool::lock(__METHOD__);
         
         $Queues = FeedbackUpdateQueueDAO::getInstance()->getFeedbackUpdateQueueData(EnumOther::DOWN_EXECUTESIZE);
         if ($Queues !== false) {
-            $page = CRedisHelper::getInstance()->get('IMS_FEEDBACK_PAGE');
+            $page = iMemcache::getInstance()->get('IMS_FEEDBACK_PAGE');
             if (empty($page)) {
                 $page = 0;
             }
@@ -116,16 +116,16 @@ class FeedbackUpdateModel extends BaseModel
                     }
                     $doc = phpQuery::newDocumentXML($xmldata);
                     phpQuery::selectDocument($doc);
-                    if ((integer)$doc['PaginationResult>TotalNumberOfPages']->html() <= $page) {
+                    if ((integer) $doc['PaginationResult>TotalNumberOfPages']->html() <= $page) {
                         $conditions = 'feedback_update_queue_id = :feedback_update_queue_id';
                         $params = array(
                             ':feedback_update_queue_id' => $value['feedback_update_queue_id']
                         );
-                        FeedbackUpdateQueueDAO::getInstance()->idelete($conditions, $params); 
+                        FeedbackUpdateQueueDAO::getInstance()->idelete($conditions, $params);
                         break;
                     }
                     if ($i === 4) {
-                        CRedisHelper::getInstance()->set('IMS_FEEDBACK_PAGE', $page . '_' . $value['feedback_update_queue_id'], 3600);
+                        iMemcache::getInstance()->set('IMS_FEEDBACK_PAGE', $page . '_' . $value['feedback_update_queue_id'], 3600);
                         $columns = array(
                             'process_sign' => 0
                         );
