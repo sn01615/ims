@@ -514,7 +514,7 @@ class ReturnUploadModel extends BaseModel
      * @date 2015-08-10
      * @param string $uploadId
      * @param string $actionType return操作项
-     * @return
+     * @return mixed
      */
     public function getReturnReply($uploadId, $actionType)
     {
@@ -523,13 +523,16 @@ class ReturnUploadModel extends BaseModel
         }
         
         label1:
+        
         $startTime = time();
+        
         $result = CRedisHelper::getInstance()->get(md5($actionType . $uploadId));
         if ($result === false) {}
         
         iMongo::getInstance()->setCollection('____Return____')->insert(array(
             'result' => $result,
-            'time' => time()
+            'time' => time(),
+            'oftime' => time() - $startTime
         ));
         
         if ($result == 'success' || $result == 'err') {
