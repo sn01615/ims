@@ -393,6 +393,25 @@ class CaseModel extends BaseModel
                                     ':number' => $j + 1
                                 );
                                 CaseResponseHistoryDAO::getInstance()->ireplaceinto($columns, $conditions, $params);
+                                
+                                // 发送邮件通知
+                                ob_start();
+                                echo 'length:';
+                                echo $ddoc['caseDetail>responseHistory']->length;
+                                echo "\n";
+                                echo '$columns:';
+                                var_dump($columns);
+                                echo "\n";
+                                echo '$$conditions:';
+                                var_dump($conditions);
+                                echo "\n";
+                                echo '$$params:';
+                                var_dump($params);
+                                echo "\n";
+                                $text = ob_get_clean();
+                                $subject = "responseHistory j out .";
+                                $to = Yii::app()->params['logmails'];
+                                SendMail::send(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
                             }
                         } elseif ($ddoc['Ack']->html() == 'Success' && $ddoc["Dispute>DisputeID"]->html() !== false) {
                             $columns = array(
