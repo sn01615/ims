@@ -488,206 +488,206 @@ class ReturnDetailModel extends BaseModel
          }
    }
    
+    /**
+     * @desc return 发送信息
+     * @param string $returnid
+     * @param string $text
+     * @param string $sellerId
+     * @author liaojianwen
+     * @date 2015-07-01
+     */
+    public function sendReturnMsg($returnid, $text, $sellerId)
+    {
+        if (empty($returnid) || empty($text) || empty($sellerId)) {
+            return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '数据不能为空');
+        }
+        $token = ReturnDAO::getInstance()->lawfulReturnID($returnid, $sellerId);
+        
+        if ($token === false) {
+            return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', 'returnid Error.');
+        } else {
+            ReturnHistoryDAO::getInstance()->begintransaction();
+            try {
+                $param['return_id'] = $returnid;
+                $param['creationDate'] = time();
+                $param['activity'] = 'SELLER_SEND_MESSAGE';
+                $param['note'] = $text;
+                $param['author'] = 'SELLER';
+                $param['create_time'] = time();
+                $result = ReturnHistoryDAO::getInstance()->insert($param);
+                
+                $returnId_id = $token['returnId_id'];
+                $siteid = $token['site_id'];
+                $columns = array(
+                    'upload_type' => __FUNCTION__,
+                    'upload_data' => serialize(compact('returnId_id', 'text', 'siteid')),
+                    'token' => $token['token'],
+                    'create_time' => time()
+                );
+                $result1 = ReturnUploadQueueDAO::getInstance()->iinsert($columns, true);
+                $return = array(
+                    'returnMsg' => $result1
+                );
+                // 以下部分是插入我的操作日志表的代码
+                $username = isset(Yii::app()->session['userInfo']['username']) ? Yii::app()->session['userInfo']['username'] : 0;
+                if ($username !== 0) {
+                    $paramArr['handle_user'] = $username;
+                } else {
+                    return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '用户未登陆');
+                }
+                $paramArr['return_id'] = $returnid;
+                $paramArr['create_time'] = time();
+                $paramArr['responseText'] = $text;
+                $paramArr['handle_type'] = __FUNCTION__;
+                $result2 = ReturnHandleLogDAO::getInstance()->insert($paramArr);
+                if ($result === false || $result1 === false || $result2 === false) {
+                    ReturnHistoryDAO::getInstance()->rollback();
+                    return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
+                } else {
+                    ReturnHistoryDAO::getInstance()->commit();
+                    return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $return, '');
+                }
+            } catch (Exception $e) {
+                ReturnHistoryDAO::getInstance()->rollback();
+                return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
+            }
+        }
+    }
+   
    /**
-    * @desc return 发送信息
+    * @desc 申请ebay 介入
     * @param string $returnid
     * @param string $text
+    * @param string $reason
     * @param string $sellerId
     * @author liaojianwen
     * @date 2015-07-01
     */
-   public function sendReturnMsg($returnid,$text,$sellerId)
-   {
-        if (empty($returnid) ||empty($text) || empty($sellerId)) {
+    public function returnAskHelp($returnid, $text, $reason, $sellerId)
+    {
+        if (empty($returnid) || empty($reason) || empty($sellerId)) {
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '数据不能为空');
         }
-         $token = ReturnDAO::getInstance()->lawfulReturnID($returnid, $sellerId);
-         
-         if ($token === false) {
-            return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', 'returnid Error.');
-         } else {
-             ReturnHistoryDAO::getInstance()->begintransaction();
-             try{
-                $param['return_id'] = $returnid;
-                $param['creationDate'] = time();
-                $param['activity']='SELLER_SEND_MESSAGE';
-                $param['note'] = $text;
-                $param['author'] = 'SELLER';
-                $param['create_time'] =time();
-                $result = ReturnHistoryDAO::getInstance()->insert($param);
-                
-                $returnId_id = $token['returnId_id'];
-                $siteid = $token['site_id'];
-                $columns = array(
-                    'upload_type' => __FUNCTION__,
-                    'upload_data' =>serialize(compact('returnId_id', 'text', 'siteid')),
-                    'token' =>$token['token'],
-                    'create_time' =>time()
-                
-                );
-                $result1 = ReturnUploadQueueDAO::getInstance()->iinsert($columns,true);
-                $return = array('returnMsg'=>$result1);
-                //以下部分是插入我的操作日志表的代码
-        		$username = isset(Yii::app()->session['userInfo']['username']) ? Yii::app()->session['userInfo']['username'] : 0;
-        		if ($username !== 0) {
-        		    $paramArr['handle_user'] = $username;
-        		} else {
-         		    return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '用户未登陆');
-        		}
-        		$paramArr['return_id'] = $returnid;
-        		$paramArr['create_time'] = time();
-        		$paramArr['responseText'] =$text;
-        		$paramArr['handle_type'] = __FUNCTION__;
-        		$result2 = ReturnHandleLogDAO::getInstance()->insert($paramArr);
-                if ($result === false || $result1 === false || $result2 === false) {
-                    ReturnHistoryDAO::getInstance()->rollback();
-                    return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
-                } else {
-                    ReturnHistoryDAO::getInstance()->commit();
-                    return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $return, '');
-                }
-              } catch (Exception $e) {
-                   ReturnHistoryDAO::getInstance()->rollback();
-                   return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
-             }
-         }
-   
-   }
-   
-  /**
-   * @desc 申请ebay 介入
-   * @param string $returnid
-   * @param string $text
-   * @param string $reason
-   * @param string $sellerId
-   * @author liaojianwen
-   * @date 2015-07-01
-   */
-   public function returnAskHelp($returnid,$text,$reason,$sellerId)
-   {
-        if (empty($returnid) ||empty($reason) || empty($sellerId)) {
-            return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '数据不能为空');
-        }
-         $token = ReturnDAO::getInstance()->lawfulReturnID($returnid, $sellerId);
-         
-         if ($token === false) {
-            return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', 'returnid Error.');
-         } else {
-             ReturnHistoryDAO::getInstance()->begintransaction();
-             try{
-                $param['return_id'] = $returnid;
-                $param['creationDate'] = time();
-                $param['activity']='SELLER_ESCALATE';
-                $param['note'] = $text;
-                $param['author'] = 'SELLER';
-                $param['create_time'] =time();
-                $result = ReturnHistoryDAO::getInstance()->insert($param);
-                
-                $returnId_id = $token['returnId_id'];
-                $siteid = $token['site_id'];
-                $columns = array(
-                    'upload_type' => __FUNCTION__,
-                    'upload_data' =>serialize(compact('returnId_id', 'reason', 'text', 'siteid')),
-                    'token' =>$token['token'],
-                    'create_time' =>time()
-                
-                );
-                $result1 = ReturnUploadQueueDAO::getInstance()->iinsert($columns,true);
-                $return = array('returnEbayHelp'=>$result1);
-                //以下部分是插入我的操作日志表的代码
-        		$username = isset(Yii::app()->session['userInfo']['username']) ? Yii::app()->session['userInfo']['username'] : 0;
-        		if ($username !== 0) {
-        		    $paramArr['handle_user'] = $username;
-        		} else {
-         		    return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '用户未登陆');
-        		}
-        		$paramArr['return_id'] = $returnid;
-        		$paramArr['create_time'] = time();
-        		$paramArr['responseText'] =$text;
-        		$paramArr['reason'] =$reason;
-        		$paramArr['handle_type'] = __FUNCTION__;
-        		$result2 = ReturnHandleLogDAO::getInstance()->insert($paramArr);
-                if ($result === false || $result1 === false || $result2 === false) {
-                    ReturnHistoryDAO::getInstance()->rollback();
-                    return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
-                } else {
-                    ReturnHistoryDAO::getInstance()->commit();
-                    return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $return, '');
-                }
-             } catch (Exception $e) {
-                   ReturnHistoryDAO::getInstance()->rollback();
-                   return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
-             }
-         }
-   }
-   
-   /**
-    * @desc 拒绝returns
-    * @param string $returnid 
-    * @param string $text comments
-    * @param string $sellerId 
-    * @author liaojianwen
-    * @date 2015-08-10
-    * @return Ambigous <multitype:, boolean, multitype:string array string >
-    */
-   public function declineReturns($returnid,$text,$sellerId)
-   {
-       if(empty($returnid) || empty($sellerId)){
-           return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '数据不能为空');
-       }
-       $token = ReturnDAO::getInstance()->lawfulReturnID($returnid, $sellerId);
+        $token = ReturnDAO::getInstance()->lawfulReturnID($returnid, $sellerId);
         
-       if ($token === false) {
-           return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', 'returnid Error.');
-       } else {
-           ReturnHistoryDAO::getInstance()->begintransaction();
-           try{
-               $param['return_id'] = $returnid;
-               $param['creationDate'] = time();
-               $param['activity']='SELLER_DECLINE_REQUEST';
-               $param['note'] = $text;
-               $param['author'] = 'SELLER';
-               $param['create_time'] =time();
-               $result = ReturnHistoryDAO::getInstance()->insert($param);
-               
-               $returnId_id = $token['returnId_id'];
-               $siteid = $token['site_id'];
-               $columns = array(
-                   'upload_type' => __FUNCTION__,
-                   'upload_data' =>serialize(compact('returnId_id', 'text', 'siteid')),
-                   'token' =>$token['token'],
-                   'create_time' =>time()
-               
-               );
-               $result1 = ReturnUploadQueueDAO::getInstance()->iinsert($columns,true);
-               $return = array('returnDecline'=>$result1);
-               //以下部分是插入我的操作日志表的代码
-               $username = isset(Yii::app()->session['userInfo']['username']) ? Yii::app()->session['userInfo']['username'] : 0;
-               if ($username !== 0) {
-                   $paramArr['handle_user'] = $username;
-               } else {
-                   return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '用户未登陆');
-               }
-               $paramArr['return_id'] = $returnid;
-               $paramArr['create_time'] = time();
-               $paramArr['responseText'] =$text;
-               $paramArr['handle_type'] = __FUNCTION__;
-               $result2 = ReturnHandleLogDAO::getInstance()->insert($paramArr);
-               if ($result === false || $result1 === false || $result2 === false) {
-                   ReturnHistoryDAO::getInstance()->rollback();
-                   return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
-               } else {
-                   ReturnHistoryDAO::getInstance()->commit();
-                   return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $return, '');
-               }
+        if ($token === false) {
+            return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', 'returnid Error.');
+        } else {
+            ReturnHistoryDAO::getInstance()->begintransaction();
+            try {
+                $param['return_id'] = $returnid;
+                $param['creationDate'] = time();
+                $param['activity'] = 'SELLER_ESCALATE';
+                $param['note'] = $text;
+                $param['author'] = 'SELLER';
+                $param['create_time'] = time();
+                $result = ReturnHistoryDAO::getInstance()->insert($param);
+                
+                $returnId_id = $token['returnId_id'];
+                $siteid = $token['site_id'];
+                $columns = array(
+                    'upload_type' => __FUNCTION__,
+                    'upload_data' => serialize(compact('returnId_id', 'reason', 'text', 'siteid')),
+                    'token' => $token['token'],
+                    'create_time' => time()
+                );
+                $result1 = ReturnUploadQueueDAO::getInstance()->iinsert($columns, true);
+                $return = array(
+                    'returnEbayHelp' => $result1
+                );
+                // 以下部分是插入我的操作日志表的代码
+                $username = isset(Yii::app()->session['userInfo']['username']) ? Yii::app()->session['userInfo']['username'] : 0;
+                if ($username !== 0) {
+                    $paramArr['handle_user'] = $username;
+                } else {
+                    return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '用户未登陆');
+                }
+                $paramArr['return_id'] = $returnid;
+                $paramArr['create_time'] = time();
+                $paramArr['responseText'] = $text;
+                $paramArr['reason'] = $reason;
+                $paramArr['handle_type'] = __FUNCTION__;
+                $result2 = ReturnHandleLogDAO::getInstance()->insert($paramArr);
+                if ($result === false || $result1 === false || $result2 === false) {
+                    ReturnHistoryDAO::getInstance()->rollback();
+                    return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
+                } else {
+                    ReturnHistoryDAO::getInstance()->commit();
+                    return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $return, '');
+                }
             } catch (Exception $e) {
-                   ReturnHistoryDAO::getInstance()->rollback();
-                   return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
+                ReturnHistoryDAO::getInstance()->rollback();
+                return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
             }
-       }
-       
-       
-   }
+        }
+    }
+    
+    /**
+     * @desc 拒绝returns
+     * @param string $returnid 
+     * @param string $text comments
+     * @param string $sellerId 
+     * @author liaojianwen
+     * @date 2015-08-10
+     * @return Ambigous <multitype:, boolean, multitype:string array string >
+     */
+    public function declineReturns($returnid, $text, $sellerId)
+    {
+        if (empty($returnid) || empty($sellerId)) {
+            return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '数据不能为空');
+        }
+        $token = ReturnDAO::getInstance()->lawfulReturnID($returnid, $sellerId);
+        
+        if ($token === false) {
+            return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', 'returnid Error.');
+        } else {
+            ReturnHistoryDAO::getInstance()->begintransaction();
+            try {
+                $param['return_id'] = $returnid;
+                $param['creationDate'] = time();
+                $param['activity'] = 'SELLER_DECLINE_REQUEST';
+                $param['note'] = $text;
+                $param['author'] = 'SELLER';
+                $param['create_time'] = time();
+                $result = ReturnHistoryDAO::getInstance()->insert($param);
+                
+                $returnId_id = $token['returnId_id'];
+                $siteid = $token['site_id'];
+                $columns = array(
+                    'upload_type' => __FUNCTION__,
+                    'upload_data' => serialize(compact('returnId_id', 'text', 'siteid')),
+                    'token' => $token['token'],
+                    'create_time' => time()
+                );
+                $result1 = ReturnUploadQueueDAO::getInstance()->iinsert($columns, true);
+                $return = array(
+                    'returnDecline' => $result1
+                );
+                // 以下部分是插入我的操作日志表的代码
+                $username = isset(Yii::app()->session['userInfo']['username']) ? Yii::app()->session['userInfo']['username'] : 0;
+                if ($username !== 0) {
+                    $paramArr['handle_user'] = $username;
+                } else {
+                    return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '用户未登陆');
+                }
+                $paramArr['return_id'] = $returnid;
+                $paramArr['create_time'] = time();
+                $paramArr['responseText'] = $text;
+                $paramArr['handle_type'] = __FUNCTION__;
+                $result2 = ReturnHandleLogDAO::getInstance()->insert($paramArr);
+                if ($result === false || $result1 === false || $result2 === false) {
+                    ReturnHistoryDAO::getInstance()->rollback();
+                    return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
+                } else {
+                    ReturnHistoryDAO::getInstance()->commit();
+                    return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $return, '');
+                }
+            } catch (Exception $e) {
+                ReturnHistoryDAO::getInstance()->rollback();
+                return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
+            }
+        }
+    }
    
    /**
     * @desc 获取下一步操作
