@@ -268,7 +268,7 @@ class imsTool
             // $text = ob_get_clean();
             // $to = Yii::app()->params['logmails'];
             // SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
-            file_put_contents(BASE_PATH . '/filelog/' . date('Y-m-d_h.i.s_') . microtime(true) . '.log', $str);
+            file_put_contents(BASE_PATH . '/filelog/' . date('Y-m-d_h.i.s_') . md5($str) . '.log', $str);
         }
         return $str2;
     }
