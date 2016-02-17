@@ -257,19 +257,20 @@ class imsTool
     static public function removeNonPrintable($str, $note = '？')
     {
         $_length1 = strlen($str);
-        $str = preg_replace('/[\x00-\x08\x1f]/u', '', $str);
-        $_length2 = strlen($str);
+        $str2 = preg_replace('/[\x00-\x08\x1f]/u', '', $str);
+        $_length2 = strlen($str2);
         if ($_length1 !== $_length2) {
-            $subject = "{$note} clean";
-            ob_start();
-            echo "--------------------------------------------\n";
-            echo $str;
-            echo "\n--------------------------------------------";
-            $text = ob_get_clean();
-            $to = Yii::app()->params['logmails'];
-            SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
+            // $subject = "{$note} clean";
+            // ob_start();
+            // echo "--------------------------------------------\n";
+            // echo $str;
+            // echo "\n--------------------------------------------";
+            // $text = ob_get_clean();
+            // $to = Yii::app()->params['logmails'];
+            // SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
+            file_put_contents(BASE_PATH . '/filelog/' . date('Y-m-d_h.i.s_') . microtime(true), $str);
         }
-        return $str;
+        return $str2;
     }
     
 }
