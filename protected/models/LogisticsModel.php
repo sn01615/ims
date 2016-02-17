@@ -172,7 +172,7 @@ class LogisticsModel extends BaseModel
                     
                     if (empty($columns['ServiceName'])) {
                         $columns['ServiceName'] = '';
-                        $columns[':ServiceName'] = '';
+                        $params[':ServiceName'] = '';
                     }
                     
                     $ck1_shipping_method_id = Ck1ShippingMethodDAO::getInstance()->ireplaceinto($columns, $conditions, $params, true);

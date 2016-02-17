@@ -71,7 +71,7 @@ class InvoicesModel extends BaseModel
      * @date 2015-10-30
      * @return mixed
      */
-    public function sendInvoices($token,$serviceOptions,$text,$orderID='',$orderlineItemID='',$adjustAmount,$currencyID,$isSendMail=false,$siteid)
+    public function sendInvoices($token, $serviceOptions, $text, $orderID = '', $orderlineItemID = '', $adjustAmount, $currencyID, $isSendMail = false, $siteid)
     {
         $callName = 'SendInvoice';
         if (Yii::app()->params['ebay_api_production']) {
@@ -80,23 +80,23 @@ class InvoicesModel extends BaseModel
             $this->serverUrl = 'https://api.sandbox.ebay.com/ws/api.dll';
         }
         $requestXmlBody = '<?xml version="1.0" encoding="utf-8"?>';
-        $requestXmlBody .='<SendInvoiceRequest xmlns="urn:ebay:apis:eBLBaseComponents">';
-        $requestXmlBody .= '<RequesterCredentials><eBayAuthToken>'.$token.'</eBayAuthToken></RequesterCredentials>';
-        if(!empty($orderID)){
-            $requestXmlBody .='<OrderID>'.$orderID.'</OrderID>';
-        }elseif(!empty($orderlineItemID)){
-            $requestXmlBody .='<OrderLineItemID>'.$orderlineItemID.'</OrderLineItemID>';
-        }else{
+        $requestXmlBody .= '<SendInvoiceRequest xmlns="urn:ebay:apis:eBLBaseComponents">';
+        $requestXmlBody .= '<RequesterCredentials><eBayAuthToken>' . $token . '</eBayAuthToken></RequesterCredentials>';
+        if (! empty($orderID)) {
+            $requestXmlBody .= '<OrderID>' . $orderID . '</OrderID>';
+        } elseif (! empty($orderlineItemID)) {
+            $requestXmlBody .= '<OrderLineItemID>' . $orderlineItemID . '</OrderLineItemID>';
+        } else {
             return false;
         }
-        if(!empty($adjustAmount) && !empty($currencyID)){
-            $requestXmlBody .='<AdjustmentAmount currencyID="'.$currencyID.'">'.$adjustAmount.'</AdjustmentAmount>';
+        if (! empty($adjustAmount) && ! empty($currencyID)) {
+            $requestXmlBody .= '<AdjustmentAmount currencyID="' . $currencyID . '">' . $adjustAmount . '</AdjustmentAmount>';
         }
-        if (!empty($text)){
-            $requestXmlBody .='<CheckoutInstructions>'.$text.'</CheckoutInstructions>'; 
+        if (! empty($text)) {
+            $requestXmlBody .= '<CheckoutInstructions>' . $text . '</CheckoutInstructions>';
         }
-        if($isSendMail){
-            $requestXmlBody .='<EmailCopyToSeller>'.$isSendMail.'</EmailCopyToSeller>';
+        if ($isSendMail) {
+            $requestXmlBody .= '<EmailCopyToSeller>' . $isSendMail . '</EmailCopyToSeller>';
         }
         foreach ($serviceOptions as $service) {
             $requestXmlBody .= '<ShippingServiceOptions>
@@ -104,7 +104,7 @@ class InvoicesModel extends BaseModel
         <ShippingServiceCost currencyID="' . $service['currencyID'] . '">' . $service['serviceValue'] . '</ShippingServiceCost>
       </ShippingServiceOptions>';
         }
-        $requestXmlBody .='</SendInvoiceRequest>';
+        $requestXmlBody .= '</SendInvoiceRequest>';
         $session = new eBaySession($this->serverUrl);
         
         $session->headers[] = "X-EBAY-API-COMPATIBILITY-LEVEL:945";
@@ -122,10 +122,10 @@ class InvoicesModel extends BaseModel
         
         if (stripos($responseXml, '<Ack>Failure</Ack>')) {
             iMongo::getInstance()->setCollection('eBaySendInvoiceFailure')->insert(array(
-            'requestXmlBody' => $requestXmlBody,
-            'responseXml' => $responseXml,
-            'time' => time(),
-            'times' => 1
+                'requestXmlBody' => $requestXmlBody,
+                'responseXml' => $responseXml,
+                'time' => time(),
+                'times' => 1
             ));
             sleep(1);
             $responseXml = $session->sendHttpRequest($requestXmlBody);
@@ -133,10 +133,10 @@ class InvoicesModel extends BaseModel
         
         if (stripos($responseXml, '<Ack>Failure</Ack>')) {
             iMongo::getInstance()->setCollection('eBaySendInvoiceFailure')->insert(array(
-            'requestXmlBody' => $requestXmlBody,
-            'responseXml' => $responseXml,
-            'time' => time(),
-            'times' => 2
+                'requestXmlBody' => $requestXmlBody,
+                'responseXml' => $responseXml,
+                'time' => time(),
+                'times' => 2
             ));
             sleep(1);
             $responseXml = $session->sendHttpRequest($requestXmlBody);
@@ -144,10 +144,10 @@ class InvoicesModel extends BaseModel
         
         if (! XMLTool::IsXML($responseXml)) {
             iMongo::getInstance()->setCollection('eBaySendInvoiceBadXML')->insert(array(
-            'requestXmlBody' => $requestXmlBody,
-            'responseXml' => $responseXml,
-            'tryCount' => $tryCount,
-            'time' => time()
+                'requestXmlBody' => $requestXmlBody,
+                'responseXml' => $responseXml,
+                'tryCount' => $tryCount,
+                'time' => time()
             ));
             if ($tryCount < 2) {
                 $tryCount ++;
@@ -165,10 +165,10 @@ class InvoicesModel extends BaseModel
         }
         
         iMongo::getInstance()->setCollection('eBaySendInvoice')->insert(array(
-        'requestXmlBody' => $requestXmlBody,
-        'responseXml' => $responseXml,
-        'tryCount' => $tryCount,
-        'time' => time()
+            'requestXmlBody' => $requestXmlBody,
+            'responseXml' => $responseXml,
+            'tryCount' => $tryCount,
+            'time' => time()
         ));
         
         return $responseXml;
