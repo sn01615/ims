@@ -104,7 +104,7 @@ class CaseDetailModel extends BaseModel
             $shopidArr[] = $value['shop_id'];
         }
         $shopidArr = implode(',', $shopidArr);
-        $result['list'] = CaseHistoryDAO::getInstance()->getCaseHistory($caseid,$shopidArr);
+        $result['list'] = CaseResponseHistoryDAO::getInstance()->getCaseHistory($caseid,$shopidArr);
         foreach($result['list'] as &$value){
               $value['note_md5'] = md5(trim($value['note']));
               $value['activityDetial_description_md5'] = md5(trim($value['activityDetial_description']));
@@ -238,7 +238,7 @@ class CaseDetailModel extends BaseModel
             $number = CaseResponseHistoryDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar', array(), '', 'number desc');
             empty($number) ? $number = 1 : $number ++;
             
-            CaseHistoryDAO::getInstance()->begintransaction();
+            CaseResponseHistoryDAO::getInstance()->begintransaction();
             try {
                 $param['case_id'] = $caseId;
                 $param['number'] = $number;
@@ -246,7 +246,7 @@ class CaseDetailModel extends BaseModel
                 $param['note'] = $responseText;
                 $param['activityDetial_description'] = 'Seller offered another solution.';
                 $param['author_role'] = $role;
-                $result = CaseHistoryDAO::getInstance()->insert($param);
+                $result = CaseResponseHistoryDAO::getInstance()->insert($param);
                 
                 $siteid = $token['site_id'];
                 $disputeActivity = 'SellerComment'; // TODO 待确认
@@ -271,14 +271,14 @@ class CaseDetailModel extends BaseModel
                 $paramArr['handle_type'] = __FUNCTION__;
                 $result3 = CaseHandleLogDAO::getInstance()->insert($paramArr);
                 if ($result === false || $result2 === false || $result3 === false) {
-                    CaseHistoryDAO::getInstance()->rollback();
+                    CaseResponseHistoryDAO::getInstance()->rollback();
                     return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
                 } else {
-                    CaseHistoryDAO::getInstance()->commit();
+                    CaseResponseHistoryDAO::getInstance()->commit();
                     return $this->handleApiFormat(EnumOther::ACK_SUCCESS, '');
                 }
             } catch (Exception $e) {
-                CaseHistoryDAO::getInstance()->rollback();
+                CaseResponseHistoryDAO::getInstance()->rollback();
                 return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
             }
         }
@@ -315,7 +315,7 @@ class CaseDetailModel extends BaseModel
             $number = CaseResponseHistoryDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar', array(), '', 'number desc');
             empty($number) ? $number = 1 : $number ++;
             
-            CaseHistoryDAO::getInstance()->begintransaction();
+            CaseResponseHistoryDAO::getInstance()->begintransaction();
             try {
                 $param['case_id'] = $caseId;
                 $param['number'] = $number;
@@ -323,7 +323,7 @@ class CaseDetailModel extends BaseModel
                 $param['note'] = $responseText;
                 $param['activityDetial_description'] = 'Seller provided tracking information for shipment.';
                 $param['author_role'] = $role;
-                $result = CaseHistoryDAO::getInstance()->insert($param);
+                $result = CaseResponseHistoryDAO::getInstance()->insert($param);
                 $columns = array(
                     'upload_type' => __FUNCTION__,
                     'upload_data' => serialize(compact('caseId_id', 'caseType', 'role', 'carrier', 'trackingNum', 'responseText')),
@@ -347,14 +347,14 @@ class CaseDetailModel extends BaseModel
                 $paramArr['carrier'] = $carrier;
                 $result3 = CaseHandleLogDAO::getInstance()->insert($paramArr);
                 if ($result === false || $result2 === false || $result3 === false) {
-                    CaseHistoryDAO::getInstance()->rollback();
+                    CaseResponseHistoryDAO::getInstance()->rollback();
                     return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
                 } else {
-                    CaseHistoryDAO::getInstance()->commit();
+                    CaseResponseHistoryDAO::getInstance()->commit();
                     return $this->handleApiFormat(EnumOther::ACK_SUCCESS, '');
                 }
             } catch (Exception $e) {
-                CaseHistoryDAO::getInstance()->rollback();
+                CaseResponseHistoryDAO::getInstance()->rollback();
                 return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
             }
         }
@@ -391,7 +391,7 @@ class CaseDetailModel extends BaseModel
             $number = CaseResponseHistoryDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar', array(), '', 'number desc');
             empty($number) ? $number = 1 : $number ++;
             
-            CaseHistoryDAO::getInstance()->begintransaction();
+            CaseResponseHistoryDAO::getInstance()->begintransaction();
             try {
                 $param['case_id'] = $caseId;
                 $param['number'] = $number;
@@ -399,7 +399,7 @@ class CaseDetailModel extends BaseModel
                 $param['note'] = $responseText;
                 $param['activityDetial_description'] = 'Seller provided shipping information.';
                 $param['author_role'] = $role;
-                $result = CaseHistoryDAO::getInstance()->insert($param);
+                $result = CaseResponseHistoryDAO::getInstance()->insert($param);
                 $columns = array(
                     'upload_type' => __FUNCTION__,
                     'upload_data' => serialize(compact('caseId_id', 'caseType', 'role', 'carrier', 'shipdate', 'responseText')),
@@ -423,14 +423,14 @@ class CaseDetailModel extends BaseModel
         		$paramArr['carrier'] = $carrier;
         		$result3 = CaseHandleLogDAO::getInstance()->insert($paramArr);
                 if ($result === false || $result2 === false || $result3 === false) {
-                    CaseHistoryDAO::getInstance()->rollback();
+                    CaseResponseHistoryDAO::getInstance()->rollback();
                     return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
                 } else {
-                    CaseHistoryDAO::getInstance()->commit();
+                    CaseResponseHistoryDAO::getInstance()->commit();
                     return $this->handleApiFormat(EnumOther::ACK_SUCCESS, '');
                 }
             } catch (Exception $e) {
-                CaseHistoryDAO::getInstance()->rollback();
+                CaseResponseHistoryDAO::getInstance()->rollback();
                 return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
             }
         }
@@ -465,7 +465,7 @@ class CaseDetailModel extends BaseModel
             $number = CaseResponseHistoryDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar', array(), '', 'number desc');
             empty($number) ? $number = 1 : $number ++;
             
-            CaseHistoryDAO::getInstance()->begintransaction();
+            CaseResponseHistoryDAO::getInstance()->begintransaction();
             try {
                 $param['case_id'] = $caseId;
                 $param['number'] = $number;
@@ -473,7 +473,7 @@ class CaseDetailModel extends BaseModel
                 $param['note'] = $responseText;
                 $param['activityDetial_description'] = 'Seller issued full refund to buyer.';
                 $param['author_role'] = $role;
-                $result = CaseHistoryDAO::getInstance()->insert($param);
+                $result = CaseResponseHistoryDAO::getInstance()->insert($param);
                 $columns = array(
                     'upload_type' => __FUNCTION__,
                     'upload_data' => serialize(compact('caseId_id', 'caseType', 'role', 'responseText')),
@@ -495,14 +495,14 @@ class CaseDetailModel extends BaseModel
                 $paramArr['handle_type'] = __FUNCTION__;
                 $result3 = CaseHandleLogDAO::getInstance()->insert($paramArr);
                 if ($result === false || $result2 === false || $result3 === false) {
-                    CaseHistoryDAO::getInstance()->rollback();
+                    CaseResponseHistoryDAO::getInstance()->rollback();
                     return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
                 } else {
-                    CaseHistoryDAO::getInstance()->commit();
+                    CaseResponseHistoryDAO::getInstance()->commit();
                     return $this->handleApiFormat(EnumOther::ACK_SUCCESS, '');
                 }
             } catch (Exception $e) {
-                CaseHistoryDAO::getInstance()->rollback();
+                CaseResponseHistoryDAO::getInstance()->rollback();
                 return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
             }
         }
@@ -538,7 +538,7 @@ class CaseDetailModel extends BaseModel
             $number = CaseResponseHistoryDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar', array(), '', 'number desc');
             empty($number) ? $number = 1 : $number ++;
             
-            CaseHistoryDAO::getInstance()->begintransaction();
+            CaseResponseHistoryDAO::getInstance()->begintransaction();
             try {
                 $param['case_id'] = $caseId;
                 $param['number'] = $number;
@@ -546,7 +546,7 @@ class CaseDetailModel extends BaseModel
                 $param['note'] = $responseText;
                 $param['activityDetial_description'] = 'Seller issued partial refund to buyer.';
                 $param['author_role'] = $role;
-                $result = CaseHistoryDAO::getInstance()->insert($param);
+                $result = CaseResponseHistoryDAO::getInstance()->insert($param);
                 $columns = array(
                     'upload_type' => __FUNCTION__,
                     'upload_data' => serialize(compact('caseId_id', 'caseType', 'role', 'amount', 'responseText')),
@@ -569,14 +569,14 @@ class CaseDetailModel extends BaseModel
         		$paramArr['amount'] = $amount;
         		$result3 = CaseHandleLogDAO::getInstance()->insert($paramArr);
                 if ($result === false || $result2 === false || $result3 === false) {
-                    CaseHistoryDAO::getInstance()->rollback();
+                    CaseResponseHistoryDAO::getInstance()->rollback();
                     return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
                 } else {
-                    CaseHistoryDAO::getInstance()->commit();
+                    CaseResponseHistoryDAO::getInstance()->commit();
                     return $this->handleApiFormat(EnumOther::ACK_SUCCESS, '');
                 }
             } catch (Exception $e) {
-                CaseHistoryDAO::getInstance()->rollback();
+                CaseResponseHistoryDAO::getInstance()->rollback();
                 return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
             }
         }
@@ -611,7 +611,7 @@ class CaseDetailModel extends BaseModel
             $number = CaseResponseHistoryDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar', array(), '', 'number desc');
             empty($number) ? $number = 1 : $number ++;
             
-            CaseHistoryDAO::getInstance()->begintransaction();
+            CaseResponseHistoryDAO::getInstance()->begintransaction();
             try {
                 $country = $address['country'];
                 $state = $address['state'];
@@ -627,7 +627,7 @@ class CaseDetailModel extends BaseModel
                 $param['note'] = $responseText;
                 $param['activityDetial_description'] = 'Seller provide return address and issued a refund.';
                 $param['author_role'] = $role;
-                $result = CaseHistoryDAO::getInstance()->insert($param);
+                $result = CaseResponseHistoryDAO::getInstance()->insert($param);
                 $columns = array(
                     'upload_type' => __FUNCTION__,
                     'upload_data' => serialize(compact('caseId_id', 'caseType', 'role', 'responseText', 'country', 'state', 'city', 'street', 'street2', 'contractName', 'postcode', 'merchatAuth')),
@@ -649,14 +649,14 @@ class CaseDetailModel extends BaseModel
                 $paramArr['handle_type'] = __FUNCTION__;
                 $result3 = CaseHandleLogDAO::getInstance()->insert($paramArr);
                 if ($result === false || $result2 === false || $result3 === false) {
-                    CaseHistoryDAO::getInstance()->rollback();
+                    CaseResponseHistoryDAO::getInstance()->rollback();
                     return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
                 } else {
-                    CaseHistoryDAO::getInstance()->commit();
+                    CaseResponseHistoryDAO::getInstance()->commit();
                     return $this->handleApiFormat(EnumOther::ACK_SUCCESS, '');
                 }
             } catch (Exception $e) {
-                CaseHistoryDAO::getInstance()->rollback();
+                CaseResponseHistoryDAO::getInstance()->rollback();
                 return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
             }
         }
@@ -692,7 +692,7 @@ class CaseDetailModel extends BaseModel
             $number = CaseResponseHistoryDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar', array(), '', 'number desc');
             empty($number) ? $number = 1 : $number ++;
             
-            CaseHistoryDAO::getInstance()->begintransaction();
+            CaseResponseHistoryDAO::getInstance()->begintransaction();
             try {
                 $param['case_id'] = $caseId;
                 $param['number'] = $number;
@@ -700,7 +700,7 @@ class CaseDetailModel extends BaseModel
                 $param['note'] = $responseText;
                 $param['activityDetial_description'] = 'Seller ask ebay help';
                 $param['author_role'] = $role;
-                $result = CaseHistoryDAO::getInstance()->insert($param);
+                $result = CaseResponseHistoryDAO::getInstance()->insert($param);
                 $columns = array(
                     'upload_type' => __FUNCTION__,
                     'upload_data' => serialize(compact('caseId_id', 'caseType', 'role', 'reason', 'responseText')),
@@ -723,14 +723,14 @@ class CaseDetailModel extends BaseModel
         		$paramArr['reason'] = $reason;
         		$result3 = CaseHandleLogDAO::getInstance()->insert($paramArr);
                 if ($result === false || $result2 === false || $result3 === false) {
-                    CaseHistoryDAO::getInstance()->rollback();
+                    CaseResponseHistoryDAO::getInstance()->rollback();
                     return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
                 } else {
-                    CaseHistoryDAO::getInstance()->commit();
+                    CaseResponseHistoryDAO::getInstance()->commit();
                     return $this->handleApiFormat(EnumOther::ACK_SUCCESS, '');
                 }
             } catch (Exception $e) {
-                CaseHistoryDAO::getInstance()->rollback();
+                CaseResponseHistoryDAO::getInstance()->rollback();
                 return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
             }
         }
@@ -780,7 +780,7 @@ class CaseDetailModel extends BaseModel
             $number = CaseResponseHistoryDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar', array(), '', 'number desc');
             empty($number) ? $number = 1 : $number ++;
             
-            CaseHistoryDAO::getInstance()->begintransaction();
+            CaseResponseHistoryDAO::getInstance()->begintransaction();
             try {
                 $name = $addr['name'];
                 $street1 = $addr['street1'];
@@ -795,7 +795,7 @@ class CaseDetailModel extends BaseModel
                 $param['creationDate'] = time();
                 $param['activityDetial_description'] = 'Seller provided return address.';
                 $param['author_role'] = 'SELLER';
-                $result = CaseHistoryDAO::getInstance()->insert($param);
+                $result = CaseResponseHistoryDAO::getInstance()->insert($param);
                 $columns = array(
                     'upload_type' => __FUNCTION__,
                     'upload_data' => serialize(compact('caseId_id', 'caseType', 'name', 'street1', 'street2','city','stateOrProvince','country','postalCode','returnMerchandiseAuthorization')),
@@ -816,14 +816,14 @@ class CaseDetailModel extends BaseModel
         		$paramArr['handle_type'] = __FUNCTION__;
         		$result3 = CaseHandleLogDAO::getInstance()->insert($paramArr);
                 if ($result === false || $result2 === false || $result3 === false) {
-                    CaseHistoryDAO::getInstance()->rollback();
+                    CaseResponseHistoryDAO::getInstance()->rollback();
                     return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
                 } else {
-                    CaseHistoryDAO::getInstance()->commit();
+                    CaseResponseHistoryDAO::getInstance()->commit();
                     return $this->handleApiFormat(EnumOther::ACK_SUCCESS, '');
                 }
              } catch (Exception $e) {
-                CaseHistoryDAO::getInstance()->rollback();
+                CaseResponseHistoryDAO::getInstance()->rollback();
                 return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
             }
         }
@@ -858,7 +858,7 @@ class CaseDetailModel extends BaseModel
             $number = CaseResponseHistoryDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar', array(), '', 'number desc');
             empty($number) ? $number = 1 : $number ++;
             
-            CaseHistoryDAO::getInstance()->begintransaction();
+            CaseResponseHistoryDAO::getInstance()->begintransaction();
             try {
                 $param['case_id'] = $caseId;
                 $param['number'] = $number;
@@ -866,7 +866,7 @@ class CaseDetailModel extends BaseModel
                 $param['note'] = $responseText;
                 $param['activityDetial_description'] = 'Seller appeal for help';
                 $param['author_role'] = 'SELLER';
-                $result = CaseHistoryDAO::getInstance()->insert($param);
+                $result = CaseResponseHistoryDAO::getInstance()->insert($param);
                 $columns = array(
                     'upload_type' => __FUNCTION__,
                     'upload_data' => serialize(compact('caseId_id', 'caseType', 'appealReason', 'responseText')),
@@ -889,14 +889,14 @@ class CaseDetailModel extends BaseModel
                 $paramArr['reason'] = $appealReason;
                 $result3 = CaseHandleLogDAO::getInstance()->insert($paramArr);
                 if ($result === false || $result2 === false || $result3 === false) {
-                    CaseHistoryDAO::getInstance()->rollback();
+                    CaseResponseHistoryDAO::getInstance()->rollback();
                     return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
                 } else {
-                    CaseHistoryDAO::getInstance()->commit();
+                    CaseResponseHistoryDAO::getInstance()->commit();
                     return $this->handleApiFormat(EnumOther::ACK_SUCCESS, '');
                 }
             } catch (Exception $e) {
-                CaseHistoryDAO::getInstance()->rollback();
+                CaseResponseHistoryDAO::getInstance()->rollback();
                 return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
             }
         }
