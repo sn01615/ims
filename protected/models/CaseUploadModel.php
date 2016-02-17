@@ -536,7 +536,7 @@ class CaseUploadModel extends BaseModel
             iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
                 'type' => 'Err2',
                 'Queue' => serialize($Queue),
-                'uploadData'=>$uploadData,
+                'uploadData' => $uploadData,
                 'time' => time()
             ));
             return false;
@@ -551,7 +551,7 @@ class CaseUploadModel extends BaseModel
             iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
                 'type' => 'Success',
                 'Queue' => serialize($Queue),
-                'uploadData'=>$uploadData,
+                'uploadData' => $uploadData,
                 'xml' => $result,
                 'time' => time()
             ));
@@ -571,7 +571,7 @@ class CaseUploadModel extends BaseModel
             iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
                 'type' => 'Err',
                 'Queue' => serialize($Queue),
-                'uploadData'=>$uploadData,
+                'uploadData' => $uploadData,
                 'xml' => $result,
                 'time' => time()
             ));
