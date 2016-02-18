@@ -159,6 +159,7 @@ class TestController extends Controller
         $toDate = time() - 3600 * 24 * 888 + 3600 * 24;
         
         $token = 'AgAAAA**AQAAAA**aAAAAA**lP4+VQ**nY+sHZ2PrBmdj6wVnY+sEZ2PrA2dj6AElYGkAZKFogydj6x9nY+seQ**+uQAAA**AAMAAA**+P6R0gQ0z30XPNdYXYVHcHueeIp9vlyg2uN9lhDlJFwQ4KGhzl9trw013I91BCGemaTzUEHdArF0yUFZV6qHMdY9Vme/Ii4sUD9YmjwsYDKiX3Tr7e6wnfvGqO7HJtL8jGPb/iyciMiBMFBZRLaK3BQzYCTgQrsRVWrkZXkCaSCPKpKqhPtqa8Qv7sbBHmqCGkaGHW2eEqZTQWYCVua1kmi74XbU4JFvHEzZy+JRtn620er5vDoA8l+5zKzpQR2ofxnteFd2gO5g5GQsGi7pWr5vAsBD2lLPuaWgcoH2IDrwBfsoi3XTAEqQfwWJLRU2fR2z399NwnVJxmJZYYZJyarfgbLsroRzALoh67ld46auITYSPDx/tdWQQ0v8miebxyR+Ev9drivX7Iev6+ujjTitJMM4hbDMQP4wUGwv6fObhkkpgSkprNpnpQtwYgqJnkVyoPi4VgKJjVkn2zZMYxvzZsGv83T9lm3esSST1y3wbnQbFoVxWbmIwax0ybsLIQ8j2HIIlO+7DGpyRcX2vcQgP4HJSWt1fMW5JkOxZj25YNLONhDRfxR/9lmniO8eEcVbX4G4nf6XL/RUrys3+jwBmlZC7Bwcjvdz5YVlwbvY/2aA/ubshj6fgCVvTL/+gfA4GxlhW+3ucF/xLWoLm14ysKaFb6inxBeAGL1zw9a5fjVsaetIG8GRxFms7ICX/M//HxH5h5bMzUDu7S2qApLA7xcK0ng9HFuNeFsc39KZZLwuJZnWCn5sSB1KFZci';
+        $token = 'AgAAAA**AQAAAA**aAAAAA**hVSXVg**nY+sHZ2PrBmdj6wVnY+sEZ2PrA2dj6AGl4qoCJaAqAWdj6x9nY+seQ**B8ICAA**AAMAAA**LrNsub/MnPvFk2Srr358lgIM4BmhhzrF1kpqT6rNDS9QvEAkH+NDj+zrhnzjiErhnkkAaz8nWCg0lhiQUVRAMMDAGnOLhda7p3/UKu0tOVy3HMm8m76Dtg0x7kbzeEaJPXBWvRPYuFV6EihYoMJ8cqB9Joa6AJBTpqjQs8NrjYHs9b+HIKjAeYFxeWtPHHyqhXdnpn9u0p4qQ74xZrZE3dmXRsDash2J4cdgzR3G1umWMacHpCfBZIV0w0BMPx3/oiJnnUh2+TKjYVmdtyyNiX5UrF7dryIKuj5tegFhTyDhTt4uoGRWBGVna4n/E5IKp5mHqDqmovqgrcyp8p63StCvgA/j3XsTYD9aLNdJGAVGr9uff109mA3hwKzR7q8Hn4zUOrv6mfmqfOY20yr4/3G0RUPIii5wGIQv6X6KVJXMIhx3oRmUZgC63IDHfMvdyA6yK3riEVu1HPuC7WcqNt2vnkPs1uz2nFh/enz4fD4gUHJe6Ht7qj1ezwKw4W3+QthxreF3sdzq1NlyHZa+cZ2Hq6eTF7BPVKhSeKH1gTwM5OWnC6HWIz/DC6+LlvJDHXKiSSOI/RS4h84apob3ndFYE4r3lACDeTHw6gYbjgllITLTQdJMwq2HIEi3+PwqtJSpEp0LCZ6i/KAKM2NskRLqunaj8P05t+NTJR5CR5N5mtyLCUpkqSU8J4cf041qsueAfdaZD90W0pOyqFCltbh6xICKsMJSUJNWJjRaU2EfM9Unthon1qCKlcGyoHAz';
         // $token = 'AgAAAA**AQAAAA**aAAAAA**3U5IVg**nY+sHZ2PrBmdj6wVnY+sEZ2PrA2dj6AHlYekC5eAogWdj6x9nY+seQ**B8ICAA**AAMAAA**35EtFx9HksbeLsXDLdYKTKgdVZUGV+E855j+gAF9AzgEbJ54VkZcp87Z9Pbk0TQHGWQrcGSMsPoFz+ESJ+aUXECo5DCKUHdGLD3yXtRyt3+HAsJ3R7DRYdpxFN/y2k+vi+U56i8Hsm3C6btSXohyGkJF9HAPiJJCutDKYCMPIdVY5mCd8L04rD7O6+nGytj0DPxLtR3CvfCTRH9dMPh3xfFg3nW9x6M3oF+mUBFUK923dDk/p0P4Tq6bnBfCwjIF+qiTfAFRn4Vm4Q8y+RGl43BJs3QW8SSj6WfvgbarByKwguRV+f8ua/3Ftvv41eshzF3dk00VKf6dpx6IAzdRmgzJj08HljQdZHCmsZOhphTAPpSSBN9D3iIUNh/E//+f2nTBVLecZrP0aKwMZEEBkf+X4L2NIx6gwPacyEmrKWmKYZwk4/H+Y0fYhvQyJnaUeGbCS4ow5Kkt4WzeV19xaXGPxMwr1xRF9k1qj6Ku4fq4RZQ4Aw5D3TeyTsx36ZGf+uCkDn3Y4zSlM19EpvDNuGx9f4vUK/mL86CFBB/jjbbaLNDSQDUa95QO4yy8qDzQlqYQl+fOPOFF88UR85RN4idjvbEPyBJQv08+Fa7ivPjF17r7y0iJ52V+xyUIg1HztOoB7yDS6BHWPAsrQRLwg8zflMjvAWGfmiv+LUvSqz32Cd0kGeR6xOlbZ3TOE3xTv6t5R3t/pso804QcE/kuw1NWAJGKvUERdIwvI6bK6SOWZZnnW3FvAqIOaGESXUGG';
         echo CaseDownModel::model()->getUserCases($fromDate, $toDate, $token);
     }
@@ -167,12 +168,21 @@ class TestController extends Controller
     {
         imsTool::xmlHeader();
         
-        $fromDate = time() - 3600 * 24 * 30;
-        $toDate = time();
+        $token = 'AgAAAA**AQAAAA**aAAAAA**lP4+VQ**nY+sHZ2PrBmdj6wVnY+sEZ2PrA2dj6AElYGkAZKFogydj6x9nY+seQ**+uQAAA**AAMAAA**+P6R0gQ0z30XPNdYXYVHcHueeIp9vlyg2uN9lhDlJFwQ4KGhzl9trw013I91BCGemaTzUEHdArF0yUFZV6qHMdY9Vme/Ii4sUD9YmjwsYDKiX3Tr7e6wnfvGqO7HJtL8jGPb/iyciMiBMFBZRLaK3BQzYCTgQrsRVWrkZXkCaSCPKpKqhPtqa8Qv7sbBHmqCGkaGHW2eEqZTQWYCVua1kmi74XbU4JFvHEzZy+JRtn620er5vDoA8l+5zKzpQR2ofxnteFd2gO5g5GQsGi7pWr5vAsBD2lLPuaWgcoH2IDrwBfsoi3XTAEqQfwWJLRU2fR2z399NwnVJxmJZYYZJyarfgbLsroRzALoh67ld46auITYSPDx/tdWQQ0v8miebxyR+Ev9drivX7Iev6+ujjTitJMM4hbDMQP4wUGwv6fObhkkpgSkprNpnpQtwYgqJnkVyoPi4VgKJjVkn2zZMYxvzZsGv83T9lm3esSST1y3wbnQbFoVxWbmIwax0ybsLIQ8j2HIIlO+7DGpyRcX2vcQgP4HJSWt1fMW5JkOxZj25YNLONhDRfxR/9lmniO8eEcVbX4G4nf6XL/RUrys3+jwBmlZC7Bwcjvdz5YVlwbvY/2aA/ubshj6fgCVvTL/+gfA4GxlhW+3ucF/xLWoLm14ysKaFb6inxBeAGL1zw9a5fjVsaetIG8GRxFms7ICX/M//HxH5h5bMzUDu7S2qApLA7xcK0ng9HFuNeFsc39KZZLwuJZnWCn5sSB1KFZci';
+        $token = 'AgAAAA**AQAAAA**aAAAAA**hVSXVg**nY+sHZ2PrBmdj6wVnY+sEZ2PrA2dj6AGl4qoCJaAqAWdj6x9nY+seQ**B8ICAA**AAMAAA**LrNsub/MnPvFk2Srr358lgIM4BmhhzrF1kpqT6rNDS9QvEAkH+NDj+zrhnzjiErhnkkAaz8nWCg0lhiQUVRAMMDAGnOLhda7p3/UKu0tOVy3HMm8m76Dtg0x7kbzeEaJPXBWvRPYuFV6EihYoMJ8cqB9Joa6AJBTpqjQs8NrjYHs9b+HIKjAeYFxeWtPHHyqhXdnpn9u0p4qQ74xZrZE3dmXRsDash2J4cdgzR3G1umWMacHpCfBZIV0w0BMPx3/oiJnnUh2+TKjYVmdtyyNiX5UrF7dryIKuj5tegFhTyDhTt4uoGRWBGVna4n/E5IKp5mHqDqmovqgrcyp8p63StCvgA/j3XsTYD9aLNdJGAVGr9uff109mA3hwKzR7q8Hn4zUOrv6mfmqfOY20yr4/3G0RUPIii5wGIQv6X6KVJXMIhx3oRmUZgC63IDHfMvdyA6yK3riEVu1HPuC7WcqNt2vnkPs1uz2nFh/enz4fD4gUHJe6Ht7qj1ezwKw4W3+QthxreF3sdzq1NlyHZa+cZ2Hq6eTF7BPVKhSeKH1gTwM5OWnC6HWIz/DC6+LlvJDHXKiSSOI/RS4h84apob3ndFYE4r3lACDeTHw6gYbjgllITLTQdJMwq2HIEi3+PwqtJSpEp0LCZ6i/KAKM2NskRLqunaj8P05t+NTJR5CR5N5mtyLCUpkqSU8J4cf041qsueAfdaZD90W0pOyqFCltbh6xICKsMJSUJNWJjRaU2EfM9Unthon1qCKlcGyoHAz';
+        echo CaseDownModel::model()->getEBPCaseDetail('5099859375', 'EBP_INR', $token);
+    }
+
+    public function actionTest9r()
+    {
+        imsTool::xmlHeader();
         
         $token = 'AgAAAA**AQAAAA**aAAAAA**lP4+VQ**nY+sHZ2PrBmdj6wVnY+sEZ2PrA2dj6AElYGkAZKFogydj6x9nY+seQ**+uQAAA**AAMAAA**+P6R0gQ0z30XPNdYXYVHcHueeIp9vlyg2uN9lhDlJFwQ4KGhzl9trw013I91BCGemaTzUEHdArF0yUFZV6qHMdY9Vme/Ii4sUD9YmjwsYDKiX3Tr7e6wnfvGqO7HJtL8jGPb/iyciMiBMFBZRLaK3BQzYCTgQrsRVWrkZXkCaSCPKpKqhPtqa8Qv7sbBHmqCGkaGHW2eEqZTQWYCVua1kmi74XbU4JFvHEzZy+JRtn620er5vDoA8l+5zKzpQR2ofxnteFd2gO5g5GQsGi7pWr5vAsBD2lLPuaWgcoH2IDrwBfsoi3XTAEqQfwWJLRU2fR2z399NwnVJxmJZYYZJyarfgbLsroRzALoh67ld46auITYSPDx/tdWQQ0v8miebxyR+Ev9drivX7Iev6+ujjTitJMM4hbDMQP4wUGwv6fObhkkpgSkprNpnpQtwYgqJnkVyoPi4VgKJjVkn2zZMYxvzZsGv83T9lm3esSST1y3wbnQbFoVxWbmIwax0ybsLIQ8j2HIIlO+7DGpyRcX2vcQgP4HJSWt1fMW5JkOxZj25YNLONhDRfxR/9lmniO8eEcVbX4G4nf6XL/RUrys3+jwBmlZC7Bwcjvdz5YVlwbvY/2aA/ubshj6fgCVvTL/+gfA4GxlhW+3ucF/xLWoLm14ysKaFb6inxBeAGL1zw9a5fjVsaetIG8GRxFms7ICX/M//HxH5h5bMzUDu7S2qApLA7xcK0ng9HFuNeFsc39KZZLwuJZnWCn5sSB1KFZci';
-        $token = 'AgAAAA**AQAAAA**aAAAAA**lP4+VQ**nY+sHZ2PrBmdj6wVnY+sEZ2PrA2dj6AElYGkAZKFogydj6x9nY+seQ**+uQAAA**AAMAAA**+P6R0gQ0z30XPNdYXYVHcHueeIp9vlyg2uN9lhDlJFwQ4KGhzl9trw013I91BCGemaTzUEHdArF0yUFZV6qHMdY9Vme/Ii4sUD9YmjwsYDKiX3Tr7e6wnfvGqO7HJtL8jGPb/iyciMiBMFBZRLaK3BQzYCTgQrsRVWrkZXkCaSCPKpKqhPtqa8Qv7sbBHmqCGkaGHW2eEqZTQWYCVua1kmi74XbU4JFvHEzZy+JRtn620er5vDoA8l+5zKzpQR2ofxnteFd2gO5g5GQsGi7pWr5vAsBD2lLPuaWgcoH2IDrwBfsoi3XTAEqQfwWJLRU2fR2z399NwnVJxmJZYYZJyarfgbLsroRzALoh67ld46auITYSPDx/tdWQQ0v8miebxyR+Ev9drivX7Iev6+ujjTitJMM4hbDMQP4wUGwv6fObhkkpgSkprNpnpQtwYgqJnkVyoPi4VgKJjVkn2zZMYxvzZsGv83T9lm3esSST1y3wbnQbFoVxWbmIwax0ybsLIQ8j2HIIlO+7DGpyRcX2vcQgP4HJSWt1fMW5JkOxZj25YNLONhDRfxR/9lmniO8eEcVbX4G4nf6XL/RUrys3+jwBmlZC7Bwcjvdz5YVlwbvY/2aA/ubshj6fgCVvTL/+gfA4GxlhW+3ucF/xLWoLm14ysKaFb6inxBeAGL1zw9a5fjVsaetIG8GRxFms7ICX/M//HxH5h5bMzUDu7S2qApLA7xcK0ng9HFuNeFsc39KZZLwuJZnWCn5sSB1KFZci';
-        echo CaseDownModel::model()->getEBPCaseDetail('5093834383', 'EBP_INR', $token);
+        $token = 'AgAAAA**AQAAAA**aAAAAA**hVSXVg**nY+sHZ2PrBmdj6wVnY+sEZ2PrA2dj6AGl4qoCJaAqAWdj6x9nY+seQ**B8ICAA**AAMAAA**LrNsub/MnPvFk2Srr358lgIM4BmhhzrF1kpqT6rNDS9QvEAkH+NDj+zrhnzjiErhnkkAaz8nWCg0lhiQUVRAMMDAGnOLhda7p3/UKu0tOVy3HMm8m76Dtg0x7kbzeEaJPXBWvRPYuFV6EihYoMJ8cqB9Joa6AJBTpqjQs8NrjYHs9b+HIKjAeYFxeWtPHHyqhXdnpn9u0p4qQ74xZrZE3dmXRsDash2J4cdgzR3G1umWMacHpCfBZIV0w0BMPx3/oiJnnUh2+TKjYVmdtyyNiX5UrF7dryIKuj5tegFhTyDhTt4uoGRWBGVna4n/E5IKp5mHqDqmovqgrcyp8p63StCvgA/j3XsTYD9aLNdJGAVGr9uff109mA3hwKzR7q8Hn4zUOrv6mfmqfOY20yr4/3G0RUPIii5wGIQv6X6KVJXMIhx3oRmUZgC63IDHfMvdyA6yK3riEVu1HPuC7WcqNt2vnkPs1uz2nFh/enz4fD4gUHJe6Ht7qj1ezwKw4W3+QthxreF3sdzq1NlyHZa+cZ2Hq6eTF7BPVKhSeKH1gTwM5OWnC6HWIz/DC6+LlvJDHXKiSSOI/RS4h84apob3ndFYE4r3lACDeTHw6gYbjgllITLTQdJMwq2HIEi3+PwqtJSpEp0LCZ6i/KAKM2NskRLqunaj8P05t+NTJR5CR5N5mtyLCUpkqSU8J4cf041qsueAfdaZD90W0pOyqFCltbh6xICKsMJSUJNWJjRaU2EfM9Unthon1qCKlcGyoHAz';
+        
+        $comments = '';
+        
+        echo CaseDownModel::model()->issueFullRefund('5099859375', 'EBP_INR', $comments, $token);
     }
 
     public function actionTest10()
@@ -200,7 +210,7 @@ class TestController extends Controller
     public function actionTest12()
     {
         $key = 1111;
-//         var_dump(CRedisHelper::getInstance()->set($key,8888,10));
+        // var_dump(CRedisHelper::getInstance()->set($key,8888,10));
         var_dump(CRedisHelper::getInstance()->get($key));
     }
 
