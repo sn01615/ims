@@ -162,12 +162,12 @@ class LogisticsModel extends BaseModel
                     
                     if (empty($columns['ServiceCode']) || empty($columns['ServiceName'])) {
                         // 发送邮件通知
-                        ob_start();
-                        echo json_encode($result);
-                        $text = ob_get_clean();
-                        $subject = "Ck1ShippingMethod 数据异常";
-                        $to = Yii::app()->params['logmails'];
-                        SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
+                        // ob_start();
+                        // echo json_encode($result);
+                        // $text = ob_get_clean();
+                        // $subject = "Ck1ShippingMethod 数据异常";
+                        // $to = Yii::app()->params['logmails'];
+                        // SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
                     }
                     
                     if (empty($columns['ServiceName'])) {
