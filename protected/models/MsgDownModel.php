@@ -205,7 +205,7 @@ class MsgDownModel extends BaseModel
             return false;
         }
 
-        if (stripos($responseXml, '<ErrorClassification>SystemError</ErrorClassification>')) {
+        if (stripos($responseXml, '<ErrorClassification>SystemError</ErrorClassification>') && ! stripos($responseXml, '<ErrorCode>20118</ErrorCode>')) {
             if ($tryCount < 15) {
                 $tryCount ++;
                 sleep(5);
@@ -1532,13 +1532,15 @@ class MsgDownModel extends BaseModel
                             ->html()),
                         'time' => time()
                     ));
+                } elseif (pq('#UserInputtedText')->length > 0) {
+                    $effect_content = pq('#UserInputtedText')->html();
                 } else {
                     $effect_content = pq('#TextCTA')->eq(0)
                         ->find('td')
                         ->eq(0)
                         ->html();
                 }
-
+                
                 $effect_content = tidyTool::cleanRepair($effect_content);
                 $effect_content = tidyTool::getBody($effect_content);
                 
