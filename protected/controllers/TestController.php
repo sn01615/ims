@@ -472,6 +472,9 @@ eot;
         $hdoc = phpQuery::newDocumentHTML($columns['Text']);
         phpQuery::selectDocument($hdoc);
         
-        echo pq('#UserInputtedText')->length;
+        if (pq('#UserInputtedText')->length > 0) {
+            $effect_content = pq('#UserInputtedText')->html();
+            var_dump($effect_content);
+        }
     }
 }
