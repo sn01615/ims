@@ -9,3 +9,4 @@ _notes
 /_compareTemp
 /public/compile/*.html.php
 /php_errors.log
+/.mongo2015sm
