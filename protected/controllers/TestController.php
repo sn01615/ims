@@ -445,4 +445,20 @@ eot;
         iMemcache::getInstance()->set('test', true, 50);
         var_dump(iMemcache::getInstance()->get('test'));
     }
+
+    public function actionTest26()
+    {
+        $caseId = '5099595380';
+        $serverUrl = "https://api.ebay.com/post-order/v2/casemanagement/{$caseId}";
+//         $serverUrl = "https://api.ebay.com/post-order/v2/cancellation/search";
+        $session = new eBayRESTful($serverUrl);
+        $session->headers[] = "Content-Type: application/json";
+        $session->headers[] = "Authorization: TOKEN AgAAAA**AQAAAA**aAAAAA**hVSXVg**nY+sHZ2PrBmdj6wVnY+sEZ2PrA2dj6AGl4qoCJaAqAWdj6x9nY+seQ**B8ICAA**AAMAAA**LrNsub/MnPvFk2Srr358lgIM4BmhhzrF1kpqT6rNDS9QvEAkH+NDj+zrhnzjiErhnkkAaz8nWCg0lhiQUVRAMMDAGnOLhda7p3/UKu0tOVy3HMm8m76Dtg0x7kbzeEaJPXBWvRPYuFV6EihYoMJ8cqB9Joa6AJBTpqjQs8NrjYHs9b+HIKjAeYFxeWtPHHyqhXdnpn9u0p4qQ74xZrZE3dmXRsDash2J4cdgzR3G1umWMacHpCfBZIV0w0BMPx3/oiJnnUh2+TKjYVmdtyyNiX5UrF7dryIKuj5tegFhTyDhTt4uoGRWBGVna4n/E5IKp5mHqDqmovqgrcyp8p63StCvgA/j3XsTYD9aLNdJGAVGr9uff109mA3hwKzR7q8Hn4zUOrv6mfmqfOY20yr4/3G0RUPIii5wGIQv6X6KVJXMIhx3oRmUZgC63IDHfMvdyA6yK3riEVu1HPuC7WcqNt2vnkPs1uz2nFh/enz4fD4gUHJe6Ht7qj1ezwKw4W3+QthxreF3sdzq1NlyHZa+cZ2Hq6eTF7BPVKhSeKH1gTwM5OWnC6HWIz/DC6+LlvJDHXKiSSOI/RS4h84apob3ndFYE4r3lACDeTHw6gYbjgllITLTQdJMwq2HIEi3+PwqtJSpEp0LCZ6i/KAKM2NskRLqunaj8P05t+NTJR5CR5N5mtyLCUpkqSU8J4cf041qsueAfdaZD90W0pOyqFCltbh6xICKsMJSUJNWJjRaU2EfM9Unthon1qCKlcGyoHAz";
+        $session->headers[] = "X-EBAY-C-MARKETPLACE-ID: EBAY-US";
+        $session->headers[] = "Accept: application/json";
+        
+        $requestXmlBody = json_encode('');
+        $responseXml = $session->sendHttpRequest($requestXmlBody);
+        echo $responseXml;
+    }
 }

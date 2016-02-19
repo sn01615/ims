@@ -27,7 +27,7 @@ class eBayRESTful
      * Input: $requestBody
      * Output: The HTTP Response as a String
      */
-    public function sendHttpRequest($requestBody)
+    public function sendHttpRequest($requestBody = '')
     {
         // build eBay headers using variables passed via constructor
         $headers = $this->buildEbayHeaders();
