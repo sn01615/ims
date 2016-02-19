@@ -1474,6 +1474,7 @@ class MsgDownModel extends BaseModel
                 }
                 
                 if (pq('#UserInputtedText')->length > 0) {
+                    pq('#UserInputtedText')->find('*')->removeAttr('style');
                     $effect_content = pq('#UserInputtedText')->html();
                     
                     iMongo::getInstance()->setCollection('parseMessagesNewF1')->insert(array(
