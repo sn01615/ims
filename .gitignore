@@ -10,3 +10,4 @@ _notes
 /public/compile/*.html.php
 /php_errors.log
 /.mongo2015sm
+/protected/config
