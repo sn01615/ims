@@ -1472,25 +1472,34 @@ class MsgDownModel extends BaseModel
                 if (empty($matches)) {
                     $OrderId = null;
                 }
-
-                if (stripos(html_entity_decode($Message->find('Text')->html()), '                       ') === 0 && stripos(html_entity_decode($Message->find('Text')->html()), '-----------------------------------------------------------------') > 0 && stripos(html_entity_decode($Message->find('Text')->html()), '=================================================================')) {
+                
+                if (pq('#UserInputtedText')->length > 0) {
+                    $effect_content = pq('#UserInputtedText')->html();
+                    
+                    iMongo::getInstance()->setCollection('parseMessagesNewF1')->insert(array(
+                        'effect_content' => $effect_content,
+                        'html' => html_entity_decode($Message->find('Text')
+                            ->html()),
+                        'time' => time()
+                    ));
+                } elseif (stripos(html_entity_decode($Message->find('Text')->html()), '                       ') === 0 && stripos(html_entity_decode($Message->find('Text')->html()), '-----------------------------------------------------------------') > 0 && stripos(html_entity_decode($Message->find('Text')->html()), '=================================================================')) {
                     // 如果特殊格式A 则取原文
                     $effect_content = $columns['Text'];
-
+                    
                     $pattern = '/(.*)=================================================================(.*)=================================================================(.*)wrote:(.*)/';
                     preg_match($pattern, $effect_content, $matches);
-
+                    
                     if (isset($matches[3])) {
                         $effect_content = $matches[3];
                     }
-
+                    
                     $effect_content = tidyTool::cleanRepair($effect_content);
                     $effect_content = tidyTool::getBody($effect_content);
-
+                    
                     if (empty($effect_content)) {
                         $effect_content = $columns['Text'];
                     }
-
+                    
                     iMongo::getInstance()->setCollection('parseMessagesV1F1')->insert(array(
                         'effect_content' => $effect_content,
                         'matches' => $matches,
@@ -1521,19 +1530,17 @@ class MsgDownModel extends BaseModel
                     }
                     $effect_content = tidyTool::cleanRepair($effect_content);
                     $effect_content = tidyTool::getBody($effect_content);
-
+                    
                     if (empty($effect_content)) {
                         $effect_content = $columns['Text'];
                     }
-
+                    
                     iMongo::getInstance()->setCollection('parseMessagesV1F2')->insert(array(
                         'effect_content' => $effect_content,
                         'html' => html_entity_decode($Message->find('Text')
                             ->html()),
                         'time' => time()
                     ));
-                } elseif (pq('#UserInputtedText')->length > 0) {
-                    $effect_content = pq('#UserInputtedText')->html();
                 } else {
                     $effect_content = pq('#TextCTA')->eq(0)
                         ->find('td')
