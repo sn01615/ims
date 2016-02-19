@@ -1142,15 +1142,15 @@ class MsgDownModel extends BaseModel
     public function parseMessagesV1()
     {
         DaemonLockTool::lock(__METHOD__);
-
+        
         $startTime = time();
-
+        
         label1:
-
+        
         if (time() - $startTime > 600) {
             return false;
         }
-
+        
         $columns = array(
             'down_id',
             'seller_id',
@@ -1163,13 +1163,13 @@ class MsgDownModel extends BaseModel
             ':v1lrt' => time() - 300,
             ':v1count' => 4
         );
-
+        
         $dataArr = MsgDownDAO::getInstance()->iselect($columns, $conditions, $params, false);
-
+        
         if (empty($dataArr)) {
             goto label2;
         }
-
+        
         $columns = array(
             'v1status' => boolConvert::toInt01(true)
         );
@@ -1179,9 +1179,9 @@ class MsgDownModel extends BaseModel
         );
         // lock
         MsgDownDAO::getInstance()->iupdate($columns, $conditions, $params);
-
+        
         $dataArr['text_json'] = unserialize(base64_decode($dataArr['text_json']));
-
+        
         // list
         $doc = phpQuery::newDocumentXML($dataArr['text_json']['list']);
         phpQuery::selectDocument($doc);
@@ -1190,7 +1190,7 @@ class MsgDownModel extends BaseModel
             $length = $Messages->length;
             for ($i = 0; $i < $length; $i ++) {
                 $Message = $Messages->eq($i);
-
+                
                 $columns = array(
                     'shop_id' => $dataArr['shop_id'],
                     'Sender' => $Message->find('Sender')->html(),
@@ -1222,13 +1222,13 @@ class MsgDownModel extends BaseModel
                     ':shop_id' => $dataArr['shop_id'],
                     ':MessageID' => $Message->find('MessageID')->html()
                 );
-
+                
                 foreach ($columns as $_tempkey => $_tempvalue) {
                     if ($_tempvalue === false || $_tempvalue === null) {
                         unset($columns[$_tempkey]);
                     }
                 }
-
+                
                 $msgpk = MsgDAO::getInstance()->ireplaceinto($columns, $conditions, $params, true);
                 
                 if (is_array($msgpk)) {
@@ -1288,13 +1288,13 @@ class MsgDownModel extends BaseModel
                 $params = array(
                     ':UserID' => $Message->find('Sender')->html()
                 );
-
+                
                 foreach ($columns as $_tempkey => $_tempvalue) {
                     if ($_tempvalue === false || $_tempvalue === null) {
                         unset($columns[$_tempkey]);
                     }
                 }
-
+                
                 if ($columns['UserID'] != 'eBay' && stripos($columns['UserID'], '@ebay.com') === false) {
                     $_upk = EbayUserInfoDAO::getInstance()->ireplaceinto($columns, $conditions, $params, true);
                     
@@ -1345,7 +1345,7 @@ class MsgDownModel extends BaseModel
                 'time' => time()
             ));
         }
-
+        
         // details
         if (! isset($dataArr['text_json']['details'])) {
             $dataArr['text_json']['details'] = array();
@@ -1363,12 +1363,12 @@ class MsgDownModel extends BaseModel
                 ));
                 continue;
             }
-
+            
             $Messages = pq('Messages>Message');
             $length = $Messages->length;
             for ($i = 0; $i < $length; $i ++) {
                 $Message = $Messages->eq($i);
-
+                
                 $columns = array(
                     'Read' => boolConvert::toStr01($Message->find('Read')->html()),
                     'Replied' => boolConvert::toStr01($Message->find('Replied')->html()),
@@ -1379,13 +1379,13 @@ class MsgDownModel extends BaseModel
                     ':shop_id' => $dataArr['shop_id'],
                     ':MessageID' => $Message->find('MessageID')->html()
                 );
-
+                
                 foreach ($columns as $_tempkey => $_tempvalue) {
                     if ($_tempvalue === false || $_tempvalue === null) {
                         unset($columns[$_tempkey]);
                     }
                 }
-
+                
                 // 业务状态值处理
                 if (isset($columns['Read']) && $columns['Read'] === boolConvert::toStr01(false)) {
                     $columns['handled'] = boolConvert::toStr01(false);
@@ -1447,10 +1447,10 @@ class MsgDownModel extends BaseModel
                 
                 $hdoc = phpQuery::newDocumentHTML($columns['Text']);
                 phpQuery::selectDocument($hdoc);
-
+                
                 // clear
                 pq('#TextCTA')->find('*')->removeAttr('style');
-
+                
                 // ItemId和OrderId提取
                 $ItemId = $Message->find('ItemID')->html();
                 if (empty($ItemId)) {
@@ -1580,7 +1580,7 @@ class MsgDownModel extends BaseModel
                 $params = array(
                     ':msg_id' => $msgpk
                 );
-
+                
                 foreach ($columns as $_tempkey => $_tempvalue) {
                     if ($_tempvalue === false || $_tempvalue === null) {
                         unset($columns[$_tempkey]);
@@ -1684,7 +1684,7 @@ class MsgDownModel extends BaseModel
                 // }
             }
         }
-
+        
         $conditions = 'down_id=:down_id';
         $params = array(
             ':down_id' => $dataArr['down_id']
@@ -1695,9 +1695,9 @@ class MsgDownModel extends BaseModel
         usleep(100000);
         
         goto label1;
-
+        
         label2:
-
+        
         sleep(5);
         goto label1;
     }
