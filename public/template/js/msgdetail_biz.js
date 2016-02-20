@@ -173,9 +173,9 @@ $(function(){
                                  && $(element).attr('src').indexOf('/globalAssets/')==-1
                                  && $(element).attr('src').indexOf('/icon/')==-1
                                  && $(element).attr('src').indexOf('/roveropen/')==-1){
-                                    $(element).parent('a').attr('data-lightbox','imgGroup11');
+                                    $(element).closest('a').attr('data-lightbox','imgGroup11');
                                     var imgurl = $(element).attr('src').toString().replace(/%24_\d+(?=\.(jpg|png|jpeg|gif|bmp|tif)\??)/i,'$_10');
-                                    $(element).parent('a').attr('href', imgurl);
+                                    $(element).closest('a').attr('href', imgurl);
                                 }
                             });
                             
