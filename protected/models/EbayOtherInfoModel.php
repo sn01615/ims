@@ -2651,7 +2651,22 @@ class EbayOtherInfoModel extends BaseModel
             ':create_time' => time() - 3600 * 24
         );
         $msgouts = MsgReplyLogDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar');
-        echo "{$msgouts}\n";
+        echo "{$msgouts} (";
+        
+        $columns = array(
+            'action_username',
+            'count(*) as count'
+        );
+        $conditions = 'create_time>:create_time';
+        $params = array(
+            ':create_time' => time() - 3600 * 24
+        );
+        $msgouts = MsgReplyLogDAO::getInstance()->iselect($columns, $conditions, $params, true, array(), '', '', 0, null, '', $groups = 'action_username');
+        foreach ($msgouts as $value) {
+            echo "{$value['action_username']}:{$value['count']}, ";
+        }
+        
+        echo ")\n";
         
         echo 'Message OUT （通过我们系统的发送量）（24h内）:';
         $columns = array(
