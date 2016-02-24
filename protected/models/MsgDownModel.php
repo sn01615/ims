@@ -154,7 +154,7 @@ class MsgDownModel extends BaseModel
         // @see http://developer.ebay.com/DevZone/XML/docs/Reference/eBay/index.html#Limitations
         $session = new eBaySession($this->serverUrl);
         // $session->headers[]="X-EBAY-SOA-GLOBAL-ID:EBAY-US";
-        $session->headers[] = "X-EBAY-API-COMPATIBILITY-LEVEL:937";
+        $session->headers[] = "X-EBAY-API-COMPATIBILITY-LEVEL:955";
         $session->headers[] = "X-EBAY-API-DEV-NAME:{$this->devID}";
         $session->headers[] = "X-EBAY-API-APP-NAME:{$this->appID}";
         $session->headers[] = "X-EBAY-API-CERT-NAME:{$this->certID}";
