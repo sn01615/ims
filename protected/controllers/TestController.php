@@ -477,4 +477,15 @@ eot;
             var_dump($effect_content);
         }
     }
+
+    public function actionTest28()
+    {
+        $query = array(
+            'time' => array(
+                '$gt' => 1444988860
+            )
+        );
+        $result = iMongo::getInstance()->setCollection('addMemberMessagesAAQToBidder')->count($query);
+        var_dump($result);
+    }
 }

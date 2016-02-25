@@ -212,6 +212,23 @@ class iMongo
     }
     
     /**
+     * @desc MongoCollection::count — 返回集合中的文档数量
+     * @param array $query            
+     * @param number $limit            
+     * @param number $skip            
+     * @author YangLong
+     * @date 2016-02-25
+     * @return int
+     */
+    public function count($query, $limit = 0, $skip = 0)
+    {
+        if (empty($this->c)) {
+            throw new Exception('$Collection is empty.');
+        }
+        return $this->c->count($query, $limit, $skip);
+    }
+    
+    /**
      * @desc 获取MongoCollection对象
      * @param string $Collection
      * @author YangLong

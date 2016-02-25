@@ -2679,6 +2679,70 @@ class EbayOtherInfoModel extends BaseModel
         $msgouts = MsgCreateLogDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar');
         echo "{$msgouts}\n";
         
+        $query = array(
+            'time' => array(
+                '$gt' => time() - 3600 * 24
+            )
+        );
+        $result = iMongo::getInstance()->setCollection('sendReturnMsg')->count($query);
+        echo "sendReturnMsg（24h内）:{$result}\n";
+        
+        $query = array(
+            'time' => array(
+                '$gt' => time() - 3600 * 24
+            )
+        );
+        $result = iMongo::getInstance()->setCollection('addResponse')->count($query);
+        echo "addResponse（24h内）:{$result}\n";
+        
+        $query = array(
+            'time' => array(
+                '$gt' => time() - 3600 * 24
+            )
+        );
+        $result = iMongo::getInstance()->setCollection('fullRefund')->count($query);
+        echo "fullRefund（24h内）:{$result}\n";
+        
+        $query = array(
+            'time' => array(
+                '$gt' => time() - 3600 * 24
+            )
+        );
+        $result = iMongo::getInstance()->setCollection('addTrackingInfo')->count($query);
+        echo "addTrackingInfo（24h内）:{$result}\n";
+        
+        $query = array(
+            'time' => array(
+                '$gt' => time() - 3600 * 24
+            )
+        );
+        $result = iMongo::getInstance()->setCollection('provideRMA')->count($query);
+        echo "provideRMA（24h内）:{$result}\n";
+        
+        $query = array(
+            'time' => array(
+                '$gt' => time() - 3600 * 24
+            )
+        );
+        $result = iMongo::getInstance()->setCollection('approveRequest')->count($query);
+        echo "approveRequest（24h内）:{$result}\n";
+        
+        $query = array(
+            'time' => array(
+                '$gt' => time() - 3600 * 24
+            )
+        );
+        $result = iMongo::getInstance()->setCollection('issueReturnRefund')->count($query);
+        echo "issueReturnRefund（24h内）:{$result}\n";
+        
+        $query = array(
+            'time' => array(
+                '$gt' => time() - 3600 * 24
+            )
+        );
+        $result = iMongo::getInstance()->setCollection('issueReturnPartRefund')->count($query);
+        echo "issueReturnPartRefund（24h内）:{$result}\n";
+        
         $text = ob_get_clean();
         $to = Yii::app()->params['tongji'];
         SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);

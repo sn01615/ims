@@ -325,15 +325,16 @@ class ReturnUploadModel extends BaseModel
         }
      
      }
-     
-     /**
-      * @daes return 给客户发消息
-      * @param   $Queue
-      * @author liaojianwen
-      * @date 2015-07-01
-      */
-     public function sendReturnMsg($Queue)
-     {
+
+    /**
+     * @desc return 给客户发消息
+     * @param $Queue
+     * @author liaojianwen
+     * @date 2015-07-01
+     * @return mixed
+     */
+    public function sendReturnMsg($Queue)
+    {
         $uploadData = unserialize($Queue['upload_data']);
         $returnId_id = $uploadData['returnId_id'];
         $comments = $uploadData['text'];
@@ -346,7 +347,7 @@ class ReturnUploadModel extends BaseModel
             iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
                 'type' => 'Success',
                 'Queue' => $Queue,
-                'uploadData'=>$uploadData,
+                'uploadData' => $uploadData,
                 'json' => $result,
                 'time' => time()
             ));
@@ -367,7 +368,7 @@ class ReturnUploadModel extends BaseModel
             iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
                 'type' => 'Err',
                 'Queue' => $Queue,
-                'uploadData'=>$uploadData,
+                'uploadData' => $uploadData,
                 'json' => $result,
                 'time' => time()
             ));
