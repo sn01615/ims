@@ -2743,6 +2743,14 @@ class EbayOtherInfoModel extends BaseModel
         $result = iMongo::getInstance()->setCollection('issueReturnPartRefund')->count($query);
         echo "issueReturnPartRefund（24h内）:{$result}\n";
         
+        $query = array(
+            'time' => array(
+                '$gt' => time() - 3600 * 24
+            )
+        );
+        $result = iMongo::getInstance()->setCollection('responseFeedback')->count($query);
+        echo "responseFeedback（24h内）:{$result}\n";
+        
         $text = ob_get_clean();
         $to = Yii::app()->params['tongji'];
         SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
