@@ -275,7 +275,7 @@ class FeedbackDownModel extends BaseModel
      * @date 2015-08-27
      * @return mixed
      */
-    public function responseFeedback($token,$feedbackID,$receiveID,$responseText,$siteId)
+    public function responseFeedback($token, $feedbackID, $receiveID, $responseText, $siteId)
     {
         $callName = 'RespondToFeedback';
         if (Yii::app()->params['ebay_api_production']) {

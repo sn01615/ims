@@ -78,13 +78,13 @@ class FeedbackUploadQueueModel extends BaseModel
         $siteId = $uploadData['site_id'];
         $token = $Queue['token'];
         $result = FeedbackDownModel::model()->responseFeedback($token, $FeedbackID, $CommentUser, $responseText, $siteId);
-        $res = json_decode($result,true);
-        if ($res['ackValue'] ==='SUCCESS'){
+        $res = json_decode($result, true);
+        if ($res['ackValue'] === 'SUCCESS') {
             iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
-            'type' => 'Success',
-            'Queue' => $Queue,
-            'json' => $result,
-            'time' => time()
+                'type' => 'Success',
+                'Queue' => $Queue,
+                'json' => $result,
+                'time' => time()
             ));
             // 回复feedback通知
             ob_start();
@@ -99,10 +99,10 @@ class FeedbackUploadQueueModel extends BaseModel
             return $Queue['feedback_upload_queue_id'];
         } else {
             iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
-            'type' => 'Err',
-            'Queue' => $Queue,
-            'json' => $result,
-            'time' => time()
+                'type' => 'Err',
+                'Queue' => $Queue,
+                'json' => $result,
+                'time' => time()
             ));
             // 回复feedback通知
             ob_start();
