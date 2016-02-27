@@ -39,8 +39,8 @@ do
     fi
     # 
     if [ $tdiff -gt $jg ]; then
-        echo /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs$cs
         date '+%s' > $lfilename
+        echo /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs$cs
     fi
 }&
 done
