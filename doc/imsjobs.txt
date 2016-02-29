@@ -1,107 +1,107 @@
 # 每分钟执行
-* * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs001
-* * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs002
-* * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs003
-* * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs004
-* * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs005
-* * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs006
-* * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs007
-* * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs008
-* * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs009
-* * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs010
-* * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs011
-* * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs012
-* * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs013
-* * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs014
-* * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs015
-* * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs016
-* * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs017
-* * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs018
-* * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs019
-* * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs020
-* * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs021
-* * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs022
-* * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs023
-* * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs024
-* * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs025
-* * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs026
-* * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs027
-* * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs028
-* * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs029
-* * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs030
-* * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs031
-* * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs032
-* * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs033
-* * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs034
-* * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs035
-* * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs036
-* * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs037
-* * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs038
-* * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs039
-* * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs040
+* * * * * sleep 0.1;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs001
+* * * * * sleep 0.2;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs002
+* * * * * sleep 0.3;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs003
+* * * * * sleep 0.4;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs004
+* * * * * sleep 0.5;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs005
+* * * * * sleep 0.6;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs006
+* * * * * sleep 0.7;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs007
+* * * * * sleep 0.8;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs008
+* * * * * sleep 0.9;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs009
+* * * * * sleep 1;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs010
+* * * * * sleep 1.1;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs011
+* * * * * sleep 1.2;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs012
+* * * * * sleep 1.3;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs013
+* * * * * sleep 1.4;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs014
+* * * * * sleep 1.5;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs015
+* * * * * sleep 1.6;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs016
+* * * * * sleep 1.7;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs017
+* * * * * sleep 1.8;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs018
+* * * * * sleep 1.9;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs019
+* * * * * sleep 2;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs020
+* * * * * sleep 2.1;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs021
+* * * * * sleep 2.2;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs022
+* * * * * sleep 2.3;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs023
+* * * * * sleep 2.4;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs024
+* * * * * sleep 2.5;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs025
+* * * * * sleep 2.6;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs026
+* * * * * sleep 2.7;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs027
+* * * * * sleep 2.8;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs028
+* * * * * sleep 2.9;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs029
+* * * * * sleep 3;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs030
+* * * * * sleep 3.1;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs031
+* * * * * sleep 3.2;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs032
+* * * * * sleep 3.3;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs033
+* * * * * sleep 3.4;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs034
+* * * * * sleep 3.5;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs035
+* * * * * sleep 3.6;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs036
+* * * * * sleep 3.7;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs037
+* * * * * sleep 3.8;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs038
+* * * * * sleep 3.9;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs039
+* * * * * sleep 4;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs040
 # 每5分钟执行
-*/5 * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs041
-*/5 * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs042
-*/5 * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs043
-*/5 * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs044
-*/5 * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs045
-*/5 * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs046
-*/5 * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs047
-*/5 * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs048
-*/5 * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs049
-*/5 * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs050
+*/5 * * * * sleep 4.1;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs041
+*/5 * * * * sleep 4.2;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs042
+*/5 * * * * sleep 4.3;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs043
+*/5 * * * * sleep 4.4;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs044
+*/5 * * * * sleep 4.5;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs045
+*/5 * * * * sleep 4.6;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs046
+*/5 * * * * sleep 4.7;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs047
+*/5 * * * * sleep 4.8;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs048
+*/5 * * * * sleep 4.9;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs049
+*/5 * * * * sleep 5;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs050
 # 每10分钟执行
-*/10 * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs051
-*/10 * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs052
-*/10 * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs053
-*/10 * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs054
-*/10 * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs055
-*/10 * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs056
-*/10 * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs057
-*/10 * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs058
-*/10 * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs059
-*/10 * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs060
+*/10 * * * * sleep 5.1;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs051
+*/10 * * * * sleep 5.2;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs052
+*/10 * * * * sleep 5.3;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs053
+*/10 * * * * sleep 5.4;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs054
+*/10 * * * * sleep 5.5;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs055
+*/10 * * * * sleep 5.6;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs056
+*/10 * * * * sleep 5.7;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs057
+*/10 * * * * sleep 5.8;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs058
+*/10 * * * * sleep 5.9;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs059
+*/10 * * * * sleep 6;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs060
 # 每小时44分执行
-44 * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs061
-44 * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs062
-44 * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs063
-44 * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs064
-44 * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs065
-44 * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs066
-44 * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs067
-44 * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs068
-44 * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs069
-44 * * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs070
+44 * * * * sleep 6.1;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs061
+44 * * * * sleep 6.2;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs062
+44 * * * * sleep 6.3;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs063
+44 * * * * sleep 6.4;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs064
+44 * * * * sleep 6.5;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs065
+44 * * * * sleep 6.6;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs066
+44 * * * * sleep 6.7;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs067
+44 * * * * sleep 6.8;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs068
+44 * * * * sleep 6.9;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs069
+44 * * * * sleep 7;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs070
 # 每天早上3点33分 
-33 3 * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs071
-33 3 * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs072
-33 3 * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs073
-33 3 * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs074
-33 3 * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs075
-33 3 * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs076
-33 3 * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs077
-33 3 * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs078
-33 3 * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs079
-33 3 * * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs080
+33 3 * * * sleep 7.1;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs071
+33 3 * * * sleep 7.2;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs072
+33 3 * * * sleep 7.3;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs073
+33 3 * * * sleep 7.4;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs074
+33 3 * * * sleep 7.5;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs075
+33 3 * * * sleep 7.6;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs076
+33 3 * * * sleep 7.7;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs077
+33 3 * * * sleep 7.8;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs078
+33 3 * * * sleep 7.9;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs079
+33 3 * * * sleep 8;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs080
 # 每周日2点22分执行
-22 2 * * 0 /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs081
-22 2 * * 0 /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs082
-22 2 * * 0 /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs083
-22 2 * * 0 /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs084
-22 2 * * 0 /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs085
-22 2 * * 0 /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs086
-22 2 * * 0 /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs087
-22 2 * * 0 /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs088
-22 2 * * 0 /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs089
-22 2 * * 0 /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs090
+22 2 * * 0 sleep 8.1;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs081
+22 2 * * 0 sleep 8.2;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs082
+22 2 * * 0 sleep 8.3;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs083
+22 2 * * 0 sleep 8.4;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs084
+22 2 * * 0 sleep 8.5;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs085
+22 2 * * 0 sleep 8.6;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs086
+22 2 * * 0 sleep 8.7;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs087
+22 2 * * 0 sleep 8.8;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs088
+22 2 * * 0 sleep 8.9;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs089
+22 2 * * 0 sleep 9;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs090
 # 每月22日4点21分执行
-21 4 22 * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs091
-21 4 22 * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs092
-21 4 22 * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs093
-21 4 22 * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs094
-21 4 22 * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs095
-21 4 22 * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs096
-21 4 22 * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs097
-21 4 22 * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs098
-21 4 22 * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs099
-21 4 22 * * /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs100
+21 4 22 * * sleep 9.1;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs091
+21 4 22 * * sleep 9.2;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs092
+21 4 22 * * sleep 9.3;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs093
+21 4 22 * * sleep 9.4;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs094
+21 4 22 * * sleep 9.5;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs095
+21 4 22 * * sleep 9.6;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs096
+21 4 22 * * sleep 9.7;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs097
+21 4 22 * * sleep 9.8;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs098
+21 4 22 * * sleep 9.9;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs099
+21 4 22 * * sleep 10;/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs100

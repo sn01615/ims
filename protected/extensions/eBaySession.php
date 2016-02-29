@@ -46,6 +46,9 @@ class eBaySession
         // set method as POST
         curl_setopt($connection, CURLOPT_POST, 1);
         
+        // set timeout
+        curl_setopt($connection, CURLOPT_TIMEOUT, 300);
+        
         // set the XML body of the request
         curl_setopt($connection, CURLOPT_POSTFIELDS, $requestBody);
         
