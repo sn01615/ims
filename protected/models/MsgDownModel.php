@@ -1474,7 +1474,7 @@ class MsgDownModel extends BaseModel
                         ->find('tr')
                         ->eq(2)
                         ->find('td')
-                        ->eq(1)
+                        ->eq(0)
                         ->html();
                     if (! empty($OrderId)) {
                         preg_match_all('/(?<=\D)\d{11,13}-\d{11,13}|\d{11,13}-0|\d{11,13}(?=\D)/', $OrderId, $matches);
