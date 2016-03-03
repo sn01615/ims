@@ -40,7 +40,7 @@ do
     # 
     if [ $tdiff -gt $jg ]; then
         date '+%s' > $lfilename
-        echo /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs$cs
+        /usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs$cs
     fi
 }&
 done

@@ -1470,7 +1470,22 @@ class MsgDownModel extends BaseModel
                     ->html();
                 preg_match('/^\d{11,13}-\d{11,13}|\d{11,13}-0|\d{11,13}$/', $OrderId, $matches);
                 if (empty($matches)) {
-                    $OrderId = null;
+                    $OrderId = pq('#area7Container')->find('table table.twoColumnSixty')
+                        ->find('tr')
+                        ->eq(2)
+                        ->find('td')
+                        ->eq(1)
+                        ->html();
+                    if (! empty($OrderId)) {
+                        preg_match_all('/(?<=\D)\d{11,13}-\d{11,13}|\d{11,13}-0|\d{11,13}(?=\D)/', $OrderId, $matches);
+                        if (! empty($matches) && empty($matches[0][0]) && empty($matches[0][1])) {
+                            $OrderId = $matches[0][0] . '-' . $matches[0][1];
+                        } else {
+                            $OrderId = null;
+                        }
+                    } else {
+                        $OrderId = null;
+                    }
                 }
                 
                 if (pq('#UserInputtedText')->length > 0) {
