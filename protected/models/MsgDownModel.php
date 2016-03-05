@@ -799,7 +799,7 @@ class MsgDownModel extends BaseModel
         
         label1:
         
-        if (time() - $startTime > 600) {
+        if (time() - $startTime > 175) {
             return false;
         }
         
