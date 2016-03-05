@@ -218,8 +218,8 @@ class TestController extends Controller
     {
         imsTool::xmlHeader();
         
-        $fromDate = time() - 3600 * 24 * 30;
-        $toDate = time();
+        $fromDate = time() - 3600 * 24 * 30 * 55;
+        $toDate = time()- 3600 * 24 * 30 * 54;
         
         $token = 'AgAAAA**AQAAAA**aAAAAA**lP4+VQ**nY+sHZ2PrBmdj6wVnY+sEZ2PrA2dj6AElYGkAZKFogydj6x9nY+seQ**+uQAAA**AAMAAA**+P6R0gQ0z30XPNdYXYVHcHueeIp9vlyg2uN9lhDlJFwQ4KGhzl9trw013I91BCGemaTzUEHdArF0yUFZV6qHMdY9Vme/Ii4sUD9YmjwsYDKiX3Tr7e6wnfvGqO7HJtL8jGPb/iyciMiBMFBZRLaK3BQzYCTgQrsRVWrkZXkCaSCPKpKqhPtqa8Qv7sbBHmqCGkaGHW2eEqZTQWYCVua1kmi74XbU4JFvHEzZy+JRtn620er5vDoA8l+5zKzpQR2ofxnteFd2gO5g5GQsGi7pWr5vAsBD2lLPuaWgcoH2IDrwBfsoi3XTAEqQfwWJLRU2fR2z399NwnVJxmJZYYZJyarfgbLsroRzALoh67ld46auITYSPDx/tdWQQ0v8miebxyR+Ev9drivX7Iev6+ujjTitJMM4hbDMQP4wUGwv6fObhkkpgSkprNpnpQtwYgqJnkVyoPi4VgKJjVkn2zZMYxvzZsGv83T9lm3esSST1y3wbnQbFoVxWbmIwax0ybsLIQ8j2HIIlO+7DGpyRcX2vcQgP4HJSWt1fMW5JkOxZj25YNLONhDRfxR/9lmniO8eEcVbX4G4nf6XL/RUrys3+jwBmlZC7Bwcjvdz5YVlwbvY/2aA/ubshj6fgCVvTL/+gfA4GxlhW+3ucF/xLWoLm14ysKaFb6inxBeAGL1zw9a5fjVsaetIG8GRxFms7ICX/M//HxH5h5bMzUDu7S2qApLA7xcK0ng9HFuNeFsc39KZZLwuJZnWCn5sSB1KFZci';
         $token = 'AgAAAA**AQAAAA**aAAAAA**3U5IVg**nY+sHZ2PrBmdj6wVnY+sEZ2PrA2dj6AHlYekC5eAogWdj6x9nY+seQ**B8ICAA**AAMAAA**35EtFx9HksbeLsXDLdYKTKgdVZUGV+E855j+gAF9AzgEbJ54VkZcp87Z9Pbk0TQHGWQrcGSMsPoFz+ESJ+aUXECo5DCKUHdGLD3yXtRyt3+HAsJ3R7DRYdpxFN/y2k+vi+U56i8Hsm3C6btSXohyGkJF9HAPiJJCutDKYCMPIdVY5mCd8L04rD7O6+nGytj0DPxLtR3CvfCTRH9dMPh3xfFg3nW9x6M3oF+mUBFUK923dDk/p0P4Tq6bnBfCwjIF+qiTfAFRn4Vm4Q8y+RGl43BJs3QW8SSj6WfvgbarByKwguRV+f8ua/3Ftvv41eshzF3dk00VKf6dpx6IAzdRmgzJj08HljQdZHCmsZOhphTAPpSSBN9D3iIUNh/E//+f2nTBVLecZrP0aKwMZEEBkf+X4L2NIx6gwPacyEmrKWmKYZwk4/H+Y0fYhvQyJnaUeGbCS4ow5Kkt4WzeV19xaXGPxMwr1xRF9k1qj6Ku4fq4RZQ4Aw5D3TeyTsx36ZGf+uCkDn3Y4zSlM19EpvDNuGx9f4vUK/mL86CFBB/jjbbaLNDSQDUa95QO4yy8qDzQlqYQl+fOPOFF88UR85RN4idjvbEPyBJQv08+Fa7ivPjF17r7y0iJ52V+xyUIg1HztOoB7yDS6BHWPAsrQRLwg8zflMjvAWGfmiv+LUvSqz32Cd0kGeR6xOlbZ3TOE3xTv6t5R3t/pso804QcE/kuw1NWAJGKvUERdIwvI6bK6SOWZZnnW3FvAqIOaGESXUGG';

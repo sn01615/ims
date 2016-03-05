@@ -791,7 +791,7 @@ class MsgDownModel extends BaseModel
      * @date 2015-06-11
      * @return null|boolean
      */
-    public function executeMsgDownQueueXml($pickSize = 5)
+    public function executeMsgDownQueueXml($pickSize = 1)
     {
         DaemonLockTool::lock(__METHOD__ . gmdate('i'));
         

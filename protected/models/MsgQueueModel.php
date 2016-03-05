@@ -194,8 +194,8 @@ class MsgQueueModel extends BaseModel
             if ($newer) {
                 // 新人历史任务
                 $priority = self::P_HISTORYPRIORITY; // 历史任务基准优先级
-                $tSize = 30 * 24 * 3600;
-                for ($i = 1; $i < 60; $i ++) {
+                $tSize = 3 * 24 * 3600;
+                for ($i = 1; $i < 600; $i ++) {
                     $end = $start - ($i - 1) * $tSize + EnumOther::OVARLAP_TIME;
                     MsgDownDAO::getInstance()->makeQueue($shop, $folders, $priority - $i, $end - $tSize, $end, true);
                 }
