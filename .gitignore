@@ -11,3 +11,4 @@ _notes
 /php_errors.log
 /.mongo2015sm
 /protected/config
+/doc/sql
