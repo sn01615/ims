@@ -799,7 +799,7 @@ class MsgDownModel extends BaseModel
         
         label1:
         
-        if (time() - $startTime > 175) {
+        if (time() - $startTime > 595) {
             return false;
         }
         
@@ -858,6 +858,7 @@ class MsgDownModel extends BaseModel
             
             goto label1;
         } else {
+            DaemonLockTool::lock(__METHOD__ . 'one');
             sleep(5);
             goto label1;
         }
