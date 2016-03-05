@@ -499,13 +499,32 @@ eot;
         $hdoc = phpQuery::newDocumentHTML($columns['Text']);
         phpQuery::selectDocument($hdoc);
         
-        $OrderId = pq('#area7Container')->find('table table.twoColumnSixty')
+        $OrderId = pq('#ItemDetails')->find('table table')
             ->find('tr')
             ->eq(2)
             ->find('td')
-            ->eq(0)
+            ->eq(1)
             ->html();
-        preg_match_all('/(?<=\D)\d{11,13}-\d{11,13}|\d{11,13}-0|\d{11,13}(?=\D)/', $OrderId, $matches);
+        preg_match('/^\d{11,13}-\d{11,13}|\d{11,13}-0|\d{11,13}$/', $OrderId, $matches);
+        if (empty($matches)) {
+            $OrderId = pq('#area7Container')->find('table table.twoColumnSixty')
+                ->find('tr')
+                ->eq(2)
+                ->find('td')
+                ->eq(0)
+                ->html();
+            echo $OrderId;
+            if (! empty($OrderId)) {
+                preg_match_all('/(?<=\D)\d{11,13}-\d{11,13}|\d{11,13}-0|\d{11,13}(?=\D)/', $OrderId, $matches);
+                if (! empty($matches) && empty($matches[0][0]) && empty($matches[0][1])) {
+                    $OrderId = $matches[0][0] . '-' . $matches[0][1];
+                } else {
+                    $OrderId = null;
+                }
+            } else {
+                $OrderId = null;
+            }
+        }
         
         var_dump($OrderId, $matches);
     }

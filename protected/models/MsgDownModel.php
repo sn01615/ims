@@ -1478,7 +1478,7 @@ class MsgDownModel extends BaseModel
                         ->html();
                     if (! empty($OrderId)) {
                         preg_match_all('/(?<=\D)\d{11,13}-\d{11,13}|\d{11,13}-0|\d{11,13}(?=\D)/', $OrderId, $matches);
-                        if (! empty($matches) && empty($matches[0][0]) && empty($matches[0][1])) {
+                        if (! empty($matches) && ! empty($matches[0][0]) && ! empty($matches[0][1])) {
                             $OrderId = $matches[0][0] . '-' . $matches[0][1];
                         } else {
                             $OrderId = null;
