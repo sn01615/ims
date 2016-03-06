@@ -1,4 +1,19 @@
 #!/bin/bash
+
+# first run sleep 55
+flfilename="/tmp/ImsJobsFirst.lock"
+touch $flfilename
+ft=$(cat $flfilename)
+if [ -z $ft ]; then
+    ft=0
+fi
+now=$(date '+%s')
+tdiff=$[$now - $ft]
+if [ $tdiff -gt 66 ]; then
+    date '+%s' > $flfilename
+    sleep 55
+fi
+
 for (( c=1; c<=100; c++ ))
 do
 {
