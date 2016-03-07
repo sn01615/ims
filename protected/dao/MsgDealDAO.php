@@ -114,9 +114,9 @@ class MsgDealDAO extends BaseDAO
         $pageInfo['page'] = $page;
         $pageInfo['pageSize'] = $pageSize;
         $selects = 'm.msg_id,m.Sender,m.RecipientUserID,m.SendToName,
-                    m.Subject,m.MessageID,m.Flagged,m.`Read`,m.ReceiveDate,m.FolderID,m.Replied,
+                    m.Subject,m.MessageID,m.Flagged,m.Read,m.ReceiveDate,m.FolderID,m.Replied,
                     m.is_star,m.handled,m.is_delete,m.send_status,m.shop_id,
-                    s.account,s.nick_name,length(tr.ImagePreview) as imglength,m.is_img,
+                    s.account,s.nick_name,m.is_img,
                     o.BuyerCheckoutMessage';
         $params = array(
             ':param' => $param['param']

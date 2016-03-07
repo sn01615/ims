@@ -281,7 +281,7 @@ $(document).ready(function(e) {
                         var _html;
                         _html = '<tr class="' + type + '" value="' + M[i].Read + '" data-id="' + M[i].msg_id + '">';
                         _html += '<td class ="checkbox"><input type="checkbox" class="ids" data-id="' + M[i].msg_id + '" /></td>';
-                        _html += '<td class="status"><i class="' + Replied + '" eq="0"></i>' + (M[i].imglength > 0 || M[i].is_img > 0 ? '<i class="icon-acc"></i>' : '');
+                        _html += '<td class="status"><i class="' + Replied + '" eq="0"></i>' + (M[i].is_img > 0 ? '<i class="icon-acc"></i>' : '');
                         _html += (M[i].BuyerCheckoutMessage ? '<i class="icon-remark" title="' + M[i].BuyerCheckoutMessage + '"></i>' : '') + '</td>';
                         _html += '<td><span>' + M[i].Sender + '</span></td>' + '<td><span>' + (M[i].SendToName == '' ? M[i].RecipientUserID : M[i].SendToName);
                         _html += '</span></td>' + '<td class="pointer" title="' + M[i].Subject + '"><div class="labelTd">' + labelstr + '</div><span>' + M[i].Subject + '</span></td>';

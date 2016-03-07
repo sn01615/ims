@@ -1490,6 +1490,7 @@ class MsgDownModel extends BaseModel
                 }
                 
                 if (pq('#UserInputtedText')->length > 0) {
+                    // <!--a71f943b-ab8b-549b-4cb2-514a60170b90_v36-->
                     pq('#UserInputtedText')->find('*')->removeAttr('style');
                     $effect_content = pq('#UserInputtedText')->html();
                     
