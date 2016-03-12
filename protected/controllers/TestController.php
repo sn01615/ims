@@ -528,4 +528,15 @@ eot;
         
         var_dump($OrderId, $matches);
     }
+
+    public function actionTest30()
+    {
+        imsTool::xmlHeader();
+        $token = 'AgAAAA**AQAAAA**aAAAAA**lP4+VQ**nY+sHZ2PrBmdj6wVnY+sEZ2PrA2dj6AElYGkAZKFogydj6x9nY+seQ**+uQAAA**AAMAAA**+P6R0gQ0z30XPNdYXYVHcHueeIp9vlyg2uN9lhDlJFwQ4KGhzl9trw013I91BCGemaTzUEHdArF0yUFZV6qHMdY9Vme/Ii4sUD9YmjwsYDKiX3Tr7e6wnfvGqO7HJtL8jGPb/iyciMiBMFBZRLaK3BQzYCTgQrsRVWrkZXkCaSCPKpKqhPtqa8Qv7sbBHmqCGkaGHW2eEqZTQWYCVua1kmi74XbU4JFvHEzZy+JRtn620er5vDoA8l+5zKzpQR2ofxnteFd2gO5g5GQsGi7pWr5vAsBD2lLPuaWgcoH2IDrwBfsoi3XTAEqQfwWJLRU2fR2z399NwnVJxmJZYYZJyarfgbLsroRzALoh67ld46auITYSPDx/tdWQQ0v8miebxyR+Ev9drivX7Iev6+ujjTitJMM4hbDMQP4wUGwv6fObhkkpgSkprNpnpQtwYgqJnkVyoPi4VgKJjVkn2zZMYxvzZsGv83T9lm3esSST1y3wbnQbFoVxWbmIwax0ybsLIQ8j2HIIlO+7DGpyRcX2vcQgP4HJSWt1fMW5JkOxZj25YNLONhDRfxR/9lmniO8eEcVbX4G4nf6XL/RUrys3+jwBmlZC7Bwcjvdz5YVlwbvY/2aA/ubshj6fgCVvTL/+gfA4GxlhW+3ucF/xLWoLm14ysKaFb6inxBeAGL1zw9a5fjVsaetIG8GRxFms7ICX/M//HxH5h5bMzUDu7S2qApLA7xcK0ng9HFuNeFsc39KZZLwuJZnWCn5sSB1KFZci';
+        $xml = EbayOtherInfoModel::model()->eBayGetUser($token);
+        echo $xml;
+        // $doc = phpQuery::newDocumentXML($xml);
+        // phpQuery::selectDocument($doc);
+        // echo pq('UserID')->html();
+    }
 }

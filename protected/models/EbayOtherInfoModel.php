@@ -624,7 +624,7 @@ class EbayOtherInfoModel extends BaseModel
      * @date 2015-06-12
      * @return mixed
      */
-    public function eBayGetUser($token, $UserID, $ItemID = '', $DetailLevel = '', $siteid = 0)
+    public function eBayGetUser($token, $UserID = '', $ItemID = '', $DetailLevel = '', $siteid = 0)
     {
         $callName = 'GetUser';
         if (Yii::app()->params['ebay_api_production']) {
