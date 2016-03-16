@@ -4,6 +4,10 @@
 #include <string.h>
 #include <pthread.h>
 #include <time.h>
+#include <sys/file.h>
+// #include <sys/types.h>
+// #include <sys/stat.h>
+// #include <fcntl.h>
 
 #define THREAD_NUM 100
 
@@ -20,6 +24,17 @@ int main()
     time_t t;
     char filename[30];
     char str[15];
+
+    // 文件名
+    sprintf(filename, "/tmp/ImsJobsMaster.lock");
+    // 打开文件
+    fp = fopen(filename, "w+");
+    fclose(fp);
+    fp = fopen(filename, "r+");
+    if(flock(fp->_fileno, LOCK_EX|LOCK_NB)!=0){
+        // printf("running...\n");
+        exit(EXIT_SUCCESS);
+    }
 
     for (int i = 0; i < THREAD_NUM; ++i)
     {
