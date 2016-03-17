@@ -1045,8 +1045,9 @@ class MsgDealModel extends BaseModel
             return array(
                 'Ack' => 'Failure',
                 'error' => array(
-                    'error_code' => 'none',
-                    'error_message' => $errorinfo['LongMessage']
+                    'error_code' => 'F0001',
+                    'error_message' => $errorinfo['LongMessage'],
+                    'error_desc' => 'GeteBayAccount Failure'
                 )
             );
         }
@@ -1062,8 +1063,9 @@ class MsgDealModel extends BaseModel
             return array(
                 'Ack' => 'Failure',
                 'error' => array(
-                    'error_code' => 'none',
-                    'error_message' => "get AccountID error."
+                    'error_code' => 'F0002',
+                    'error_message' => "get AccountID error.",
+                    'error_desc' => 'GeteBayUserInfoByToken Failure'
                 )
             );
         }
