@@ -101,6 +101,7 @@ void *thread_function(void *arg)
     // strcpy(message, "Bye!");
     system(arg);
     // system("php -r \"sleep(rand(0,10));\" ");
+    pthread_detach(pthread_self());
     pthread_exit(EXIT_SUCCESS);
 }
 
