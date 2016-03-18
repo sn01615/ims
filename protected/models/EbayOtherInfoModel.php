@@ -1200,7 +1200,7 @@ class EbayOtherInfoModel extends BaseModel
      */
     public function parseEbayOrders()
     {
-        DaemonLockTool::lock(__METHOD__ . gmdate('h'));
+        DaemonLockTool::lock(__METHOD__);
         
         $startTime = time();
         

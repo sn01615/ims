@@ -20,7 +20,8 @@ class DaemonLockTool
     static public function lock($tag)
     {
         $filename = BASE_PATH . '/protected/runtime/lockfiles/' . md5($tag);
-        file_exists($filename) || touch($filename);
+        // file_exists($filename) || touch($filename);
+        file_put_contents($filename, time());
         
         self::$fp = fopen($filename, "r+");
         
