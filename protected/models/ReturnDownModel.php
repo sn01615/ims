@@ -113,7 +113,7 @@ class ReturnDownModel extends BaseModel
         return ReturnDownDAO::getInstance()->deleteByIds($ids);
     }
     
- /**
+    /**
      * @desc 生成Return_request下载队列
      * @author liaojianwen
      * @date 2015-06-14
@@ -138,7 +138,7 @@ class ReturnDownModel extends BaseModel
                         }
                         $this->makeReturnDownQueue($fromDate, $toDate, $shop, 20 - $i);
                     }
-                } elseif(time()- $shop['return_down_time'] > 2*3600) {
+                } elseif (time() - $shop['return_down_time'] > 2 * 3600) {
                     $fromDate = $shop['return_down_time'] - EnumOther::OVARLAP_TIME;
                     $toDate = $_time;
                     $this->makeReturnDownQueue($fromDate, $toDate, $shop, 19);
@@ -162,9 +162,7 @@ class ReturnDownModel extends BaseModel
         }
     }
     
-    
-    
-        /**
+    /**
      * @desc 生成Return_request下载队列
      * @param int $fromDate
      * @param int $toDate
@@ -179,7 +177,7 @@ class ReturnDownModel extends BaseModel
         $params = array(
             'seller_id' => $shop['seller_id'],
             'shop_id' => $shop['shop_id'],
-            'AccountID'=> $shop['AccountID'],
+            'AccountID' => $shop['AccountID'],
             'site_id' => $shop['site_id'],
             'token' => $shop['token'],
             'start_time' => $fromDate,
@@ -240,8 +238,8 @@ class ReturnDownModel extends BaseModel
                                 goto label;
                             }
                             label2:
-                                // $xmldata['ActivityOptions'][$return_id] = $this->getActivityOptions($return_id, $Queue['token'], $Queue['site_id']);
-                                // $xmldata['FileData'][$return_id] = $this->getFileData($return_id, $Queue['token']);
+                            // $xmldata['ActivityOptions'][$return_id] = $this->getActivityOptions($return_id, $Queue['token'], $Queue['site_id']);
+                            // $xmldata['FileData'][$return_id] = $this->getFileData($return_id, $Queue['token']);
                             FileLog::getInstance()->write(EnumOther::LOG_DIR_RETURN_TEMP_FILE_DATA . gmdate('/Y/m/d/') . EnumOther::LOG_DIR_RETURN_TEMP_DOWN_TAG, md5($return_id), $this->getFileData($return_id, $Queue['token']));
                             $xmldata['FileData'][$return_id] = gmdate('/Y/m/d/') . EnumOther::LOG_DIR_RETURN_TEMP_DOWN_TAG;
                         }
