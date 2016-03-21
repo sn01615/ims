@@ -108,7 +108,6 @@ class ReturnUpdateModel extends BaseModel
                     $xmldata = array();
                     $xmldata['Returns'] = ReturnDownModel::model()->getUserReturns($Queue['start_time'], $Queue['end_time'], '', '', '', $Queue['token'], $Queue['site_id'], $page, $pagesize);
                     
-                    // $res = ReturnDownModel::model()->parseNamespaceXml($xmldata['Returns']);
                     $doc = phpQuery::newDocumentXML($xmldata['Returns']);
                     phpQuery::selectDocument($doc);
                     if (pq('ack') == 'Failure') {
@@ -125,9 +124,8 @@ class ReturnUpdateModel extends BaseModel
                     
                     for ($i = 0; $i < $length; $i ++) {
                         $_st = microtime(true); // remove it
-                        $return = $returns->eq($i);
                         
-                        $return_id = $return->find('ReturnId>id')->html();
+                        $return_id = pq('ReturnId>id')->eq($i)->html();
                         if ($return_id !== false) {
                             $runcount = 0;
                             label:
@@ -173,7 +171,7 @@ class ReturnUpdateModel extends BaseModel
                         ReturnDownDAO::getInstance()->rollback();
                     }
                     unset($columns);
-                    if ($page >= pq('paginationOutput>totalPages')) {
+                    if ($page >= pq('paginationOutput>totalPages')->html()) {
                         continue 2;
                     }
                     

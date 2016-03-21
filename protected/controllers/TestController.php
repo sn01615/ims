@@ -548,6 +548,6 @@ eot;
         // echo $xml;
         $doc = phpQuery::newDocumentXML($xml);
         phpQuery::selectDocument($doc);
-        echo pq('ReturnId>id')->html();
+        echo pq('ReturnId>id')->eq(0)->html();
     }
 }
