@@ -23,7 +23,7 @@ class SendMail
             $clientip = imsTool::get_client_ip();
             if ($clientip !== 'UNKNOWN') {
                 for ($i = 0; $i < 10; $i ++) {
-                    $key = md5("404iplist{$clientip}_{$i}");
+                    $key = '404IP_' . $clientip . '_' . $i;
                     if (iMemcache::getInstance()->get($key) === false) {
                         iMemcache::getInstance()->set($key, true, 600);
                         break;

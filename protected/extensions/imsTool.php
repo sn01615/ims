@@ -167,7 +167,7 @@ class imsTool
         if ($clientip !== 'UNKNOWN') {
             $count = 0;
             for ($i = 0; $i < 10; $i ++) {
-                $key = md5("404iplist{$clientip}_{$i}");
+                $key = '404IP_' . $clientip . '_' . $i;
                 if (iMemcache::getInstance()->get($key) !== false) {
                     $count ++;
                 }

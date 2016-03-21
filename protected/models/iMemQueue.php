@@ -41,11 +41,31 @@ class iMemQueue
         
         $result['head'] = iMemcache::getInstance()->get(md5("{$key}_head"));
         if ($result['head'] === false) {
+            
+            // 发送邮件通知
+            ob_start();
+            var_dump($key);
+            var_dump(md5("{$key}_head"));
+            $text = ob_get_clean();
+            $subject = "Fatal error: iMemQueue init get head error.";
+            $to = Yii::app()->params['logmails'];
+            SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
+            
             iMemcache::getInstance()->set(md5("{$key}_head"), 0, 0);
             $result['head'] = 0;
         }
         $result['tail'] = iMemcache::getInstance()->get(md5("{$key}_tail"));
         if ($result['tail'] === false) {
+            
+            // 发送邮件通知
+            ob_start();
+            var_dump($key);
+            var_dump(md5("{$key}_tail"));
+            $text = ob_get_clean();
+            $subject = "Fatal error: iMemQueue init get tail error.";
+            $to = Yii::app()->params['logmails'];
+            SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
+            
             iMemcache::getInstance()->set(md5("{$key}_tail"), 0, 0);
             $result['tail'] = 0;
         }
