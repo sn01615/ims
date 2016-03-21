@@ -69,6 +69,7 @@ class MsgDownDAO extends BaseDAO
             $lessTime = time() - EnumOther::CASE_UPLOAD_STATUS_TIME;
         } elseif ($type === 'return') {
             // 获取所有Return 对列
+            $lessTime = time() - 60;
             $type = 'return_down_time';
         } elseif ($type === 'return_update') {
             $type = 'return_update_time';

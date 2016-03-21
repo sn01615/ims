@@ -138,10 +138,10 @@ class ReturnDownModel extends BaseModel
                         }
                         $this->makeReturnDownQueue($fromDate, $toDate, $shop, 20 - $i);
                     }
-                } elseif (time() - $shop['return_down_time'] > 2 * 3600) {
+                } elseif ($_time - $shop['return_down_time'] > 50) {
                     $fromDate = $shop['return_down_time'] - EnumOther::OVARLAP_TIME;
                     $toDate = $_time;
-                    $this->makeReturnDownQueue($fromDate, $toDate, $shop, 19);
+                    $this->makeReturnDownQueue($fromDate, $toDate, $shop, 25);
                 }
                 
                 $columns = array(
@@ -158,6 +158,7 @@ class ReturnDownModel extends BaseModel
             return true;
         } catch (Exception $e) {
             ReturnDownQueueDAO::getInstance()->rollback();
+            throw new Exception('generateReturnDownQueue error.');
             return false;
         }
     }
@@ -195,9 +196,17 @@ class ReturnDownModel extends BaseModel
      */
     public function executeReturnDownQueue()
     {
-        DaemonLockTool::lock(__METHOD__ . rand(1, 1));
+        DaemonLockTool::lock(__METHOD__);
         
-        $pagesize = 10;
+        $startTime = time();
+        
+        label1:
+        
+        if (time() - $startTime > 595) {
+            return false;
+        }
+        
+        $pagesize = 200;
         $Queues = ReturnDownQueueDAO::getInstance()->getDownQueueData(EnumOther::RETURN_EXECUTESIZE);
         if ($Queues !== false) {
             foreach ($Queues as $key => $Queue) {
@@ -207,15 +216,13 @@ class ReturnDownModel extends BaseModel
                     
                     $xmldata = array();
                     $xmldata['Returns'] = $this->getUserReturns($Queue['start_time'], $Queue['end_time'], '', '', '', $Queue['token'], $Queue['site_id'], $page, $pagesize);
-                    $res = $this->parseNamespaceXml($xmldata['Returns']);
-                    $doc = phpQuery::newDocumentXML($res);
+                    $doc = phpQuery::newDocumentXML($xmldata['Returns']);
                     phpQuery::selectDocument($doc);
-                    if ($doc['ns1_ack']->html() == 'Failure') {
+                    if (pq('ack') == 'Failure') {
                         continue 2;
                     }
                     
-                    $returns = pq('ns1_returns');
-                    $length = $returns->length;
+                    $length = pq('returns')->length;
                     
                     if (! $length) {
                         ReturnDownQueueDAO::getInstance()->deleteByPk($Queue['return_request_queue_id']);
@@ -223,10 +230,10 @@ class ReturnDownModel extends BaseModel
                     }
                     
                     for ($i = 0; $i < $length; $i ++) {
-                        $return_id = $returns->eq($i)
-                            ->find('ns1_ReturnId>ns1_id')
+                        $return_id = pq('returns')->eq($i)
+                            ->find('ReturnId>id')
                             ->html();
-                        if ($return_id !== false && $return_id !== false) {
+                        if ($return_id !== false) {
                             $runcount = 0;
                             label:
                             $xmldata['ReturnDetail'][$return_id] = $this->getReturnDetailInfo($return_id, $Queue['token']);
@@ -263,10 +270,10 @@ class ReturnDownModel extends BaseModel
                     } catch (Exception $e) {
                         ReturnDownDAO::getInstance()->rollback();
                     }
-                    if ((integer) $doc['ns1_paginationOutput>ns1_totalEntries']->html() <= ($pagesize * $page)) {
+                    if ($page >= pq('paginationOutput>totalPages')->html()) {
                         continue 2;
                     }
-                    if ((integer) $doc['errorMessage>error>errorId']->html() > 0) {
+                    if (pq('errorMessage>error>errorId') > 0) {
                         // file_put_contents('getUserReturnsErr.log', "{$Queue['return_request_queue_id']}:\n{$doc}\n\n", FILE_APPEND);
                         iMongo::getInstance()->setCollection('getUserRetrunsErrA')->insert(array(
                             'xml' => $xmldata['Returns'],
@@ -276,8 +283,12 @@ class ReturnDownModel extends BaseModel
                     }
                 }
             }
+            
+            goto label1;
         } else {
-            return false;
+            DaemonLockTool::lock(__METHOD__ . 'one');
+            sleep(15);
+            goto label1;
         }
     }
     
