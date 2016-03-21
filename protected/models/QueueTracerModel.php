@@ -38,7 +38,14 @@ class QueueTracerModel extends MongoJob
         
         $startTime = time();
         
-        $mongo = new MongoClient('mongodb://127.0.0.1:27017', array(
+        $mongoConfig = Yii::app()->params['mongodb_conn'];
+        if (isset($mongoConfig['default']) && ! empty($mongoConfig['default']['ip']) && ! empty($mongoConfig['default']['port'])) {
+            $conStr = 'mongodb://' . $mongoConfig['default']['ip'] . ':' . $mongoConfig['default']['port'];
+        } else {
+            throw new Exception('Monogodb config error.');
+        }
+        
+        $mongo = new MongoClient($conStr, array(
             'connect' => false
         ));
         MongoQueue::$connection = $mongo;
@@ -54,5 +61,4 @@ class QueueTracerModel extends MongoJob
             }
         }
     }
-    
 }
