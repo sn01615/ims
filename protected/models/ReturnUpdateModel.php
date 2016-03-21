@@ -173,7 +173,7 @@ class ReturnUpdateModel extends BaseModel
                         ReturnDownDAO::getInstance()->rollback();
                     }
                     unset($columns);
-                    if ($page > pq('paginationOutput>totalPages')) {
+                    if ($page >= pq('paginationOutput>totalPages')) {
                         continue 2;
                     }
                     
