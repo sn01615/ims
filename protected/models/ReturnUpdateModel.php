@@ -40,9 +40,9 @@ class ReturnUpdateModel extends BaseModel
                 );
                 ReturnUpdateQueueDAO::getInstance()->idelete($conditions, $params);
                 $_time = time();
-                for ($i = 0; $i < 45; $i ++) {
-                    $fromDate = $_time - ($i + 1) * 24 * 3600;
-                    $toDate = $_time - $i * 24 * 3600;
+                for ($i = 0; $i < 3; $i ++) {
+                    $fromDate = $_time - ($i + 1) * 30 * 24 * 3600;
+                    $toDate = $_time - $i * 30 * 24 * 3600;
                     $params = array(
                         'seller_id' => $shop['seller_id'],
                         'shop_id' => $shop['shop_id'],
@@ -82,7 +82,7 @@ class ReturnUpdateModel extends BaseModel
      */
     public function executeReturnUpdateQueue()
     {
-        DaemonLockTool::lock(__METHOD__ . rand(1, 1));
+        DaemonLockTool::lock(__METHOD__);
         
         $startTime = time();
         
@@ -92,7 +92,7 @@ class ReturnUpdateModel extends BaseModel
             return false;
         }
         
-        $pagesize = 10;
+        $pagesize = 200;
         
         $Queues = ReturnUpdateQueueDAO::getInstance()->getUpdateQueueData(EnumOther::RETURN_EXECUTESIZE);
         if ($Queues !== false) {
@@ -101,17 +101,21 @@ class ReturnUpdateModel extends BaseModel
                 while (true) {
                     $page ++;
                     
+                    if ($page > 100) {
+                        break;
+                    }
+                    
                     $xmldata = array();
                     $xmldata['Returns'] = ReturnDownModel::model()->getUserReturns($Queue['start_time'], $Queue['end_time'], '', '', '', $Queue['token'], $Queue['site_id'], $page, $pagesize);
                     
-                    $res = ReturnDownModel::model()->parseNamespaceXml($xmldata['Returns']);
-                    $doc = phpQuery::newDocumentXML($res);
+                    // $res = ReturnDownModel::model()->parseNamespaceXml($xmldata['Returns']);
+                    $doc = phpQuery::newDocumentXML($xmldata['Returns']);
                     phpQuery::selectDocument($doc);
-                    if ($doc['ns1_ack']->html() == 'Failure') {
+                    if (pq('ack') == 'Failure') {
                         continue 2;
                     }
                     
-                    $returns = pq('ns1_returns');
+                    $returns = pq('returns');
                     $length = $returns->length;
                     
                     if (! $length) {
@@ -120,13 +124,11 @@ class ReturnUpdateModel extends BaseModel
                     }
                     
                     for ($i = 0; $i < $length; $i ++) {
+                        $_st = microtime(true); // remove it
+                        $return = $returns->eq($i);
                         
-                        $_st = microtime(true);
-                        
-                        $return_id = $returns->eq($i)
-                            ->find('ns1_ReturnId>ns1_id')
-                            ->html();
-                        if ($return_id !== false && $return_id !== false) {
+                        $return_id = $return->find('ReturnId>id')->html();
+                        if ($return_id !== false) {
                             $runcount = 0;
                             label:
                             
@@ -147,8 +149,7 @@ class ReturnUpdateModel extends BaseModel
                             // $xmldata['FileData'][$return_id] = ReturnDownModel::model()->getFileData($return_id, $Queue['token']);
                             $xmldata['FileData'][$return_id] = gmdate('/Y/m/d/') . EnumOther::LOG_DIR_RETURN_TEMP_UPDATE_TAG;
                         }
-                        
-                        file_put_contents('xxxxx_runtime.log', $i . ' ' . $return_id . ' time:' . (microtime(true) - $_st) . "\n", FILE_APPEND);
+                        file_put_contents('xxxxx_runtime.log', $i . ' ' . $return_id . ' time:' . (microtime(true) - $_st) . "\n", FILE_APPEND); // remove it
                     }
                     $columns = array(
                         'seller_id' => $Queue['seller_id'],
@@ -172,11 +173,11 @@ class ReturnUpdateModel extends BaseModel
                         ReturnDownDAO::getInstance()->rollback();
                     }
                     unset($columns);
-                    if ((integer) $doc['ns1_paginationOutput>ns1_totalEntries']->html() <= $page) {
+                    if ($page > pq('paginationOutput>totalPages')) {
                         continue 2;
                     }
                     
-                    if ((integer) $doc['errorMessage>error>errorId']->html() > 0) {
+                    if (pq('errorMessage>error>errorId') > 0) {
                         iMongo::getInstance()->setCollection('getUserRetrunsErrB')->insert(array(
                             'xml' => $xmldata['Returns'],
                             'time' => time()

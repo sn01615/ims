@@ -124,7 +124,7 @@ class EnumOther
      * @desc 生成feedback队列的频率
      * @var int
      */
-    const RETURN_UPDATE_TIME = 21600;
+    const RETURN_UPDATE_TIME = 600;
     
     /**
      * @desc Case上传重试间隔
