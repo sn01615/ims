@@ -149,7 +149,7 @@ class ReturnUpdateModel extends BaseModel
                             // $xmldata['FileData'][$return_id] = ReturnDownModel::model()->getFileData($return_id, $Queue['token']);
                             $xmldata['FileData'][$return_id] = gmdate('/Y/m/d/') . EnumOther::LOG_DIR_RETURN_TEMP_UPDATE_TAG;
                         }
-                        file_put_contents('xxxxx_runtime.log', $i . ' ' . $return_id . ' time:' . (microtime(true) - $_st) . "\n", FILE_APPEND); // remove it
+                        file_put_contents('xxxxx_runtime.log', 'page:' . $page . ' i:' . $i . ' returnid:' . $return_id . ' time:' . (microtime(true) - $_st) . "\n", FILE_APPEND); // remove it
                     }
                     $columns = array(
                         'seller_id' => $Queue['seller_id'],
