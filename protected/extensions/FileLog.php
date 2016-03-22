@@ -75,6 +75,34 @@ class FileLog
     }
     
     /**
+     * 删除日志文件
+     * @param string $dir
+     * @param string $filename
+     * @author YangLong
+     * @date 2016-03-22
+     * @return boolean
+     */
+    public function delete($dir, $filename)
+    {
+        $hash = md5($dir . $filename);
+        $_tempArray = str_split($hash);
+        $_tempArray = array_slice($_tempArray, 0, $this->depth);
+        $path = $this->path . '/' . $dir . '/' . implode('/', $_tempArray) . '/' . substr($hash, $this->depth);
+        if (file_exists($path)) {
+            unlink($path);
+        }
+        for ($i = 0; $i < $this->depth; $i ++) {
+            $path = substr($path, 0, strrpos($path, '/'));
+            if (count(scandir($path)) === 2) {
+                rmdir($path);
+            } else {
+                break;
+            }
+        }
+        return true;
+    }
+    
+    /**
      * @desc 创建文件夹
      * @param string $dir
      * @author YangLong
