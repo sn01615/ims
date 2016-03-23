@@ -82,7 +82,7 @@ class ReturnUpdateModel extends BaseModel
      */
     public function executeReturnUpdateQueue()
     {
-        DaemonLockTool::lock(__METHOD__);
+        DaemonLockTool::lock(__METHOD__ . gmdate('i'));
         
         $startTime = time();
         
@@ -187,6 +187,7 @@ class ReturnUpdateModel extends BaseModel
             
             goto label1;
         } else {
+            DaemonLockTool::lock(__METHOD__ . 'one');
             sleep(5);
             goto label1;
         }
