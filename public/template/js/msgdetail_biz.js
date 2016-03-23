@@ -452,9 +452,9 @@ $(function(){
                                                 
                                                 $("#buyHistory_div").find('tbody').append('<tr data-key='+x+'><td>'+data.Body[x].SellerUserID
                                                     +'</td><td t="sku" style="word-break:break-all;">'
-                                                    +(data.Body[x].Item_SKU!=''?data.Body[x].Item_SKU:data.Body[x].Variation_SKU)
+                                                    +(data.Body[x].Item_SKU!=''?HTMLDecode(HTMLDecode(data.Body[x].Item_SKU)):HTMLDecode(HTMLDecode(data.Body[x].Variation_SKU)))
                                                     +'<br />ItemID:<a href="http://cgi.ebay.com/ws/eBayISAPI.dll?ViewItem&item='+data.Body[x].Item_ItemID+'" target="_blank" class="fontLinkBtn">'+data.Body[x].Item_ItemID+'</a>'
-                                                    +(data.Body[x].ProductName.length>0 ? ('<br />Prodtct:'+HTMLDecode(HTMLDecode(HTMLDecode(HTMLDecode(data.Body[x].ProductName))))) : '')
+                                                    +(data.Body[x].ProductName.length>0 ? ('<br />Prodtct:'+HTMLDecode(HTMLDecode(data.Body[x].ProductName))) : '')
                                                     +_shuxing
                                                     +'</td><td t="pnum">'+data.Body[x].QuantityPurchased
                                                     +'</td><td t="pjg">'+data.Body[x].TransactionPrice+data.Body[x].TransactionPrice_currencyID
@@ -553,10 +553,10 @@ $(function(){
                                             // SKU
                                             var _sku='';
                                             if(data.Body[i].Item_SKU!=''){
-                                                _sku = 'SKU:'+data.Body[i].Item_SKU+'<br/>';
+                                                _sku = 'SKU:'+HTMLDecode(HTMLDecode(data.Body[i].Item_SKU))+'<br/>';
                                             }
                                             if(data.Body[i].Variation_SKU!=''){
-                                                _sku = '<i title="'+lang.msgdetail_biz.multi_attr+'">SKU:'+data.Body[i].Variation_SKU+'</i>'+'<br/>';
+                                                _sku = '<i title="'+lang.msgdetail_biz.multi_attr+'">SKU:'+HTMLDecode(HTMLDecode(data.Body[i].Variation_SKU))+'</i>'+'<br/>';
                                             }
                                             
                                             // 属性
@@ -586,7 +586,7 @@ $(function(){
                                             _td += '<td>' + (data.Body[i].user_id ? data.Body[i].OrderLineItemID.replace(/(\d{8})\d{4}/, '$1**** ') : data.Body[i].OrderLineItemID) + '</td>';
                                             _td += '<td style="line-height:1.5em;">';
                                             _td += _sku;
-                                            _td += (data.Body[i].ProductName.length > 0 ? ('Product:' + HTMLDecode(HTMLDecode(HTMLDecode(HTMLDecode(data.Body[i].ProductName)))) + '<br/>') : '');
+                                            _td += (data.Body[i].ProductName.length > 0 ? ('Product:' + HTMLDecode(HTMLDecode(data.Body[i].ProductName)) + '<br/>') : '');
                                             _td += _shuxing;
                                             _td += '</td>';
                                             _td += '<td>' + data.Body[i].QuantityPurchased + '</td>';
