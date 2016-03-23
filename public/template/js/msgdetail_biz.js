@@ -586,7 +586,7 @@ $(function(){
                                             _td += '<td>' + (data.Body[i].user_id ? data.Body[i].OrderLineItemID.replace(/(\d{8})\d{4}/, '$1**** ') : data.Body[i].OrderLineItemID) + '</td>';
                                             _td += '<td style="line-height:1.5em;">';
                                             _td += _sku;
-                                            _td += (data.Body[i].ProductName.length > 0 ? ('Product:' + HTMLDecode(HTMLDecode(data.Body[i].ProductName)) + '<br/>') : '');
+                                            _td += (data.Body[i].ProductName.length > 0 ? ('Product:' + HTMLDecode(HTMLDecode(HTMLDecode(HTMLDecode(data.Body[i].ProductName)))) + '<br/>') : '');
                                             _td += _shuxing;
                                             _td += '</td>';
                                             _td += '<td>' + data.Body[i].QuantityPurchased + '</td>';
