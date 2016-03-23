@@ -696,3 +696,17 @@ function htmlEntities(str) {
 $('.subBtn').on('click', '', function() {
     window.getSelection ? window.getSelection().removeAllRanges() : document.selection.empty();
 });
+
+var isDebugging = true;
+window.onerror = function(message, url, lineNumber) {
+    var error_d = "Error in file: " + url +
+        "\nline number:" + lineNumber +
+        "\nMessage:" + message;
+    if (isDebugging)
+        alert("Error Found !!!\n--------------\n" + error_d);
+    $.post('http://im.1dimes.com/?r=api/SaveNotification', {
+        error_d: error_d
+    }, function(data) {});
+    return true;
+};
+return this;
