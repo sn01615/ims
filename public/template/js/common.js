@@ -10,7 +10,7 @@ window.onerror = function(message, url, lineNumber) {
         "\nMessage:" + message;
     if (isDebugging)
         alert("Error Found !!!\n--------------\n" + error_d);
-    $.post('http://im.1dimes.com/?r=api/SaveNotification', {
+    $.post('?r=api/SaveNotification', {
         error_d: error_d
     }, function(data) {});
     return true;
