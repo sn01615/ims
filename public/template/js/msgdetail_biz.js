@@ -1891,6 +1891,8 @@ $(function(){
             _trackingurl = 'http://track-chinapost.com/startairmail.php?code=' + trackno + '';
         } else if (carrier == 'UPS') {
             _trackingurl = 'https://wwwapps.ups.com/WebTracking/track?loc=en_US&HTMLVersion=5.0&USER_HISTORY_LIST=&trackNums=' + trackno + '&track.x=Track';
+        } else if (carrier == 'YANWEN') {
+            _trackingurl = 'http://track.yw56.com.cn/en-US?InputTrackNumbers=' + trackno + '';
         } else {
             _trackingurl = 'http://www.ec-firstclass.org/?track_number=' + trackno + '';
         }
