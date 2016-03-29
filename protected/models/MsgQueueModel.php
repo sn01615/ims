@@ -73,47 +73,6 @@ class MsgQueueModel extends BaseModel
     }
 
     /**
-     * @desc 保存下载的数据
-     * @param array $apiResult 需要保存的下载数据
-     * @return int $inserID
-     * @author YangLong
-     * @date 2015-03-17
-     */
-    private function saveDown(&$apiResult, $paramArr)
-    {
-        $insertArr = array(
-            'text_json' => serialize($apiResult),
-            'seller_id' => $paramArr['seller_id'],
-            'shop_id' => $paramArr['shop_id'],
-            'create_time' => time()
-        );
-        // 释放
-        $apiResult = array();
-        $inserID = MsgDownDAO::getInstance()->insert($insertArr);
-
-        if (Yii::app()->params['download_mongo_log'] && isset($inserID) && $inserID) {
-
-            // 写入Mongodb日志
-            $logArray = array(
-                'api_name' => 'GetMyMessages',
-                'down_id' => $inserID,
-                'create_time' => time(),
-                'result' => serialize($insertArr)
-            );
-
-            $cmongo = CMongodbHelper::getInstance();
-            $dbname = Yii::app()->params['mongodbList'][1];
-            $collectionName = Yii::app()->params['mongodbTableList'][$dbname][7];
-            $cmongo->insert($collectionName, $logArray, $dbname);
-        }
-
-        // 释放局部变量
-        unset($insertArr);
-
-        return $inserID;
-    }
-
-    /**
      * @desc 获取消息文件夹列表信息
      * @param string $token
      * @param string $startime
@@ -281,31 +240,6 @@ class MsgQueueModel extends BaseModel
     private function fmtDate($date)
     {
         return gmdate('Y-m-d\TH:i:s\Z',$date);
-    }
-
-    /**
-     * @desc 按IDs获取消息详细信息
-     * @param array $MessageIDs
-     * @param string $DetailLevel
-     * @author YangLong
-     * @date 2015-02-12
-     * @return Ambigous <GetMyMessagesResponse, NULL, EbatNs_ResponseError, multitype:>
-     */
-    private function getMessagesDetail($messageIDs, $detailLevel = 'ReturnMessages')
-    {
-        if (! is_array($messageIDs) || empty($messageIDs)) {
-            return false;
-        }
-        $objMsgRequest = new GetMyMessagesRequestType();
-        $objMsgIDs = new MyMessagesMessageIDArrayType();
-        $objMsgRequest->setMessageIDs($objMsgIDs);
-        foreach ($messageIDs as $key => $msgID) {
-            $objMsgIDs->addMessageID($msgID);
-        }
-        $objMsgRequest->addDetailLevel($detailLevel);
-        $objMsgRequest->setVersion(self::VESRION);
-        $response = $this->proxy->GetMyMessages($objMsgRequest);
-        return $response;
     }
 
     /**

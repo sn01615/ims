@@ -452,7 +452,7 @@ class CaseUploadModel extends BaseModel
         
         $caseId = $uploadData['caseId_id'];
         $token = $Queue['token'];
-        $returnMerchandiseAuthorization = $uploadData['merchatAuth'];
+        $returnMerchandiseAuthorization = $uploadData['merchantAuth'];
         $additionalReturnInstructions = $uploadData['responseText'];
         $city = $uploadData['city'];
         $country = $uploadData['country'];

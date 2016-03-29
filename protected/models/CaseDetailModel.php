@@ -630,7 +630,7 @@ class CaseDetailModel extends BaseModel
                 $result = CaseResponseHistoryDAO::getInstance()->insert($param);
                 $columns = array(
                     'upload_type' => __FUNCTION__,
-                    'upload_data' => serialize(compact('caseId_id', 'caseType', 'role', 'responseText', 'country', 'state', 'city', 'street', 'street2', 'contractName', 'postcode', 'merchatAuth')),
+                    'upload_data' => serialize(compact('caseId_id', 'caseType', 'role', 'responseText', 'country', 'state', 'city', 'street', 'street2', 'contractName', 'postcode', 'merchantAuth')),
                     'token' => $token['token'],
                     'create_time' => time()
                 );
