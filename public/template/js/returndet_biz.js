@@ -1277,7 +1277,7 @@ $(document).ready(function(e){
                             var uploadId = data.Body.returnMsg;
                             (function(){
                                 if(uploadId > 0){
-                                    stateBoxFun('show',lang.returndet_biz.lang.returndet_biz.deal.waiting);
+                                    stateBoxFun('show',lang.returndet_biz.deal.waiting);
                                     $.get('?r=api/GetReturnTrueAct',{'id':uploadId,'type':'returnMsg'},function(result,return_status){
                                         removeloading();
                                         if(return_status === 'success' && result.Ack === 'Success'){
