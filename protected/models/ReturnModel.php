@@ -137,7 +137,7 @@ class ReturnModel extends BaseModel
                         // 明细
                         if (isset($value['text_json']['ReturnDetail']) && is_array($value['text_json']['ReturnDetail']) && isset($value['text_json']['ReturnDetail'][$returnId_id])) {
                             $det = json_decode($value['text_json']['ReturnDetail'][$returnId_id], true);
-                            if ($det['ackValue'] == 'SUCCESS') {
+                            if (isset($det['ackValue']) && $det['ackValue'] == 'SUCCESS') {
                                 $columns_det = array(
                                     'return_id' => $return_id,
                                     'S_buyerLoginName' => isset($det['summary']['buyerLoginName']) ? $det['summary']['buyerLoginName'] : '',
