@@ -419,75 +419,76 @@ class ReturnDetailModel extends BaseModel
         }
     }
     
-   /**
-    * @desc return 部分退款
-    * @param string $returnid
-    * @param string $amount
-    * @param string $text
-    * @param $sellerId
-    * @author liaojianwen
-    * @date 2015-07-01
-    */
-   public function issueReturnPartRefund($returnid,$amount,$currencyId,$text,$sellerId)
-   {
-        if (empty($returnid) ||empty($amount) || empty($currencyId) || empty($sellerId)) {
+    /**
+     * @desc return 部分退款
+     * @param string $returnid
+     * @param string $amount
+     * @param string $text
+     * @param $sellerId
+     * @author liaojianwen
+     * @date 2015-07-01
+     */
+    public function issueReturnPartRefund($returnid, $amount, $currencyId, $text, $sellerId)
+    {
+        if (empty($returnid) || empty($amount) || empty($currencyId) || empty($sellerId)) {
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '数据不能为空');
         }
-         $token = ReturnDAO::getInstance()->lawfulReturnID($returnid, $sellerId);
-         
-         if ($token === false) {
+        $token = ReturnDAO::getInstance()->lawfulReturnID($returnid, $sellerId);
+        
+        if ($token === false) {
             return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', 'returnid Error.');
-         } else {
-             ReturnHistoryDAO::getInstance()->begintransaction();
-             try{
+        } else {
+            ReturnHistoryDAO::getInstance()->begintransaction();
+            try {
                 $param['return_id'] = $returnid;
                 $param['creationDate'] = time();
-                $param['activity']='SELLER_OFFER_PARTIAL_REFUND';
+                $param['activity'] = 'SELLER_OFFER_PARTIAL_REFUND';
                 $param['note'] = $text;
-                $param['partialRefundAmount'] = (double)$amount;
+                $param['partialRefundAmount'] = (double) $amount;
                 $param['author'] = 'SELLER';
-                $param['create_time'] =time();
+                $param['create_time'] = time();
                 $result = ReturnHistoryDAO::getInstance()->insert($param);
                 
                 $returnId_id = $token['returnId_id'];
                 $siteid = $token['site_id'];
                 $columns = array(
                     'upload_type' => __FUNCTION__,
-                    'upload_data' =>serialize(compact('returnId_id', 'amount', 'currencyId', 'text', 'siteid')),
-                    'token' =>$token['token'],
-                    'create_time' =>time()
-                
+                    'upload_data' => serialize(compact('returnId_id', 'amount', 'currencyId', 'text', 'siteid')),
+                    'token' => $token['token'],
+                    'create_time' => time()
                 );
-                $result1 = ReturnUploadQueueDAO::getInstance()->iinsert($columns,true);
-                $return = array('returnPartRefund'=>$result1);
-                //以下部分是插入我的操作日志表的代码
-        		$username = isset(Yii::app()->session['userInfo']['username']) ? Yii::app()->session['userInfo']['username'] : 0;
-        		if ($username !== 0) {
-        		    $paramArr['handle_user'] = $username;
-        		} else {
-         		    return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '用户未登陆');
-        		}
-        		$paramArr['return_id'] = $returnid;
-        		$paramArr['create_time'] = time();
-        		$paramArr['amount'] = $amount;
-        		$paramArr['currencyId'] = $currencyId;
-        		$paramArr['responseText'] =$text;
-        		$paramArr['handle_type'] = __FUNCTION__;
-        		$result2 = ReturnHandleLogDAO::getInstance()->insert($paramArr);
+                $result1 = ReturnUploadQueueDAO::getInstance()->iinsert($columns, true);
+                $return = array(
+                    'returnPartRefund' => $result1
+                );
+                // 以下部分是插入我的操作日志表的代码
+                $username = isset(Yii::app()->session['userInfo']['username']) ? Yii::app()->session['userInfo']['username'] : 0;
+                if ($username !== 0) {
+                    $paramArr['handle_user'] = $username;
+                } else {
+                    return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '用户未登陆');
+                }
+                $paramArr['return_id'] = $returnid;
+                $paramArr['create_time'] = time();
+                $paramArr['amount'] = $amount;
+                $paramArr['currencyId'] = $currencyId;
+                $paramArr['responseText'] = $text;
+                $paramArr['handle_type'] = __FUNCTION__;
+                $result2 = ReturnHandleLogDAO::getInstance()->insert($paramArr);
                 if ($result === false || $result1 === false || $result2 === false) {
                     ReturnHistoryDAO::getInstance()->rollback();
                     return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
                 } else {
                     ReturnHistoryDAO::getInstance()->commit();
-                    return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $return,'');
+                    return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $return, '');
                 }
-              } catch (Exception $e) {
-                   ReturnHistoryDAO::getInstance()->rollback();
-                   return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
-             }
-         }
-   }
-   
+            } catch (Exception $e) {
+                ReturnHistoryDAO::getInstance()->rollback();
+                return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
+            }
+        }
+    }
+    
     /**
      * @desc return 发送信息
      * @param string $returnid

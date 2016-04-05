@@ -15,7 +15,7 @@ class boolConvert
      * @date 2015-04-01
      * @return number
      */
-    static public function toInt01($val)
+    public static function toInt01($val)
     {
         $val = strtolower($val);
         if (empty($val) || $val == 'false' || $val == 'no') {
@@ -32,7 +32,7 @@ class boolConvert
      * @date 2015-09-19
      * @return number
      */
-    static public function toStr01($val)
+    public static function toStr01($val)
     {
         $val = strtolower($val);
         if (empty($val) || $val == 'false' || $val == 'no') {

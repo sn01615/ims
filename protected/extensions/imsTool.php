@@ -12,7 +12,7 @@ class imsTool
 
     private static $timerArr;
 
-    static public function ehcoDebugInfo($info = '')
+    public static function ehcoDebugInfo($info = '')
     {
         if (self::ECHO_DEBUG_INFO) {
             echo $info;
@@ -26,12 +26,12 @@ class imsTool
         return substr(round(($number / 1024 / 1024), 4) . '00000', 0, 6) . ' MB ';
     }
 
-    static public function timerInit($tag)
+    public static function timerInit($tag)
     {
         self::$timerArr[$tag] = array();
     }
 
-    static public function timer($tag, $note)
+    public static function timer($tag, $note)
     {
         self::$timerArr[$tag][] = array(
             microtime(true),
@@ -39,17 +39,17 @@ class imsTool
         );
     }
 
-    static public function timerget($tag)
+    public static function timerget($tag)
     {
         return self::$timerArr[$tag];
     }
 
-    static public function xmlHeader()
+    public static function xmlHeader()
     {
         header('Content-Type: text/xml');
     }
 
-    static public function utf8Header()
+    public static function utf8Header()
     {
         header('Content-Type: text/html;charset=utf-8');
     }
@@ -61,7 +61,7 @@ class imsTool
      * @date 2015-06-27
      * @return multitype:Ambigous <>
      */
-    static public function get($str)
+    public static function get($str)
     {
         if (empty($str))
             return array();
@@ -83,7 +83,7 @@ class imsTool
      * @date 2015-06-29
      * @return string
      */
-    static public function msgClear($str)
+    public static function msgClear($str)
     {
         $str = trim(preg_replace('/[\s\n\t\r]+/', ' ', $str));
         return $str;
@@ -96,7 +96,7 @@ class imsTool
      * @date 2015-07-03
      * @return string
      */
-    static public function subjectClear($str)
+    public static function subjectClear($str)
     {
         $str = str_ireplace('：', ':', $str);
         $str = explode(': ', $str);
@@ -112,7 +112,7 @@ class imsTool
      * @date 2015-09-02
      * @return string
      */
-    static public function safe_replace($string)
+    public static function safe_replace($string)
     {
         $string = str_replace('`', '', $string);
         $string = str_replace('\'', '', $string);
@@ -135,7 +135,7 @@ class imsTool
      * @date 2015-09-28
      * @return Ambigous <string, unknown>
      */
-    static public function get_client_ip()
+    public static function get_client_ip()
     {
         $ipaddress = '';
         if (@$_SERVER['HTTP_CLIENT_IP'])
@@ -161,7 +161,7 @@ class imsTool
      * @date 2015-09-28
      * @return null
      */
-    static public function ipAlow()
+    public static function ipAlow()
     {
         $clientip = imsTool::get_client_ip();
         if ($clientip !== 'UNKNOWN') {
@@ -188,7 +188,7 @@ class imsTool
      * @date 2015-11-02
      * @return null
      */
-    static public function clearDuplication($dao, $apk)
+    public static function clearDuplication($dao, $apk)
     {
         array_shift($apk);
         foreach ($apk as $value) {
@@ -228,7 +228,7 @@ class imsTool
      * @date 2015-11-23
      * @return null
      */
-    static public function paramsDuplicationCkeck($columns, $params)
+    public static function paramsDuplicationCkeck($columns, $params)
     {
         foreach ($columns as $key => $value) {
             if (isset($params[':' . $key])) {
@@ -254,7 +254,7 @@ class imsTool
      * @date 2015-12-04
      * @return string 过滤后的字符串
      */
-    static public function removeNonPrintable($str, $note = '？')
+    public static function removeNonPrintable($str, $note = '？')
     {
         $_length1 = strlen($str);
         $str2 = preg_replace('/[\x00-\x08\x1f]/u', '', $str);

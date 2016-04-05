@@ -15,7 +15,7 @@ class tidyTool
      * @date 2015-07-28
      * @return tidyNode
      */
-    static public function cleanRepair($html)
+    public static function cleanRepair($html)
     {
         $tidyConfig = array(
             'indent' => false,
@@ -35,7 +35,7 @@ class tidyTool
      * @date 2015-07-28
      * @return string
      */
-    static public function getBody($html)
+    public static function getBody($html)
     {
         $html = substr($html, stripos($html, '<body>') + 6);
         $html = substr($html, 0, stripos($html, '</body>'));

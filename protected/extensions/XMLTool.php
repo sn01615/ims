@@ -15,7 +15,7 @@ class XMLTool
      * @date 215-07-20
      * @return boolean
      */
-    static public function IsXML($str)
+    public static function IsXML($str)
     {
         // 移除非法字符
         $str = imsTool::removeNonPrintable($str, 'IsXML');

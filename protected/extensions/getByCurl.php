@@ -16,7 +16,7 @@ class getByCurl
      * @date 2015-04-22
      * @return string
      */
-    static public function get($url, &$error = null)
+    public static function get($url, &$error = null)
     {
         $connection = curl_init();
         curl_setopt($connection, CURLOPT_URL, $url);
@@ -37,7 +37,7 @@ class getByCurl
      * @date 2015-04-22
      * @return string
      */
-    static public function post($url, $postdata)
+    public static function post($url, $postdata)
     {
         $connection = curl_init();
         curl_setopt($connection, CURLOPT_URL, $url);
