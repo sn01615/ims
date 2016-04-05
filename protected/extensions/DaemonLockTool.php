@@ -17,7 +17,7 @@ class DaemonLockTool
      * @date 2015-07-05
      * @return null
      */
-    static public function lock($tag)
+    public static function lock($tag)
     {
         $filename = BASE_PATH . '/protected/runtime/lockfiles/' . md5($tag);
         // file_exists($filename) || touch($filename);
@@ -37,7 +37,7 @@ class DaemonLockTool
      * @date 2015-07-05
      * @return null
      */
-    static public function unlock($tag)
+    public static function unlock($tag)
     {
         if (self::$fp !== null) {
             flock(self::$fp, LOCK_UN);

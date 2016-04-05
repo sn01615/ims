@@ -17,7 +17,7 @@ class TaskLockTool
      * @date 2015-6-26
      * @return boolean|null
      */
-    static public function lock($tag)
+    public static function lock($tag)
     {
         $lock = iMongo::getInstance()->setCollection(self::MONGODB)->findOne(array(
             'locktag' => $tag
@@ -62,7 +62,7 @@ class TaskLockTool
      * @date 2015-6-26
      * @return null
      */
-    static public function unlock($tag)
+    public static function unlock($tag)
     {
         iMongo::getInstance()->setCollection(self::MONGODB)->update(array(
             'locktag' => $tag

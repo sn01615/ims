@@ -1585,14 +1585,13 @@ class ApiController extends Controller
     {
         $this->apiChecklogin(__METHOD__);
         
-        $returnid = CInputFilter::getInt('returnid',0);
-        $amount  = CInputFilter::getString('partamount');
+        $returnid = CInputFilter::getInt('returnid', 0);
+        $amount = CInputFilter::getString('partamount');
         $currencyId = CInputFilter::getString('currencyId');
-        $text  = CInputFilter::getString('text');
+        $text = CInputFilter::getString('text');
         $sellerId = Yii::app()->session['userInfo']['seller_id'];
-        $result = ReturnDetailModel::model()->issueReturnPartRefund($returnid,$amount,$currencyId,$text,$sellerId);
+        $result = ReturnDetailModel::model()->issueReturnPartRefund($returnid, $amount, $currencyId, $text, $sellerId);
         $this->renderJson($result);
-         
     }
     
     /**

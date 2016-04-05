@@ -302,7 +302,7 @@ class CInputFilter
      * @author YangLong
      * @date 2015-01-26
      */
-    static public function norepeatInts($string, $delimiter = ',', $sort_flags = SORT_NUMERIC)
+    public static function norepeatInts($string, $delimiter = ',', $sort_flags = SORT_NUMERIC)
     {
         $string = (string) $string;
         $_arr = explode($delimiter, $string);
@@ -324,7 +324,7 @@ class CInputFilter
      * @author YangLong
      * @date 2015-02-19
      */
-    static public function getnorepeatInts($name, $default = '')
+    public static function getnorepeatInts($name, $default = '')
     {
         return self::getClean($name, $default, 'ints');
     }
@@ -337,7 +337,7 @@ class CInputFilter
      * @author YangLong
      * @date 2015-01-26
      */
-    static public function is_true($val, $return_null = false)
+    public static function is_true($val, $return_null = false)
     {
         $boolval = (is_string($val) ? filter_var($val, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) : (bool) $val);
         return ($boolval === null && ! $return_null ? false : $boolval);
@@ -348,7 +348,7 @@ class CInputFilter
      * @param string $name
      * @return Ambigous <NULL, unknown>
      */
-    static public function getNSvalue($name)
+    public static function getNSvalue($name)
     {
         return isset($_REQUEST[$name]) ? $_REQUEST[$name] : null;
     }

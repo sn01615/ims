@@ -15,7 +15,7 @@ class MongoFalgTool
      * @author YangLong
      * @date 2015-08-12
      */
-    static public function setfalg($falg, $value)
+    public static function setfalg($falg, $value)
     {
         if (self::getfalg($falg) === false) {
             iMongo::getInstance()->setCollection(__CLASS__)->insert(array(
@@ -40,7 +40,7 @@ class MongoFalgTool
      * @date 2015-08-12
      * @return mixed|boolean
      */
-    static public function getfalg($falg)
+    public static function getfalg($falg)
     {
         $result = iMongo::getInstance()->setCollection(__CLASS__)->findOne(array(
             'falg' => $falg

@@ -14,7 +14,7 @@ class VerifyCode
      * @date 2015-03-05
      * @modify 2015-03-12 YangLong 方法静态化
      */
-    static public function getCode($num = 4, $size = 20, $width = 0, $height = 0)
+    public static function getCode($num = 4, $size = 20, $width = 0, $height = 0)
     {
         ! $width && $width = $num * $size * 4 / 5 + 26;
         ! $height && $height = $size + 20;
