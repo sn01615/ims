@@ -7,7 +7,7 @@
  */
 class ReturnDAO extends BaseDAO
 {
-    
+
     /**
      * @desc 对象实例重用
      * @param string $className 需要实例化的类名
@@ -36,7 +36,7 @@ class ReturnDAO extends BaseDAO
         
         $this->shop = 'shop';
     }
-    
+
     /**
      * @desc  获取return list
      * @param unknown $paramArr
@@ -112,7 +112,7 @@ class ReturnDAO extends BaseDAO
         );
         return $result;
     }
-    
+
     /**
      * @desc 上、下一页的id
      * @param $creationDate 
@@ -124,25 +124,25 @@ class ReturnDAO extends BaseDAO
      * @return resultArr 上一页和下一页的ID
      * @date 2015-06-19
      */
-    public function getPreNextID($creationDate, $return_id, $shopid,$status,$itemId,$cust)
+    public function getPreNextID($creationDate, $return_id, $shopid, $status, $itemId, $cust)
     {
         // 上一页的id
         $pre = "creationDate>{$creationDate} and shop_id in ({$shopid['shop_id']})";
         $next = "creationDate<{$creationDate} and shop_id in ({$shopid['shop_id']})";
         $params = array();
-       if(!empty($status)){
-            $pre .=" and S_state like :status";
-            $next .=" and S_state like :status";
+        if (! empty($status)) {
+            $pre .= " and S_state like :status";
+            $next .= " and S_state like :status";
             $params[':status'] = '%' . $status . '%';
         }
-        if(!empty($itemId)){
-            $pre .=" and D_iD_itemId like :itemId";
-            $next .=" and D_iD_itemId like :itemId";
+        if (! empty($itemId)) {
+            $pre .= " and D_iD_itemId like :itemId";
+            $next .= " and D_iD_itemId like :itemId";
             $params[':itemId'] = '%' . $itemId . '%';
-        }        
+        }
         
-        //@todo 状态不明确
-        if(!empty($cust)){
+        // @todo 状态不明确
+        if (! empty($cust)) {
             $pre .= " and S_buyerLoginName like :cust";
             $next .= " and S_buyerLoginName like :cust";
             $params[':cust'] = '%' . $cust . '%';
@@ -151,22 +151,22 @@ class ReturnDAO extends BaseDAO
         $preID = $this->dbCommand->reset()
             ->select('return_request_id preID')
             ->from("{$this->tableName} r")
-            ->join("{$this->detail} d","r.return_request_id = d.return_id")
-            ->where($pre,$params)
+            ->join("{$this->detail} d", "r.return_request_id = d.return_id")
+            ->where($pre, $params)
             ->order('creationDate asc')
             ->limit(1)
             ->queryRow();
         // 下一页id
-//        $next = "creationDate<{$creationDate} and shop_id in ({$shopid})";
+        // $next = "creationDate<{$creationDate} and shop_id in ({$shopid})";
         $nextID = $this->dbCommand->reset()
             ->select('return_request_id nextID')
             ->from("{$this->tableName} r")
-            ->join("{$this->detail} d","r.return_request_id = d.return_id")
-            ->where($next,$params)
+            ->join("{$this->detail} d", "r.return_request_id = d.return_id")
+            ->where($next, $params)
             ->order('creationDate desc')
             ->limit(1)
             ->queryRow();
-//            print_r($this->dbCommand->getText());die;
+        // print_r($this->dbCommand->getText());die;
         $resultArr = array();
         if (! empty($nextID)) {
             $resultArr = array_merge($resultArr, $nextID);
@@ -176,7 +176,7 @@ class ReturnDAO extends BaseDAO
         }
         return $resultArr;
     }
-    
+
     /**
      * @desc 判断某个return_id(return_requst表主键)是否合法,不合法返回false，一般返回数组，里面包含对应token等
      * @param int $caseId Case表自增ID
@@ -199,7 +199,7 @@ class ReturnDAO extends BaseDAO
             ->limit(1)
             ->queryRow();
     }
-    
+
     /**
      * @desc 获取状态
      * @param $sellerId

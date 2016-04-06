@@ -33,5 +33,4 @@ class EbayUserShopsDAO extends BaseDAO
         $this->primaryKey = 'ebay_user_info_id,shop_id';
         // $this->created = 'create_time';
     }
-
 }

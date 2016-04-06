@@ -78,5 +78,4 @@ class CaseUpdateStatusQueueDAO extends BaseDAO
             return false;
         }
     }
-    
 }

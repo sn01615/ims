@@ -36,7 +36,7 @@ class EbayFeedbackTransactionDAO extends BaseDAO
         $this->created = 'create_time';
         $this->shop = 'shop';
     }
-    
+
     /**
      * @desc feedback 列表
      * @param array $paramArr
@@ -48,7 +48,7 @@ class EbayFeedbackTransactionDAO extends BaseDAO
      * @date 2015-08-25
      * @return Ambigous <multitype:, mixed>
      */
-    public function getFeedbackList($paramArr,$page,$pageSize,$cust,$status)
+    public function getFeedbackList($paramArr, $page, $pageSize, $cust, $status)
     {
         $userConfig = UserModel::model()->getUserConfigs();
         $shopIds = implode(',', $userConfig['shops']);
@@ -100,7 +100,7 @@ class EbayFeedbackTransactionDAO extends BaseDAO
             ->select($selects, 'SQL_CALC_FOUND_ROWS')
             ->from("{$this->tableName} f")
             ->join("{$this->shop} s", "f.shop_id = s.shop_id")
-            ->leftJoin("ebay_order_transaction t","t.OrderLineItemID = f.OrderLineItemID")
+            ->leftJoin("ebay_order_transaction t", "t.OrderLineItemID = f.OrderLineItemID")
             ->where($conditions, $params)
             ->order('CommentTime Desc')
             ->limit($limit, $offset)
@@ -120,9 +120,8 @@ class EbayFeedbackTransactionDAO extends BaseDAO
             'pagesize' => $pageSize
         );
         return $result;
-        
     }
-    
+
     /**
      * @desc 判断某个feedbackId是否合法,不合法返回false，一般返回数组，里面包含对应token等
      * @param int $feedbackId ebay_feedback_transaction表自增ID
@@ -146,7 +145,7 @@ class EbayFeedbackTransactionDAO extends BaseDAO
             ->limit(1)
             ->queryRow();
     }
-    
+
     /**
      * @desc 查询feedback条数
      * @param string $params
@@ -169,28 +168,28 @@ class EbayFeedbackTransactionDAO extends BaseDAO
         $count['comprehensive'] = $this->dbCommand->reset()
             ->select('count(*) count')
             ->from("feedbackcomprehensive f")
-            ->join("shop s","f.shop_id = s.shop_id")
+            ->join("shop s", "f.shop_id = s.shop_id")
             ->where($express)
             ->limit(1)
             ->queryRow();
         $count['neutral'] = $this->dbCommand->reset()
             ->select('count(*) count')
             ->from("feedbackneutral f")
-            ->join("shop s","f.shop_id = s.shop_id")
+            ->join("shop s", "f.shop_id = s.shop_id")
             ->where($express)
             ->limit(1)
             ->queryRow();
         $count['negative'] = $this->dbCommand->reset()
             ->select('count(*) count')
             ->from("feedbacknegative f")
-            ->join("shop s","f.shop_id = s.shop_id")
+            ->join("shop s", "f.shop_id = s.shop_id")
             ->where($express)
             ->limit(1)
             ->queryRow();
         $count['positive'] = $this->dbCommand->reset()
             ->select('count(*) count')
             ->from("feedbackpositive f")
-            ->join("shop s","f.shop_id = s.shop_id")
+            ->join("shop s", "f.shop_id = s.shop_id")
             ->where($express)
             ->limit(1)
             ->queryRow();

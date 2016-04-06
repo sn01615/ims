@@ -79,5 +79,4 @@ class CaseDownQueueDAO extends BaseDAO
             return false;
         }
     }
-    
 }

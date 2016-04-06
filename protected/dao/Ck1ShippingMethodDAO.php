@@ -34,5 +34,4 @@ class Ck1ShippingMethodDAO extends BaseDAO
         // $this->created = 'create_time';
         // $this->updated = 'update_time';
     }
-
 }

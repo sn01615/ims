@@ -34,8 +34,8 @@ class CaseDisputeMessageDAO extends BaseDAO
         $this->created = 'create_time';
         $this->case = 'case';
     }
-    
-	/**
+
+    /**
      * @desc 获取卖家发起case的历史对话
      * @param caseid  case的id
      * @param shopId  当前用户所拥有店铺的id
@@ -43,17 +43,17 @@ class CaseDisputeMessageDAO extends BaseDAO
      * @return resultArr 
      * @date 2015-04-08
      */
-    public function getCaseDisputeMessage($caseid,$shopId){
-    	$selects = 'a.case_id,a.MessageCreationTime,a.MessageSource,a.MessageText';
-    	$condition = "b.shop_id in ({$shopId}) and a.case_id={$caseid}";
-    	$this->dbCommand->reset();
-    	$result = $this->dbCommand->select($selects)
-    		->from("{$this->tableName} a")
-    		->join("{$this->case} b",'a.case_id = b.case_id')
-    		->where($condition)
-    		->order("a.MessageCreationTime desc")
-    		->queryAll();
-    	return $result;
+    public function getCaseDisputeMessage($caseid, $shopId)
+    {
+        $selects = 'a.case_id,a.MessageCreationTime,a.MessageSource,a.MessageText';
+        $condition = "b.shop_id in ({$shopId}) and a.case_id={$caseid}";
+        $this->dbCommand->reset();
+        $result = $this->dbCommand->select($selects)
+            ->from("{$this->tableName} a")
+            ->join("{$this->case} b", 'a.case_id = b.case_id')
+            ->where($condition)
+            ->order("a.MessageCreationTime desc")
+            ->queryAll();
+        return $result;
     }
-    
 }

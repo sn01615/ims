@@ -99,7 +99,8 @@ class MsgDownDAO extends BaseDAO
             ':false' => boolConvert::toInt01(false)
         );
         $data = $this->dbCommand->reset()
-            ->select("shop_id,AccountID,seller_id,account,site_id,nick_name,token,status,msg_down_time,
+            ->select(
+            "shop_id,AccountID,seller_id,account,site_id,nick_name,token,status,msg_down_time,
                 msg_check_down_time,case_update_status_time,case_down_time,open_case_down_time,
                 feedback_down_time,orders_down_time,return_down_time,disputes_down_time,HardExpirationTime")
             ->from($table)
@@ -107,7 +108,7 @@ class MsgDownDAO extends BaseDAO
             ->queryAll();
         return $data;
     }
-    
+
     /**
      * @desc 插入队列
      * @param array $shop 账号信息
@@ -238,12 +239,13 @@ class MsgDownDAO extends BaseDAO
                     $folder['FolderName'] = '';
                 }
                 if ($folder['FolderID'] > 200) {
-                    $result[] = $this->dbCommand->insert($this->tb_shop_folder, array(
-                        'shop_id' => $shop_id,
-                        'FolderID' => $folder['FolderID'],
-                        'FolderName' => $folder['FolderName'],
-                        'create_time' => time()
-                    ));
+                    $result[] = $this->dbCommand->insert($this->tb_shop_folder, 
+                        array(
+                            'shop_id' => $shop_id,
+                            'FolderID' => $folder['FolderID'],
+                            'FolderName' => $folder['FolderName'],
+                            'create_time' => time()
+                        ));
                 }
             }
             return $result;
@@ -251,7 +253,7 @@ class MsgDownDAO extends BaseDAO
             return false;
         }
     }
-    
+
     /**
      * @desc 获取下载队列数据
      * @param number $limit
@@ -314,5 +316,4 @@ class MsgDownDAO extends BaseDAO
         $data = $this->dbCommand->reset()->delete($table, $conditions, $params);
         return $data;
     }
-    
 }

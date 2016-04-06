@@ -7,8 +7,9 @@
  */
 class CaseDAO extends BaseDAO
 {
-    
-    private $shop;// shop表名
+
+    private $shop;
+ // shop表名
     
     /**
      * @desc 对象实例重用
@@ -38,8 +39,8 @@ class CaseDAO extends BaseDAO
         
         $this->shop = 'shop';
     }
-    
-	/**
+
+    /**
      * @desc 获取买家发起case列表
      * @param String  $Type      case类型
      * @param integer $page      页码
@@ -149,15 +150,18 @@ class CaseDAO extends BaseDAO
                     break;
             }
             
-            if ($status == 'CASE_CLOSED_CS_RESPONDED' || $status == 'CLOSED' || $status == 'CS_CLOSED' || $status == 'EXPIRED' || $status == 'PAID' || $status == 'YOU_CONTACTED_CS_ABOUT_CLOSED_CASE') {
+            if ($status == 'CASE_CLOSED_CS_RESPONDED' || $status == 'CLOSED' || $status == 'CS_CLOSED' || $status == 'EXPIRED' ||
+                 $status == 'PAID' || $status == 'YOU_CONTACTED_CS_ABOUT_CLOSED_CASE') {
                 $value['status'] = 'closed';
             } else {
                 $value['status'] = 'processing';
             }
             
             // 替换别名
-            $value['user_userId'] = str_ireplace($shopInfo[$value['shop_id']]['account'], $shopInfo[$value['shop_id']]['nick_name'], $value['user_userId']);
-            $value['otherParty_userId'] = str_ireplace($shopInfo[$value['shop_id']]['account'], $shopInfo[$value['shop_id']]['nick_name'], $value['otherParty_userId']);
+            $value['user_userId'] = str_ireplace($shopInfo[$value['shop_id']]['account'], $shopInfo[$value['shop_id']]['nick_name'], 
+                $value['user_userId']);
+            $value['otherParty_userId'] = str_ireplace($shopInfo[$value['shop_id']]['account'], $shopInfo[$value['shop_id']]['nick_name'], 
+                $value['otherParty_userId']);
             
             // guest ItemID hide
             if (Yii::app()->session['userInfo']['user_id'] == 99999) {
@@ -172,7 +176,7 @@ class CaseDAO extends BaseDAO
         );
         return $result;
     }
-	
+
     /**
      * @desc 上、下一页的id
      * @param caseid  case的id
@@ -215,7 +219,7 @@ class CaseDAO extends BaseDAO
         }
         return $resultArr;
     }
-    
+
     /**
      * @desc 判断某个case_id(case表主键)是否合法,不合法返回false，一般返回数组，里面包含对应token等
      * @param int $caseId Case表自增ID
@@ -238,7 +242,6 @@ class CaseDAO extends BaseDAO
             ->limit(1)
             ->queryRow();
     }
-    
 
     /**
      * @desc 通过caseid获取caseID
@@ -247,14 +250,13 @@ class CaseDAO extends BaseDAO
      * @author liaojianwen
      * @date 2015-07-07
      */
-    public function getCaseId($caseid,$shopidArr)
+    public function getCaseId($caseid, $shopidArr)
     {
         $conditions = "shop_id in ({$shopidArr}) and case_id={$caseid}";
         return $this->dbCommand->reset()
-                               ->select('caseId_id')
-                               ->from($this->tableName)
-                               ->where($conditions)
-                               ->queryScalar();
+            ->select('caseId_id')
+            ->from($this->tableName)
+            ->where($conditions)
+            ->queryScalar();
     }
-    
 }

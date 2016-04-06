@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @desc 信息回复队列表处理
  * @author heguangquan
@@ -6,17 +7,18 @@
  */
 class MsgReplyDAO extends BaseDAO
 {
-	/**
-	 * @var 定义msg表
-	 */
-	private $tbMsg;
-	
-	/**
-	 * @var 定义店铺表
-	 */
-	private $tbShop;
-	
-	/**
+
+    /**
+     * @var 定义msg表
+     */
+    private $tbMsg;
+
+    /**
+     * @var 定义店铺表
+     */
+    private $tbShop;
+
+    /**
      * @desc 对象实例化
      * @param 当前类名称
      * @author heguangquan
@@ -27,7 +29,7 @@ class MsgReplyDAO extends BaseDAO
     {
         return parent::createInstance($className);
     }
-    
+
     /**
      * @desc 初始化方法
      * @author heguangquan
@@ -35,7 +37,7 @@ class MsgReplyDAO extends BaseDAO
      */
     public function __construct()
     {
-    	$this->tableName = 'msg_reply_queue';
+        $this->tableName = 'msg_reply_queue';
         $this->primaryKey = 'down_queue_id';
         $this->tbMsg = 'msg';
         $this->tbShop = 'shop';
@@ -44,7 +46,7 @@ class MsgReplyDAO extends BaseDAO
         $this->dbCommand = $this->dbConnection->createCommand();
         $this->dbCommand->reset();
     }
-    
+
     /**
      * @desc 获取信息回复需要的Token、收件人等
      * @param int $msgId 信息ID

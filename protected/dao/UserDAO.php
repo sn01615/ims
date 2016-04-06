@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @desc 用户处理DAO
  * @author heguangquan
@@ -6,6 +7,7 @@
  */
 class UserDAO extends BaseDAO
 {
+
     /**
      * @desc 对象实例化
      * @param string $className 需要实例化的类名
@@ -30,7 +32,7 @@ class UserDAO extends BaseDAO
         $this->dbConnection = Yii::app()->db;
         $this->dbCommand = $this->dbConnection->createCommand();
     }
-    
+
     /**
      * @desc 获取用户列表
      * @param int $sellerId 当前用户ID
@@ -60,10 +62,11 @@ class UserDAO extends BaseDAO
                 ':pid' => $userId,
                 ':sellerId' => $userId
             ));
-            $this->dbCommand->andWhere('is_delete=:delete and realname like :realName', array(
-                ':delete' => 0,
-                ':realName' => '%' . $searchKeyWord . '%'
-            ));
+            $this->dbCommand->andWhere('is_delete=:delete and realname like :realName', 
+                array(
+                    ':delete' => 0,
+                    ':realName' => '%' . $searchKeyWord . '%'
+                ));
         } else {
             $this->dbCommand->where(array(
                 'and',

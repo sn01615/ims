@@ -83,16 +83,16 @@ class ReturnDownQueueDAO extends BaseDAO
                 return false;
             }
         } catch (Exception $e) {
-            iMongo::getInstance()->setCollection('getReturnDownQueueData')->insert(array(
-                'getCode' => $e->getCode(),
-                'getFile' => $e->getFile(),
-                'getLine' => $e->getLine(),
-                'getMessage' => $e->getMessage(),
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection('getReturnDownQueueData')->insert(
+                array(
+                    'getCode' => $e->getCode(),
+                    'getFile' => $e->getFile(),
+                    'getLine' => $e->getLine(),
+                    'getMessage' => $e->getMessage(),
+                    'time' => time()
+                ));
             $this->rollback();
             return false;
         }
     }
-    
 }

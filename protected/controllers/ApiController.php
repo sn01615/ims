@@ -24,10 +24,11 @@ class ApiController extends Controller
     public function actionIndex()
     {
         $sellerId = Yii::app()->session['userInfo']['seller_id'];
-        $this->renderJson(array(
-            'GMT_DATE_ISO8601' => gmdate(DATE_ISO8601),
-            'LOCAL_DATE_ISO8601' => date(DATE_ISO8601)
-        ));
+        $this->renderJson(
+            array(
+                'GMT_DATE_ISO8601' => gmdate(DATE_ISO8601),
+                'LOCAL_DATE_ISO8601' => date(DATE_ISO8601)
+            ));
     }
 
     /**
@@ -50,7 +51,9 @@ class ApiController extends Controller
         $tagid = CInputFilter::getInt('tagid', 0);
         $aggregate = CInputFilter::getInt('aggregate');
         $listType = $this->filterclass($listType);
-        $this->renderJson(MsgDealModel::model()->getMessageList($listType, $classID, $page, $pageSize, $searchCon, $labelid, $tagid, $aggregate, $questionType, $messageType));
+        $this->renderJson(
+            MsgDealModel::model()->getMessageList($listType, $classID, $page, $pageSize, $searchCon, $labelid, $tagid, $aggregate, $questionType, 
+                $messageType));
     }
 
     /**
@@ -2253,7 +2256,8 @@ class ApiController extends Controller
         $requestOutDate = CInputFilter::getString('reqtime');
         $feedbackOutDate = CInputFilter::getString('fedtime');
         $declineChange = CInputFilter::getString('dechange');
-        $result = EbayFeedbackTransactionModel::model()->saveFeedbackStatus($feedbackId, $msgStatus, $requestStatus, $requestOutDate, $feedbackOutDate, $declineChange, $sellerId);
+        $result = EbayFeedbackTransactionModel::model()->saveFeedbackStatus($feedbackId, $msgStatus, $requestStatus, $requestOutDate, 
+            $feedbackOutDate, $declineChange, $sellerId);
         $this->renderJson($result);
     }
 
@@ -2779,7 +2783,8 @@ class ApiController extends Controller
         $isSendMe = CInputFilter::getBool('issendme');
         $sellerId = Yii::app()->session['userInfo']['seller_id'];
         $ebay_orders_id = CInputFilter::getString('ebay_orders_id');
-        $result = InvoicesModel::model()->ebaySendInvoices($orderID, $serviceOptions, $text, $adjustAmount, $currencyID, $isSendMe, $sellerId, $ebay_orders_id);
+        $result = InvoicesModel::model()->ebaySendInvoices($orderID, $serviceOptions, $text, $adjustAmount, $currencyID, $isSendMe, $sellerId, 
+            $ebay_orders_id);
         $this->renderJson($result);
     }
 

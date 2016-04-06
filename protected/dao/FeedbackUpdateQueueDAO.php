@@ -33,7 +33,7 @@ class FeedbackUpdateQueueDAO extends BaseDAO
         $this->primaryKey = 'feedback_update_queue_id';
         $this->created = 'create_time';
     }
-    
+
     /**
      * @desc 获取feedback队列数据
      * @author liaojianwen
@@ -79,16 +79,17 @@ class FeedbackUpdateQueueDAO extends BaseDAO
                 return false;
             }
         } catch (Exception $e) {
-            iMongo::getInstance()->setCollection('getFeedbackUpdateQueueData')->insert(array(
-                'getCode' => $e->getCode(),
-                'getFile' => $e->getFile(),
-                'getLine' => $e->getLine(),
-                'getMessage' => $e->getMessage(),
-                'getPrevious' => $e->getPrevious(),
-                'getTrace' => $e->getTrace(),
-                'getTraceAsString' => $e->getTraceAsString(),
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection('getFeedbackUpdateQueueData')->insert(
+                array(
+                    'getCode' => $e->getCode(),
+                    'getFile' => $e->getFile(),
+                    'getLine' => $e->getLine(),
+                    'getMessage' => $e->getMessage(),
+                    'getPrevious' => $e->getPrevious(),
+                    'getTrace' => $e->getTrace(),
+                    'getTraceAsString' => $e->getTraceAsString(),
+                    'time' => time()
+                ));
             $this->rollback();
             return false;
         }

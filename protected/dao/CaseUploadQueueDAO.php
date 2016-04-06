@@ -33,7 +33,7 @@ class CaseUploadQueueDAO extends BaseDAO
         $this->primaryKey = 'case_upload_queue_id';
         $this->created = 'create_time';
     }
-    
+
     /**
      * @desc 取出Case上传队列数据
      * @param number $limit
@@ -79,5 +79,4 @@ class CaseUploadQueueDAO extends BaseDAO
             return false;
         }
     }
-    
 }

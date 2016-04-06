@@ -27,7 +27,8 @@ class TestController extends Controller
         $MessageMediaArray = array();
         $QuestionType = 'General';
         
-        echo MsgDownModel::model()->addMemberMessageAAQToPartner($token, $Subject, $Body, $ItemID, $RecipientIDArray, $MessageMediaArray, $QuestionType);
+        echo MsgDownModel::model()->addMemberMessageAAQToPartner($token, $Subject, $Body, $ItemID, $RecipientIDArray, $MessageMediaArray, 
+            $QuestionType);
         // echo EbayOtherInfoModel::model()->eBayGetAccount($token);
     }
 
@@ -98,7 +99,8 @@ class TestController extends Controller
         $OrderID = '';
         $siteid = 3;
         
-        echo EbayOtherInfoModel::model()->eBaySendInvoice($token, $ShippingServiceOptions, $AdjustmentAmount, $AdjustmentAmountCurrencyID, $CheckoutInstructions, $OrderLineItemID, $OrderID, $siteid);
+        echo EbayOtherInfoModel::model()->eBaySendInvoice($token, $ShippingServiceOptions, $AdjustmentAmount, $AdjustmentAmountCurrencyID, 
+            $CheckoutInstructions, $OrderLineItemID, $OrderID, $siteid);
     }
 
     public function actionTest4()
@@ -118,7 +120,8 @@ class TestController extends Controller
         $ModTimeTo = 0;
         $NumberOfDays = 10;
         
-        echo EbayOtherInfoModel::model()->eBayGetOrders($token, $OrderIDArray, $CreateTimeFrom, $CreateTimeTo, $OrderStatus, $PageNumber, $EntriesPerPage, $ListingType, $ModTimeFrom, $ModTimeTo, $NumberOfDays);
+        echo EbayOtherInfoModel::model()->eBayGetOrders($token, $OrderIDArray, $CreateTimeFrom, $CreateTimeTo, $OrderStatus, $PageNumber, 
+            $EntriesPerPage, $ListingType, $ModTimeFrom, $ModTimeTo, $NumberOfDays);
     }
 
     public function actionTest5()
@@ -327,13 +330,14 @@ eot;
         
         $token = 'AgAAAA**AQAAAA**aAAAAA**lP4+VQ**nY+sHZ2PrBmdj6wVnY+sEZ2PrA2dj6AElYGkAZKFogydj6x9nY+seQ**+uQAAA**AAMAAA**+P6R0gQ0z30XPNdYXYVHcHueeIp9vlyg2uN9lhDlJFwQ4KGhzl9trw013I91BCGemaTzUEHdArF0yUFZV6qHMdY9Vme/Ii4sUD9YmjwsYDKiX3Tr7e6wnfvGqO7HJtL8jGPb/iyciMiBMFBZRLaK3BQzYCTgQrsRVWrkZXkCaSCPKpKqhPtqa8Qv7sbBHmqCGkaGHW2eEqZTQWYCVua1kmi74XbU4JFvHEzZy+JRtn620er5vDoA8l+5zKzpQR2ofxnteFd2gO5g5GQsGi7pWr5vAsBD2lLPuaWgcoH2IDrwBfsoi3XTAEqQfwWJLRU2fR2z399NwnVJxmJZYYZJyarfgbLsroRzALoh67ld46auITYSPDx/tdWQQ0v8miebxyR+Ev9drivX7Iev6+ujjTitJMM4hbDMQP4wUGwv6fObhkkpgSkprNpnpQtwYgqJnkVyoPi4VgKJjVkn2zZMYxvzZsGv83T9lm3esSST1y3wbnQbFoVxWbmIwax0ybsLIQ8j2HIIlO+7DGpyRcX2vcQgP4HJSWt1fMW5JkOxZj25YNLONhDRfxR/9lmniO8eEcVbX4G4nf6XL/RUrys3+jwBmlZC7Bwcjvdz5YVlwbvY/2aA/ubshj6fgCVvTL/+gfA4GxlhW+3ucF/xLWoLm14ysKaFb6inxBeAGL1zw9a5fjVsaetIG8GRxFms7ICX/M//HxH5h5bMzUDu7S2qApLA7xcK0ng9HFuNeFsc39KZZLwuJZnWCn5sSB1KFZci';
         $token = 'AgAAAA**AQAAAA**aAAAAA**rP4+VQ**nY+sHZ2PrBmdj6wVnY+sEZ2PrA2dj6AElYGnCZCKqQWdj6x9nY+seQ**+uQAAA**AAMAAA**tma6zy97NSi6G3jt5WnacoCBJAi6ktVBAAto65Atv78VxBduj0oMyRV9HKVIB3L+wQx1RdIWh0/+ApasGqmuLzQ4+TlFLIuBncfE4M+vmt8vUaBtgq+RBYNACraajahA0uXz+Ud0WyynJUpIEpb5hkTj2ZbwZ8qdwHGXTjY5F2knWVuSQZXDT9iPxexAxUacVk9HXR9BheMxF7aDFEL998XcSXlv2/84V5wlUVtSRMeIyR1zSA75Li+Li8lbzwAG958skNavVj8GLEwwIR1271wj5KVN3qpNlJsIkmGrLsTiL79/CrR9zeoOw3A6tNhDRu1D0n7q/a9l5CXBKbzKPvTqk34rWl3NYkQ+MqtfPXA0MLRJi4r33Q8MrvofFFRWNNLjrQ9APlpyEYYGitaPriOTf0aaDmQUT83kPdLeeuPrZPJaxJRyV3vB2r2ewc1sqB4nsxO5dFQXA7KhGGTyfMkFkoTfNkZfYzuiFfw7jiLCF3M2dF3POoEXCWoN8NjJA6viUi6QrbVyrqsZERdr5/++5AbDZ+ymdpvW3GlIOLRPrhMLWPseEYgCIs8VOxWPrqwGvLHeCYtJpXokJ42LnbsQuiEgljGtTBls9LWaCjRCFQvgqFSeoRkoxYQvcB4yzJTU6rgZcDa4davQjhlpPyBhlIOiFLnAuxQ6efDBpNmgy+azW/dfPNT4q78HWWaZXIm6o8ZG3wCVUBXbKn3OgzX7yPGsoCvR5LvQfgxC3cCwDJmJ2prJjlypJXgDGSsN';
-        echo EbayOtherInfoModel::model()->eBayGetOrders($token, array(
-            '301623477730-1168119435020',
-            '301671523090-1166820406020',
-            '301687908539-1168100340020',
-            '301692187753-1167410216020',
-            '301692187753-1167689498020'
-        ), time() - 3600 * 24 * 30, time());
+        echo EbayOtherInfoModel::model()->eBayGetOrders($token, 
+            array(
+                '301623477730-1168119435020',
+                '301671523090-1166820406020',
+                '301687908539-1168100340020',
+                '301692187753-1167410216020',
+                '301692187753-1167689498020'
+            ), time() - 3600 * 24 * 30, time());
     }
 
     public function actionTest18()
@@ -553,7 +557,7 @@ eot;
 
     public function actionTest32()
     {
-//         imsTool::xmlHeader();
+        // imsTool::xmlHeader();
         $token = 'AgAAAA**AQAAAA**aAAAAA**hVSXVg**nY+sHZ2PrBmdj6wVnY+sEZ2PrA2dj6AGl4qoCJaAqAWdj6x9nY+seQ**B8ICAA**AAMAAA**LrNsub/MnPvFk2Srr358lgIM4BmhhzrF1kpqT6rNDS9QvEAkH+NDj+zrhnzjiErhnkkAaz8nWCg0lhiQUVRAMMDAGnOLhda7p3/UKu0tOVy3HMm8m76Dtg0x7kbzeEaJPXBWvRPYuFV6EihYoMJ8cqB9Joa6AJBTpqjQs8NrjYHs9b+HIKjAeYFxeWtPHHyqhXdnpn9u0p4qQ74xZrZE3dmXRsDash2J4cdgzR3G1umWMacHpCfBZIV0w0BMPx3/oiJnnUh2+TKjYVmdtyyNiX5UrF7dryIKuj5tegFhTyDhTt4uoGRWBGVna4n/E5IKp5mHqDqmovqgrcyp8p63StCvgA/j3XsTYD9aLNdJGAVGr9uff109mA3hwKzR7q8Hn4zUOrv6mfmqfOY20yr4/3G0RUPIii5wGIQv6X6KVJXMIhx3oRmUZgC63IDHfMvdyA6yK3riEVu1HPuC7WcqNt2vnkPs1uz2nFh/enz4fD4gUHJe6Ht7qj1ezwKw4W3+QthxreF3sdzq1NlyHZa+cZ2Hq6eTF7BPVKhSeKH1gTwM5OWnC6HWIz/DC6+LlvJDHXKiSSOI/RS4h84apob3ndFYE4r3lACDeTHw6gYbjgllITLTQdJMwq2HIEi3+PwqtJSpEp0LCZ6i/KAKM2NskRLqunaj8P05t+NTJR5CR5N5mtyLCUpkqSU8J4cf041qsueAfdaZD90W0pOyqFCltbh6xICKsMJSUJNWJjRaU2EfM9Unthon1qCKlcGyoHAz';
         $xml = ReturnDownModel::model()->getReturnDetailInfo('5021682801', $token);
         echo $xml;
@@ -564,7 +568,7 @@ eot;
 
     public function actionTest33()
     {
-//         imsTool::xmlHeader();
+        // imsTool::xmlHeader();
         $token = 'AgAAAA**AQAAAA**aAAAAA**hVSXVg**nY+sHZ2PrBmdj6wVnY+sEZ2PrA2dj6AGl4qoCJaAqAWdj6x9nY+seQ**B8ICAA**AAMAAA**LrNsub/MnPvFk2Srr358lgIM4BmhhzrF1kpqT6rNDS9QvEAkH+NDj+zrhnzjiErhnkkAaz8nWCg0lhiQUVRAMMDAGnOLhda7p3/UKu0tOVy3HMm8m76Dtg0x7kbzeEaJPXBWvRPYuFV6EihYoMJ8cqB9Joa6AJBTpqjQs8NrjYHs9b+HIKjAeYFxeWtPHHyqhXdnpn9u0p4qQ74xZrZE3dmXRsDash2J4cdgzR3G1umWMacHpCfBZIV0w0BMPx3/oiJnnUh2+TKjYVmdtyyNiX5UrF7dryIKuj5tegFhTyDhTt4uoGRWBGVna4n/E5IKp5mHqDqmovqgrcyp8p63StCvgA/j3XsTYD9aLNdJGAVGr9uff109mA3hwKzR7q8Hn4zUOrv6mfmqfOY20yr4/3G0RUPIii5wGIQv6X6KVJXMIhx3oRmUZgC63IDHfMvdyA6yK3riEVu1HPuC7WcqNt2vnkPs1uz2nFh/enz4fD4gUHJe6Ht7qj1ezwKw4W3+QthxreF3sdzq1NlyHZa+cZ2Hq6eTF7BPVKhSeKH1gTwM5OWnC6HWIz/DC6+LlvJDHXKiSSOI/RS4h84apob3ndFYE4r3lACDeTHw6gYbjgllITLTQdJMwq2HIEi3+PwqtJSpEp0LCZ6i/KAKM2NskRLqunaj8P05t+NTJR5CR5N5mtyLCUpkqSU8J4cf041qsueAfdaZD90W0pOyqFCltbh6xICKsMJSUJNWJjRaU2EfM9Unthon1qCKlcGyoHAz';
         $xml = ReturnDownModel::model()->getFileData('5021682801', $token);
         echo $xml;

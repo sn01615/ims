@@ -33,7 +33,7 @@ class EbayMsgDownQueueDAO extends BaseDAO
         $this->primaryKey = 'down_queue_id';
         $this->created = 'create_time';
     }
-    
+
     /**
      * @desc 获取下载队列数据
      * @param number $limit
@@ -80,5 +80,4 @@ class EbayMsgDownQueueDAO extends BaseDAO
             return false;
         }
     }
-    
 }

@@ -34,9 +34,8 @@ class CaseDisputeDAO extends BaseDAO
         $this->created = 'create_time';
         $this->case = 'case';
         $this->shop = 'shop';
-        
     }
-    
+
     /**
      * @desc 获取卖方发起case列表
      * @param $paramArr case类型
@@ -112,7 +111,7 @@ class CaseDisputeDAO extends BaseDAO
         $this->dbCommand->select($selects, 'SQL_CALC_FOUND_ROWS')
             ->from("{$this->tableName} a")
             ->join("{$this->case} b", 'a.case_id=b.case_id')
-            ->join("{$this->shop} s","s.shop_id = b.shop_id")
+            ->join("{$this->shop} s", "s.shop_id = b.shop_id")
             ->where($condition, $params);
         $result['list'] = $this->dbCommand->limit($limit, $offset)
             ->order('a.DisputeCreatedTime DESC')
@@ -145,13 +144,17 @@ class CaseDisputeDAO extends BaseDAO
                     break;
             }
             
-            if ($status == 'CLOSED' || $status == 'CLOSED_FVFCREDIT_NOSTRIKE' || $status == 'CLOSED_FVFCREDIT_STRIKE' || $status == 'CLOSED_NOFVFCREDIT_NOSTRIKE' || $status == 'CLOSED_NOFVFCREDIT_STRIKE' || $status == 'CS_CLOSED' || $status == 'CANCELLED' || $status == 'CLOSED_FVFCREDIT' || $status == 'CLOSED_NOFVFCREDIT' || $status == 'EXPIRED' || $status == 'OTHER' || $value['DisputeState'] == 'Closed') {
+            if ($status == 'CLOSED' || $status == 'CLOSED_FVFCREDIT_NOSTRIKE' || $status == 'CLOSED_FVFCREDIT_STRIKE' ||
+                 $status == 'CLOSED_NOFVFCREDIT_NOSTRIKE' || $status == 'CLOSED_NOFVFCREDIT_STRIKE' || $status == 'CS_CLOSED' ||
+                 $status == 'CANCELLED' || $status == 'CLOSED_FVFCREDIT' || $status == 'CLOSED_NOFVFCREDIT' || $status == 'EXPIRED' ||
+                 $status == 'OTHER' || $value['DisputeState'] == 'Closed') {
                 $value['status'] = 'closed';
             } else {
                 $value['status'] = 'processing';
             }
             // 替换别名
-            $value['SellerUserID'] = str_ireplace($shopInfo[$value['shop_id']]['account'], $shopInfo[$value['shop_id']]['nick_name'], $value['SellerUserID']);
+            $value['SellerUserID'] = str_ireplace($shopInfo[$value['shop_id']]['account'], $shopInfo[$value['shop_id']]['nick_name'], 
+                $value['SellerUserID']);
             
             // guest ItemID hide
             if (Yii::app()->session['userInfo']['user_id'] == 99999) {
@@ -164,7 +167,7 @@ class CaseDisputeDAO extends BaseDAO
         );
         return $result;
     }
-    
+
     /**
      * @desc 上、下一页的id
      * @param caseid  case的id

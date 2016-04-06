@@ -33,7 +33,7 @@ class CaseUpdateQueueDAO extends BaseDAO
         $this->primaryKey = 'case_update_queue_id';
         $this->created = 'create_time';
     }
-    
+
     /**
      * @desc 获取需要更新的队列信息
      * @param number $limit
@@ -78,5 +78,4 @@ class CaseUpdateQueueDAO extends BaseDAO
             return false;
         }
     }
-    
 }

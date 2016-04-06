@@ -54,5 +54,4 @@ class CaseUpdateStatusDAO extends BaseDAO
             ->limit($picksize)
             ->queryAll();
     }
-
 }

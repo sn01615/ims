@@ -33,7 +33,7 @@ class ReturnUpdateQueueDAO extends BaseDAO
         $this->primaryKey = 'return_update_queue_id';
         $this->created = 'create_time';
     }
-    
+
     /**
      * @desc 取出Return_request下载队列数据
      * @param number $limit
@@ -83,15 +83,15 @@ class ReturnUpdateQueueDAO extends BaseDAO
                 return false;
             }
         } catch (Exception $e) {
-            iMongo::getInstance()->setCollection('getReturnQueueData')->insert(array(
-                'getCode' => $e->getCode(),
-                'getMessage' => $e->getMessage(),
-                'getTraceAsString' => $e->getTraceAsString(),
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection('getReturnQueueData')->insert(
+                array(
+                    'getCode' => $e->getCode(),
+                    'getMessage' => $e->getMessage(),
+                    'getTraceAsString' => $e->getTraceAsString(),
+                    'time' => time()
+                ));
             $this->rollback();
             return false;
         }
     }
-    
 }

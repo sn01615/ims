@@ -5,8 +5,9 @@
  * @author liaojianwen
  * @date 2015-11-03
  */
-class InvoicesCountDAO extends BaseDAO 
+class InvoicesCountDAO extends BaseDAO
 {
+
     /**
      * @desc 对象实例重用
      * @param string $className 需要实例化的类名
@@ -14,11 +15,11 @@ class InvoicesCountDAO extends BaseDAO
      * @date 2015-11-03
      * @return InvoicesCountDAO
      */
-    public static function getInstance($className =__CLASS__)
+    public static function getInstance($className = __CLASS__)
     {
         return parent::createInstance($className);
-    }   
-    
+    }
+
     /**
      * @desc 构造方法
      * @author liaojianwen

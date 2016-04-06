@@ -33,7 +33,7 @@ class EbayMsgReplyQueueDAO extends BaseDAO
         $this->primaryKey = 'down_queue_id';
         $this->created = 'create_time';
     }
-    
+
     /**
      * @desc 获取回复队列数据
      * @param int $taskNumber
@@ -66,5 +66,4 @@ class EbayMsgReplyQueueDAO extends BaseDAO
         $this->dbCommand->reset()->update($this->tableName, $columns, $conditions, $params);
         return $result;
     }
-    
 }

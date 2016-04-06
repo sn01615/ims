@@ -1,46 +1,58 @@
 <?php
+
 /**
  * @desc 数据库访问类父类
  * @author ChenLuoyong
  * @date 2014年10月7日
  */
-abstract class BaseDAO{
+abstract class BaseDAO
+{
+
     /**
      * @var CDbTransaction
      */
     protected $dbTransaction;
+
     /**
      * @var CDbConnection
      */
     protected $dbConnection;
+
     /**
      * @var CDbCommand
      */
     protected $dbCommand;
+
     /**
      * @var string
      */
     protected $tableName;
+
     /**
      * @var string
      */
     protected $primaryKey;
+
     /**
      * @var string
      */
     protected $created;
+
     /**
      * @var string
      */
     protected $updated;
+
     /**
      * @var string
      */
     protected static $paramAlias = ':p';
+
     /**
      * @var array
      */
     protected $fields = array();
+
     /**
      * @var array
      */
@@ -52,16 +64,16 @@ abstract class BaseDAO{
      * @return BaseDAO
      * @author ChenLuoyong
      * @date 2014-10-10
-    */
+     */
     protected static function createInstance($className)
     {
-        if(isset(self::$_instances[$className])){
+        if (isset(self::$_instances[$className])) {
             return self::$_instances[$className];
         }
         $instance = self::$_instances[$className] = new $className();
         return $instance;
     }
-    
+
     /**
      * @desc 释放数据连接
      * @author YangLong
@@ -71,20 +83,21 @@ abstract class BaseDAO{
     {
         $this->dbConnection->setActive(false);
     }
-    
+
     /**
-    * @desc 判断表名、主键、传入参数是否为空
-    * @param mixed 可变长参数列表
-    * @return boolean [true: 有参数为空；false: 没有空字段]
-    */
-    public function isParamsEmpty(){
-        if(empty($this->tableName) || empty($this->primaryKey)){
+     * @desc 判断表名、主键、传入参数是否为空
+     * @param mixed 可变长参数列表
+     * @return boolean [true: 有参数为空；false: 没有空字段]
+     */
+    public function isParamsEmpty()
+    {
+        if (empty($this->tableName) || empty($this->primaryKey)) {
             return true;
         }
         $paramArray = func_get_args();
-        if(!empty($paramArray)){
+        if (! empty($paramArray)) {
             foreach ($paramArray as $param) {
-                if(empty($param)){
+                if (empty($param)) {
                     return true;
                 }
             }
@@ -100,15 +113,16 @@ abstract class BaseDAO{
      * @author Weixun Luo
      * @date 2014-10-11
      */
-    public function isExists(&$conditions, $returnPk = false){
-        if($this->isParamsEmpty($conditions)){
+    public function isExists(&$conditions, $returnPk = false)
+    {
+        if ($this->isParamsEmpty($conditions)) {
             return false;
         }
         $record = $this->findByAttributes($conditions, $this->primaryKey);
-        if(empty($record)){
+        if (empty($record)) {
             return false;
         }
-        if($returnPk){
+        if ($returnPk) {
             // 记录存在，将record的主建返回给参数
             $conditions[$this->primaryKey] = $record[$this->primaryKey];
         }
@@ -123,21 +137,25 @@ abstract class BaseDAO{
      * @author Weixun Luo
      * @date 2014-10-13
      */
-    public function findByPk($pk, $selections = array()){
-        if($this->isParamsEmpty($pk)){
+    public function findByPk($pk, $selections = array())
+    {
+        if ($this->isParamsEmpty($pk)) {
             return false;
         }
         $selects = '*';
-        if($selections){
+        if ($selections) {
             $selects = implode(',', $selections);
         }
         try {
-            $result = $this->dbCommand->reset()->select($selects)
-                                      ->from($this->tableName)
-                                      ->where($this->primaryKey.' = :primaryKey', array(':primaryKey' => $pk))
-                                      ->queryRow();
+            $result = $this->dbCommand->reset()
+                ->select($selects)
+                ->from($this->tableName)
+                ->where($this->primaryKey . ' = :primaryKey', array(
+                ':primaryKey' => $pk
+            ))
+                ->queryRow();
             return $result;
-        } catch (Exception $ex){
+        } catch (Exception $ex) {
             return false;
         }
     }
@@ -152,24 +170,26 @@ abstract class BaseDAO{
      * @author Weixun Luo
      * @date 2014-10-13
      */
-    public function findByAttributes($criteria, $selections = array(), $order = array()){
-        if($this->isParamsEmpty($criteria)){
+    public function findByAttributes($criteria, $selections = array(), $order = array())
+    {
+        if ($this->isParamsEmpty($criteria)) {
             return false;
         }
         $conditionArray = $this->toConditionExpress($criteria);
-        if($selections){
+        if ($selections) {
             $conditionArray['select'] = is_array($selections) ? implode(',', $selections) : $selections;
         }
         $conditionArray['select'] = Utility::getArrayValue($conditionArray, 'select', '*');
         $conditionArray['order'] = $order ? $order : Utility::getArrayValue($conditionArray, 'order', '');
-        try{
-            $result = $this->dbCommand->reset()->select($conditionArray['select'])
-                                      ->from($this->tableName)
-                                      ->where($conditionArray['condition'], $conditionArray['params'])
-                                      ->order($conditionArray['order'])
-                                      ->queryRow();
+        try {
+            $result = $this->dbCommand->reset()
+                ->select($conditionArray['select'])
+                ->from($this->tableName)
+                ->where($conditionArray['condition'], $conditionArray['params'])
+                ->order($conditionArray['order'])
+                ->queryRow();
             return $result;
-        } catch (Exception $ex){
+        } catch (Exception $ex) {
             return false;
         }
     }
@@ -186,28 +206,29 @@ abstract class BaseDAO{
      * @author Weixun Luo
      * @date 2014-10-13
      */
-    public function findAllByAttributes($criteria, $selections = array(), $order = array(), $limit = null, $offset = null){
-        if($this->isParamsEmpty($criteria)){
+    public function findAllByAttributes($criteria, $selections = array(), $order = array(), $limit = null, $offset = null)
+    {
+        if ($this->isParamsEmpty($criteria)) {
             return false;
         }
         $conditionArray = $this->toConditionExpress($criteria);
-        if(!empty($selections)){
+        if (! empty($selections)) {
             $conditionArray['select'] = $selections;
         }
-        if(!empty($order)){
+        if (! empty($order)) {
             $conditionArray['order'] = $order;
         }
-        if(!empty($limit)){
-             $conditionArray['limit'] = $limit;
+        if (! empty($limit)) {
+            $conditionArray['limit'] = $limit;
         }
-        if(!empty($offset)){
+        if (! empty($offset)) {
             $conditionArray['offset'] = $offset;
         }
         $this->dbCommand = $this->buildFindCommand($conditionArray);
-        try{
+        try {
             $result = $this->dbCommand->queryAll();
             return $result;
-        } catch (Exception $ex){
+        } catch (Exception $ex) {
             return false;
         }
     }
@@ -219,28 +240,30 @@ abstract class BaseDAO{
      * @author Weixun Luo
      * @date 2014-10-13
      */
-    public function deleteByPk($pk){
-        if($this->isParamsEmpty($pk)){
+    public function deleteByPk($pk)
+    {
+        if ($this->isParamsEmpty($pk)) {
             return false;
         }
         $this->dbCommand->reset();
-        try{
-            if(is_array($pk)){
+        try {
+            if (is_array($pk)) {
                 $setValues = array();
                 $idsExpress = '';
-                for ($i = count($pk) - 1; $i >= 0; $i--) {
-                    $idsExpress .= ($idsExpress ? ',' : '').self::$paramAlias.$i;
-                    $setValues[self::$paramAlias.$i] = $pk[$i];
+                for ($i = count($pk) - 1; $i >= 0; $i --) {
+                    $idsExpress .= ($idsExpress ? ',' : '') . self::$paramAlias . $i;
+                    $setValues[self::$paramAlias . $i] = $pk[$i];
                 }
-                $sql = "delete from " . $this->tableName . " where " .$this->primaryKey. " in(".$idsExpress.")";
+                $sql = "delete from " . $this->tableName . " where " . $this->primaryKey . " in(" . $idsExpress . ")";
                 $this->dbCommand->setText($sql);
                 $affectRows = $this->dbCommand->bindValues($setValues)->execute();
-            } else{
-                $affectRows = $this->dbCommand->delete($this->tableName,
-                    $this->primaryKey.' = :primartKey', array(':primartKey' => $pk));
+            } else {
+                $affectRows = $this->dbCommand->delete($this->tableName, $this->primaryKey . ' = :primartKey', array(
+                    ':primartKey' => $pk
+                ));
             }
             return $affectRows;
-        } catch (Exception $ex){
+        } catch (Exception $ex) {
             return false;
         }
     }
@@ -252,16 +275,16 @@ abstract class BaseDAO{
      * @author Weixun Luo
      * @date 2015-04-15
      */
-    public function delete($criteria){
-        if($this->isParamsEmpty($criteria)){
+    public function delete($criteria)
+    {
+        if ($this->isParamsEmpty($criteria)) {
             return false;
         }
         $conditionArray = $this->toConditionExpress($criteria);
         try {
-            $affectRows = $this->dbCommand->reset()->delete($this->tableName,
-                $conditionArray['condition'], $conditionArray['params']);
+            $affectRows = $this->dbCommand->reset()->delete($this->tableName, $conditionArray['condition'], $conditionArray['params']);
             return $affectRows;
-        } catch (Exception $ex){
+        } catch (Exception $ex) {
             return false;
         }
     }
@@ -274,38 +297,43 @@ abstract class BaseDAO{
      * @author Weixun Luo
      * @date 2014-10-13
      */
-    public function updateByPk($pk, $params){
-        if($this->isParamsEmpty($pk, $params) || !is_array($params)){
+    public function updateByPk($pk, $params)
+    {
+        if ($this->isParamsEmpty($pk, $params) || ! is_array($params)) {
             return false;
         }
-        if($this->updated){
+        if ($this->updated) {
             // 如果该表有定义更新时间戳字段，则追加更新时间戳
             $params[$this->updated] = time();
         }
         $this->dbCommand->reset();
-        try{
-            if(is_array($pk)){
+        try {
+            if (is_array($pk)) {
                 $setValues = array();
                 $idsExpress = '';
                 $j = count($pk);
-                for ($i = $j - 1; $i >= 0; $i--) {
-                    $idsExpress .= ($idsExpress ? ',' : '').self::$paramAlias.$i;
-                    $setValues[self::$paramAlias.$i] = $pk[$i];
+                for ($i = $j - 1; $i >= 0; $i --) {
+                    $idsExpress .= ($idsExpress ? ',' : '') . self::$paramAlias . $i;
+                    $setValues[self::$paramAlias . $i] = $pk[$i];
                 }
                 $setExpress = '';
                 foreach ($params as $columnName => $value) {
-                    $setExpress .= ($setExpress ? ',' : '').$columnName.'='.self::$paramAlias.$j;
-                    $setValues[self::$paramAlias.$j] = $value;
-                    $j++;
+                    $setExpress .= ($setExpress ? ',' : '') . $columnName . '=' . self::$paramAlias . $j;
+                    $setValues[self::$paramAlias . $j] = $value;
+                    $j ++;
                 }
-                $sql = "update ".$this->tableName." set {$setExpress} where ".$this->primaryKey." in(".$idsExpress.")";
-                $affectRows = $this->dbCommand->setText($sql)->bindValues($setValues)->execute();
-            } else{
-                $affectRows = $this->dbCommand->update($this->tableName, $params,
-                    $this->primaryKey.' = :primartKey', array(':primartKey' => $pk));
+                $sql = "update " . $this->tableName . " set {$setExpress} where " . $this->primaryKey . " in(" . $idsExpress . ")";
+                $affectRows = $this->dbCommand->setText($sql)
+                    ->bindValues($setValues)
+                    ->execute();
+            } else {
+                $affectRows = $this->dbCommand->update($this->tableName, $params, $this->primaryKey . ' = :primartKey', 
+                    array(
+                        ':primartKey' => $pk
+                    ));
             }
             return $affectRows;
-        } catch (Exception $ex){
+        } catch (Exception $ex) {
             return false;
         }
     }
@@ -318,26 +346,26 @@ abstract class BaseDAO{
      * @author Weixun Luo
      * @date 2014-11-20
      */
-    public function update($criteria, $params){
-        if($this->isParamsEmpty($criteria, $params) || !is_array($params)){
+    public function update($criteria, $params)
+    {
+        if ($this->isParamsEmpty($criteria, $params) || ! is_array($params)) {
             return false;
         }
-        if($this->updated){
+        if ($this->updated) {
             // 如果该表有定义更新时间戳字段，则追加更新时间戳
             $params[$this->updated] = time();
         }
         $this->dbCommand->reset();
-        try{
+        try {
             $setValue = "";
             $conditionArray = "";
             foreach ($params as $key => $value) {
-                $setValue .= ($setValue ? "," : "").$key."={$value}";
+                $setValue .= ($setValue ? "," : "") . $key . "={$value}";
             }
             $conditionArray = $this->toConditionExpress($criteria);
-            $affectRows = $this->dbCommand->update($this->tableName, $params,
-                $conditionArray['condition'], $conditionArray['params']);
+            $affectRows = $this->dbCommand->update($this->tableName, $params, $conditionArray['condition'], $conditionArray['params']);
             return $affectRows;
-        } catch (Exception $ex){
+        } catch (Exception $ex) {
             return false;
         }
     }
@@ -349,31 +377,32 @@ abstract class BaseDAO{
      * @author Weixun Luo
      * @date 2014-10-27
      */
-    public function insert($params, $returnRow = false){
-        if($this->isParamsEmpty($params) || !is_array($params)){
+    public function insert($params, $returnRow = false)
+    {
+        if ($this->isParamsEmpty($params) || ! is_array($params)) {
             return false;
         }
-        if($this->created){
+        if ($this->created) {
             // 如果该表有定义创建时间戳字段，则追加创建时间戳
             $params[$this->created] = time();
         }
-        if($this->updated){
+        if ($this->updated) {
             // 如果该表有定义更新时间戳字段，则追加更新时间戳
             $params[$this->updated] = time();
         }
         $this->dbCommand->reset();
-        try{
+        try {
             $affectRows = $this->dbCommand->insert($this->tableName, $params);
-            if($returnRow){
+            if ($returnRow) {
                 // 返回执行成功行数
                 return $affectRows;
             }
-            if($affectRows){
+            if ($affectRows) {
                 $id = $this->dbConnection->getLastInsertID($this->primaryKey);
                 return $id;
             }
             return false;
-        } catch (Exception $ex){
+        } catch (Exception $ex) {
             return false;
         }
     }
@@ -385,47 +414,51 @@ abstract class BaseDAO{
      * @author Weixun Luo
      * @date 2015-01-27
      */
-    public function insertMulti($paramsArray){
-        if($this->isParamsEmpty($paramsArray)){
+    public function insertMulti($paramsArray)
+    {
+        if ($this->isParamsEmpty($paramsArray)) {
             return false;
         }
-
+        
         // Get all columns that need to insert
         $columns = array();
-        foreach($paramsArray as $rowData){
-            foreach($rowData as $columnName => $columnValue){
-                if(!in_array($columnName, $columns, true))
-                    if($columnName !== null){
-                        $columns[]=$columnName;
+        foreach ($paramsArray as $rowData) {
+            foreach ($rowData as $columnName => $columnValue) {
+                if (! in_array($columnName, $columns, true))
+                    if ($columnName !== null) {
+                        $columns[] = $columnName;
                     }
             }
         }
-
+        
         $paramCount = 0;
         $paramValues = array();
         $rowInsertValuesArray = array();
         // 遍历待插入数据数组，构建插入数据sql
-        foreach($paramsArray as $rowData){
+        foreach ($paramsArray as $rowData) {
             $rowValues = array();
             foreach ($columns as $columnName) {
-                if(isset($rowData[$columnName])){
-                    $rowValues[$columnName] = self::$paramAlias.$paramCount;
-                    $paramValues[self::$paramAlias.$paramCount] = $rowData[$columnName];
+                if (isset($rowData[$columnName])) {
+                    $rowValues[$columnName] = self::$paramAlias . $paramCount;
+                    $paramValues[self::$paramAlias . $paramCount] = $rowData[$columnName];
                 } else {
                     $rowValues[$columnName] = '\'\'';
                 }
-                $paramCount++;
+                $paramCount ++;
             }
-            $rowInsertValuesArray[] = '('.implode(',', $rowValues).')';
+            $rowInsertValuesArray[] = '(' . implode(',', $rowValues) . ')';
         }
-
-        $columnInsertNames = '('.implode(',', $columns).')';
+        
+        $columnInsertNames = '(' . implode(',', $columns) . ')';
         $rowInsertValues = implode(',', $rowInsertValuesArray);
         $sql = "INSERT INTO `{$this->tableName}` {$columnInsertNames} VALUES {$rowInsertValues};";
-        try{
-            $affectRows = $this->dbCommand->reset()->setText($sql)->bindValues($paramValues)->execute();
+        try {
+            $affectRows = $this->dbCommand->reset()
+                ->setText($sql)
+                ->bindValues($paramValues)
+                ->execute();
             return $affectRows;
-        } catch (Exception $ex){
+        } catch (Exception $ex) {
             return false;
         }
     }
@@ -438,25 +471,26 @@ abstract class BaseDAO{
      * @author Weixun Luo
      * @date 2015-04-15
      */
-    public function save($params, $conditions = array()){
+    public function save($params, $conditions = array())
+    {
         $isNotSame = true;
-        if(empty($conditions)){
+        if (empty($conditions)) {
             $conditions = $params;
             $isNotSame = false;
         }
         try {
             $isExists = $this->isExists($conditions);
             $affectRows = 1;
-            if($isExists && $isNotSame){
+            if ($isExists && $isNotSame) {
                 $affectRows = $this->update($conditions, $params);
-                if($affectRows === 0){
+                if ($affectRows === 0) {
                     $affectRows = $this->isExists($conditions) ? 1 : 0;
                 }
             } else {
                 $affectRows = $this->insert($params, true);
             }
             return $affectRows;
-        } catch (Exception $ex){
+        } catch (Exception $ex) {
             return false;
         }
     }
@@ -467,11 +501,12 @@ abstract class BaseDAO{
      * @author Weixun Luo
      * @date 2014-11-11
      */
-    public function getLastInsertID(){
-        try{
+    public function getLastInsertID()
+    {
+        try {
             $lastInsertId = $this->dbConnection->getLastInsertID($this->primaryKey);
             return $lastInsertId;
-        } catch (Exception $ex){
+        } catch (Exception $ex) {
             return 0;
         }
     }
@@ -483,18 +518,19 @@ abstract class BaseDAO{
      * @author Weixun Luo
      * @date 2015-03-09
      */
-    public function count($criteria){
-        if($this->isParamsEmpty($criteria)){
+    public function count($criteria)
+    {
+        if ($this->isParamsEmpty($criteria)) {
             return false;
         }
         $conditionArray = $this->toConditionExpress($criteria);
         // Reset the select to count express
         $conditionArray['select'] = "COUNT({$this->primaryKey})";
         $this->dbCommand = $this->buildFindCommand($conditionArray);
-        try{
+        try {
             $rows = $this->dbCommand->queryScalar();
             return intval($rows);
-        } catch (Exception $ex){
+        } catch (Exception $ex) {
             return false;
         }
     }
@@ -505,7 +541,8 @@ abstract class BaseDAO{
      * @author Weixun Luo
      * @date 2014-10-30
      */
-    public function getAllFields(){
+    public function getAllFields()
+    {
         return $this->fields;
     }
 
@@ -515,8 +552,9 @@ abstract class BaseDAO{
      * @author Weixun Luo
      * @date 2014-12-01
      */
-    public function getTableName(){
-        if(empty($this->tableName)){
+    public function getTableName()
+    {
+        if (empty($this->tableName)) {
             return '';
         }
         return $this->tableName;
@@ -528,8 +566,9 @@ abstract class BaseDAO{
      * @author Weixun Luo
      * @date 2014-11-13
      */
-    public function getPk(){
-        if(empty($this->primaryKey)){
+    public function getPk()
+    {
+        if (empty($this->primaryKey)) {
             return '';
         }
         return $this->primaryKey;
@@ -542,10 +581,11 @@ abstract class BaseDAO{
      * @author Weixun Luo
      * @date 2014-10-30
      */
-    protected function toConditionExpress($criteria){
+    protected function toConditionExpress($criteria)
+    {
         $where = '';
         $params = array();
-        if(is_array($criteria)){
+        if (is_array($criteria)) {
             $i = 0;
             // 键值对数组条件
             foreach ($criteria as $key => $value) {
@@ -553,17 +593,20 @@ abstract class BaseDAO{
                 preg_match('/[^\w\s]+\Z/', $key, $matches);
                 $operator = $matches ? $matches[0] : '=';
                 $field = str_replace($operator, '', $key);
-                $fieldAlias = self::$paramAlias.$i; // 用统一规则参数名, 提高函数效率
-                $where .= ($where ? ' and ' : '').$field.' '.$operator.' '.$fieldAlias;
+                $fieldAlias = self::$paramAlias . $i; // 用统一规则参数名, 提高函数效率
+                $where .= ($where ? ' and ' : '') . $field . ' ' . $operator . ' ' . $fieldAlias;
                 $params[$fieldAlias] = $value;
-                $i++;
+                $i ++;
             }
         }
-        if($criteria instanceof CDbCriteria){
+        if ($criteria instanceof CDbCriteria) {
             // CDbCriteria条件实例
             return $criteria->toArray();
         }
-        return array('condition' => $where, 'params' => $params);
+        return array(
+            'condition' => $where,
+            'params' => $params
+        );
     }
 
     /**
@@ -573,38 +616,40 @@ abstract class BaseDAO{
      * @author Weixun Luo
      * @date 2015-01-26
      */
-    private function buildFindCommand($conditionArray){
-        if($this->isParamsEmpty($conditionArray) || !is_array($conditionArray)){
+    private function buildFindCommand($conditionArray)
+    {
+        if ($this->isParamsEmpty($conditionArray) || ! is_array($conditionArray)) {
             return $this->dbCommand;
         }
-
+        
         $commandBuilder = $this->dbConnection->getCommandBuilder();
         $alias = Utility::getArrayValue($conditionArray, 'alias');
         $distinct = Utility::getArrayValue($conditionArray, 'distinct', false);
         $select = Utility::getArrayValue($conditionArray, 'select', '*');
         $join = Utility::getArrayValue($conditionArray, 'join');
         $order = Utility::getArrayValue($conditionArray, 'order');
-        if(is_array($select)){
+        if (is_array($select)) {
             $select = implode(",", $select);
         }
-        if(is_array($join)){
+        if (is_array($join)) {
             $join = implode("\n", $join);
         }
-        if(is_array($order)){
+        if (is_array($order)) {
             $order = implode(",", $order);
         }
-
-        $sql = ($distinct ? "SELECT DISTINCT" : "SELECT")." {$select} FROM {$this->tableName} $alias";
+        
+        $sql = ($distinct ? "SELECT DISTINCT" : "SELECT") . " {$select} FROM {$this->tableName} $alias";
         $sql = $commandBuilder->applyJoin($sql, $join);
         $sql = $commandBuilder->applyCondition($sql, Utility::getArrayValue($conditionArray, 'condition'));
         $sql = $commandBuilder->applyGroup($sql, Utility::getArrayValue($conditionArray, 'group'));
         $sql = $commandBuilder->applyHaving($sql, Utility::getArrayValue($conditionArray, 'having'));
         $sql = $commandBuilder->applyOrder($sql, $order);
-        $sql = $commandBuilder->applyLimit($sql,
-            Utility::getArrayValue($conditionArray, 'limit', -1),
-            Utility::getArrayValue($conditionArray, 'offset', -1));
-
-        $this->dbCommand->reset()->setText($sql)->bindValues($conditionArray['params']);
+        $sql = $commandBuilder->applyLimit($sql, Utility::getArrayValue($conditionArray, 'limit', - 1), 
+            Utility::getArrayValue($conditionArray, 'offset', - 1));
+        
+        $this->dbCommand->reset()
+            ->setText($sql)
+            ->bindValues($conditionArray['params']);
         return $this->dbCommand;
     }
 
@@ -774,7 +819,8 @@ abstract class BaseDAO{
      * @date 2015-05-04
      * @return boolean|Ambigous <multitype:, mixed>|mixed
      */
-    public function iselect($columns, $conditions, $params, $returnall = true, $joinArray = array(), $tableAlias = '', $order = '', $limit = 0, $offset = null, $option = '', $groups = '')
+    public function iselect($columns, $conditions, $params, $returnall = true, $joinArray = array(), $tableAlias = '', $order = '', $limit = 0, $offset = null, 
+        $option = '', $groups = '')
     {
         if (empty($columns) || empty($conditions)) {
             return false;
@@ -828,7 +874,7 @@ abstract class BaseDAO{
             return $this->dbCommand->queryRow();
         }
     }
-    
+
     /**
      * @desc 运行SQL返回结果
      * @param string $text
@@ -852,7 +898,7 @@ abstract class BaseDAO{
             return $this->dbCommand->setText($text)->execute($params);
         }
     }
-    
+
     /**
      * @desc 获取记录总数
      * @param string $conditions
@@ -865,7 +911,7 @@ abstract class BaseDAO{
     {
         return $this->dbCommand->setText('SELECT count(*) FROM `' . $this->tableName . '` WHERE ' . $conditions)->queryScalar($params);
     }
-    
+
     /**
      * @desc 获取上次dbCommand运行的SQL
      * @author YangLong
@@ -927,7 +973,7 @@ abstract class BaseDAO{
         if (! is_bool($useTransaction)) {
             $useTransaction = (bool) $useTransaction;
         }
-
+        
         $tableName = $this->tableName;
         $rowsSQL = array();
         $toBind = array();
@@ -936,7 +982,7 @@ abstract class BaseDAO{
         } else {
             $columnNames = $fields;
         }
-
+        
         $useTransaction and $this->begintransaction();
         try {
             $i = 0;
@@ -952,7 +998,7 @@ abstract class BaseDAO{
                         } else {
                             $param = ":{$columnNames[$key]}_{$i}";
                         }
-
+                        
                         $params[] = $param;
                         $toBind[$param] = $columnValue;
                     }
@@ -992,17 +1038,17 @@ abstract class BaseDAO{
             return false;
         }
         $sql = "INSERT INTO `$tableName` (" . implode(", ", $columnNames) . ") VALUES " . implode(", ", $rowsSQL);
-
+        
         $this->dbCommand->reset();
         $this->dbCommand->setText($sql)->prepare();
         foreach ($toBind as $param => $val) {
             $paramtype = null;
             $this->dbCommand->bindValue($param, $val, $paramtype);
         }
-
+        
         $rowsSQL = array();
         $toBind = array();
-
+        
         return $this->dbCommand->execute();
     }
 

@@ -34,5 +34,4 @@ class Ck1TrackingsDAO extends BaseDAO
         // $this->created = 'create_time';
         // $this->updated = 'update_time';
     }
-
 }

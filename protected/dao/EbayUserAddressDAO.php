@@ -33,7 +33,7 @@ class EbayUserAddressDAO extends BaseDAO
         $this->primaryKey = 'ebay_user_address_id';
         $this->created = 'create_time';
     }
-    
+
     /**
      * @desc 获取客户地址
      * @param string $buyer_id
@@ -55,5 +55,4 @@ class EbayUserAddressDAO extends BaseDAO
             ->queryRow();
         return $result;
     }
-
 }

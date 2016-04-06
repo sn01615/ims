@@ -33,7 +33,7 @@ class EbayOrdersDownQueueDAO extends BaseDAO
         $this->primaryKey = 'ebay_orders_down_queue_id';
         $this->created = 'create_time';
     }
-    
+
     /**
      * @desc 获取订单下载队列
      * @param number $limit
@@ -81,5 +81,4 @@ class EbayOrdersDownQueueDAO extends BaseDAO
             return false;
         }
     }
-    
 }

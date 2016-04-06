@@ -33,5 +33,4 @@ class MsgDAO extends BaseDAO
         $this->primaryKey = 'msg_id';
         $this->created = 'create_time';
     }
-    
 }

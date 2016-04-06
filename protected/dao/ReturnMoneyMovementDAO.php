@@ -35,7 +35,7 @@ class ReturnMoneyMovementDAO extends BaseDAO
         $this->return = 'return_request';
         $this->shop = 'shop';
     }
-    
+
     /**
      * @desc 获取退款号
      * @param $returnid
@@ -43,17 +43,17 @@ class ReturnMoneyMovementDAO extends BaseDAO
      * @author liaojianwen
      * @date 2015-07-22
      */
-    public function getMoneyMovement($returnid,$sellerId)
+    public function getMoneyMovement($returnid, $sellerId)
     {
         $selects = 'm.externalPaymentTrxnId,m.externalPaymentTrxnType,m.creationDate,m.status';
         $conditions = "m.return_id= {$returnid} and s.seller_id ={$sellerId}";
         $result = $this->dbCommand->reset()
-                                  ->select($selects)
-                                  ->from("{$this->tableName} m")
-                                  ->join("{$this->return} r","r.return_request_id = m.return_id")
-                                  ->join("{$this->shop} s","s.shop_id=r.shop_id")
-                                  ->where($conditions)
-                                  ->queryAll();
+            ->select($selects)
+            ->from("{$this->tableName} m")
+            ->join("{$this->return} r", "r.return_request_id = m.return_id")
+            ->join("{$this->shop} s", "s.shop_id=r.shop_id")
+            ->where($conditions)
+            ->queryAll();
         return $result;
     }
 }
