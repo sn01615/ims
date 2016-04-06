@@ -167,9 +167,15 @@ $(document).ready(function(e) {
                     var _html = '';
                     var _html2 = '';
                     for (var x in data.Body) {
-                        _html += '<h3><i class="iconTab nui-tag' + data.Body[x].label_color + '"></i><a href="?r=Home/MsgList&class=label&labelid=' + data.Body[x].msg_label_id + '" target="main" class="sideF3a">' + data.Body[x].label_title + '</a></h3>';
+                        _html += '<h3><i class="iconTab nui-tag' + data.Body[x].label_color + '"></i><a href="?r=Home/MsgList&class=label&labelid=' +
+                            data.Body[x].msg_label_id + '" target="main" class="sideF3a">' + data.Body[x].label_title + '</a></h3>';
 
-                        _html2 += '<tr label_id="' + data.Body[x].msg_label_id + '"><td><div class="showName"><span class="iconTab nui-tag' + data.Body[x].label_color + '"></span><b>' + data.Body[x].label_title + '</b></div>' + '<div class="editName"><input class="label_title_edit_ipt" type="text" name="" id="" value="' + data.Body[x].label_title + '" maxlength="12"></div></td><td>' + data.Body[x].msg_count + '</td>' + '<td><span class="fontLink label_rename">' + lang.index_biz.label_rename + '</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="fontLink label_del">' + lang.index_biz.label_delete + '</span></td></tr>';
+                        _html2 += '<tr label_id="' + data.Body[x].msg_label_id + '"><td><div class="showName"><span class="iconTab nui-tag' + data.Body[
+                                x].label_color + '"></span><b>' + data.Body[x].label_title + '</b></div>' +
+                            '<div class="editName"><input class="label_title_edit_ipt" type="text" name="" id="" value="' + data.Body[x].label_title +
+                            '" maxlength="12"></div></td><td>' + data.Body[x].msg_count + '</td>' + '<td><span class="fontLink label_rename">' + lang.index_biz
+                            .label_rename + '</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="fontLink label_del">' + lang.index_biz.label_delete +
+                            '</span></td></tr>';
                     }
                     $('#nav_label_list').html(_html);
                     $('#man_label_window_list').html(_html2);
@@ -399,7 +405,8 @@ function shopList() {
             $("#AccountList").find('.defaultOp em').text(lang.index_biz.text_account);
             for (var i in data.Body.list) {
                 if (data.Body.list[i].status != 2) {
-                    $("#AccountList>.selList").append('<li sid="' + data.Body.list[i].shop_id + '"><span>' + data.Body.list[i].nick_name + (data.Body.list[i].status == 2 ? '(' + lang.index_biz.shop_disable + ')' : '') + '</span>' +
+                    $("#AccountList>.selList").append('<li sid="' + data.Body.list[i].shop_id + '"><span>' + data.Body.list[i].nick_name + (data.Body.list[i].status ==
+                            2 ? '(' + lang.index_biz.shop_disable + ')' : '') + '</span>' +
                         (true ? '' : '<b>10</b>') + '</li>'); // @todo 计数
                 }
             }
