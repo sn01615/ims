@@ -60,7 +60,8 @@ $(document).ready(function(e) {
                 $window_client_info.find('span[t="id"]').html(buyer);
                 global_info.itemId = result.i_itemId; ///
                 //top部分
-                if ((result.dRD_content == null || result.dRD_content == '') && (result.dRD_description == null || result.dRD_description == '') && (result.decision == '' || result.decisionDate == 0)) {
+                if ((result.dRD_content == null || result.dRD_content == '') && (result.dRD_description == null || result.dRD_description == '') && (
+                        result.decision == '' || result.decisionDate == 0)) {
                     $('#top').hide();
                 } else {
                     var description = result.dRD_description;
@@ -70,12 +71,15 @@ $(document).ready(function(e) {
                     if (result.decision) {
                         description += ' &nbsp (' + result.decision + ')';
                     }
-                    var decison = '<li><span class="leftName">' + lang.disputeDet_biz.diapute_decision + '：</span><span class="rightVal">' + description + '</span></li>';
+                    var decison = '<li><span class="leftName">' + lang.disputeDet_biz.diapute_decision + '：</span><span class="rightVal">' +
+                        description + '</span></li>';
                     if (result.dRD_content) {
-                        decison += '<li><span class="leftName">' + lang.disputeDet_biz.diapute_desc + '：</span><span class="rightVal">' + result.dRD_content + '</span></li>';
+                        decison += '<li><span class="leftName">' + lang.disputeDet_biz.diapute_desc + '：</span><span class="rightVal">' + result.dRD_content +
+                            '</span></li>';
                     }
                     if (+result.decisionDate) {
-                        decison += '<li><span class="leftName">' + lang.disputeDet_biz.diapute_time + '：</span><span class="rightVal">' + intToLocalDate(result.decisionDate, 3) + '</span></li>';
+                        decison += '<li><span class="leftName">' + lang.disputeDet_biz.diapute_time + '：</span><span class="rightVal">' +
+                            intToLocalDate(result.decisionDate, 3) + '</span></li>';
                     }
 
                     $(decison).appendTo("#top");
@@ -90,13 +94,19 @@ $(document).ready(function(e) {
                 }
                 //left部分
                 $('<li><span class="leftName">' + lang.disputeDet_biz.account + '：</span><span class="rightVal">' + seller + '</span></li>' +
-                    '<li id="CaseId_id"><span class="leftName">' + lang.disputeDet_biz.dispute_id + '：</span><span class="rightVal">' + result.caseId_id + '</span></li>' +
-                    '<li><span class="leftName">' + lang.disputeDet_biz.dispute_start_time + '：</span><span class="rightVal">' + intToLocalDate(result.creationDate, 3) + '</span></li>' +
-                    '<li><span class="leftName">' + lang.disputeDet_biz.dispute_staus + '：</span><span class="rightVal">' + ucfirst(content) + '</span></li>' +
-                    '<li><span class="leftName">' + lang.disputeDet_biz.dispute_reason + '：</span><span class="rightVal">' + result.openReason + '</span></li>' +
-                    '<li><span class="leftName">' + lang.disputeDet_biz.buyer_description + '：</span><span class="rightVal">' + result.iBED_description + '</span></li>').appendTo("#left");
+                    '<li id="CaseId_id"><span class="leftName">' + lang.disputeDet_biz.dispute_id + '：</span><span class="rightVal">' + result.caseId_id +
+                    '</span></li>' +
+                    '<li><span class="leftName">' + lang.disputeDet_biz.dispute_start_time + '：</span><span class="rightVal">' + intToLocalDate(
+                        result.creationDate, 3) + '</span></li>' +
+                    '<li><span class="leftName">' + lang.disputeDet_biz.dispute_staus + '：</span><span class="rightVal">' + ucfirst(content) +
+                    '</span></li>' +
+                    '<li><span class="leftName">' + lang.disputeDet_biz.dispute_reason + '：</span><span class="rightVal">' + result.openReason +
+                    '</span></li>' +
+                    '<li><span class="leftName">' + lang.disputeDet_biz.buyer_description + '：</span><span class="rightVal">' + result.iBED_description +
+                    '</span></li>').appendTo("#left");
                 //right部分
-                $('<li><span class="leftName">BuyerUserID：</span><span class="rightVal"><a class="fontLinkBtn" href="http://www.ebay.com/usr/' + buyer + '" target="_blank">' + buyer + '</a></span></li>' +
+                $('<li><span class="leftName">BuyerUserID：</span><span class="rightVal"><a class="fontLinkBtn" href="http://www.ebay.com/usr/' + buyer +
+                    '" target="_blank">' + buyer + '</a></span></li>' +
                     //                      '<li><span>消费：</span><span>暂时没数据</span></li>'+
                     '<li class="custaddr" style="display:none"></li>' +
                     '<li class="customerNote" style="display:none"></li>').appendTo("#right");
@@ -131,7 +141,9 @@ $(document).ready(function(e) {
                     '<tbody><tr data-itemid="' + result.i_itemId + '">' +
                     '<td><img src="" alt="" /></td>' +
                     '<td><span></span></td>' +
-                    '<td id="i_itemId"><span><a href="http://cgi.ebay.com/ws/eBayISAPI.dll?ViewItem&item=' + (_user_id ? result.i_itemId.replace(/(\d{8})\d{4}/, '$1****') : result.i_itemId) + '" target="_blank" class="fontLinkBtn">' + (_user_id ? result.i_itemId.replace(/(\d{8})\d{4}/, '$1****') : result.i_itemId) + '</a></span></td>' +
+                    '<td id="i_itemId"><span><a href="http://cgi.ebay.com/ws/eBayISAPI.dll?ViewItem&item=' + (_user_id ? result.i_itemId.replace(
+                        /(\d{8})\d{4}/, '$1****') : result.i_itemId) + '" target="_blank" class="fontLinkBtn">' + (_user_id ? result.i_itemId.replace(
+                        /(\d{8})\d{4}/, '$1****') : result.i_itemId) + '</a></span></td>' +
                     '<td id="Price"><span>' + price + '&nbsp' + result.currencyId + '</span></td>' +
                     '<td id="Quantity"><span>' + result.caseQuantity + '</span></td>' +
                     '<td id="totalPrice"><span>' + result.caseAmount + '&nbsp' + result.currencyId + '</span></td>' +
@@ -139,7 +151,8 @@ $(document).ready(function(e) {
                     '<td id="transactionDate"><span>' + intToLocalDate(result.i_transactionDate, 3) + '</span></td>' +
                     ((result.sS_carrierUsed.length > 1) ? ('<td id="sS_carrierUsed"><span>' + result.sS_carrierUsed + '</span></td>') : '') +
                     ((result.sS_trackingNumber.length > 1) ? ('<td id="sS_trackingNumber"><span>' + result.sS_trackingNumber + '</span></td>') : '') +
-                    ((result.sS_deliveryDate.length > 1) ? ('<td><span>' + (result.sS_deliveryDate !== "0" ? intToLocalDate(result.sS_deliveryDate, 3) : "") + '<span></td>') : '') +
+                    ((result.sS_deliveryDate.length > 1) ? ('<td><span>' + (result.sS_deliveryDate !== "0" ? intToLocalDate(result.sS_deliveryDate,
+                        3) : "") + '<span></td>') : '') +
                     '<td class="evaluate"><i class="iconNone"></i></td>' +
                     '</tr></tbody>' +
                     '</table>').appendTo("#orderinfo");
@@ -213,9 +226,11 @@ $(document).ready(function(e) {
 
                 }
                 var options = $('#case_dispose_select').val();
-                var ebayhelp = '<p id="reasons"><span class="spanMode span100">' + lang.disputeDet_biz.text_reason + '：</span><select name="" id="reasonList">' +
+                var ebayhelp = '<p id="reasons"><span class="spanMode span100">' + lang.disputeDet_biz.text_reason +
+                    '：</span><select name="" id="reasonList">' +
                     reaTexts + '</select></p>';
-                var appealEbay = '<p id="appealCase"><span class="spanMode span100">' + lang.disputeDet_biz.text_reason + '：</span><select name="" id="appealList">' +
+                var appealEbay = '<p id="appealCase"><span class="spanMode span100">' + lang.disputeDet_biz.text_reason +
+                    '：</span><select name="" id="appealList">' +
                     '<option value="" selected> select a reason </option>' +
                     '<option value="DISAGREE_WITH_FINAL_DECISION"> DISAGREE_WITH_FINAL_DECISION </option>' +
                     '<option value="NEW_INFORMATION"> NEW_INFORMATION </option>' +
@@ -227,7 +242,8 @@ $(document).ready(function(e) {
                 } else {
                     appealStatus = result.s_EBPINRStatus;
                 }
-                if (appealStatus == 'CASE_CLOSED_CS_RESPONDED' || appealStatus == 'CLOSED' || appealStatus == 'CS_CLOSED' || appealStatus == 'EXPIRED' || appealStatus == 'PAID' || appealStatus == 'YOU_CONTACTED_CS_ABOUT_CLOSED_CASE') {
+                if (appealStatus == 'CASE_CLOSED_CS_RESPONDED' || appealStatus == 'CLOSED' || appealStatus == 'CS_CLOSED' || appealStatus == 'EXPIRED' ||
+                    appealStatus == 'PAID' || appealStatus == 'YOU_CONTACTED_CS_ABOUT_CLOSED_CASE') {
                     $('<option value="appealEbay">appeal to ebay for help</option>').appendTo('#case_dispose_select');
                 }
                 //国家列表
@@ -241,12 +257,28 @@ $(document).ready(function(e) {
                                     var M = data.Body;
                                     if (M) {
                                         for (var i in M) {
-                                            countryOptions += '<option value="' + i + '"' + (i === "US" ? 'selected ="selected"' : '') + '>' + M[i] + '</option>';
+                                            countryOptions += '<option value="' + i + '"' + (i === "US" ? 'selected ="selected"' :
+                                                '') + '>' + M[i] + '</option>';
                                         }
                                     }
                                     countryOptions += '</select>';
                                     ///退货地址只显示在描述不符部分
-                                    returnAddr = '<p class="returnAddr"> <span class="spanMode span100">' + lang.disputeDet_biz.address.country + '：</span>' + countryOptions + '</p>' + '<p class="returnAddr" id="state"> <span class="spanMode span100">' + lang.disputeDet_biz.address.state + '：</span><input type="text" name=""  /></p>' + '<p class="returnAddr" id="city"> <span class="spanMode span100">' + lang.disputeDet_biz.address.city + '：</span><input type="text" name="" id="" /></p>' + '<p class="returnAddr" id="street"> <span class="spanMode span100">' + lang.disputeDet_biz.address.street1 + '：</span><input type="text" name="" id="" /></p>' + '<p class="returnAddr" id="street2"> <span class="spanMode span100">' + lang.disputeDet_biz.address.street2 + '：</span><input type="text" name="" id="" /></p>' + '<p class="returnAddr" id="postcode"> <span class="spanMode span100">' + lang.disputeDet_biz.address.postcode + '：</span><input type="text" name="" id="" /></p>' + '<p class="returnAddr" id="name"> <span class="spanMode span100">' + lang.disputeDet_biz.address.contacts + '：</span><input type="text" name="" id="" /></p>' + '<p class="returnAddr" id="code"> <span class="spanMode span100">' + lang.disputeDet_biz.address.RMA + '：</span><input type="text" name="" id="" /></p>';
+                                    returnAddr = '<p class="returnAddr"> <span class="spanMode span100">' + lang.disputeDet_biz.address
+                                        .country + '：</span>' + countryOptions + '</p>' +
+                                        '<p class="returnAddr" id="state"> <span class="spanMode span100">' + lang.disputeDet_biz.address
+                                        .state + '：</span><input type="text" name=""  /></p>' +
+                                        '<p class="returnAddr" id="city"> <span class="spanMode span100">' + lang.disputeDet_biz.address
+                                        .city + '：</span><input type="text" name="" id="" /></p>' +
+                                        '<p class="returnAddr" id="street"> <span class="spanMode span100">' + lang.disputeDet_biz.address
+                                        .street1 + '：</span><input type="text" name="" id="" /></p>' +
+                                        '<p class="returnAddr" id="street2"> <span class="spanMode span100">' + lang.disputeDet_biz
+                                        .address.street2 + '：</span><input type="text" name="" id="" /></p>' +
+                                        '<p class="returnAddr" id="postcode"> <span class="spanMode span100">' + lang.disputeDet_biz
+                                        .address.postcode + '：</span><input type="text" name="" id="" /></p>' +
+                                        '<p class="returnAddr" id="name"> <span class="spanMode span100">' + lang.disputeDet_biz.address
+                                        .contacts + '：</span><input type="text" name="" id="" /></p>' +
+                                        '<p class="returnAddr" id="code"> <span class="spanMode span100">' + lang.disputeDet_biz.address
+                                        .RMA + '：</span><input type="text" name="" id="" /></p>';
                                     var ret = countryOptions.replace('id="country"', 'id="country2"');
                                     $(ret).appendTo('#returnCountry');
                                 }
@@ -380,13 +412,18 @@ $(document).ready(function(e) {
                         var returnCountry = $('#country2').val();
                         var returnZip = retZip.val();
                         var returnRMA = retRMA.val()
-                        if (returnState == lang.disputeDet_biz.input_info.state || returnState == '' || returnCity == lang.disputeDet_biz.input_info.city || returnCity == '' || returnStreet == lang.disputeDet_biz.input_info.city || returnStreet == '' ||
-                            returnZip == '' || returnZip == lang.disputeDet_biz.input_info.postcode || returnStreet == '' || returnStreet == lang.disputeDet_biz.input_info.street1) {
+                        if (returnState == lang.disputeDet_biz.input_info.state || returnState == '' || returnCity == lang.disputeDet_biz.input_info
+                            .city || returnCity == '' || returnStreet == lang.disputeDet_biz.input_info.city || returnStreet == '' ||
+                            returnZip == '' || returnZip == lang.disputeDet_biz.input_info.postcode || returnStreet == '' || returnStreet == lang.disputeDet_biz
+                            .input_info.street1) {
                             hintShow('hint_w', lang.disputeDet_biz.cannot_empty);
                             return;
                         } else {
-                            var Addr = returnName + ' ' + returnStreet + ' ' + returnStreet2 + ' ' + returnCity + ' ' + returnState + ' ' + returnCountry + ' ' + returnZip
-                            $('#newAddr').show().html('<p id="address"> <span class="spanMode span100">' + lang.disputeDet_biz.return_address + '：</span><span>' + Addr + '</span></p><p id="RMA"> <span class="spanMode span100">RMA：</span><span>' + returnRMA + '</span></p>');
+                            var Addr = returnName + ' ' + returnStreet + ' ' + returnStreet2 + ' ' + returnCity + ' ' + returnState + ' ' +
+                                returnCountry + ' ' + returnZip
+                            $('#newAddr').show().html('<p id="address"> <span class="spanMode span100">' + lang.disputeDet_biz.return_address +
+                                '：</span><span>' + Addr + '</span></p><p id="RMA"> <span class="spanMode span100">RMA：</span><span>' +
+                                returnRMA + '</span></p>');
                             $('#editAddr').hide();
                         }
 
@@ -395,7 +432,8 @@ $(document).ready(function(e) {
                 $('#deal').on('click', function() {
                     var fileText = $('#text').val();
                     var myDate = new Date();
-                    var Thours = myDate.getFullYear() + '-' + (myDate.getMonth() + 1) + '-' + myDate.getDate() + ' ' + myDate.getHours() + ':' + myDate.getMinutes() + ':' + myDate.getSeconds();
+                    var Thours = myDate.getFullYear() + '-' + (myDate.getMonth() + 1) + '-' + myDate.getDate() + ' ' + myDate.getHours() + ':' +
+                        myDate.getMinutes() + ':' + myDate.getSeconds();
                     var param = '';
                     var carrier = '';
                     var TrackingInfo = [];
@@ -421,7 +459,8 @@ $(document).ready(function(e) {
                         case 'trackingInfo':
                             var carrier = $('#carrier input').val();
                             var trackingNum = $('#trackingNO input').val();
-                            if (carrier == lang.disputeDet_biz.input_carrier || carrier == '' || trackingNum == lang.disputeDet_biz.input_tracking_number || trackingNum == '') {
+                            if (carrier == lang.disputeDet_biz.input_carrier || carrier == '' || trackingNum == lang.disputeDet_biz.input_tracking_number ||
+                                trackingNum == '') {
                                 hintShow('hint_w', lang.disputeDet_biz.cannot_empty);
                                 return;
                             }
@@ -440,7 +479,8 @@ $(document).ready(function(e) {
                                     TrackingInfo['carrier'] = carrier;
                                     $('#carrier input').val('');
                                     $('#trackingNO input').val('');
-                                    addHistroyResponse(Thours, TrackingInfo, fileText, 'Seller provided tracking information for shipment.');
+                                    addHistroyResponse(Thours, TrackingInfo, fileText,
+                                        'Seller provided tracking information for shipment.');
                                 }
 
                             });
@@ -448,7 +488,8 @@ $(document).ready(function(e) {
                         case 'shippingInfo':
                             var carrier = $('#carrier input').val();
                             var shipdate = $('#shipdate input').val();
-                            if (carrier == lang.disputeDet_biz.input_carrier || carrier == '' || shipdate == lang.disputeDet_biz.input_shipment_date || shipdate == '') {
+                            if (carrier == lang.disputeDet_biz.input_carrier || carrier == '' || shipdate == lang.disputeDet_biz.input_shipment_date ||
+                                shipdate == '') {
                                 hintShow('hint_w', lang.disputeDet_biz.cannot_empty);
                                 return;
                             }
@@ -568,8 +609,10 @@ $(document).ready(function(e) {
                             var returnCountry = $('#country2').val();
                             var returnZip = $('#returnZip').val();
                             var returnRMA = $('#returnRMA').val()
-                            if (returnState == lang.disputeDet_biz.input_info.state || returnState == '' || returnCity == lang.disputeDet_biz.input_info.city || returnCity == '' ||
-                                returnZip == '' || returnZip == lang.disputeDet_biz.input_info.postcode || returnStreet == '' || returnStreet == lang.disputeDet_biz.input_info.street1) {
+                            if (returnState == lang.disputeDet_biz.input_info.state || returnState == '' || returnCity == lang.disputeDet_biz.input_info
+                                .city || returnCity == '' ||
+                                returnZip == '' || returnZip == lang.disputeDet_biz.input_info.postcode || returnStreet == '' || returnStreet ==
+                                lang.disputeDet_biz.input_info.street1) {
                                 hintShow('hint_w', lang.disputeDet_biz.reason_canot_empty);
                                 return;
                             }
@@ -801,7 +844,8 @@ $(document).ready(function(e) {
                 //left部分
                 $('<li><span>' + lang.disputeDet_biz.account + '：</span><span>' + result.SellerUserID + '</span></li>' +
                     '<li><span>' + lang.disputeDet_biz.dispute_id + '：</span><span>' + result.DisputeID + '</span></li>' +
-                    '<li><span>' + lang.disputeDet_biz.dispute_start_time + '：</span><span>' + intToLocalDate(result.DisputeCreatedTime, 3) + '</span></li>' +
+                    '<li><span>' + lang.disputeDet_biz.dispute_start_time + '：</span><span>' + intToLocalDate(result.DisputeCreatedTime, 3) +
+                    '</span></li>' +
                     '<li><span>' + lang.disputeDet_biz.dispute_staus + '：</span><span>' + result.DisputeState + '</span></li>' +
                     '<li><span>' + lang.disputeDet_biz.dispute_reason + '：</span><span>' + result.DisputeReason + '</span></li>').appendTo("#left");
                 //right部分
@@ -822,7 +866,9 @@ $(document).ready(function(e) {
                     '<tbody><tr data-itemid="' + result.i_ItemID + '">' +
                     '<td><img src="" alt="" /></td>' +
                     '<td><span></span></td>' +
-                    '<td><a href="http://cgi.ebay.com/ws/eBayISAPI.dll?ViewItem&item=' + (_user_id ? result.i_ItemID.replace(/(\d{8})\d{4}/, '$1****') : result.i_ItemID) + '" target="_blank" class="fontLinkBtn">' + (_user_id ? result.i_ItemID.replace(/(\d{8})\d{4}/, '$1****') : result.i_ItemID) + '</a></td>' +
+                    '<td><a href="http://cgi.ebay.com/ws/eBayISAPI.dll?ViewItem&item=' + (_user_id ? result.i_ItemID.replace(/(\d{8})\d{4}/,
+                        '$1****') : result.i_ItemID) + '" target="_blank" class="fontLinkBtn">' + (_user_id ? result.i_ItemID.replace(
+                        /(\d{8})\d{4}/, '$1****') : result.i_ItemID) + '</a></td>' +
                     '<td>' + result.i_SS_CurrentPrice + '&nbsp' + result.i_SS_CP_currencyID + '</td>' +
                     '<td>' + result.i_Quantity + '</td>' +
                     (global.type == 'cancel' ? '<td class="evaluate"><i class="iconNone"></i></td>' : '') +
@@ -922,7 +968,8 @@ $(document).ready(function(e) {
                         }
                         if (M[i].sellerReturnAddr_name) {
                             note += '<br /><i>' + M[i].sellerReturnAddr_name + '</i><br /><i>' + M[i].sellerReturnAddr_street1 + '</i>&nbsp';
-                            note += '<i>' + M[i].sellerReturnAddr_street2 + '</i><br /><i>' + M[i].sellerReturnAddr_city + '</i>&nbsp<i>' + M[i].sellerReturnAddr_county + '</i>&nbsp';
+                            note += '<i>' + M[i].sellerReturnAddr_street2 + '</i><br /><i>' + M[i].sellerReturnAddr_city + '</i>&nbsp<i>' + M[i].sellerReturnAddr_county +
+                                '</i>&nbsp';
                             note += '<i>' + M[i].sellerReturnAddr_stateOrProvince + '</i>&nbsp<i>' + M[i].sellerReturnAddr_country + '</i>&nbsp';
                             note += '<i>' + M[i].sellerReturnAddr_postalCode + '</i>';
                         }
@@ -967,8 +1014,10 @@ $(document).ready(function(e) {
                         var CityName = addr.CityName ? addr.CityName : '';
                         var StateOrProvince = addr.StateOrProvince ? addr.StateOrProvince : '';
                         var CountryName = addr.CountryName ? addr.CountryName : '';
-                        var shippingAddr = name + '&nbsp' + street1 + '&nbsp' + street2 + '&nbsp' + CityName + '&nbsp' + StateOrProvince + '&nbsp' + CountryName
-                        $('.custaddr').html('<span class="leftName">' + lang.disputeDet_biz.shipping_address + '：</span><span class="rightVal">' + shippingAddr + '</span>').show();
+                        var shippingAddr = name + '&nbsp' + street1 + '&nbsp' + street2 + '&nbsp' + CityName + '&nbsp' + StateOrProvince + '&nbsp' +
+                            CountryName
+                        $('.custaddr').html('<span class="leftName">' + lang.disputeDet_biz.shipping_address + '：</span><span class="rightVal">' +
+                            shippingAddr + '</span>').show();
                         $('#orderinfo').find('tr[data-itemid="' + global_info.itemId + '"] td').eq(1).find('span').html(addr.SKUS ? addr.SKUS : addr.SKU);
                         $('#Price').html('<span>' + (addr.CurrentPrice ? addr.CurrentPrice : 0) + '&nbsp' + addr.currencyID + '</span>');
                     }
@@ -996,7 +1045,8 @@ $(document).ready(function(e) {
                                         } else if (data.Body[i].Buyer_StaticAlias != '') {
                                             $window_client_info.find('span[t="mail"]').html(data.Body[i].Buyer_StaticAlias);
                                         }
-                                        $window_client_info.find('span[t="name"]').html(data.Body[i].Buyer_UserFirstName + ' ' + data.Body[i].Buyer_UserLastName);
+                                        $window_client_info.find('span[t="name"]').html(data.Body[i].Buyer_UserFirstName + ' ' + data.Body[
+                                            i].Buyer_UserLastName);
                                     }
                                 } else {
                                     // hintShow('hint_f','服务器错误!');
@@ -1178,20 +1228,25 @@ $(document).ready(function(e) {
                             }
                             if (M[i].sellerReturnAddr_name) {
                                 note += '<br /><i>' + M[i].sellerReturnAddr_name + '</i><br /><i>' + M[i].sellerReturnAddr_street1 + '</i>&nbsp';
-                                note += '<i>' + M[i].sellerReturnAddr_street2 + '</i><br /><i>' + M[i].sellerReturnAddr_city + '</i>&nbsp<i>' + M[i].sellerReturnAddr_county + '</i>&nbsp';
-                                note += '<i>' + M[i].sellerReturnAddr_stateOrProvince + '</i>&nbsp<i>' + M[i].sellerReturnAddr_country + '</i>&nbsp';
+                                note += '<i>' + M[i].sellerReturnAddr_street2 + '</i><br /><i>' + M[i].sellerReturnAddr_city + '</i>&nbsp<i>' + M[i]
+                                    .sellerReturnAddr_county + '</i>&nbsp';
+                                note += '<i>' + M[i].sellerReturnAddr_stateOrProvince + '</i>&nbsp<i>' + M[i].sellerReturnAddr_country +
+                                    '</i>&nbsp';
                                 note += '<i>' + M[i].sellerReturnAddr_postalCode + '</i>';
                             }
                             if (M[i].author_role == 'SELLER') {
                                 $('<li class="sellerMSG">' +
                                     '<div class="MSGC">' +
-                                    '<p><b>' + intToLocalDate(M[i].creationDate, 3) + '</b>&nbsp' + M[i].author_role + '<span class="note_md" data-note-md5=' + M[i].note_md5 + ' data-activity-md5=' + M[i].activityDetial_description_md5 + '></span></p>' +
+                                    '<p><b>' + intToLocalDate(M[i].creationDate, 3) + '</b>&nbsp' + M[i].author_role +
+                                    '<span class="note_md" data-note-md5=' + M[i].note_md5 + ' data-activity-md5=' + M[i].activityDetial_description_md5 +
+                                    '></span></p>' +
                                     '<p>' + note + '</p>' +
                                     '</div></li>').appendTo("#history");
                             } else {
                                 $('<li class="buyerMSG">' +
                                     '<div class="MSGC">' +
-                                    '<p><b>' + intToLocalDate(M[i].creationDate, 3) + '</b>&nbsp' + M[i].author_role + '<span data-note-md5=' + M[i].note_md5 + ' data-activity-md5=' + M[i].activityDetial_description_md5 + '></span></p>' +
+                                    '<p><b>' + intToLocalDate(M[i].creationDate, 3) + '</b>&nbsp' + M[i].author_role + '<span data-note-md5=' +
+                                    M[i].note_md5 + ' data-activity-md5=' + M[i].activityDetial_description_md5 + '></span></p>' +
                                     '<p style="white-space:normal;">' + note + '</p>' +
                                     '</div></li>').appendTo("#history");
                             }
@@ -1250,14 +1305,16 @@ $(document).ready(function(e) {
                     if ($(element).html().toString().indexOf('Seller provided shipping information.') > -1) {
                         for (var k in M) {
                             if (M[k].handle_type === 'addShippingInfo') {
-                                $(element).after('<br /><i> CarrierUsed: ' + M[k].carrier + '</i><br /><i> ShipDate: ' + intToLocalDate(M[k].shipdate, 3) + '</i>');
+                                $(element).after('<br /><i> CarrierUsed: ' + M[k].carrier + '</i><br /><i> ShipDate: ' + intToLocalDate(M[k].shipdate,
+                                    3) + '</i>');
                             }
                         }
                     }
                     if ($(element).html().toString().indexOf('Seller provided tracking information for shipment.') > -1) {
                         for (var k in M) {
                             if (M[k].handle_type === 'addTrackingInfo') {
-                                $(element).after('<br/><i>trackingNumber: <a href="http://www.ec-firstclass.org/?track_number=' + M[k].trackingNum + '" target="_blank" class="fontLinkBtn">' + M[k].trackingNum + '</a></i>');
+                                $(element).after('<br/><i>trackingNumber: <a href="http://www.ec-firstclass.org/?track_number=' + M[k].trackingNum +
+                                    '" target="_blank" class="fontLinkBtn">' + M[k].trackingNum + '</a></i>');
                                 $(element).after('<br/><i>carrierUsed: ' + M[k].carrier + '</i>');
                             }
                         }
@@ -1267,30 +1324,40 @@ $(document).ready(function(e) {
                     for (var i in M) {
                         switch (M[i].handle_type) {
                             case 'addResponse':
-                                $('<tr><td><span>' + lang.disputeDet_biz.reply_message + '</span></td><td></td><td></td><td><span>' + intToLocalDate(M[i].create_time, 3) + '</span></td><td><span>' + M[i].handle_user + '</span></td></tr>').appendTo("#handle");
+                                $('<tr><td><span>' + lang.disputeDet_biz.reply_message + '</span></td><td></td><td></td><td><span>' + intToLocalDate(M[
+                                    i].create_time, 3) + '</span></td><td><span>' + M[i].handle_user + '</span></td></tr>').appendTo("#handle");
                                 break;
                             case 'addTrackingInfo':
-                                $('<tr><td><span>' + lang.disputeDet_biz.add_tracking_number + '</span></td><td><span>' + M[i].carrier + '</span></td><td><span>' + M[i].trackingNum +
+                                $('<tr><td><span>' + lang.disputeDet_biz.add_tracking_number + '</span></td><td><span>' + M[i].carrier +
+                                    '</span></td><td><span>' + M[i].trackingNum +
                                     '</span></td><td><span>' + intToLocalDate(M[i].create_time, 3) + '</span></td><td><span>' + M[i].handle_user +
                                     '</span></td></tr>').appendTo("#handle");
                                 break;
                             case 'addShippingInfo':
-                                $('<tr><td><span>' + lang.disputeDet_biz.add_logistics_information + '</span></td><td><span>' + M[i].carrier + '</span></td><td><span>' + intToLocalDate(M[i].shipdate, 3) +
+                                $('<tr><td><span>' + lang.disputeDet_biz.add_logistics_information + '</span></td><td><span>' + M[i].carrier +
+                                    '</span></td><td><span>' + intToLocalDate(M[i].shipdate, 3) +
                                     '</span></td><td><span>' + intToLocalDate(M[i].create_time, 3) + '</span></td><td><span>' + M[i].handle_user +
                                     '</span></td></tr>').appendTo("#handle");
                                 break;
                             case 'refund':
                             case 'fullRefund':
-                                $('<tr><td><span>' + lang.disputeDet_biz.full_refund + '</span></td><td></td><td></td><td><span>' + intToLocalDate(M[i].create_time, 3) + '</span></td><td><span>' + M[i].handle_user + '</span></td></tr>').appendTo("#handle");
+                                $('<tr><td><span>' + lang.disputeDet_biz.full_refund + '</span></td><td></td><td></td><td><span>' + intToLocalDate(M[i]
+                                    .create_time, 3) + '</span></td><td><span>' + M[i].handle_user + '</span></td></tr>').appendTo("#handle");
                                 break;
                             case 'partialRefund':
-                                $('<tr><td><span>' + lang.disputeDet_biz.partial_refund + '</span></td><td><span>' + M[i].amount + '</span></td><td></td><td><span>' + intToLocalDate(M[i].create_time, 3) + '</span></td><td><span>' + M[i].handle_user + '</span></td></tr>').appendTo("#handle");
+                                $('<tr><td><span>' + lang.disputeDet_biz.partial_refund + '</span></td><td><span>' + M[i].amount +
+                                    '</span></td><td></td><td><span>' + intToLocalDate(M[i].create_time, 3) + '</span></td><td><span>' + M[i].handle_user +
+                                    '</span></td></tr>').appendTo("#handle");
                                 break;
                             case 'returnItemRefund':
-                                $('<tr><td><span>' + lang.disputeDet_biz.returns_processing + '</span></td><td></td><td></td><td><span>' + intToLocalDate(M[i].create_time, 3) + '</span></td><td><span>' + M[i].handle_user + '</span></td></tr>').appendTo("#handle");
+                                $('<tr><td><span>' + lang.disputeDet_biz.returns_processing + '</span></td><td></td><td></td><td><span>' +
+                                    intToLocalDate(M[i].create_time, 3) + '</span></td><td><span>' + M[i].handle_user + '</span></td></tr>').appendTo(
+                                    "#handle");
                                 break;
                             case 'ebayHelp':
-                                $('<tr><td><span>' + lang.disputeDet_biz.escalate_to_ebay + '</span></td><td colspan="2"><span>' + M[i].reason + '</span></td><td><span>' + intToLocalDate(M[i].create_time, 3) + '</span></td><td><span>' + M[i].handle_user + '</span></td></tr>').appendTo("#handle");
+                                $('<tr><td><span>' + lang.disputeDet_biz.escalate_to_ebay + '</span></td><td colspan="2"><span>' + M[i].reason +
+                                    '</span></td><td><span>' + intToLocalDate(M[i].create_time, 3) + '</span></td><td><span>' + M[i].handle_user +
+                                    '</span></td></tr>').appendTo("#handle");
                                 break;
                         }
                     }
@@ -1480,7 +1547,8 @@ $(document).ready(function(e) {
 
 
     function getMoreUserInfo(clientId) {
-        $window_client_info.find('span[t="id"]').html('<a href="http://www.ebay.com/usr/' + clientId + '" target="_blank" class="fontLinkBtn">' + clientId + '</a>');
+        $window_client_info.find('span[t="id"]').html('<a href="http://www.ebay.com/usr/' + clientId + '" target="_blank" class="fontLinkBtn">' + clientId +
+            '</a>');
         // Item图片显示
         $.get("?r=api/GetEbayUserInfo", {
             userid: clientId
@@ -1514,10 +1582,12 @@ $(document).ready(function(e) {
                         data.Body.regaddr_StateOrProvince.length <= 0 ? '' : RaddrStr += data.Body.regaddr_StateOrProvince + ', ';
                         RaddrStr += data.Body.regaddr_PostalCode + ', ';
                         RaddrStr += data.Body.regaddr_CountryName;
-                        data.Body.regaddr_Phone.length <= 0 ? '' : RaddrStr += '<br />' + lang.disputeDet_biz.phone + ': ' + data.Body.regaddr_Phone + ', ';
+                        data.Body.regaddr_Phone.length <= 0 ? '' : RaddrStr += '<br />' + lang.disputeDet_biz.phone + ': ' + data.Body.regaddr_Phone +
+                            ', ';
 
                         if (RaddrStr.length > 12) {
-                            $("#window_client_info_l").append('<li style=""><span class="leftName">' + lang.disputeDet_biz.reg_address + '：</span><span class="rightVal" style="width:370px;">' + RaddrStr + '</span></li>');
+                            $("#window_client_info_l").append('<li style=""><span class="leftName">' + lang.disputeDet_biz.reg_address +
+                                '：</span><span class="rightVal" style="width:370px;">' + RaddrStr + '</span></li>');
                         }
                     })();
                     (function() {
@@ -1530,15 +1600,21 @@ $(document).ready(function(e) {
                             if (textStatus == 'success') {
                                 if (data.Ack == 'Success') {
                                     for (var x in data.Body) {
-                                        var addrStr = data.Body[x].Name + ', ' + data.Body[x].Street1 + ', ' + (data.Body[x].Street2.length > 0 ? (data.Body[x].Street2 + ', ') : '') + data.Body[x].CityName + ', ' + data.Body[x].StateOrProvince + ', ' + (typeof data.Body[x].PostalCode !== 'undefined' && data.Body[x].PostalCode.length > 0 ? data.Body[x].PostalCode + ', ' : '')
+                                        var addrStr = data.Body[x].Name + ', ' + data.Body[x].Street1 + ', ' + (data.Body[x].Street2.length >
+                                                0 ? (data.Body[x].Street2 + ', ') : '') + data.Body[x].CityName + ', ' + data.Body[x].StateOrProvince +
+                                            ', ' + (typeof data.Body[x].PostalCode !== 'undefined' && data.Body[x].PostalCode.length > 0 ?
+                                                data.Body[x].PostalCode + ', ' : '')
                                             // +(typeof data.Body[x].Country!=='undefined'
                                             //     && data.Body[x].Country.length>0
                                             //     ?data.Body[x].Country:'')
-                                            + (typeof data.Body[x].CountryName !== 'undefined' && data.Body[x].CountryName.length > 0 ? data.Body[x].CountryName : '');
+                                            + (typeof data.Body[x].CountryName !== 'undefined' && data.Body[x].CountryName.length > 0 ?
+                                                data.Body[x].CountryName : '');
                                         if (data.Body[x].Phone.length > 0) {
                                             addrStr += ('<br />' + lang.disputeDet_biz.phone + ': ' + data.Body[x].Phone);
                                         }
-                                        $("#window_client_info_l").append('<li style=""><span class="leftName">' + lang.disputeDet_biz.shipping_address + (+x + 1) + '：</span><span class="rightVal" style="width:370px;">' + addrStr + '</span></li>');
+                                        $("#window_client_info_l").append('<li style=""><span class="leftName">' + lang.disputeDet_biz.shipping_address +
+                                            (+x + 1) + '：</span><span class="rightVal" style="width:370px;">' + addrStr +
+                                            '</span></li>');
                                     }
                                 } else if (data.Ack == 'Warning') {
 
@@ -1580,7 +1656,14 @@ $(document).ready(function(e) {
                         for (var x in data.Body) {
                             var transStr = '';
                             for (var y in data.Body[x].ExtTrans) {
-                                transStr += ('<div class="textleft tooltip_td" title="' + lang.disputeDet_biz.transaction_info.time + '：' + intToLocalDate(data.Body[x].ExtTrans[y].ExternalTransactionTime, 5) + '<br />' + lang.disputeDet_biz.transaction_info.amount + '：' + data.Body[x].ExtTrans[y].PaymentOrRefundAmount + data.Body[x].ExtTrans[y].PaymentOrRefundAmount_currencyID + '' + '<br />' + lang.disputeDet_biz.transaction_info.FVF + '：' + data.Body[x].ExtTrans[y].FeeOrCreditAmount + data.Body[x].ExtTrans[y].FeeOrCreditAmount_currencyID + '' + '<br />' + lang.disputeDet_biz.transaction_info.status + '：' + data.Body[x].ExtTrans[y].ExternalTransactionStatus + '' + '">' + data.Body[x].ExtTrans[y].ExternalTransactionID + '(' + data.Body[x].ExtTrans[y].PaymentOrRefundAmount + data.Body[x].ExtTrans[y].PaymentOrRefundAmount_currencyID + ')' + '</div>');
+                                transStr += ('<div class="textleft tooltip_td" title="' + lang.disputeDet_biz.transaction_info.time + '：' +
+                                    intToLocalDate(data.Body[x].ExtTrans[y].ExternalTransactionTime, 5) + '<br />' + lang.disputeDet_biz.transaction_info
+                                    .amount + '：' + data.Body[x].ExtTrans[y].PaymentOrRefundAmount + data.Body[x].ExtTrans[y].PaymentOrRefundAmount_currencyID +
+                                    '' + '<br />' + lang.disputeDet_biz.transaction_info.FVF + '：' + data.Body[x].ExtTrans[y].FeeOrCreditAmount +
+                                    data.Body[x].ExtTrans[y].FeeOrCreditAmount_currencyID + '' + '<br />' + lang.disputeDet_biz.transaction_info.status +
+                                    '：' + data.Body[x].ExtTrans[y].ExternalTransactionStatus + '' + '">' + data.Body[x].ExtTrans[y].ExternalTransactionID +
+                                    '(' + data.Body[x].ExtTrans[y].PaymentOrRefundAmount + data.Body[x].ExtTrans[y].PaymentOrRefundAmount_currencyID +
+                                    ')' + '</div>');
                             }
                             // 属性
                             var _shuxing = '';
@@ -1626,14 +1709,26 @@ $(document).ready(function(e) {
                                 ))) {
                                 if (data.Body[x].VariationSpecificsXML.xml.NameValueList.length > 0) {
                                     for (var j = 0; j < data.Body[x].VariationSpecificsXML.xml.NameValueList.length; j++) {
-                                        _shuxing += '<br/>' + data.Body[x].VariationSpecificsXML.xml.NameValueList[j].Name + ':' + data.Body[x].VariationSpecificsXML.xml.NameValueList[j].Value;
+                                        _shuxing += '<br/>' + data.Body[x].VariationSpecificsXML.xml.NameValueList[j].Name + ':' + data.Body[x].VariationSpecificsXML
+                                            .xml.NameValueList[j].Value;
                                     }
                                 } else {
-                                    _shuxing += '<br/>' + data.Body[x].VariationSpecificsXML.xml.NameValueList.Name + ':' + data.Body[x].VariationSpecificsXML.xml.NameValueList.Value;
+                                    _shuxing += '<br/>' + data.Body[x].VariationSpecificsXML.xml.NameValueList.Name + ':' + data.Body[x].VariationSpecificsXML
+                                        .xml.NameValueList.Value;
                                 }
                             }
                             paymentMethod = data.Body[x].PaymentMethod != 'None' ? data.Body[x].PaymentMethod : '';
-                            $("#buyHistory_div").find('tbody').append('<tr data-key=' + x + '><td>' + data.Body[x].SellerUserID + '</td><td t="sku" style="word-break:break-all;">' + (data.Body[x].Item_SKU != '' ? data.Body[x].Item_SKU : data.Body[x].Variation_SKU) + '<br />ItemID:<a href="http://cgi.ebay.com/ws/eBayISAPI.dll?ViewItem&item=' + data.Body[x].Item_ItemID + '" target="_blank" class="fontLinkBtn">' + data.Body[x].Item_ItemID + '</a>' + (data.Body[x].ProductName.length > 0 ? ('<br />Prodtct:' + HTMLDecode(HTMLDecode(data.Body[x].ProductName))) : '') + _shuxing + '</td><td t="pnum">' + data.Body[x].QuantityPurchased + '</td><td t="pjg">' + data.Body[x].TransactionPrice + data.Body[x].TransactionPrice_currencyID + '</td><td t="ptime" style="word-break:break-all;line-height:1.1em;">' + intToLocalDate(data.Body[x].CreatedDate, 8) + '</td><td t="pm" style="line-height:1.5em;">' + data.Body[x].PaymentMethod + transStr + '</td>' + '<td><a href="javascript:;" title="' + addressStr + '" class="tooltip_td">' + lang.disputeDet_biz.view + '</a></td>' + '<td>' + orderStatus + '</td>' + '<td class="evaluate">' + _feedback + '</td>' + '<td t="note" class="tooltip_td">..</td></tr>');
+                            $("#buyHistory_div").find('tbody').append('<tr data-key=' + x + '><td>' + data.Body[x].SellerUserID +
+                                '</td><td t="sku" style="word-break:break-all;">' + (data.Body[x].Item_SKU != '' ? data.Body[x].Item_SKU : data.Body[
+                                    x].Variation_SKU) + '<br />ItemID:<a href="http://cgi.ebay.com/ws/eBayISAPI.dll?ViewItem&item=' + data.Body[x].Item_ItemID +
+                                '" target="_blank" class="fontLinkBtn">' + data.Body[x].Item_ItemID + '</a>' + (data.Body[x].ProductName.length > 0 ?
+                                    ('<br />Prodtct:' + HTMLDecode(HTMLDecode(data.Body[x].ProductName))) : '') + _shuxing + '</td><td t="pnum">' +
+                                data.Body[x].QuantityPurchased + '</td><td t="pjg">' + data.Body[x].TransactionPrice + data.Body[x].TransactionPrice_currencyID +
+                                '</td><td t="ptime" style="word-break:break-all;line-height:1.1em;">' + intToLocalDate(data.Body[x].CreatedDate, 8) +
+                                '</td><td t="pm" style="line-height:1.5em;">' + data.Body[x].PaymentMethod + transStr + '</td>' +
+                                '<td><a href="javascript:;" title="' + addressStr + '" class="tooltip_td">' + lang.disputeDet_biz.view +
+                                '</a></td>' + '<td>' + orderStatus + '</td>' + '<td class="evaluate">' + _feedback + '</td>' +
+                                '<td t="note" class="tooltip_td">..</td></tr>');
 
                             (function() {
                                 // 获取item备注
@@ -1644,13 +1739,18 @@ $(document).ready(function(e) {
                                     if (data.Ack == 'Success') {
                                         var noteText = [];
                                         for (var x in data.Body) {
-                                            noteText[x] = (lang.disputeDet_biz.Notes.author + '：' + data.Body[x].author_name + '<br />' + lang.disputeDet_biz.Notes.content + '：' + data.Body[x].text + '<br />' + lang.disputeDet_biz.Notes.buyer + '：' + data.Body[x].cust + '<br />' + lang.disputeDet_biz.Notes.time + '：' + intToLocalDate(data.Body[x].create_time, 7)) + '<br /><br />';
+                                            noteText[x] = (lang.disputeDet_biz.Notes.author + '：' + data.Body[x].author_name + '<br />' +
+                                                lang.disputeDet_biz.Notes.content + '：' + data.Body[x].text + '<br />' + lang.disputeDet_biz
+                                                .Notes.buyer + '：' + data.Body[x].cust + '<br />' + lang.disputeDet_biz.Notes.time +
+                                                '：' + intToLocalDate(data.Body[x].create_time, 7)) + '<br /><br />';
                                         }
-                                        $("#buyHistory_div").find('tr[data-key=' + _key + ']').find('td[t="note"]').html('<i class="icon-remark"></i>').attr('title', noteText.join('\n\n'));
+                                        $("#buyHistory_div").find('tr[data-key=' + _key + ']').find('td[t="note"]').html(
+                                            '<i class="icon-remark"></i>').attr('title', noteText.join('\n\n'));
                                         //执行鼠标经过气泡提示方法
                                         tooltip($('.tooltip_td'));
                                     } else if (data.Ack == 'Warning') {
-                                        $("#buyHistory_div").find('tr[data-key=' + _key + ']').find('td[t="note"]').html(lang.disputeDet_biz.none);
+                                        $("#buyHistory_div").find('tr[data-key=' + _key + ']').find('td[t="note"]').html(lang.disputeDet_biz
+                                            .none);
                                     } else {
                                         $("#buyHistory_div").find('tr[data-key=' + _key + ']').find('td[t="note"]').html('✖');
                                     }
@@ -1699,7 +1799,10 @@ $(document).ready(function(e) {
                         $his_msgs_ul.empty();
                         if (data.Body.length > 0) {
                             for (var x in data.Body) {
-                                $his_msgs_ul.append('<li data-msgid="' + data.Body[x].msg_id + '" title="' + data.Body[x].Subject + '">' + '<span>' + intToLocalDate(data.Body[x].ReceiveDate, 9) + '</span><p>' + data.Body[x].nick_name + ' | ' + ((data.Body[x].FolderID == 1) ? lang.disputeDet_biz.msg.send + '：' : lang.disputeDet_biz.msg.receive + '：') + data.Body[x].Subject + '</p></li>');
+                                $his_msgs_ul.append('<li data-msgid="' + data.Body[x].msg_id + '" title="' + data.Body[x].Subject + '">' + '<span>' +
+                                    intToLocalDate(data.Body[x].ReceiveDate, 9) + '</span><p>' + data.Body[x].nick_name + ' | ' + ((data.Body[x].FolderID ==
+                                        1) ? lang.disputeDet_biz.msg.send + '：' : lang.disputeDet_biz.msg.receive + '：') + data.Body[x].Subject +
+                                    '</p></li>');
                             }
                             // noloading = true;
                             $his_msgs_ul.find('li').eq(0).click();
@@ -1734,7 +1837,8 @@ $(document).ready(function(e) {
             });
             if ($(this).data('msgid')) {
                 $(this).addClass('active');
-                $("#his_msg_box2").html('<div style="margin:50px auto; text-align:center;"><img src="public/template/img/loader.gif" width="31" height="31"></div>');
+                $("#his_msg_box2").html(
+                    '<div style="margin:50px auto; text-align:center;"><img src="public/template/img/loader.gif" width="31" height="31"></div>');
                 $.get('?r=api/getMsg', {
                     msgid: $(this).data('msgid')
                 }, function(data, textStatus) {
@@ -1746,16 +1850,21 @@ $(document).ready(function(e) {
                             var $msgtext = $('<div>' + data.Body.Text + '</div>');
                             $msgtext.find('meta').remove();
                             $msgtext.find('img').each(function(index, element) {
-                                if ($(element).attr('src') !== undefined && $(element).attr('src').indexOf('button') == -1 && $(element).attr('src').indexOf('ebaystatic') == -1) {
+                                if ($(element).attr('src') !== undefined && $(element).attr('src').indexOf('button') == -1 && $(element)
+                                    .attr('src').indexOf('ebaystatic') == -1) {
                                     if ($(element).parent('a').length == 0) {
                                         $(element).replaceWith('<a>' + $(element)[0].outerHTML + '</a>');
                                     }
                                 }
                             });
                             $msgtext.find('img').each(function(index, element) {
-                                if ($(element).attr('src') !== undefined && $(element).attr('src').indexOf('button') == -1 && $(element).attr('src').indexOf('ebaystatic') == -1 && $(element).attr('src').indexOf('/globalAssets/') == -1 && $(element).attr('src').indexOf('/icon/') == -1 && $(element).attr('src').indexOf('/roveropen/') == -1) {
+                                if ($(element).attr('src') !== undefined && $(element).attr('src').indexOf('button') == -1 && $(element)
+                                    .attr('src').indexOf('ebaystatic') == -1 && $(element).attr('src').indexOf('/globalAssets/') == -1 &&
+                                    $(element).attr('src').indexOf('/icon/') == -1 && $(element).attr('src').indexOf('/roveropen/') ==
+                                    -1) {
                                     $(element).parent('a').attr('data-lightbox', 'imgGroup14');
-                                    var imgurl = $(element).attr('src').toString().replace(/(%24|\$)_\d+(?=\.(jpg|png|jpeg|gif|bmp|tif)\??)/i, '$_10');
+                                    var imgurl = $(element).attr('src').toString().replace(
+                                        /(%24|\$)_\d+(?=\.(jpg|png|jpeg|gif|bmp|tif)\??)/i, '$_10');
                                     $(element).parent('a').attr('href', imgurl);
                                 }
                             });
@@ -1897,7 +2006,8 @@ $(document).ready(function(e) {
                 //left部分
                 $('<li><span>' + lang.disputeDet_biz.account + '：</span><span>' + result.SellerUserID + '</span></li>' +
                     '<li><span>' + lang.disputeDet_biz.dispute_id + '：</span><span>' + result.DisputeID + '</span></li>' +
-                    '<li><span>' + lang.disputeDet_biz.dispute_start_time + '：</span><span>' + intToLocalDate(result.DisputeCreatedTime, 3) + '</span></li>' +
+                    '<li><span>' + lang.disputeDet_biz.dispute_start_time + '：</span><span>' + intToLocalDate(result.DisputeCreatedTime, 3) +
+                    '</span></li>' +
                     '<li><span>' + lang.disputeDet_biz.dispute_staus + '：</span><span>' + result.DisputeState + '</span></li>' +
                     '<li><span>' + lang.disputeDet_biz.dispute_reason + '：</span><span>' + result.DisputeReason + '</span></li>').appendTo("#left");
                 //right部分
@@ -1918,7 +2028,9 @@ $(document).ready(function(e) {
                     '<tbody><tr data-itemid="' + result.i_ItemID + '">' +
                     '<td><img src="" alt="" /></td>' +
                     '<td><span></span></td>' +
-                    '<td><a href="http://cgi.ebay.com/ws/eBayISAPI.dll?ViewItem&item=' + (_user_id ? result.i_ItemID.replace(/(\d{8})\d{4}/, '$1****') : result.i_ItemID) + '" target="_blank" class="fontLinkBtn">' + (_user_id ? result.i_ItemID.replace(/(\d{8})\d{4}/, '$1****') : result.i_ItemID) + '</a></td>' +
+                    '<td><a href="http://cgi.ebay.com/ws/eBayISAPI.dll?ViewItem&item=' + (_user_id ? result.i_ItemID.replace(/(\d{8})\d{4}/,
+                        '$1****') : result.i_ItemID) + '" target="_blank" class="fontLinkBtn">' + (_user_id ? result.i_ItemID.replace(
+                        /(\d{8})\d{4}/, '$1****') : result.i_ItemID) + '</a></td>' +
                     '<td>' + result.i_ss_CurrentPrice + '&nbsp' + result.i_ss_CurrentPrice_currencyID + '</td>' +
                     '<td>' + result.i_Quantity + '</td>' +
                     (global.type == 'cancel' ? '<td class="evaluate"><i class="iconNone"></i></td>' : '') +

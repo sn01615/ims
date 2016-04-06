@@ -266,7 +266,8 @@ $(document).ready(function(e) {
                     for (var i in M) {
                         var stared = +M[i].is_star ? 'icon-star iconBtnH star' : 'icon-star-empty  iconBtnH star';
                         var dispose = +M[i].handled ? 'icon-time starTimed iconBtnH dispose' : 'icon-time iconBtnH dispose';
-                        var Replied = +M[i].send_status ? 'icon-warning-sign' : (+M[i].Read ? (+M[i].Replied ? 'icon-reply' : 'readed') : 'icon-envelope');
+                        var Replied = +M[i].send_status ? 'icon-warning-sign' : (+M[i].Read ? (+M[i].Replied ? 'icon-reply' : 'readed') :
+                            'icon-envelope');
                         var starvalue = M[i].is_star;
                         var disposevalue = M[i].handled;
                         var type = +M[i].Read ? '' : 'unread';
@@ -284,10 +285,13 @@ $(document).ready(function(e) {
                         _html += '<td class="status"><i class="' + Replied + '" eq="0"></i>' + (M[i].is_img > 0 ? '<i class="icon-acc"></i>' : '');
                         _html += (M[i].BuyerCheckoutMessage ? '<i class="icon-remark" title="' + M[i].BuyerCheckoutMessage + '"></i>' : '') + '</td>';
                         _html += '<td><span>' + M[i].Sender + '</span></td>' + '<td><span>' + (M[i].SendToName == '' ? M[i].RecipientUserID : M[i].SendToName);
-                        _html += '</span></td>' + '<td class="pointer" title="' + M[i].Subject + '"><div class="labelTd">' + labelstr + '</div><span>' + M[i].Subject + '</span></td>';
+                        _html += '</span></td>' + '<td class="pointer" title="' + M[i].Subject + '"><div class="labelTd">' + labelstr + '</div><span>' +
+                            M[i].Subject + '</span></td>';
                         // _html+='<td class="labelTd"></td>';
-                        _html += '<td title="' + lang.msglist_biz.add_label + '" class="addLabelBtn iconTd"><i class="icon-tab iconBtnH star"></i></td>';
-                        _html += '<td title="' + lang.msglist_biz.star + '" class="start iconTd" value="' + starvalue + '" ><i class="' + stared + '" ></i></td>';
+                        _html += '<td title="' + lang.msglist_biz.add_label +
+                            '" class="addLabelBtn iconTd"><i class="icon-tab iconBtnH star"></i></td>';
+                        _html += '<td title="' + lang.msglist_biz.star + '" class="start iconTd" value="' + starvalue + '" ><i class="' + stared +
+                            '" ></i></td>';
                         _html += '<td>' + displayDate + '</td>' + '</tr>';
 
                         $(_html).appendTo('#msg_list');
@@ -549,8 +553,11 @@ $(document).ready(function(e) {
                     if (data.Ack == 'Success') {
                         $('.labelTc').hide();
                         hintShow('hint_s', lang.msglist_biz.set_suc);
-                        var labelstr = '<div class="nui-tag nui-tag' + data.Body.label_color + '"> <span class="nui-tag-text">' + data.Body.label_title + '</span> <span class="nui-tag-close" title="' + lang.msglist_biz.del_label + '" data-labelid="' + data.Body.msg_label_id + '"><b>x</b></span> </div>';
-                        if ($("#msg_list").find('tr[data-id="' + msgid + '"] .labelTd').find('[data-labelid="' + data.Body.msg_label_id + '"]').length == 0) {
+                        var labelstr = '<div class="nui-tag nui-tag' + data.Body.label_color + '"> <span class="nui-tag-text">' + data.Body
+                            .label_title + '</span> <span class="nui-tag-close" title="' + lang.msglist_biz.del_label + '" data-labelid="' +
+                            data.Body.msg_label_id + '"><b>x</b></span> </div>';
+                        if ($("#msg_list").find('tr[data-id="' + msgid + '"] .labelTd').find('[data-labelid="' + data.Body.msg_label_id +
+                                '"]').length == 0) {
                             $("#msg_list").find('tr[data-id="' + msgid + '"] .labelTd').append(labelstr);
                         }
                         autowidth();
@@ -612,7 +619,8 @@ function get_label_list() {
                 $("#set_msg_label_sel").empty();
                 var _html = '';
                 for (var x in data.Body) {
-                    _html += '<li labelid="' + data.Body[x].msg_label_id + '"><span class="iconTab nui-tag' + data.Body[x].label_color + '"></span><b>' + data.Body[x].label_title + '</b></li>';
+                    _html += '<li labelid="' + data.Body[x].msg_label_id + '"><span class="iconTab nui-tag' + data.Body[x].label_color + '"></span><b>' + data.Body[
+                        x].label_title + '</b></li>';
                 }
                 $("#set_msg_label_sel").html(_html);
             } else {
