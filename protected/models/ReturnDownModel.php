@@ -9,7 +9,7 @@ class ReturnDownModel extends BaseModel
 {
 
     private $compatabilityLevel;
- // eBay API version
+    // eBay API version
     private $devID;
 
     private $appID;
@@ -17,11 +17,11 @@ class ReturnDownModel extends BaseModel
     private $certID;
 
     private $serverUrl;
- // eBay 服务器地址
+    // eBay 服务器地址
     private $userToken;
- // token
+    // token
     private $siteToUseID;
- // site id
+    // site id
     
     /**
      * @desc 返回当前类的实例
@@ -630,8 +630,7 @@ class ReturnDownModel extends BaseModel
             "Authorization:TOKEN {$token}",
             "Content-Type:application/json",
             "X-EBAY-CMARKETPLACE-ID:EBAY-US"
-        )
-        ;
+        );
         $connection = curl_init();
         if ($type === "GET") {
             if (! empty($data)) {
