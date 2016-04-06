@@ -258,9 +258,10 @@ abstract class BaseDAO
                 $this->dbCommand->setText($sql);
                 $affectRows = $this->dbCommand->bindValues($setValues)->execute();
             } else {
-                $affectRows = $this->dbCommand->delete($this->tableName, $this->primaryKey . ' = :primartKey', array(
-                    ':primartKey' => $pk
-                ));
+                $affectRows = $this->dbCommand->delete($this->tableName, $this->primaryKey . ' = :primartKey', 
+                    array(
+                        ':primartKey' => $pk
+                    ));
             }
             return $affectRows;
         } catch (Exception $ex) {

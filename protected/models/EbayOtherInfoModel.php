@@ -9,7 +9,7 @@ class EbayOtherInfoModel extends BaseModel
 {
 
     private $compatabilityLevel;
- // eBay API version
+    // eBay API version
     private $devID;
 
     private $appID;
@@ -17,11 +17,11 @@ class EbayOtherInfoModel extends BaseModel
     private $certID;
 
     private $serverUrl;
- // eBay 服务器地址
+    // eBay 服务器地址
     private $userToken;
- // token
+    // token
     private $siteToUseID;
- // site id
+    // site id
     
     /**
      * @desc 覆盖父方法,返回当前类的(单)实例
@@ -294,9 +294,10 @@ class EbayOtherInfoModel extends BaseModel
                         'RefundTo' => $_refund->eq($j)
                             ->find('>RefundTo')
                             ->html(),
-                        'RefundTime' => strtotime($_refund->eq($j)
-                            ->find('>RefundTime')
-                            ->html()),
+                        'RefundTime' => strtotime(
+                            $_refund->eq($j)
+                                ->find('>RefundTime')
+                                ->html()),
                         'RefundAmount' => $_refund->eq($j)
                             ->find('>RefundAmount')
                             ->html(),
@@ -917,8 +918,8 @@ class EbayOtherInfoModel extends BaseModel
   </RequesterCredentials>';
         if (! empty($AdjustmentAmount)) {
             $requestXmlBody .= '
-  <AdjustmentAmount currencyID="' . $AdjustmentAmountCurrencyID .
-                 '">' . $AdjustmentAmount . '</AdjustmentAmount>';
+  <AdjustmentAmount currencyID="' . $AdjustmentAmountCurrencyID . '">' .
+                 $AdjustmentAmount . '</AdjustmentAmount>';
         }
         if (! empty($CheckoutInstructions)) {
             $requestXmlBody .= '

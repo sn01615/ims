@@ -301,8 +301,7 @@ class ReturnDetailModel extends BaseModel
                     'upload_data' => serialize(compact('returnId_id', 'decision', 'siteid')),
                     'token' => $token['token'],
                     'create_time' => time()
-                )
-                ;
+                );
                 $result_appr = ReturnUploadQueueDAO::getInstance()->iinsert($columns_appr);
                 if ($result_appr !== false) {
                     $decision = 'PROVIDE_RMA';

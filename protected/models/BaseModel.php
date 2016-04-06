@@ -9,7 +9,7 @@ abstract class BaseModel
 {
 
     private static $_models = array();
- // class name => model
+    // class name => model
     
     /**
      * @desc Returns the static model of the specified table model class.

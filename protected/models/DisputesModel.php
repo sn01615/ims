@@ -222,9 +222,10 @@ class DisputesModel extends BaseModel
                                 ->find('DisputeID')
                                 ->html();
                             $column_list = array(
-                                'DisputeCreatedTime' => strtotime($dispute->eq($i)
-                                    ->find('DisputeCreatedTime')
-                                    ->html()),
+                                'DisputeCreatedTime' => strtotime(
+                                    $dispute->eq($i)
+                                        ->find('DisputeCreatedTime')
+                                        ->html()),
                                 'shop_id' => $value['shop_id'],
                                 'DisputeCreditEligibility' => $dispute->eq($i)
                                     ->find('DisputeCreditEligibility')
@@ -233,9 +234,10 @@ class DisputesModel extends BaseModel
                                     ->find('DisputeExplanation')
                                     ->html(),
                                 'DisputeID' => $disputeId,
-                                'DisputeModifiedTime' => strtotime($dispute->eq($i)
-                                    ->find('DisputeModifiedTime')
-                                    ->html()),
+                                'DisputeModifiedTime' => strtotime(
+                                    $dispute->eq($i)
+                                        ->find('DisputeModifiedTime')
+                                        ->html()),
                                 'DisputeReason' => $dispute->eq($i)
                                     ->find('DisputeReason')
                                     ->html(),
@@ -304,9 +306,10 @@ class DisputesModel extends BaseModel
                                     'DisputeResolutionRecordType' => $resolution->eq($j)
                                         ->find('DisputeResolutionRecordType')
                                         ->html(),
-                                    'ResolutionTime' => strtotime($resolution->eq($j)
-                                        ->find('ResolutionTime')
-                                        ->html())
+                                    'ResolutionTime' => strtotime(
+                                        $resolution->eq($j)
+                                            ->find('ResolutionTime')
+                                            ->html())
                                 );
                                 DisputeResolutionDAO::getInstance()->iinsert($colum_resolution);
                             }
@@ -317,9 +320,10 @@ class DisputesModel extends BaseModel
                             for ($k = 0; $k < $msg_length; $k ++) {
                                 $column_msg = array(
                                     'disputes_id' => $disputes_id,
-                                    'MessageCreationTime' => strtotime($msg->eq($k)
-                                        ->find('MessageCreationTime')
-                                        ->html()),
+                                    'MessageCreationTime' => strtotime(
+                                        $msg->eq($k)
+                                            ->find('MessageCreationTime')
+                                            ->html()),
                                     'MessageID' => $msg->eq($k)
                                         ->find('MessageID')
                                         ->html(),
@@ -332,13 +336,14 @@ class DisputesModel extends BaseModel
                                 );
                                 DisputeMsgDAO::getInstance()->iinsert($column_msg);
                             }
-                            $detail = DisputesDownDAO::getInstance()->findByAttributes(array(
-                                'type_flag' => $disputeId
-                            ), array(
-                                'data_xml,disputes_down_id'
-                            ), array(
-                                'disputes_down_id ASC'
-                            ));
+                            $detail = DisputesDownDAO::getInstance()->findByAttributes(
+                                array(
+                                    'type_flag' => $disputeId
+                                ), array(
+                                    'data_xml,disputes_down_id'
+                                ), array(
+                                    'disputes_down_id ASC'
+                                ));
                             if (! empty($detail)) {
                                 $conditions_det = 'DisputeID =:dispute';
                                 $params_det = array(

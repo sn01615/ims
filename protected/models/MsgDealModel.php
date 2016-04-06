@@ -13,7 +13,7 @@ class MsgDealModel extends BaseModel
     private $proxy;
 
     private $compatabilityLevel;
- // eBay API version
+    // eBay API version
     private $devID;
 
     private $appID;
