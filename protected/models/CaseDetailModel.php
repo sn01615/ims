@@ -237,8 +237,7 @@ class CaseDetailModel extends BaseModel
             );
             $conditions = 'case_id=' . $caseId;
             $params = array();
-            $number = CaseResponseHistoryDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar', array(), '', 
-                'number desc');
+            $number = CaseResponseHistoryDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar', array(), '', 'number desc');
             empty($number) ? $number = 1 : $number ++;
             
             CaseResponseHistoryDAO::getInstance()->begintransaction();
@@ -315,8 +314,7 @@ class CaseDetailModel extends BaseModel
             );
             $conditions = 'case_id=' . $caseId;
             $params = array();
-            $number = CaseResponseHistoryDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar', array(), '', 
-                'number desc');
+            $number = CaseResponseHistoryDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar', array(), '', 'number desc');
             empty($number) ? $number = 1 : $number ++;
             
             CaseResponseHistoryDAO::getInstance()->begintransaction();
@@ -392,8 +390,7 @@ class CaseDetailModel extends BaseModel
             );
             $conditions = 'case_id=' . $caseId;
             $params = array();
-            $number = CaseResponseHistoryDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar', array(), '', 
-                'number desc');
+            $number = CaseResponseHistoryDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar', array(), '', 'number desc');
             empty($number) ? $number = 1 : $number ++;
             
             CaseResponseHistoryDAO::getInstance()->begintransaction();
@@ -467,8 +464,7 @@ class CaseDetailModel extends BaseModel
             );
             $conditions = 'case_id=' . $caseId;
             $params = array();
-            $number = CaseResponseHistoryDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar', array(), '', 
-                'number desc');
+            $number = CaseResponseHistoryDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar', array(), '', 'number desc');
             empty($number) ? $number = 1 : $number ++;
             
             CaseResponseHistoryDAO::getInstance()->begintransaction();
@@ -541,8 +537,7 @@ class CaseDetailModel extends BaseModel
             );
             $conditions = 'case_id=' . $caseId;
             $params = array();
-            $number = CaseResponseHistoryDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar', array(), '', 
-                'number desc');
+            $number = CaseResponseHistoryDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar', array(), '', 'number desc');
             empty($number) ? $number = 1 : $number ++;
             
             CaseResponseHistoryDAO::getInstance()->begintransaction();
@@ -615,8 +610,7 @@ class CaseDetailModel extends BaseModel
             );
             $conditions = 'case_id=' . $caseId;
             $params = array();
-            $number = CaseResponseHistoryDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar', array(), '', 
-                'number desc');
+            $number = CaseResponseHistoryDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar', array(), '', 'number desc');
             empty($number) ? $number = 1 : $number ++;
             
             CaseResponseHistoryDAO::getInstance()->begintransaction();
@@ -639,8 +633,8 @@ class CaseDetailModel extends BaseModel
                 $columns = array(
                     'upload_type' => __FUNCTION__,
                     'upload_data' => serialize(
-                        compact('caseId_id', 'caseType', 'role', 'responseText', 'country', 'state', 'city', 'street', 'street2', 
-                            'contractName', 'postcode', 'merchantAuth')),
+                        compact('caseId_id', 'caseType', 'role', 'responseText', 'country', 'state', 'city', 'street', 'street2', 'contractName', 
+                            'postcode', 'merchantAuth')),
                     'token' => $token['token'],
                     'create_time' => time()
                 );
@@ -699,8 +693,7 @@ class CaseDetailModel extends BaseModel
             );
             $conditions = 'case_id=' . $caseId;
             $params = array();
-            $number = CaseResponseHistoryDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar', array(), '', 
-                'number desc');
+            $number = CaseResponseHistoryDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar', array(), '', 'number desc');
             empty($number) ? $number = 1 : $number ++;
             
             CaseResponseHistoryDAO::getInstance()->begintransaction();
@@ -789,8 +782,7 @@ class CaseDetailModel extends BaseModel
             );
             $conditions = 'case_id=' . $caseId;
             $params = array();
-            $number = CaseResponseHistoryDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar', array(), '', 
-                'number desc');
+            $number = CaseResponseHistoryDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar', array(), '', 'number desc');
             empty($number) ? $number = 1 : $number ++;
             
             CaseResponseHistoryDAO::getInstance()->begintransaction();
@@ -812,8 +804,8 @@ class CaseDetailModel extends BaseModel
                 $columns = array(
                     'upload_type' => __FUNCTION__,
                     'upload_data' => serialize(
-                        compact('caseId_id', 'caseType', 'name', 'street1', 'street2', 'city', 'stateOrProvince', 'country', 
-                            'postalCode', 'returnMerchandiseAuthorization')),
+                        compact('caseId_id', 'caseType', 'name', 'street1', 'street2', 'city', 'stateOrProvince', 'country', 'postalCode', 
+                            'returnMerchandiseAuthorization')),
                     'token' => $token['token'],
                     'create_time' => time()
                 );
@@ -869,8 +861,7 @@ class CaseDetailModel extends BaseModel
             );
             $conditions = 'case_id=' . $caseId;
             $params = array();
-            $number = CaseResponseHistoryDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar', array(), '', 
-                'number desc');
+            $number = CaseResponseHistoryDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar', array(), '', 'number desc');
             empty($number) ? $number = 1 : $number ++;
             
             CaseResponseHistoryDAO::getInstance()->begintransaction();

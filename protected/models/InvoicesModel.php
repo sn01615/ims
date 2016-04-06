@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @desc 订单催款处理类
  * @author liaojianwen
@@ -6,20 +7,21 @@
  */
 class InvoicesModel extends BaseModel
 {
-    private $compatabilityLevel; // eBay API version
-    
+
+    private $compatabilityLevel;
+ // eBay API version
     private $devID;
-    
+
     private $appID;
-    
+
     private $certID;
-    
-    private $serverUrl; // eBay 服务器地址
-    
-    private $userToken; // token
-    
-    private $siteToUseID; // site id
-    
+
+    private $serverUrl;
+ // eBay 服务器地址
+    private $userToken;
+ // token
+    private $siteToUseID;
+ // site id
     
     /**
      * @desc 覆盖父方法返回InvoicesModel对象
@@ -32,7 +34,7 @@ class InvoicesModel extends BaseModel
     {
         return parent::model($className);
     }
-    
+
     /**
      * @desc 构造方法
      * @author YangLong
@@ -55,8 +57,7 @@ class InvoicesModel extends BaseModel
             // $paypalEmailAddress = 'SANDBOX_PAYPAL_EMAIL_ADDRESS';
         }
     }
-    
-    
+
     /**
      * @desc 订单催款
      * @param string $token
@@ -71,7 +72,8 @@ class InvoicesModel extends BaseModel
      * @date 2015-10-30
      * @return mixed
      */
-    public function sendInvoices($token, $serviceOptions, $text, $orderID = '', $orderlineItemID = '', $adjustAmount, $currencyID, $isSendMail = false, $siteid)
+    public function sendInvoices($token, $serviceOptions, $text, $orderID = '', $orderlineItemID = '', $adjustAmount, $currencyID, 
+        $isSendMail = false, $siteid)
     {
         $callName = 'SendInvoice';
         if (Yii::app()->params['ebay_api_production']) {
@@ -101,7 +103,8 @@ class InvoicesModel extends BaseModel
         foreach ($serviceOptions as $service) {
             $requestXmlBody .= '<ShippingServiceOptions>
         <ShippingService>' . $service['serviceOption'] . '</ShippingService>
-        <ShippingServiceCost currencyID="' . $service['currencyID'] . '">' . $service['serviceValue'] . '</ShippingServiceCost>
+        <ShippingServiceCost currencyID="' .
+                 $service['currencyID'] . '">' . $service['serviceValue'] . '</ShippingServiceCost>
       </ShippingServiceOptions>';
         }
         $requestXmlBody .= '</SendInvoiceRequest>';
@@ -121,34 +124,37 @@ class InvoicesModel extends BaseModel
         $responseXml = $session->sendHttpRequest($requestXmlBody);
         
         if (stripos($responseXml, '<Ack>Failure</Ack>')) {
-            iMongo::getInstance()->setCollection('eBaySendInvoiceFailure')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'time' => time(),
-                'times' => 1
-            ));
+            iMongo::getInstance()->setCollection('eBaySendInvoiceFailure')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'time' => time(),
+                    'times' => 1
+                ));
             sleep(1);
             $responseXml = $session->sendHttpRequest($requestXmlBody);
         }
         
         if (stripos($responseXml, '<Ack>Failure</Ack>')) {
-            iMongo::getInstance()->setCollection('eBaySendInvoiceFailure')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'time' => time(),
-                'times' => 2
-            ));
+            iMongo::getInstance()->setCollection('eBaySendInvoiceFailure')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'time' => time(),
+                    'times' => 2
+                ));
             sleep(1);
             $responseXml = $session->sendHttpRequest($requestXmlBody);
         }
         
         if (! XMLTool::IsXML($responseXml)) {
-            iMongo::getInstance()->setCollection('eBaySendInvoiceBadXML')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'tryCount' => $tryCount,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection('eBaySendInvoiceBadXML')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'tryCount' => $tryCount,
+                    'time' => time()
+                ));
             if ($tryCount < 2) {
                 $tryCount ++;
                 goto label1;
@@ -164,16 +170,17 @@ class InvoicesModel extends BaseModel
             }
         }
         
-        iMongo::getInstance()->setCollection('eBaySendInvoice')->insert(array(
-            'requestXmlBody' => $requestXmlBody,
-            'responseXml' => $responseXml,
-            'tryCount' => $tryCount,
-            'time' => time()
-        ));
+        iMongo::getInstance()->setCollection('eBaySendInvoice')->insert(
+            array(
+                'requestXmlBody' => $requestXmlBody,
+                'responseXml' => $responseXml,
+                'tryCount' => $tryCount,
+                'time' => time()
+            ));
         
         return $responseXml;
     }
-    
+
     /**
      * @desc 获取订单信息列表
      * @param int $page
@@ -184,10 +191,10 @@ class InvoicesModel extends BaseModel
      * @date 2015-10-31
      * @return mixed
      */
-    public function getUpaidOrderList($page,$pageSize,$cust,$sellerId)
+    public function getUpaidOrderList($page, $pageSize, $cust, $sellerId)
     {
-        if(empty($sellerId)){
-           return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', 'sellerId can not be null.');
+        if (empty($sellerId)) {
+            return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', 'sellerId can not be null.');
         }
         // 获取店铺信息
         $parr = array();
@@ -216,13 +223,13 @@ class InvoicesModel extends BaseModel
         if (is_numeric($accountId) && $accountId > 0) {
             $shopId = $accountId;
         }
-        $result = EbayOrdersDAO::getInstance()->getUpaidOrderList($page,$pageSize,$cust,$shopId);
-        if(empty($result['list'])){
+        $result = EbayOrdersDAO::getInstance()->getUpaidOrderList($page, $pageSize, $cust, $shopId);
+        if (empty($result['list'])) {
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', 'no data found');
         }
-        return  $this->handleApiFormat(EnumOther::ACK_SUCCESS,$result);
+        return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $result);
     }
-    
+
     /**
      * @desc 获取客户地址
      * @param string $buyer_id
@@ -250,8 +257,8 @@ class InvoicesModel extends BaseModel
      */
     public function getOrderTransaction($order_Id)
     {
-        if(empty($order_Id)){
-            return $this->handleApiFormat(EnumOther::ACK_FAILURE,'','the orderID is missing');
+        if (empty($order_Id)) {
+            return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', 'the orderID is missing');
         }
         $result = EbayOrdersDAO::getInstance()->getOrderTransaction($order_Id);
         if (empty($result)) {
@@ -298,11 +305,12 @@ class InvoicesModel extends BaseModel
                 $service['ExpeditedService'] = $_option->eq($j)
                     ->find('ExpeditedService')
                     ->html();
-                $description = EbayShippingServiceDetailsDAO::getInstance()->findByAttributes(array(
-                    'ShippingService' => $service['ShippingService']
-                ), array(
-                    'Description'
-                ));
+                $description = EbayShippingServiceDetailsDAO::getInstance()->findByAttributes(
+                    array(
+                        'ShippingService' => $service['ShippingService']
+                    ), array(
+                        'Description'
+                    ));
                 $service['description'] = $description['Description'];
                 array_push($shippingService, $service);
                 if ($service['ShippingService'] === $value['ShippingService']) {
@@ -324,11 +332,12 @@ class InvoicesModel extends BaseModel
                 $service['ShippingServiceCurrencyID'] = $I_option->eq($k)
                     ->find('ShippingServiceCost')
                     ->attr('currencyID');
-                $description = EbayShippingServiceDetailsDAO::getInstance()->findByAttributes(array(
-                    'ShippingService' => $service['ShippingService']
-                ), array(
-                    'Description'
-                ));
+                $description = EbayShippingServiceDetailsDAO::getInstance()->findByAttributes(
+                    array(
+                        'ShippingService' => $service['ShippingService']
+                    ), array(
+                        'Description'
+                    ));
                 $service['description'] = $description['Description'];
                 array_push($InternalShippingService, $service);
                 if ($service['ShippingService'] === $value['ShippingService']) {
@@ -340,7 +349,7 @@ class InvoicesModel extends BaseModel
         }
         return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $result);
     }
-    
+
     /**
      * @desc 获取订单物流服务
      * @param string $ebay_orders_id
@@ -349,7 +358,7 @@ class InvoicesModel extends BaseModel
      * @date 2015-11-2
      * @return mixed
      */
-    public function getEbayShipService($site_id,$flag)
+    public function getEbayShipService($site_id, $flag)
     {
         if (empty($site_id)) {
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', 'order_id  can not be null');
@@ -382,7 +391,8 @@ class InvoicesModel extends BaseModel
         if (empty($token)) {
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', 'token can not be found');
         }
-        $result = $this->sendInvoices($token['token'], $serviceOptions, $text, $orderID, '', $adjustAmount, $currencyID, $isSendMe, $token['site_id']);
+        $result = $this->sendInvoices($token['token'], $serviceOptions, $text, $orderID, '', $adjustAmount, $currencyID, $isSendMe, 
+            $token['site_id']);
         if (stripos($result, '<Ack>Success</Ack>')) {
             $criteria = array(
                 'ebay_orders_id' => $ebay_orders_id

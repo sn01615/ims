@@ -7,21 +7,22 @@
  */
 class CaseDownModel extends BaseModel
 {
-    
-    private $compatabilityLevel; // eBay API version
 
+    private $compatabilityLevel;
+ // eBay API version
     private $devID;
 
     private $appID;
 
     private $certID;
 
-    private $serverUrl; // eBay 服务器地址
-
-    private $userToken; // token
-
-    private $siteToUseID; // site id
-
+    private $serverUrl;
+ // eBay 服务器地址
+    private $userToken;
+ // token
+    private $siteToUseID;
+ // site id
+    
     /**
      * @desc 覆盖父方法返回CaseDownModel对象
      * @param string $className 需要实例化的类名
@@ -100,7 +101,7 @@ class CaseDownModel extends BaseModel
             ShopDAO::getInstance()->iupdate($columns, $conditions, $params);
         }
     }
-    
+
     /**
      * @desc 生成Case下载队列
      * @param int $fromDate
@@ -124,7 +125,7 @@ class CaseDownModel extends BaseModel
         );
         return CaseDownQueueDAO::getInstance()->iinsert($columns);
     }
-    
+
     /**
      * @desc 运行下载队列
      * @author YangLong
@@ -151,7 +152,8 @@ class CaseDownModel extends BaseModel
                     $page ++;
                     
                     $xmldata = array();
-                    $xmldata['Cases'] = $this->getUserCases($Queue['start_time'], $Queue['end_time'], $Queue['token'], $Queue['site_id'], $page, $pagesize);
+                    $xmldata['Cases'] = $this->getUserCases($Queue['start_time'], $Queue['end_time'], $Queue['token'], $Queue['site_id'], $page, 
+                        $pagesize);
                     
                     $doc = phpQuery::newDocumentXML($xmldata['Cases']);
                     phpQuery::selectDocument($doc);
@@ -182,8 +184,10 @@ class CaseDownModel extends BaseModel
                         $caseId_type = $case->find('caseId>type')->html();
                         if ($caseId_id !== false && $caseId_type !== false) {
                             if ($caseId_type == 'EBP_INR' || $caseId_type == 'EBP_SNAD') {
-                                $xmldata['CaseDetail'][$caseId_id] = $this->getEBPCaseDetail($caseId_id, $caseId_type, $Queue['token'], $Queue['site_id']);
-                                $xmldata['ActivityOptions'][$caseId_id] = $this->getActivityOptions($caseId_id, $caseId_type, $Queue['token'], $Queue['site_id']);
+                                $xmldata['CaseDetail'][$caseId_id] = $this->getEBPCaseDetail($caseId_id, $caseId_type, $Queue['token'], 
+                                    $Queue['site_id']);
+                                $xmldata['ActivityOptions'][$caseId_id] = $this->getActivityOptions($caseId_id, $caseId_type, $Queue['token'], 
+                                    $Queue['site_id']);
                             } else {
                                 $xmldata['CaseDetail'][$caseId_id] = $this->getDispute($caseId_id, $Queue['token'], $Queue['site_id']);
                             }
@@ -204,10 +208,11 @@ class CaseDownModel extends BaseModel
                     // 写日志
                     if (stripos($xmldata['Cases'], '<ack>Success</ack>') === false) {
                         if (stripos($xmldata['Cases'], '<errorId>1302</errorId>') === false) {
-                            iMongo::getInstance()->setCollection('getUserCasesNoSuccess')->insert(array(
-                                'xmldata' => $xmldata,
-                                'time' => time()
-                            ));
+                            iMongo::getInstance()->setCollection('getUserCasesNoSuccess')->insert(
+                                array(
+                                    'xmldata' => $xmldata,
+                                    'time' => time()
+                                ));
                         }
                     }
                     
@@ -226,7 +231,7 @@ class CaseDownModel extends BaseModel
             goto label1;
         }
     }
-    
+
     /**
      * @desc 获取用户CASE列表
      * @param number $fromDate 开始日期
@@ -304,25 +309,27 @@ class CaseDownModel extends BaseModel
         
         // TODO change condition
         if (stripos($responseXml, '<ack>Failure</ack>')) {
-            iMongo::getInstance()->setCollection('getUserCasesF')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'time' => time(),
-                'tryCount' => $tryCount,
-                'times' => 1
-            ));
+            iMongo::getInstance()->setCollection('getUserCasesF')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'time' => time(),
+                    'tryCount' => $tryCount,
+                    'times' => 1
+                ));
             sleep(1);
             $responseXml = $session->sendHttpRequest($requestXmlBody);
         }
         
         if (stripos($responseXml, '<ack>Failure</ack>')) {
-            iMongo::getInstance()->setCollection('getUserCasesF')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'time' => time(),
-                'tryCount' => $tryCount,
-                'times' => 2
-            ));
+            iMongo::getInstance()->setCollection('getUserCasesF')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'time' => time(),
+                    'tryCount' => $tryCount,
+                    'times' => 2
+                ));
             sleep(1);
             $responseXml = $session->sendHttpRequest($requestXmlBody);
         }
@@ -343,7 +350,7 @@ class CaseDownModel extends BaseModel
         
         return $responseXml;
     }
-    
+
     /**
      * @desc 获取用户纠纷列表
      * @param string $fromDate
@@ -411,25 +418,27 @@ class CaseDownModel extends BaseModel
         
         // TODO change condition
         if (stripos($responseXml, '<Ack>Failure</Ack>')) {
-            iMongo::getInstance()->setCollection('getUserDisputesF')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'time' => time(),
-                'tryCount' => $tryCount,
-                'times' => 1
-            ));
+            iMongo::getInstance()->setCollection('getUserDisputesF')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'time' => time(),
+                    'tryCount' => $tryCount,
+                    'times' => 1
+                ));
             sleep(1);
             $responseXml = $session->sendHttpRequest($requestXmlBody);
         }
         
         if (stripos($responseXml, '<Ack>Failure</Ack>')) {
-            iMongo::getInstance()->setCollection('getUserDisputesF')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'time' => time(),
-                'tryCount' => $tryCount,
-                'times' => 2
-            ));
+            iMongo::getInstance()->setCollection('getUserDisputesF')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'time' => time(),
+                    'tryCount' => $tryCount,
+                    'times' => 2
+                ));
             sleep(1);
             $responseXml = $session->sendHttpRequest($requestXmlBody);
         }
@@ -451,7 +460,7 @@ class CaseDownModel extends BaseModel
         
         return $responseXml;
     }
-    
+
     /**
      * @desc CASE详情获取(EBP_INR or EBP_SNAD)
      * @param string $caseId_id
@@ -494,23 +503,25 @@ class CaseDownModel extends BaseModel
         
         // TODO change condition
         if (stripos($responseXml, '<ack>Failure</ack>')) {
-            iMongo::getInstance()->setCollection('getEBPCaseDetailF')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'time' => time(),
-                'times' => 1
-            ));
+            iMongo::getInstance()->setCollection('getEBPCaseDetailF')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'time' => time(),
+                    'times' => 1
+                ));
             sleep(1);
             $responseXml = $session->sendHttpRequest($requestXmlBody);
         }
         
         if (stripos($responseXml, '<ack>Failure</ack>')) {
-            iMongo::getInstance()->setCollection('getEBPCaseDetailF')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'time' => time(),
-                'times' => 2
-            ));
+            iMongo::getInstance()->setCollection('getEBPCaseDetailF')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'time' => time(),
+                    'times' => 2
+                ));
             sleep(1);
             $responseXml = $session->sendHttpRequest($requestXmlBody);
         }
@@ -523,12 +534,13 @@ class CaseDownModel extends BaseModel
         }
         
         if (! XMLTool::IsXML($responseXml)) {
-            iMongo::getInstance()->setCollection('getEBPCaseDetailBadXML')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'time' => time(),
-                'times' => 3
-            ));
+            iMongo::getInstance()->setCollection('getEBPCaseDetailBadXML')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'time' => time(),
+                    'times' => 3
+                ));
             if ($tryCount < 22) {
                 $tryCount ++;
                 goto label1;
@@ -583,23 +595,25 @@ class CaseDownModel extends BaseModel
         $responseXml = $session->sendHttpRequest($requestXmlBody);
         
         if (stripos($responseXml, '<Ack>Failure</Ack>')) {
-            iMongo::getInstance()->setCollection('getDisputeF')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'time' => time(),
-                'times' => 1
-            ));
+            iMongo::getInstance()->setCollection('getDisputeF')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'time' => time(),
+                    'times' => 1
+                ));
             sleep(1);
             $responseXml = $session->sendHttpRequest($requestXmlBody);
         }
         
         if (stripos($responseXml, '<Ack>Failure</Ack>')) {
-            iMongo::getInstance()->setCollection('getDisputeF')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'time' => time(),
-                'times' => 2
-            ));
+            iMongo::getInstance()->setCollection('getDisputeF')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'time' => time(),
+                    'times' => 2
+                ));
             sleep(1);
             $responseXml = $session->sendHttpRequest($requestXmlBody);
         }
@@ -612,13 +626,14 @@ class CaseDownModel extends BaseModel
         // }
         
         if (! XMLTool::IsXML($responseXml)) {
-            iMongo::getInstance()->setCollection('getDisputeBadXML')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'time' => time(),
-                'tryCount' => $tryCount,
-                'times' => 3
-            ));
+            iMongo::getInstance()->setCollection('getDisputeBadXML')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'time' => time(),
+                    'tryCount' => $tryCount,
+                    'times' => 3
+                ));
             if ($tryCount < 22) {
                 sleep(1);
                 $tryCount ++;
@@ -627,18 +642,19 @@ class CaseDownModel extends BaseModel
         }
         
         if (stripos($responseXml, '<Ack>Success</Ack>') === false) {
-            iMongo::getInstance()->setCollection('getDisputeNoSuccess')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'time' => time(),
-                'tryCount' => $tryCount,
-                'times' => 4
-            ));
+            iMongo::getInstance()->setCollection('getDisputeNoSuccess')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'time' => time(),
+                    'tryCount' => $tryCount,
+                    'times' => 4
+                ));
         }
         
         return $responseXml;
     }
-    
+
     /**
      * @desc 获取CASE能进行的操作信息
      * @param string $caseId_id
@@ -678,37 +694,40 @@ class CaseDownModel extends BaseModel
         label1:
         
         $responseXml = $session->sendHttpRequest($requestXmlBody);
-
+        
         if (stripos($responseXml, '<Ack>Failure</Ack>')) {
-            iMongo::getInstance()->setCollection('getActivityOptionsF')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'time' => time(),
-                'times' => 1
-            ));
+            iMongo::getInstance()->setCollection('getActivityOptionsF')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'time' => time(),
+                    'times' => 1
+                ));
             sleep(1);
             $responseXml = $session->sendHttpRequest($requestXmlBody);
         }
         
         if (stripos($responseXml, '<Ack>Failure</Ack>')) {
-            iMongo::getInstance()->setCollection('getActivityOptionsF')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'time' => time(),
-                'times' => 2
-            ));
+            iMongo::getInstance()->setCollection('getActivityOptionsF')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'time' => time(),
+                    'times' => 2
+                ));
             sleep(1);
             $responseXml = $session->sendHttpRequest($requestXmlBody);
         }
         
         if (! XMLTool::IsXML($responseXml)) {
-            iMongo::getInstance()->setCollection('getActivityOptionsBadXML')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'time' => time(),
-                'tryCount' => $tryCount,
-                'times' => 3
-            ));
+            iMongo::getInstance()->setCollection('getActivityOptionsBadXML')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'time' => time(),
+                    'tryCount' => $tryCount,
+                    'times' => 3
+                ));
             if ($tryCount < 22) {
                 sleep(1);
                 $tryCount ++;
@@ -753,7 +772,7 @@ class CaseDownModel extends BaseModel
         
         return $result;
     }
-    
+
     /**
      * @desc 删除已经处理了的case原始数据 
      * @param string $ids            
@@ -765,7 +784,7 @@ class CaseDownModel extends BaseModel
     {
         return CaseDownDAO::getInstance()->deleteByIds($ids);
     }
-    
+
     /**
      * @desc 获取格式化的GMT时间
      * @param int $date
@@ -777,7 +796,7 @@ class CaseDownModel extends BaseModel
     {
         return gmdate('Y-m-d\TH:i:s\Z', $date);
     }
-    
+
     /**
      * @desc 发起纠纷(BuyerHasNotPaid/TransactionMutuallyCanceled)，仅买家为付款或协商取消订单可以使用AddDispute发起
      * @param string $token
@@ -835,7 +854,7 @@ class CaseDownModel extends BaseModel
         $session->headers[] = "X-EBAY-API-CERT-NAME:{$this->certID}";
         $session->headers[] = "X-EBAY-API-CALL-NAME:{$callName}";
         $session->headers[] = "X-EBAY-API-SITEID:{$siteid}";
-
+        
         $tryCount = 0;
         
         label1:
@@ -843,30 +862,32 @@ class CaseDownModel extends BaseModel
         $responseXml = $session->sendHttpRequest($requestXmlBody);
         
         if (stripos($responseXml, '<Ack>Failure</Ack>')) {
-            iMongo::getInstance()->setCollection('addDisputeF')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'time' => time(),
-                'times' => 1
-            ));
+            iMongo::getInstance()->setCollection('addDisputeF')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'time' => time(),
+                    'times' => 1
+                ));
             sleep(1);
             $responseXml = $session->sendHttpRequest($requestXmlBody);
         }
         
         if (stripos($responseXml, '<Ack>Failure</Ack>')) {
-            iMongo::getInstance()->setCollection('addDisputeF')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'time' => time(),
-                'times' => 2
-            ));
+            iMongo::getInstance()->setCollection('addDisputeF')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'time' => time(),
+                    'times' => 2
+                ));
             sleep(1);
             $responseXml = $session->sendHttpRequest($requestXmlBody);
         }
         
         return $responseXml;
     }
-    
+
     /**
      * @desc 回复CASE
      * @param string $disputeActivity DisputeState value
@@ -881,7 +902,8 @@ class CaseDownModel extends BaseModel
      * @date 2015-04-09
      * @return string XML
      */
-    public function addDisputeResponse($disputeActivity, $disputeID, $token, $messageText = '', $siteid = 0, $shipmentTrackNumber = '', $shippingCarrierUsed = '', $shippingTime = '')
+    public function addDisputeResponse($disputeActivity, $disputeID, $token, $messageText = '', $siteid = 0, $shipmentTrackNumber = '', 
+        $shippingCarrierUsed = '', $shippingTime = '')
     {
         $callName = 'AddDisputeResponse';
         if (Yii::app()->params['ebay_api_production']) {
@@ -936,23 +958,25 @@ class CaseDownModel extends BaseModel
         $responseXml = $session->sendHttpRequest($requestXmlBody);
         
         if (stripos($responseXml, '<Ack>Failure</Ack>')) {
-            iMongo::getInstance()->setCollection('addDisputeResponseF')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'time' => time(),
-                'times' => 1
-            ));
+            iMongo::getInstance()->setCollection('addDisputeResponseF')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'time' => time(),
+                    'times' => 1
+                ));
             sleep(1);
             $responseXml = $session->sendHttpRequest($requestXmlBody);
         }
         
         if (stripos($responseXml, '<Ack>Failure</Ack>')) {
-            iMongo::getInstance()->setCollection('addDisputeResponseF')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'time' => time(),
-                'times' => 2
-            ));
+            iMongo::getInstance()->setCollection('addDisputeResponseF')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'time' => time(),
+                    'times' => 2
+                ));
             sleep(1);
             $responseXml = $session->sendHttpRequest($requestXmlBody);
         }
@@ -1020,7 +1044,8 @@ class CaseDownModel extends BaseModel
      * @date 2015-04-14
      * @return string XML
      */
-    public function escalateToCustomerSupport($caseId, $caseType, $comments, $token, $sellerINRReason = '', $sellerSNADReason = '', $buyerINRReason = '', $buyerSNADReason = '')
+    public function escalateToCustomerSupport($caseId, $caseType, $comments, $token, $sellerINRReason = '', $sellerSNADReason = '', 
+        $buyerINRReason = '', $buyerSNADReason = '')
     {
         $callName = 'escalateToCustomerSupport';
         if (Yii::app()->params['ebay_api_production']) {
@@ -1206,7 +1231,7 @@ class CaseDownModel extends BaseModel
         
         return $responseXml;
     }
-    
+
     /**
      * @desc 部分退款,payment method is PayPal.
      * @param number $amount 退款金额
@@ -1253,7 +1278,7 @@ class CaseDownModel extends BaseModel
         
         return $responseXml;
     }
-    
+
     /**
      * @desc 提供退货地址, always EBP_SNAD for this call
      * @param string $caseId
@@ -1271,7 +1296,8 @@ class CaseDownModel extends BaseModel
      * @date 2015-04-14
      * @return string XML
      */
-    public function offerRefundUponReturn($caseId, $token, $returnMerchandiseAuthorization = '', $additionalReturnInstructions = '', $city = '', $country = '', $name = '', $postalCode = '', $stateOrProvince = '', $street1 = '', $street2 = '')
+    public function offerRefundUponReturn($caseId, $token, $returnMerchandiseAuthorization = '', $additionalReturnInstructions = '', $city = '', 
+        $country = '', $name = '', $postalCode = '', $stateOrProvince = '', $street1 = '', $street2 = '')
     {
         $callName = 'offerRefundUponReturn';
         if (Yii::app()->params['ebay_api_production']) {
@@ -1384,7 +1410,7 @@ class CaseDownModel extends BaseModel
         
         return $responseXml;
     }
-    
+
     /**
      * @desc 提供退货地址
      * provideReturnInfo cannot be used by UK or DE sellers for the 'RETURN' case type.
@@ -1403,7 +1429,8 @@ class CaseDownModel extends BaseModel
      * @date 2015-04-14
      * @return string XML
      */
-    public function provideReturnInfo($caseId, $caseType, $token, $city, $country, $name, $postalCode, $stateOrProvince, $street1, $street2, $returnMerchandiseAuthorization = '')
+    public function provideReturnInfo($caseId, $caseType, $token, $city, $country, $name, $postalCode, $stateOrProvince, $street1, $street2, 
+        $returnMerchandiseAuthorization = '')
     {
         $callName = 'provideReturnInfo';
         if (Yii::app()->params['ebay_api_production']) {
@@ -1442,7 +1469,7 @@ class CaseDownModel extends BaseModel
         
         return $responseXml;
     }
-    
+
     /**
      * @desc 提供物流商名称和发货日期（无物流号）
      * @param string $caseId /Max length: 38
@@ -1491,7 +1518,7 @@ class CaseDownModel extends BaseModel
         
         return $responseXml;
     }
-    
+
     /**
      * @desc 提供物流信息（提供物流号）
      * @param string $caseId
@@ -1540,7 +1567,7 @@ class CaseDownModel extends BaseModel
         
         return $responseXml;
     }
-    
+
     /**
      * @desc 德国(German)卖家上传证明文档
      * This call is used by German sellers to upload one or more documents (maximum of 5 per case) that act as proof that an item was shipped or proof that an order was fully or partially refunded.
@@ -1592,5 +1619,4 @@ class CaseDownModel extends BaseModel
         
         return $responseXml;
     }
-    
 }

@@ -7,7 +7,7 @@
  */
 class EbayListingModel extends BaseModel
 {
-    
+
     /**
      * @desc 覆盖父方法返回EbayListingModel对象(单)实例
      * @param string $className 需要实例化的类名
@@ -19,7 +19,7 @@ class EbayListingModel extends BaseModel
     {
         return parent::model($className);
     }
-    
+
     /**
      * @desc 获取listing信息 队列
      * @author liaojianwen
@@ -68,7 +68,7 @@ class EbayListingModel extends BaseModel
             return false;
         }
     }
-    
+
     /**
      * @desc 执行队列下载ebay listing 数据
      * @author liaojianwen
@@ -83,16 +83,18 @@ class EbayListingModel extends BaseModel
                 while (true) {
                     $page ++;
                     label:
-                    $listingData = EbayListingDownModel::model()->getEbayListing($Queue['token'], $Queue['start_time'], $Queue['end_time'], $Queue['site_id'], $page, 25);
+                    $listingData = EbayListingDownModel::model()->getEbayListing($Queue['token'], $Queue['start_time'], $Queue['end_time'], 
+                        $Queue['site_id'], $page, 25);
                     $doc = phpQuery::newDocumentXML($listingData);
                     phpQuery::selectDocument($doc);
                     $runcount = 0;
                     if (strtolower(pq('Ack')->html()) != 'success') {
-                        iMongo::getInstance()->setCollection('getEbayListingErrA')->insert(array(
-                            'status' => 'errA',
-                            'xml' => $listingData,
-                            'time' => time()
-                        ));
+                        iMongo::getInstance()->setCollection('getEbayListingErrA')->insert(
+                            array(
+                                'status' => 'errA',
+                                'xml' => $listingData,
+                                'time' => time()
+                            ));
                         $runcount ++;
                         if ($runcount < 3) {
                             $columns = array(
@@ -143,7 +145,7 @@ class EbayListingModel extends BaseModel
             return false;
         }
     }
-    
+
     /**
      * @desc 解析listing 信息
      * @param  $listing
@@ -167,9 +169,10 @@ class EbayListingModel extends BaseModel
                         $columns_listing = array(
                             'down_id' => $value['down_id'],
                             'shop_id' => $value['shop_id'],
-                            'auto_pay' => boolConvert::toInt01($_item->eq($i)
-                                ->find('>AutoPay')
-                                ->html()),
+                            'auto_pay' => boolConvert::toInt01(
+                                $_item->eq($i)
+                                    ->find('>AutoPay')
+                                    ->html()),
                             'country_code' => $_item->eq($i)
                                 ->find('>Currency')
                                 ->html(),
@@ -200,15 +203,18 @@ class EbayListingModel extends BaseModel
                             'listing_status' => $_item->eq($i)
                                 ->find('>SellingStatus>ListingStatus')
                                 ->html(),
-                            'private_listing' => boolConvert::toInt01($_item->eq($i)
-                                ->find('>PrivateListing')
-                                ->html()),
-                            'item_revised' => boolConvert::toInt01($_item->eq($i)
-                                ->find('>ReviseStatus>ItemRevised')
-                                ->html()),
-                            'out_of_stock_control' => boolConvert::toInt01($_item->eq($i)
-                                ->find('>OutOfStockControl')
-                                ->html()),
+                            'private_listing' => boolConvert::toInt01(
+                                $_item->eq($i)
+                                    ->find('>PrivateListing')
+                                    ->html()),
+                            'item_revised' => boolConvert::toInt01(
+                                $_item->eq($i)
+                                    ->find('>ReviseStatus>ItemRevised')
+                                    ->html()),
+                            'out_of_stock_control' => boolConvert::toInt01(
+                                $_item->eq($i)
+                                    ->find('>OutOfStockControl')
+                                    ->html()),
                             'primary_category_id' => $_item->eq($i)
                                 ->find('>PrimaryCategory>CategoryID')
                                 ->html(),
@@ -251,12 +257,14 @@ class EbayListingModel extends BaseModel
                             'hit_count' => $_item->eq($i)
                                 ->find('>HitCount')
                                 ->html(),
-                            'start_time' => strtotime($_item->eq($i)
-                                ->find('>ListingDetails>StartTime')
-                                ->html()),
-                            'end_time' => strtotime($_item->eq($i)
-                                ->find('>ListingDetails>EndTime')
-                                ->html())
+                            'start_time' => strtotime(
+                                $_item->eq($i)
+                                    ->find('>ListingDetails>StartTime')
+                                    ->html()),
+                            'end_time' => strtotime(
+                                $_item->eq($i)
+                                    ->find('>ListingDetails>EndTime')
+                                    ->html())
                         );
                         foreach ($columns_listing as $key => $columns) {
                             if (empty($columns)) {
@@ -337,11 +345,12 @@ class EbayListingModel extends BaseModel
                         }
                     }
                 } else {
-                    iMongo::getInstance()->setCollection('ErrorEbayListingData')->insert(array(
-                        'down_id' => $value['down_id'],
-                        'text_json' => $value['text_json'],
-                        'time' => time()
-                    ));
+                    iMongo::getInstance()->setCollection('ErrorEbayListingData')->insert(
+                        array(
+                            'down_id' => $value['down_id'],
+                            'text_json' => $value['text_json'],
+                            'time' => time()
+                        ));
                 }
                 $dids[] = $value['down_id'];
             }
@@ -373,5 +382,4 @@ class EbayListingModel extends BaseModel
         }
         return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $result);
     }
-    
 }

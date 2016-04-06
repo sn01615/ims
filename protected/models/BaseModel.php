@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @desc table model base class
  * @author Weixun Luo 
@@ -6,24 +7,26 @@
  */
 abstract class BaseModel
 {
-	private static $_models = array();  // class name => model
 
-	/**
-	 * @desc Returns the static model of the specified table model class.
-	 * @author Weixun Luo
-	 * @param string $className 需要实例化的类名
-	 * @return static table model instance.
-	 * @date 2014-10-10
-	 */
-	public static function model($className = __CLASS__)
-	{	
-		if(isset(self::$_models[$className])){
-			return self::$_models[$className];
-		} else{
-			$model = self::$_models[$className] = new $className(null);
-			return $model;
-		}
-	}
+    private static $_models = array();
+ // class name => model
+    
+    /**
+     * @desc Returns the static model of the specified table model class.
+     * @author Weixun Luo
+     * @param string $className 需要实例化的类名
+     * @return static table model instance.
+     * @date 2014-10-10
+     */
+    public static function model($className = __CLASS__)
+    {
+        if (isset(self::$_models[$className])) {
+            return self::$_models[$className];
+        } else {
+            $model = self::$_models[$className] = new $className(null);
+            return $model;
+        }
+    }
 
     /**
      * @desc API格式处理,列表格式:'Body'=>array('list'=>'','count'=>'','page'=>array('page'=>'','pageSize'=>'')), 内容格式:'Body'=>array('content'=>'')
@@ -54,5 +57,4 @@ abstract class BaseModel
         $apiResult['LocalTimeStamp'] = date(DATE_ISO8601);
         return $apiResult;
     }
-    
 }

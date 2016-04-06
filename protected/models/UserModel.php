@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @desc 用户处理类
  * @author heguangquan
@@ -6,7 +7,8 @@
  */
 class UserModel extends BaseModel
 {
-	/**
+
+    /**
      * @desc 覆盖父方法返回MsgQueueModel对象
      * @param string $className 需要实例化的类名
      * @author heguangquan
@@ -17,7 +19,7 @@ class UserModel extends BaseModel
     {
         return parent::model($className);
     }
-    
+
     /**
      * @desc 获取用户列表
      * @param int $sellerId 登录用户ID
@@ -38,10 +40,11 @@ class UserModel extends BaseModel
             $userArr = UserDAO::getInstance()->getUserList($userId, $pageInfo, $searchKeyWord);
         }
         $userArr['sellerinfo'] = Yii::app()->session['userInfo'];
-        $resultArr = $userArr ? $this->handleApiFormat(EnumOther::ACK_SUCCESS, $userArr) : $this->handleApiFormat(EnumOther::ACK_FAILURE, '', 'User authentication failed');
+        $resultArr = $userArr ? $this->handleApiFormat(EnumOther::ACK_SUCCESS, $userArr) : $this->handleApiFormat(EnumOther::ACK_FAILURE, '', 
+            'User authentication failed');
         return $resultArr;
     }
-    
+
     /**
      * @desc 添加新的用户
      * @param array $paramArr 添加的用户数据
@@ -98,7 +101,7 @@ class UserModel extends BaseModel
         }
         return $resultArr;
     }
-    
+
     /**
      * @desc 获取用户明细信息
      * @param int $userId 客户ID
@@ -108,15 +111,19 @@ class UserModel extends BaseModel
      */
     public function getUserDetail($userId)
     {
-    	if(empty($userId)){
-    		return $this->handleApiFormat(EnumOther::ACK_FAILURE,'','用户ID不存在');
-    	}
-    	$criteria = array('user_id'=>$userId);
-    	$selectArr = array('user_id,realname,username,email,company_name,contact_person,telephone,address,create_time,pid,access_level,status');
-    	$userArr['content'] = UserDAO::getInstance()->findByAttributes($criteria,$selectArr);
-    	return $this->handleApiFormat(EnumOther::ACK_SUCCESS,$userArr);
+        if (empty($userId)) {
+            return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '用户ID不存在');
+        }
+        $criteria = array(
+            'user_id' => $userId
+        );
+        $selectArr = array(
+            'user_id,realname,username,email,company_name,contact_person,telephone,address,create_time,pid,access_level,status'
+        );
+        $userArr['content'] = UserDAO::getInstance()->findByAttributes($criteria, $selectArr);
+        return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $userArr);
     }
-    
+
     /**
      * @desc 删除用户
      * @param string $userId 删除的用户ID
@@ -125,7 +132,7 @@ class UserModel extends BaseModel
      * @date 2015-02-12
      * @return array 操作状态;
      */
-    public function deleteUser($userId,$sellerId)
+    public function deleteUser($userId, $sellerId)
     {
         if (empty($userId) || empty($sellerId)) {
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', 'User authentication failed');
@@ -151,7 +158,7 @@ class UserModel extends BaseModel
         }
         return $resultArr;
     }
-    
+
     /**
      * @desc 修改用户数据
      * @param int $userId 用户ID
@@ -179,7 +186,7 @@ class UserModel extends BaseModel
         }
         return $resultArr;
     }
-    
+
     /**
      * @desc 检测用户是否存在
      * @param string $userName 用户名
@@ -189,19 +196,19 @@ class UserModel extends BaseModel
      */
     public function checkUser($userName)
     {
-    	if(empty($userName)){
-    		return $this->handleApiFormat(EnumOther::ACK_FAILURE,'','用户名不能为空');
-    	}
-    	$isParam['username'] = $userName;
-    	$record = UserDAO::getInstance()->isExists($isParam);
-    	if($record){
-    		$resultArr = $this->handleApiFormat(EnumOther::ACK_FAILURE,'','用户名已存在');
-    	}else{
-    		$resultArr = $this->handleApiFormat(EnumOther::ACK_SUCCESS,'');
-    	}
-    	return $resultArr;
+        if (empty($userName)) {
+            return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '用户名不能为空');
+        }
+        $isParam['username'] = $userName;
+        $record = UserDAO::getInstance()->isExists($isParam);
+        if ($record) {
+            $resultArr = $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '用户名已存在');
+        } else {
+            $resultArr = $this->handleApiFormat(EnumOther::ACK_SUCCESS, '');
+        }
+        return $resultArr;
     }
-    
+
     /**
      * @desc 切换站点,将相应的siteId,写入session
      * @param int $siteId 站点ID
@@ -220,7 +227,7 @@ class UserModel extends BaseModel
         Yii::app()->session['switchInfo'] = $switchInfo;
         return $this->handleApiFormat(EnumOther::ACK_SUCCESS);
     }
-    
+
     /**
      * @desc 切换用户,将相应的accountId,写入session
      * @param int $accountId shop表ID
@@ -238,7 +245,7 @@ class UserModel extends BaseModel
         Yii::app()->session['switchInfo'] = $switchInfo;
         return $this->handleApiFormat(EnumOther::ACK_SUCCESS);
     }
-    
+
     /**
      * @desc 获取用户能管理的店铺信息
      * @author YangLong
@@ -312,7 +319,7 @@ class UserModel extends BaseModel
             return false;
         }
     }
-    
+
     /**
      * @desc 获取当前登录的用户名
      * @author YangLong
@@ -325,7 +332,8 @@ class UserModel extends BaseModel
         $result = array();
         if (! empty($userName)) {
             $result['userName'] = $userName;
-            if (Yii::app()->session['userInfo']['seller_id'] == Yii::app()->session['userInfo']['user_id'] && empty(Yii::app()->session['userInfo']['last_login_time'])) {
+            if (Yii::app()->session['userInfo']['seller_id'] == Yii::app()->session['userInfo']['user_id'] &&
+                 empty(Yii::app()->session['userInfo']['last_login_time'])) {
                 $result['showHelp'] = 1;
             } else {
                 $result['showHelp'] = 0;
@@ -336,5 +344,4 @@ class UserModel extends BaseModel
         }
         return $result;
     }
-    
 }

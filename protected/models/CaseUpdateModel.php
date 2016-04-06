@@ -7,7 +7,7 @@
  */
 class CaseUpdateModel extends BaseModel
 {
-    
+
     /**
      * @desc 覆盖父方法返回CaseUpdateModel对象(单)实例
      * @param string $className 需要实例化的类名
@@ -19,7 +19,7 @@ class CaseUpdateModel extends BaseModel
     {
         return parent::model($className);
     }
-    
+
     /**
      * @desc 生成Case状态更新队列
      * @author YangLong
@@ -67,7 +67,7 @@ class CaseUpdateModel extends BaseModel
             return false;
         }
     }
-    
+
     /**
      * @desc 生成Open Case更新(down)队列
      * @author YangLong
@@ -110,7 +110,7 @@ class CaseUpdateModel extends BaseModel
         
         return true;
     }
-    
+
     /**
      * @desc 运行Case状态更新队列
      * @author YangLong
@@ -148,11 +148,14 @@ class CaseUpdateModel extends BaseModel
                     
                     CaseUpdateStatusDAO::getInstance()->commit();
                 } catch (Exception $e) {
-                    iMongo::getInstance()->setDbname('Case')->setCollection('CaseUpdateStatusInsert')->insert(array(
-                        'getMessage' => $e->getMessage(),
-                        'getFile' => $e->getFile(),
-                        'getLine' => $e->getLine()
-                    ));
+                    iMongo::getInstance()->setDbname('Case')
+                        ->setCollection('CaseUpdateStatusInsert')
+                        ->insert(
+                        array(
+                            'getMessage' => $e->getMessage(),
+                            'getFile' => $e->getFile(),
+                            'getLine' => $e->getLine()
+                        ));
                     CaseUpdateStatusDAO::getInstance()->rollback();
                 }
             }
@@ -160,7 +163,7 @@ class CaseUpdateModel extends BaseModel
             return false;
         }
     }
-    
+
     /**
      * @desc 运行Open Case更新(down)队列
      * @author YangLong
@@ -210,10 +213,13 @@ class CaseUpdateModel extends BaseModel
                         
                         if ($caseId_id !== false && $caseId_type !== false) {
                             if ($caseId_type == 'EBP_INR' || $caseId_type == 'EBP_SNAD') {
-                                $xmldata['CaseDetail'][$caseId_id] = CaseDownModel::model()->getEBPCaseDetail($caseId_id, $caseId_type, $Queue['token'], $Queue['site_id']);
-                                $xmldata['ActivityOptions'][$caseId_id] = CaseDownModel::model()->getActivityOptions($caseId_id, $caseId_type, $Queue['token'], $Queue['site_id']);
+                                $xmldata['CaseDetail'][$caseId_id] = CaseDownModel::model()->getEBPCaseDetail($caseId_id, $caseId_type, 
+                                    $Queue['token'], $Queue['site_id']);
+                                $xmldata['ActivityOptions'][$caseId_id] = CaseDownModel::model()->getActivityOptions($caseId_id, $caseId_type, 
+                                    $Queue['token'], $Queue['site_id']);
                             } else {
-                                $xmldata['CaseDetail'][$caseId_id] = CaseDownModel::model()->getDispute($caseId_id, $Queue['token'], $Queue['site_id']);
+                                $xmldata['CaseDetail'][$caseId_id] = CaseDownModel::model()->getDispute($caseId_id, $Queue['token'], 
+                                    $Queue['site_id']);
                             }
                         }
                     }
@@ -238,10 +244,11 @@ class CaseUpdateModel extends BaseModel
                         break;
                     }
                     if ($doc['errorMessage>error>errorId']->html() > 0) {
-                        iMongo::getInstance()->setCollection('CaseUpdateOtherErr')->insert(array(
-                            'xmldata' => $xmldata,
-                            'time' => time()
-                        ));
+                        iMongo::getInstance()->setCollection('CaseUpdateOtherErr')->insert(
+                            array(
+                                'xmldata' => $xmldata,
+                                'time' => time()
+                            ));
                         break;
                     }
                 }
@@ -270,7 +277,7 @@ class CaseUpdateModel extends BaseModel
         }
         return $result;
     }
-    
+
     /**
      * @desc 删除Case状态原始XML数据
      * @param string $ids
@@ -292,7 +299,7 @@ class CaseUpdateModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, $result);
         }
     }
-    
+
     /**
      * @desc 解析状态原始XML数据
      * @param mixed $result
@@ -358,5 +365,4 @@ class CaseUpdateModel extends BaseModel
             return false;
         }
     }
-    
 }

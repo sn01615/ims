@@ -7,32 +7,32 @@
  */
 class ImsjobsModel extends BaseModel
 {
-
+    
     // 默认优先级
     const P_DEFAULTPRIORITY = 100;
-
+    
     // 新人优先级
     const P_NEWPRIORITY = 200;
-
+    
     // 历史基准优先级
     const P_HISTORYPRIORITY = 52;
-
+    
     // 新人下载尺寸
     const D_FIRSTDOWNLOADSIZE = 30;
-
+    
     // 下载尺寸
     const D_HISDOWNLOADSIZE = 30;
-
+    
     // 内存极限
     const D_MEMORYLIMIT = 32;
-
+    
     // 运行下载队列
     const DOWNQUEUEDATALIMIT = 100;
 
     private $proxy;
 
-    private $compatabilityLevel; // eBay API version
-
+    private $compatabilityLevel;
+ // eBay API version
     private $devID;
 
     private $appID;
@@ -82,7 +82,7 @@ class ImsjobsModel extends BaseModel
      */
     private function fmtDate($date)
     {
-        return gmdate('Y-m-d\TH:i:s\Z',$date);
+        return gmdate('Y-m-d\TH:i:s\Z', $date);
     }
 
     /**
@@ -105,7 +105,7 @@ class ImsjobsModel extends BaseModel
         $objSession->setRequestToken($requestToken);
         $objSession->setTokenUsePickupFile(false);
         $objSession->setTokenMode(true);
-
+        
         $this->proxy = new EbatNs_ServiceProxy($objSession, 'EbatNs_DataConverterUtf8');
     }
 
@@ -196,13 +196,14 @@ class ImsjobsModel extends BaseModel
                                 if ($result->Ack == 'Success' || $result->Ack == 'Warning') {
                                     $picPathArr[] = $result->SiteHostedPictureDetails->FullURL;
                                 } else {
-                                    iMongo::getInstance()->setCollection('UploadPictureErr')->insert(array(
-                                        'imsApiUrl' => $imsApiUrl,
-                                        'ErrorCode' => $result->Errors->ErrorCode,
-                                        'LongMessage' => $result->Errors->LongMessage,
-                                        'ShortMessage' => $result->Errors->ShortMessage,
-                                        'time' => time()
-                                    ));
+                                    iMongo::getInstance()->setCollection('UploadPictureErr')->insert(
+                                        array(
+                                            'imsApiUrl' => $imsApiUrl,
+                                            'ErrorCode' => $result->Errors->ErrorCode,
+                                            'LongMessage' => $result->Errors->LongMessage,
+                                            'ShortMessage' => $result->Errors->ShortMessage,
+                                            'time' => time()
+                                        ));
                                 }
                             }
                         }
@@ -210,7 +211,8 @@ class ImsjobsModel extends BaseModel
                     
                     $task['content'] = imsTool::removeNonPrintable($task['content'], __METHOD__);
                     
-                    $apiResult = $this->replyMessage($task['content'], $task['ExternalMessageID'], $task['Sender'], $task['token'], $task['copy'], $picPathArr);
+                    $apiResult = $this->replyMessage($task['content'], $task['ExternalMessageID'], $task['Sender'], $task['token'], 
+                        $task['copy'], $picPathArr);
                     
                     if ($apiResult['state'] === 0) {
                         iMemcache::getInstance()->set(md5("msg_reply_status_{$task['down_queue_id']}"), 'Failure', 3600);
@@ -264,7 +266,7 @@ class ImsjobsModel extends BaseModel
         usleep(200000);
         goto label1;
     }
-    
+
     /**
      * @desc 调用回复邮件
      * @param text $body 邮件正文
@@ -341,15 +343,16 @@ class ImsjobsModel extends BaseModel
             'shop_id',
             'text_json'
         );
-
+        
         $msgParseResult = $objDowDAO->findAllByAttributes($paramArr, $criteria, '', $taskNumber['limit']);
         foreach ($msgParseResult as $msg) {
             $objDowDAO->update(array(
                 'down_id' => $msg['down_id']
-            ), array(
-                'status' => 1, // TODO 枚举化  // 'status' => EnumOther::MSG_DOWN_DEALSTATUS,
-                'lastruntime' => time()
-            ));
+            ), 
+                array(
+                    'status' => 1, // TODO 枚举化 // 'status' => EnumOther::MSG_DOWN_DEALSTATUS,
+                    'lastruntime' => time()
+                ));
             $objDowDAO->increase('runcount', 'down_id=' . $msg['down_id']);
         }
         $resultArr = array(
@@ -374,7 +377,7 @@ class ImsjobsModel extends BaseModel
                 'body' => ''
             );
         }
-
+        
         $downId = explode(',', $strId);
         $rowNumber = MsgDownDAO::getInstance()->deleteByPk($downId);
         return empty($rowNumber) ? array(
@@ -401,7 +404,7 @@ class ImsjobsModel extends BaseModel
                 'Ack' => 'Failure'
             );
         }
-
+        
         $msgDownQueueArr = json_decode(base64_decode($msgDownQueueJson), true);
         $result = EbayMsgDownQueueDAO::getInstance()->iMultiInsert($msgDownQueueArr);
         if ($result) {
@@ -429,16 +432,16 @@ class ImsjobsModel extends BaseModel
                 'Ack' => 'Failure'
             );
         }
-
+        
         $restlt = EbayMsgReplyQueueDAO::getInstance()->iinsert($replyInfo, true);
-
+        
         if ($restlt !== false) {
             $resultArr['Ack'] = 'Success';
             $resultArr['Pk'] = $restlt;
         } else {
             $resultArr['Ack'] = 'Failure';
         }
-
+        
         return $resultArr;
     }
 
@@ -454,22 +457,22 @@ class ImsjobsModel extends BaseModel
     public function UploadPicture($token = '', $photoPath = '', $siteId = -1)
     {
         $verb = 'UploadSiteHostedPictures';
-
+        
         if (Yii::app()->params['ebay_api_production']) {
             $this->serverUrl = 'https://api.ebay.com/ws/api.dll';
         } else {
             $this->serverUrl = 'https://api.sandbox.ebay.com/ws/api.dll';
         }
-
+        
         $version = $this->compatabilityLevel;
         $picNameIn = 'img_' . time() . mt_rand(0, 9999);
-
+        
         $handle = fopen('php://temp', 'w+');
         fwrite($handle, getByCurl::get($photoPath));
         rewind($handle);
         $multiPartImageData = stream_get_contents($handle);
         fclose($handle);
-
+        
         // Build the request XML request which is first part of multi-part POST
         $xmlReq = '<?xml version="1.0" encoding="utf-8"?>' . "\n";
         $xmlReq .= '<' . $verb . 'Request xmlns="urn:ebay:apis:eBLBaseComponents">' . "\n";
@@ -477,10 +480,10 @@ class ImsjobsModel extends BaseModel
         $xmlReq .= "<PictureName>$picNameIn</PictureName>\n";
         $xmlReq .= "<RequesterCredentials><eBayAuthToken>$token</eBayAuthToken></RequesterCredentials>\n";
         $xmlReq .= '</' . $verb . 'Request>';
-
+        
         $boundary = "MIME_boundary";
         $CRLF = "\r\n";
-
+        
         // The complete POST consists of an XML request plus the binary image separated by boundaries
         $firstPart = '';
         $firstPart .= "--" . $boundary . $CRLF;
@@ -488,7 +491,7 @@ class ImsjobsModel extends BaseModel
         $firstPart .= 'Content-Type: text/xml;charset=utf-8' . $CRLF . $CRLF;
         $firstPart .= $xmlReq;
         $firstPart .= $CRLF;
-
+        
         $secondPart = '';
         $secondPart .= "--" . $boundary . $CRLF;
         $secondPart .= 'Content-Disposition: form-data; name="dummy"; filename="dummy"' . $CRLF;
@@ -498,7 +501,7 @@ class ImsjobsModel extends BaseModel
         $secondPart .= $CRLF;
         $secondPart .= "--" . $boundary . "--" . $CRLF;
         $fullPost = $firstPart . $secondPart;
-
+        
         $session = new eBaySession($this->serverUrl);
         $session->headers[] = "Content-Type: multipart/form-data; boundary={$boundary}";
         $session->headers[] = "X-EBAY-API-COMPATIBILITY-LEVEL:{$version}";
@@ -507,7 +510,7 @@ class ImsjobsModel extends BaseModel
         $session->headers[] = "X-EBAY-API-CERT-NAME:" . $this->certID;
         $session->headers[] = "X-EBAY-API-CALL-NAME:{$verb}";
         $session->headers[] = "X-EBAY-API-SITEID:{$siteId}";
-
+        
         $respXmlStr = $session->sendHttpRequest($fullPost); // send multi-part request and get string XML response
         if (stristr($respXmlStr, 'HTTP 404') || $respXmlStr == '') {
             die('<p>Error sending request');
@@ -573,5 +576,4 @@ class ImsjobsModel extends BaseModel
         $responseXml = $session->sendHttpRequest($requestXmlBody);
         return $responseXml;
     }
-
 }

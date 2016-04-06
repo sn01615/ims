@@ -26,7 +26,7 @@ class QueueTracerModel extends MongoJob
         
         return $result;
     }
-    
+
     /**
      * @desc 守护进程
      * @author YangLong

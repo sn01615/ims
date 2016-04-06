@@ -7,20 +7,21 @@
  */
 class FeedbackDownModel extends BaseModel
 {
-    
-    private $compatabilityLevel; // eBay API version
-    
+
+    private $compatabilityLevel;
+ // eBay API version
     private $devID;
-    
+
     private $appID;
-    
+
     private $certID;
-    
-    private $serverUrl; // eBay 服务器地址
-    
-    private $userToken; // token
-    
-    private $siteToUseID; // site id
+
+    private $serverUrl;
+ // eBay 服务器地址
+    private $userToken;
+ // token
+    private $siteToUseID;
+ // site id
     
     /**
      * @desc 覆盖父方法,返回当前类的(单)实例
@@ -33,7 +34,7 @@ class FeedbackDownModel extends BaseModel
     {
         return parent::model($className);
     }
-    
+
     /**
      * @desc 构造方法
      * @author liaojianwen
@@ -56,7 +57,7 @@ class FeedbackDownModel extends BaseModel
             // $paypalEmailAddress = 'SANDBOX_PAYPAL_EMAIL_ADDRESS';
         }
     }
-    
+
     /**
      * @desc 获取已经下载的Feedback数据
      * @param int $taskNumber
@@ -111,7 +112,7 @@ class FeedbackDownModel extends BaseModel
     {
         return FeedbackDownDAO::getInstance()->deleteByIds($ids);
     }
-    
+
     /**
      * @desc 获取feedback 数据存入数据库
      * @params $data feedback API 返回的数据
@@ -138,7 +139,7 @@ class FeedbackDownModel extends BaseModel
                                 'CommentText' => $FeedbackDetail->find('CommentText')->html(),
                                 'CommentTime' => strtotime($FeedbackDetail->find('CommentTime')->html()),
                                 'CommentType' => $FeedbackDetail->find('CommentType')->html(),
-                                'FeedbackResponse'=>$FeedbackDetail->find('FeedbackResponse')->html(),
+                                'FeedbackResponse' => $FeedbackDetail->find('FeedbackResponse')->html(),
                                 'ItemID' => $FeedbackDetail->find('ItemID')->html(),
                                 'Role' => $FeedbackDetail->find('Role')->html(),
                                 'TransactionID' => $FeedbackDetail->find('TransactionID')->html(),
@@ -149,7 +150,7 @@ class FeedbackDownModel extends BaseModel
                                 'currencyID' => $FeedbackDetail->find('ItemPrice')->attr('currencyID'),
                                 'create_time' => time()
                             );
-                            if($columns['FeedbackResponse']){
+                            if ($columns['FeedbackResponse']) {
                                 $columns['isResponse'] = 1;
                             }
                             $conditions = 'FeedbackID=:FeedbackID';
@@ -171,7 +172,7 @@ class FeedbackDownModel extends BaseModel
         }
         return $ids;
     }
-    
+
     /**
      * @desc 获取feedback
      * @author liaojianwen
@@ -217,34 +218,37 @@ class FeedbackDownModel extends BaseModel
         $responseXml = $session->sendHttpRequest($requestXml);
         
         if (stripos($responseXml, '<Ack>Failure</Ack>')) {
-            iMongo::getInstance()->setCollection('getFeedbackFailure')->insert(array(
-                'requestXmlBody' => $requestXml,
-                'responseXml' => $responseXml,
-                'time' => time(),
-                'times' => 1
-            ));
+            iMongo::getInstance()->setCollection('getFeedbackFailure')->insert(
+                array(
+                    'requestXmlBody' => $requestXml,
+                    'responseXml' => $responseXml,
+                    'time' => time(),
+                    'times' => 1
+                ));
             sleep(1);
             $responseXml = $session->sendHttpRequest($requestXml);
         }
         
         if (stripos($responseXml, '<Ack>Failure</Ack>')) {
-            iMongo::getInstance()->setCollection('getFeedbackFailure')->insert(array(
-                'requestXmlBody' => $requestXml,
-                'responseXml' => $responseXml,
-                'time' => time(),
-                'times' => 2
-            ));
+            iMongo::getInstance()->setCollection('getFeedbackFailure')->insert(
+                array(
+                    'requestXmlBody' => $requestXml,
+                    'responseXml' => $responseXml,
+                    'time' => time(),
+                    'times' => 2
+                ));
             sleep(1);
             $responseXml = $session->sendHttpRequest($requestXml);
         }
         
         if (! XMLTool::IsXML($responseXml)) {
-            iMongo::getInstance()->setCollection('getFeedbackBadXML')->insert(array(
-                'requestXmlBody' => $requestXml,
-                'responseXml' => $responseXml,
-                'tryCount' => $tryCount,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection('getFeedbackBadXML')->insert(
+                array(
+                    'requestXmlBody' => $requestXml,
+                    'responseXml' => $responseXml,
+                    'tryCount' => $tryCount,
+                    'time' => time()
+                ));
             if ($tryCount < 10) {
                 $tryCount ++;
                 goto label1;
@@ -262,8 +266,7 @@ class FeedbackDownModel extends BaseModel
         
         return $responseXml;
     }
-    
-    
+
     /**
      * @desc 回复feedback
      * @param string $token
@@ -306,5 +309,4 @@ class FeedbackDownModel extends BaseModel
         $responseXml = $session->sendHttpRequest($requestXmlBody);
         return $responseXml;
     }
-       
 }

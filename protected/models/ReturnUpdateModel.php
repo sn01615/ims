@@ -7,7 +7,7 @@
  */
 class ReturnUpdateModel extends BaseModel
 {
-    
+
     /**
      * @desc 覆盖父方法返回CaseUpdateModel对象(单)实例
      * @param string $className 需要实例化的类名
@@ -19,7 +19,7 @@ class ReturnUpdateModel extends BaseModel
     {
         return parent::model($className);
     }
-    
+
     /**
      * @desc 生成Return_request下载队列
      * @author liaojianwen
@@ -73,7 +73,7 @@ class ReturnUpdateModel extends BaseModel
             return false;
         }
     }
-    
+
     /**
      * @desc 运行下载队列
      * @author liaojianwen
@@ -106,7 +106,8 @@ class ReturnUpdateModel extends BaseModel
                     }
                     
                     $xmldata = array();
-                    $xmldata['Returns'] = ReturnDownModel::model()->getUserReturns($Queue['start_time'], $Queue['end_time'], '', '', '', $Queue['token'], $Queue['site_id'], $page, $pagesize);
+                    $xmldata['Returns'] = ReturnDownModel::model()->getUserReturns($Queue['start_time'], $Queue['end_time'], '', '', '', 
+                        $Queue['token'], $Queue['site_id'], $page, $pagesize);
                     
                     $doc = phpQuery::newDocumentXML($xmldata['Returns']);
                     phpQuery::selectDocument($doc);
@@ -143,11 +144,14 @@ class ReturnUpdateModel extends BaseModel
                             label2:
                             
                             // $xmldata['ActivityOptions'][$return_id] = ReturnDownModel::model()->getActivityOptions($return_id, $Queue['token'], $Queue['site_id']);
-                            FileLog::getInstance()->write(EnumOther::LOG_DIR_RETURN_TEMP_FILE_DATA . gmdate('/Y/m/d/') . EnumOther::LOG_DIR_RETURN_TEMP_UPDATE_TAG, md5($return_id), ReturnDownModel::model()->getFileData($return_id, $Queue['token']));
+                            FileLog::getInstance()->write(
+                                EnumOther::LOG_DIR_RETURN_TEMP_FILE_DATA . gmdate('/Y/m/d/') . EnumOther::LOG_DIR_RETURN_TEMP_UPDATE_TAG, 
+                                md5($return_id), ReturnDownModel::model()->getFileData($return_id, $Queue['token']));
                             // $xmldata['FileData'][$return_id] = ReturnDownModel::model()->getFileData($return_id, $Queue['token']);
                             $xmldata['FileData'][$return_id] = gmdate('/Y/m/d/') . EnumOther::LOG_DIR_RETURN_TEMP_UPDATE_TAG;
                         }
-                        file_put_contents('xxxxx_runtime.log', 'page:' . $page . ' i:' . $i . ' returnid:' . $return_id . ' time:' . (microtime(true) - $_st) . "\n", FILE_APPEND); // remove it
+                        file_put_contents('xxxxx_runtime.log', 
+                            'page:' . $page . ' i:' . $i . ' returnid:' . $return_id . ' time:' . (microtime(true) - $_st) . "\n", FILE_APPEND); // remove it
                     }
                     $columns = array(
                         'seller_id' => $Queue['seller_id'],
@@ -176,10 +180,11 @@ class ReturnUpdateModel extends BaseModel
                     }
                     
                     if (pq('errorMessage>error>errorId') > 0) {
-                        iMongo::getInstance()->setCollection('getUserRetrunsErrB')->insert(array(
-                            'xml' => $xmldata['Returns'],
-                            'time' => time()
-                        ));
+                        iMongo::getInstance()->setCollection('getUserRetrunsErrB')->insert(
+                            array(
+                                'xml' => $xmldata['Returns'],
+                                'time' => time()
+                            ));
                         break;
                     }
                 }

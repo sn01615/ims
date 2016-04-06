@@ -7,7 +7,7 @@
  */
 class UploadModel extends BaseModel
 {
-    
+
     /**
      * @desc 覆盖父方法,返回当前类的(单)实例
      * @param string $className 需要实例化的类名
@@ -19,7 +19,7 @@ class UploadModel extends BaseModel
     {
         return parent::model($className);
     }
-    
+
     /**
      * @desc 上传图片
      * @param string $path
@@ -71,7 +71,7 @@ class UploadModel extends BaseModel
             }
         }
     }
-    
+
     /**
      * @desc 上传Excel文件
      * @param string $path
@@ -118,5 +118,4 @@ class UploadModel extends BaseModel
             }
         }
     }
-    
 }

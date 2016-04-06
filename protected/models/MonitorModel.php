@@ -7,7 +7,7 @@
  */
 class MonitorModel extends BaseModel
 {
-    
+
     /**
      * @desc 覆盖父方法,返回此对象的(单)实例
      * @param string $className 需要实例化的类名
@@ -19,7 +19,7 @@ class MonitorModel extends BaseModel
     {
         return parent::model($className);
     }
-    
+
     /**
      * @desc 发送统计邮件
      * @author YangLong
@@ -83,7 +83,7 @@ class MonitorModel extends BaseModel
         $out = ob_get_clean();
         SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . "队列与下载剩余统计信息", $out, $to);
     }
-    
+
     /**
      * @desc test
      * @author YangLong
@@ -99,5 +99,4 @@ class MonitorModel extends BaseModel
         $to = Yii::app()->params['logmails'];
         SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
     }
-    
 }

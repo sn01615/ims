@@ -7,7 +7,7 @@
  */
 class CaseModel extends BaseModel
 {
-    
+
     /**
      * @desc 覆盖父方法返回CaseModel对象
      * @param string $className 需要实例化的类名
@@ -19,7 +19,7 @@ class CaseModel extends BaseModel
     {
         return parent::model($className);
     }
-    
+
     /**
      * @desc 解析Cases数据至数据库
      * @author YangLong
@@ -174,7 +174,8 @@ class CaseModel extends BaseModel
                     EbayUserShopsDAO::getInstance()->ireplaceinto($columns, $conditions, $params);
                     
                     // 详情分发
-                    if (isset($casedata['text_json']['CaseDetail']) && is_array($casedata['text_json']['CaseDetail']) && isset($casedata['text_json']['CaseDetail'][$case->find('>caseId>id')->html()])) {
+                    if (isset($casedata['text_json']['CaseDetail']) && is_array($casedata['text_json']['CaseDetail']) &&
+                         isset($casedata['text_json']['CaseDetail'][$case->find('>caseId>id')->html()])) {
                         try {
                             $ddoc = phpQuery::newDocumentXML($casedata['text_json']['CaseDetail'][$case->find('>caseId>id')->html()], null, true);
                             phpQuery::selectDocument($ddoc);
@@ -193,7 +194,8 @@ class CaseModel extends BaseModel
                             continue;
                         }
                         
-                        if (pq('ack')->html() == 'Success' && (pq('caseSummary>caseId>type')->html() == 'EBP_INR' || pq('caseSummary>caseId>type')->html() == 'EBP_SNAD')) {
+                        if (pq('ack')->html() == 'Success' &&
+                             (pq('caseSummary>caseId>type')->html() == 'EBP_INR' || pq('caseSummary>caseId>type')->html() == 'EBP_SNAD')) {
                             
                             $columns = array(
                                 'i_globalId' => pq('caseSummary>item>globalId')->html(),
@@ -272,7 +274,8 @@ class CaseModel extends BaseModel
                                 'iBED_code' => $ddoc['caseDetail>initialBuyerExpectationDetail>code']->html(),
                                 'iBED_content' => $ddoc['caseDetail>initialBuyerExpectationDetail>content']->html(),
                                 'iBED_description' => $ddoc['caseDetail>initialBuyerExpectationDetail>description']->html(),
-                                'notCountedInBuyerProtectionCases' => boolConvert::toInt01($ddoc['caseDetail>notCountedInBuyerProtectionCases']->html()),
+                                'notCountedInBuyerProtectionCases' => boolConvert::toInt01(
+                                    $ddoc['caseDetail>notCountedInBuyerProtectionCases']->html()),
                                 'openReason' => $ddoc['caseDetail>openReason']->html(),
                                 'balanceDue' => $ddoc['caseDetail>paymentDetail>balanceDue']->html(),
                                 'returnMerchandiseAuthorization' => $ddoc['caseDetail>returnMerchandiseAuthorization']->html(),
@@ -503,20 +506,23 @@ class CaseModel extends BaseModel
                                 CaseDisputeResolutionDAO::getInstance()->iinsert($columns);
                             }
                         } else {
-                            iMongo::getInstance()->setCollection('parseCaseErrOther')->insert(array(
-                                'caseId_id' => $doc["cases>caseSummary:eq({$i})>caseId>id"]->html(),
-                                'xml' => $casedata['text_json']['CaseDetail'][$case->find('>caseId>id')
-                                    ->html()],
-                                'time' => time()
-                            ));
+                            iMongo::getInstance()->setCollection('parseCaseErrOther')->insert(
+                                array(
+                                    'caseId_id' => $doc["cases>caseSummary:eq({$i})>caseId>id"]->html(),
+                                    'xml' => $casedata['text_json']['CaseDetail'][$case->find('>caseId>id')
+                                        ->html()],
+                                    'time' => time()
+                                ));
                         }
                         
                         unset($ddoc);
                     }
                     
                     // ActivityOptions分发
-                    if (isset($casedata['text_json']['ActivityOptions']) && is_array($casedata['text_json']['ActivityOptions']) && isset($casedata['text_json']['ActivityOptions'][$doc["cases>caseSummary:eq({$i})>caseId>id"]->html()])) {
-                        $apdoc = phpQuery::newDocumentXML($casedata['text_json']['ActivityOptions'][$doc["cases>caseSummary:eq({$i})>caseId>id"]->html()]);
+                    if (isset($casedata['text_json']['ActivityOptions']) && is_array($casedata['text_json']['ActivityOptions']) &&
+                         isset($casedata['text_json']['ActivityOptions'][$doc["cases>caseSummary:eq({$i})>caseId>id"]->html()])) {
+                        $apdoc = phpQuery::newDocumentXML(
+                            $casedata['text_json']['ActivityOptions'][$doc["cases>caseSummary:eq({$i})>caseId>id"]->html()]);
                         phpQuery::selectDocument($apdoc);
                         $conditions = 'case_id=:case_id';
                         $params = array(
@@ -576,7 +582,7 @@ class CaseModel extends BaseModel
         }
         unset($casedata);
     }
-    
+
     /**
      * @desc 获取Case列表
      * @param String  $Type      case类型
@@ -637,7 +643,7 @@ class CaseModel extends BaseModel
         $result = $this->handleApiFormat(EnumOther::ACK_SUCCESS, $res, '');
         return $result;
     }
-    
+
     /**
      * @desc 新增Case
      * @param int $shopId 店铺ID
@@ -656,11 +662,13 @@ class CaseModel extends BaseModel
             return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', 'DisputeReason Error.');
         }
         
-        if ($DisputeReason == DisputeExplanationCodeType2::$type[0] && array_search($DisputeExplanation, DisputeExplanationCodeType2::$BuyerHasNotPaid) === false) {
+        if ($DisputeReason == DisputeExplanationCodeType2::$type[0] &&
+             array_search($DisputeExplanation, DisputeExplanationCodeType2::$BuyerHasNotPaid) === false) {
             return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', 'UPI DisputeExplanation Error.');
         }
         
-        if ($DisputeReason == DisputeExplanationCodeType2::$type[1] && array_search($DisputeExplanation, DisputeExplanationCodeType2::$TransactionMutuallyCanceled) === false) {
+        if ($DisputeReason == DisputeExplanationCodeType2::$type[1] &&
+             array_search($DisputeExplanation, DisputeExplanationCodeType2::$TransactionMutuallyCanceled) === false) {
             return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', 'CANCELED DisputeExplanation Error.');
         }
         
@@ -676,14 +684,15 @@ class CaseModel extends BaseModel
         try {
             $columns = array(
                 'upload_type' => __FUNCTION__,
-                'upload_data' => serialize(array(
-                    'DisputeReason' => $DisputeReason,
-                    'DisputeExplanation' => $DisputeExplanation,
-                    'ItemID' => $ItemID,
-                    'TransactionID' => $TransactionID,
-                    'OrderLineItemID' => $OrderLineItemID,
-                    'siteId' => $token['site_id']
-                )),
+                'upload_data' => serialize(
+                    array(
+                        'DisputeReason' => $DisputeReason,
+                        'DisputeExplanation' => $DisputeExplanation,
+                        'ItemID' => $ItemID,
+                        'TransactionID' => $TransactionID,
+                        'OrderLineItemID' => $OrderLineItemID,
+                        'siteId' => $token['site_id']
+                    )),
                 'token' => $token['token'],
                 'create_time' => time()
             );
@@ -701,7 +710,7 @@ class CaseModel extends BaseModel
             return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', 'insert database failure.');
         }
     }
-    
+
     /**
      * @desc 获取用户的case列表
      * @author liaojianwen
@@ -742,16 +751,16 @@ class CaseModel extends BaseModel
             array(
                 CaseDetailDAO::getInstance()->igetproperty('tableName') . ' d',
                 'c.case_id = d.case_id',
-                'left'=>true
+                'left' => true
             ),
             array(
                 CaseDisputeDAO::getInstance()->igetproperty('tableName') . ' f',
                 'c.case_id = f.case_id',
-                'left'=>true
+                'left' => true
             )
         );
         $result = CaseDAO::getInstance()->iselect($columns, $conditions, $params, true, $joinarray, 'c');
-        foreach($result as &$value){
+        foreach ($result as &$value) {
             switch ($value['caseId_type']) {
                 case 'CANCEL_TRANSACTION':
                     $value['status'] = $value['s_cancelTransactionStatus'];
@@ -766,7 +775,6 @@ class CaseModel extends BaseModel
                     $value['status'] = $value['s_EBPSNADStatus'];
                     break;
             }
-            
         }
         if (empty($result)) {
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, '');

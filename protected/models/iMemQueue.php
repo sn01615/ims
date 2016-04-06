@@ -7,13 +7,13 @@
  */
 class iMemQueue
 {
-    
+
     /**
      * @desc iMemQueue实例
      * @var iMemQueue
      */
     private static $_instance;
-    
+
     /**
      * @desc 获取对象
      * @author YangLong
@@ -27,7 +27,7 @@ class iMemQueue
         }
         return self::$_instance;
     }
-    
+
     /**
      * @desc 初始化队列
      * @param string $key
@@ -54,7 +54,7 @@ class iMemQueue
         
         return $result;
     }
-    
+
     /**
      * @desc push queue
      * @param string $key
@@ -69,7 +69,7 @@ class iMemQueue
         iMemcache::getInstance()->increment(md5("{$key}_tail"));
         return iMemcache::getInstance()->set(md5("{$key}_{$result['tail']}_queue"), $value, 0);
     }
-    
+
     /**
      * @desc pop queue
      * @param string $key

@@ -7,7 +7,7 @@
  */
 class SkuMatchModel extends BaseModel
 {
-    
+
     /**
      * @desc 覆盖父方法,返回当前类的(单)实例
      * @param string $className 需要实例化的类名
@@ -19,7 +19,7 @@ class SkuMatchModel extends BaseModel
     {
         return parent::model($className);
     }
-    
+
     /**
      * @desc 获取已经上传的SKU列表
      * @param int $page
@@ -70,7 +70,7 @@ class SkuMatchModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $result);
         }
     }
-    
+
     /**
      * @desc 获取seller下的所有用户
      * @param int $sellerId
@@ -101,7 +101,7 @@ class SkuMatchModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $result);
         }
     }
-    
+
     /**
      * @desc 添加SKU匹配规则
      * @param string $sku
@@ -136,7 +136,7 @@ class SkuMatchModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $result);
         }
     }
-    
+
     /**
      * @desc 编辑SKU匹配规则
      * @param string $sku
@@ -177,7 +177,7 @@ class SkuMatchModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $result);
         }
     }
-    
+
     /**
      * @desc 删除一条SKU匹配信息
      * @param string $sku
@@ -207,7 +207,7 @@ class SkuMatchModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $result);
         }
     }
-    
+
     /**
      * @desc 批量删除SKU匹配规则
      * @param mixed $data
@@ -240,7 +240,7 @@ class SkuMatchModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $result);
         }
     }
-    
+
     /**
      * @desc 解析SKU匹配信息Excel
      * @param string $filepath
@@ -317,7 +317,7 @@ class SkuMatchModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_FAILURE);
         }
     }
-    
+
     /**
      * @desc 设置SKU分配相关的默认用户
      * @param integer $userid
@@ -349,7 +349,7 @@ class SkuMatchModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', $result);
         }
     }
-    
+
     /**
      * @desc 获取seller的默认SKU分配相关默认用户
      * @param integer $sellerId
@@ -378,7 +378,7 @@ class SkuMatchModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', $result);
         }
     }
-    
+
     /**
      * @desc 获取用户ID
      * @param string $name
@@ -399,5 +399,4 @@ class SkuMatchModel extends BaseModel
         );
         return UserDAO::getInstance()->iselect($columns, $conditions, $params, 'queryScalar');
     }
-    
 }

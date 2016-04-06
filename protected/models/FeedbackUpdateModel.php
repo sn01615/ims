@@ -7,7 +7,7 @@
  */
 class FeedbackUpdateModel extends BaseModel
 {
-    
+
     /**
      * @desc 覆盖父方法返回FeedbackUpdateModel对象(单)实例
      * @param string $className 需要实例化的类名
@@ -19,8 +19,7 @@ class FeedbackUpdateModel extends BaseModel
     {
         return parent::model($className);
     }
-    
-    
+
     /**
      * @desc 生成feedback 下载队列
      * @author liaojianwen
@@ -69,7 +68,7 @@ class FeedbackUpdateModel extends BaseModel
             return false;
         }
     }
-    
+
     /**
      * @desc 执行feedback的下载队列
      * @author liaojianwen
