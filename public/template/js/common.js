@@ -437,10 +437,17 @@ function refreshPaginationNavBar(page, pageSize, total, eventHandler) {
     }
     if (currentPage === 1) {
         // 在第一页，禁用前一页的按钮
-        template += '<div class="pageBtnBox"><select name="" id="pageCli" data-pagesize data-page>' + tt + '</select>' + '<span class="preBtn pageBtn notOpBtn"><i class="icon-chevron-left"></i></span>' + '<span ' + (currentPage === pageCount ? 'class="nextBtn pageBtn notOpBtn"' : ' data-page data-pagesize class="nextBtn pageBtn"') + '><i title="' + lang.common.next_page + '" class="icon-chevron-right"><a data-toggle="tooltip" data-page="' + (currentPage + 1) + '" data-pagesize="' + pageSize + '"></a></i></span></div>';
+        template += '<div class="pageBtnBox"><select name="" id="pageCli" data-pagesize data-page>' + tt + '</select>' +
+            '<span class="preBtn pageBtn notOpBtn"><i class="icon-chevron-left"></i></span>' + '<span ' + (currentPage === pageCount ?
+                'class="nextBtn pageBtn notOpBtn"' : ' data-page data-pagesize class="nextBtn pageBtn"') + '><i title="' + lang.common.next_page +
+            '" class="icon-chevron-right"><a data-toggle="tooltip" data-page="' + (currentPage + 1) + '" data-pagesize="' + pageSize + '"></a></i></span></div>';
     } else {
         //不在第一页，显示前后一页的按钮
-        template += '<div class="pageBtnBox"><select name="" id="" data-pagesize data-page>' + tt + '</select>' + '<span data-page data-pagesize class="preBtn pageBtn"><i title="' + lang.common.previous_page + '" class="icon-chevron-left"><a data-toggle="tooltip" data-page="' + (currentPage - 1) + '" data-pagesize="' + pageSize + '"></a></i></span>' + '<span ' + (currentPage === pageCount ? 'class="nextBtn pageBtn notOpBtn"' : ' data-page data-pagesize class="nextBtn pageBtn"') + '><i title="' + lang.common.next_page + '" class="icon-chevron-right"><a data-toggle="tooltip" data-page="' + (currentPage + 1) + '" data-pagesize="' + pageSize + '"></a></i></span></div>';
+        template += '<div class="pageBtnBox"><select name="" id="" data-pagesize data-page>' + tt + '</select>' +
+            '<span data-page data-pagesize class="preBtn pageBtn"><i title="' + lang.common.previous_page +
+            '" class="icon-chevron-left"><a data-toggle="tooltip" data-page="' + (currentPage - 1) + '" data-pagesize="' + pageSize + '"></a></i></span>' + '<span ' +
+            (currentPage === pageCount ? 'class="nextBtn pageBtn notOpBtn"' : ' data-page data-pagesize class="nextBtn pageBtn"') + '><i title="' + lang.common.next_page +
+            '" class="icon-chevron-right"><a data-toggle="tooltip" data-page="' + (currentPage + 1) + '" data-pagesize="' + pageSize + '"></a></i></span></div>';
     }
     $paginationNavBar.html(template).show();
     // 页码按钮绑定事件
