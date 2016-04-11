@@ -505,7 +505,8 @@ class ReturnModel extends BaseModel
                             }
                             ReturnDocsDAO::getInstance()->commit();
                             FileLog::getInstance()->delete(
-                                EnumOther::LOG_DIR_RETURN_TEMP_FILE_DATA . $value['text_json']['FileData'][$returnId_id], md5($returnId_id));
+                                EnumOther::LOG_DIR_RETURN_TEMP_FILE_DATA . $value['text_json']['FileData'][$returnId_id], md5($returnId_id), 
+                                false);
                         }
                     }
                 } else {

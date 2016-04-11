@@ -13,7 +13,7 @@ class FileLog
     private static $_instance;
 
     private $depth = 2;
-    
+
     /**
      * @desc 获取单实例
      * @author YangLong
@@ -53,7 +53,7 @@ class FileLog
         $content = gzcompress($content);
         return file_put_contents($path, $content);
     }
-    
+
     /**
      * @desc 读取日志文件
      * @param string $dir
@@ -73,7 +73,7 @@ class FileLog
         }
         return gzuncompress(file_get_contents($path));
     }
-    
+
     /**
      * 删除日志文件
      * @param string $dir
@@ -82,7 +82,7 @@ class FileLog
      * @date 2016-03-22
      * @return boolean
      */
-    public function delete($dir, $filename)
+    public function delete($dir, $filename, $removedir = true)
     {
         $hash = md5($dir . $filename);
         $_tempArray = str_split($hash);
@@ -91,17 +91,19 @@ class FileLog
         if (file_exists($path)) {
             unlink($path);
         }
-        for ($i = 0; $i < $this->depth; $i ++) {
-            $path = substr($path, 0, strrpos($path, '/'));
-            if (count(scandir($path)) === 2) {
-                rmdir($path);
-            } else {
-                break;
+        if ($removedir) {
+            for ($i = 0; $i < $this->depth; $i ++) {
+                $path = substr($path, 0, strrpos($path, '/'));
+                if (count(scandir($path)) === 2) {
+                    rmdir($path);
+                } else {
+                    break;
+                }
             }
         }
         return true;
     }
-    
+
     /**
      * @desc 创建文件夹
      * @param string $dir
