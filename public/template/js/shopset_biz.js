@@ -74,7 +74,14 @@ $(document).ready(function(e) {
                         }
                         _ets += ' / <a class="fontBtn re_auth_btn">' + lang.shopset_biz.shop_list.ets.tip6 + '</a>'
 
-                        $('<tr shop_id="' + T[i].shop_id + '"><td><input type="checkbox" value="' + T[i].shop_id + '" class="ids" /></td><td>' + (parseInt(i) + 1) + '</td><td>Ebay</td><td>' + T[i].site_name + '</td><td t="nkname" class="pointer" title="' + lang.shopset_biz.shop_list.list.title + '" data-s="' + T[i].nick_name + '">' + T[i].nick_name + '</td><td>' + intToLocalDate(T[i].updated_time, 1) + '</td><td>' + _ets + '</td><td>' + '<a class="fontBtn permission_setting">' + lang.shopset_biz.shop_list.list.seting + '</a>' + '</td><td>' + T[i].status + '</td><td><i class="icon-edit iconBtnH " title="' + lang.shopset_biz.shop_list.list.edit + '"></i></td>' + '<td><i class="icon-trash iconBtnH" title="' + lang.shopset_biz.shop_list.list.cancel + '"></i></td></tr>').appendTo("#list_table tbody");
+                        $('<tr shop_id="' + T[i].shop_id + '"><td><input type="checkbox" value="' + T[i].shop_id + '" class="ids" /></td><td>' + (
+                                parseInt(i) + 1) + '</td><td>Ebay</td><td>' + T[i].site_name + '</td><td t="nkname" class="pointer" title="' + lang
+                            .shopset_biz.shop_list.list.title + '" data-s="' + T[i].nick_name + '">' + T[i].nick_name + '</td><td>' +
+                            intToLocalDate(T[i].updated_time, 1) + '</td><td>' + _ets + '</td><td>' + '<a class="fontBtn permission_setting">' +
+                            lang.shopset_biz.shop_list.list.seting + '</a>' + '</td><td>' + T[i].status +
+                            '</td><td><i class="icon-edit iconBtnH " title="' + lang.shopset_biz.shop_list.list.edit + '"></i></td>' +
+                            '<td><i class="icon-trash iconBtnH" title="' + lang.shopset_biz.shop_list.list.cancel + '"></i></td></tr>').appendTo(
+                            "#list_table tbody");
                     }
                     // 分页(按钮更新)
                     refreshPaginationNavBar(pageInfo.page, pageInfo.pageSize, pageInfo.count, loadlist);
@@ -241,7 +248,8 @@ $(document).ready(function(e) {
                                 _sel = ' checked="checked"'
                             }
                         }
-                        _html += '<label><input type="checkbox"' + _sel + ' name="" value="' + data.Body.users[x].user_id + '">' + data.Body.users[x].username + '</label>';
+                        _html += '<label><input type="checkbox"' + _sel + ' name="" value="' + data.Body.users[x].user_id + '">' + data.Body.users[
+                            x].username + '</label>';
                     }
                     $("#permission_set_window_ckbs").append(_html);
                 } else {
@@ -384,7 +392,8 @@ $(document).ready(function(e) {
         // 绑定(伪)下一步按钮事件
         $("#add_wait_btn").click(function(e) {
             // 提示用户等待
-            $("#add_info").html('<span class="subBtn ggg2" id="add_wait_btn" style="display: inline;">' + lang.shopset_biz.connect_server + '</span>');
+            $("#add_info").html('<span class="subBtn ggg2" id="add_wait_btn" style="display: inline;">' + lang.shopset_biz.connect_server +
+                '</span>');
         });
         // 调用接口获取sessionID
         $.get("?r=api/GetEbaySessionID", function(d, status) {
@@ -394,7 +403,8 @@ $(document).ready(function(e) {
                     // 隐藏全部按钮
                     $(".ggg2").hide();
                     // 填写跳转按钮
-                    $("#add_login_btn a").attr('href', "https://signin.ebay.com/ws/eBayISAPI.dll?SignIn&RuName=" + d.data.RuName + "&SessID=" + d.data.SessionID);
+                    $("#add_login_btn a").attr('href', "https://signin.ebay.com/ws/eBayISAPI.dll?SignIn&RuName=" + d.data.RuName + "&SessID=" +
+                        d.data.SessionID);
                     // 显示跳转按钮
                     $("#add_login_btn").show();
                     // 绑定跳转按钮点击事件

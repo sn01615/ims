@@ -7,20 +7,21 @@
  */
 class EbayOtherInfoModel extends BaseModel
 {
-    
-    private $compatabilityLevel; // eBay API version
-    
+
+    private $compatabilityLevel;
+    // eBay API version
     private $devID;
-    
+
     private $appID;
-    
+
     private $certID;
-    
-    private $serverUrl; // eBay 服务器地址
-    
-    private $userToken; // token
-    
-    private $siteToUseID; // site id
+
+    private $serverUrl;
+    // eBay 服务器地址
+    private $userToken;
+    // token
+    private $siteToUseID;
+    // site id
     
     /**
      * @desc 覆盖父方法,返回当前类的(单)实例
@@ -33,7 +34,7 @@ class EbayOtherInfoModel extends BaseModel
     {
         return parent::model($className);
     }
-    
+
     /**
      * @desc 构造方法
      * @author YangLong
@@ -56,7 +57,7 @@ class EbayOtherInfoModel extends BaseModel
             // $paypalEmailAddress = 'SANDBOX_PAYPAL_EMAIL_ADDRESS';
         }
     }
-    
+
     /**
      * @desc (eBay)根据case表自增ID获取feedback的评价信息
      * @param int $caseid caseid
@@ -65,13 +66,13 @@ class EbayOtherInfoModel extends BaseModel
      * @date 2015-05-20
      * @return mixed
      */
-    public function getFeedbackInfo($caseid,$sellerId,$returnid)
+    public function getFeedbackInfo($caseid, $sellerId, $returnid)
     {
-        if ($caseid <= 0 && $returnid <=0 ) {
+        if ($caseid <= 0 && $returnid <= 0) {
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '#caseid# or #returnid# can not empty.');
         }
-        if($returnid > 0){
-            $tokeninfo = ReturnDetailDAO::getInstance()->getItemInfoByReturnId($returnid,$sellerId); 
+        if ($returnid > 0) {
+            $tokeninfo = ReturnDetailDAO::getInstance()->getItemInfoByReturnId($returnid, $sellerId);
         } else {
             $columns = array(
                 'c.i_itemId',
@@ -100,33 +101,33 @@ class EbayOtherInfoModel extends BaseModel
                 ':TransactionID' => $tokeninfo['i_transactionId'],
                 ':Role' => 'Seller'
             );
-            $result= EbayFeedbackTransactionDAO::getInstance()->iselect($columns, $conditions, $params, false);
-            if (!empty($result)) {
-                 return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $result);
-             } else {
-                 return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', 'no feedback.'); 
-             }
-          }
+            $result = EbayFeedbackTransactionDAO::getInstance()->iselect($columns, $conditions, $params, false);
+            if (! empty($result)) {
+                return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $result);
+            } else {
+                return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', 'no feedback.');
+            }
+        }
     }
-    
+
     /**
      * @desc 获取客户留言
-   	 * @param int $caseid caseid
+     * @param int $caseid caseid
      * @param int $sellerId 客户ID
      * @author liaojianwen
      * @date 2015-05-21
      * @return mixed
      */
-    public function getEbayOrderNote($caseid, $sellerId,$returnid)
+    public function getEbayOrderNote($caseid, $sellerId, $returnid)
     {
         if ($caseid <= 0 && $returnid <= 0) {
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '#caseid#  or #returnid# can not empty.');
         }
-        if($returnid > 0){
-             $tokeninfo = ReturnDetailDAO::getInstance()->getItemInfoByReturnId($returnid,$sellerId); 
+        if ($returnid > 0) {
+            $tokeninfo = ReturnDetailDAO::getInstance()->getItemInfoByReturnId($returnid, $sellerId);
         } else {
             $columns = array(
-               	'c.i_itemId',
+                'c.i_itemId',
                 'c.i_transactionId',
                 's.site_id',
                 's.token'
@@ -157,10 +158,13 @@ class EbayOtherInfoModel extends BaseModel
             );
             $dbxml = EbayOrderNoteDAO::getInstance()->iselect($columns, $conditions, $params, false);
             if (empty($dbxml)) {
-                $xml = $this->eBayGetOrderNote($tokeninfo['token'],array(array(
-                    'TransactionID' =>$tokeninfo['i_transactionId'],
-                    'ItemID'=>$tokeninfo['i_itemId']
-                )),$tokeninfo['site_id']);
+                $xml = $this->eBayGetOrderNote($tokeninfo['token'], 
+                    array(
+                        array(
+                            'TransactionID' => $tokeninfo['i_transactionId'],
+                            'ItemID' => $tokeninfo['i_itemId']
+                        )
+                    ), $tokeninfo['site_id']);
                 $icolumns = array(
                     'transaction_id' => $tokeninfo['i_transactionId'],
                     'item_id' => $tokeninfo['i_itemId'],
@@ -179,47 +183,92 @@ class EbayOtherInfoModel extends BaseModel
                 $length = $doc['OrderArray>Order>TransactionArray>Transaction']->length;
                 $_obj = $doc['OrderArray>Order>TransactionArray>Transaction'];
                 for ($i = 0; $i < $length; $i ++) {
-                    if($tokeninfo['i_transactionId'] === $_obj['>TransactionID']->html()){
+                    if ($tokeninfo['i_transactionId'] === $_obj['>TransactionID']->html()) {
                         $shippingAddress = array(
-                       		'name' =>$_obj->eq($i)->find('>Buyer>BuyerInfo>ShippingAddress>Name')->html(),
-                            'street1' =>$_obj->eq($i)->find('>Buyer>BuyerInfo>ShippingAddress>Street1')->html(),
-                            'street2' =>$_obj->eq($i)->find('>Buyer>BuyerInfo>ShippingAddress>Street2')->html(),
-                            'CityName'=>$_obj->eq($i)->find('>Buyer>BuyerInfo>ShippingAddress>CityName')->html(),
-                            'StateOrProvince'=>$_obj->eq($i)->find('>Buyer>BuyerInfo>ShippingAddress>StateOrProvince')->html(),
-                            'Country'=>$_obj->eq($i)->find('>Buyer>BuyerInfo>ShippingAddress>Country')->html(),
-                            'CountryName'=>$_obj->eq($i)->find('>Buyer>BuyerInfo>ShippingAddress>CountryName')->html(),
-                            'SKUS' =>$_obj->eq($i)->find('>Variation>SKU')->html(),
-                            'SKU'=>$_obj->eq($i)->find('>Item>SKU')->html(),
-                            'CurrentPrice'=>$_obj->eq($i)->find('>Item>SellingStatus>CurrentPrice')->html(),
-                            'currencyID'=>$_obj->eq($i)->find('>Item>SellingStatus>CurrentPrice')->attr('currencyID'),
-                            'TransactionPrice'=>$_obj->eq($i)->find('>TransactionPrice')->html(),
-                            'TcurrencyID'=>$_obj->eq($i)->find('>TransactionPrice')->attr('currencyID'),
-                            'PaidTime'=>$doc['OrderArray>Order>PaidTime']->html(),
-                            'PaymentMethods'=>$doc['OrderArray>Order>PaymentMethods']->html(),
-                            'ShippingCarrierUsed'=>$_obj->eq($i)->find('ShippingDetails>ShipmentTrackingDetails>ShippingCarrierUsed')->html(),
-                            'ShipmentTrackingNumber'=>$_obj->eq($i)->find('>ShippingDetails>ShipmentTrackingDetails>ShipmentTrackingNumber')->html(),
-                            'ActualShippingCost'=>$_obj->eq($i)->find('>ActualShippingCost')->html(),
-                            'ActualcurrencyID'=>$_obj->eq($i)->find('>ActualShippingCost')->attr('currencyID'),
-                            'ShipedTime'=>strtotime($doc['OrderArray>Order>ShippedTime']->html()),
-                            'PaymentMethods'=>$doc['OrderArray>Order>PaymentMethods']->html(),
-                            'PaymentTime'=>strtotime($doc['OrderArray>Order>MonetaryDetails>Payments>Payment>PaymentTime']->html()),
-                            'OrderLineItemID'=>$_obj->eq($i)->find('>OrderLineItemID')->html(),
-                            'ShippingService'=>$doc['OrderArray>Order>ShippingServiceSelected>ShippingService']->html(),
-                            'ShippingServiceCost'=>$doc['OrderArray>Order>ShippingServiceSelected>ShippingServiceCost']->html(),
-                            'S_currencyID'=>$doc['OrderArray>Order>ShippingServiceSelected>ShippingServiceCost']->attr('currencyID')
+                            'name' => $_obj->eq($i)
+                                ->find('>Buyer>BuyerInfo>ShippingAddress>Name')
+                                ->html(),
+                            'street1' => $_obj->eq($i)
+                                ->find('>Buyer>BuyerInfo>ShippingAddress>Street1')
+                                ->html(),
+                            'street2' => $_obj->eq($i)
+                                ->find('>Buyer>BuyerInfo>ShippingAddress>Street2')
+                                ->html(),
+                            'CityName' => $_obj->eq($i)
+                                ->find('>Buyer>BuyerInfo>ShippingAddress>CityName')
+                                ->html(),
+                            'StateOrProvince' => $_obj->eq($i)
+                                ->find('>Buyer>BuyerInfo>ShippingAddress>StateOrProvince')
+                                ->html(),
+                            'Country' => $_obj->eq($i)
+                                ->find('>Buyer>BuyerInfo>ShippingAddress>Country')
+                                ->html(),
+                            'CountryName' => $_obj->eq($i)
+                                ->find('>Buyer>BuyerInfo>ShippingAddress>CountryName')
+                                ->html(),
+                            'SKUS' => $_obj->eq($i)
+                                ->find('>Variation>SKU')
+                                ->html(),
+                            'SKU' => $_obj->eq($i)
+                                ->find('>Item>SKU')
+                                ->html(),
+                            'CurrentPrice' => $_obj->eq($i)
+                                ->find('>Item>SellingStatus>CurrentPrice')
+                                ->html(),
+                            'currencyID' => $_obj->eq($i)
+                                ->find('>Item>SellingStatus>CurrentPrice')
+                                ->attr('currencyID'),
+                            'TransactionPrice' => $_obj->eq($i)
+                                ->find('>TransactionPrice')
+                                ->html(),
+                            'TcurrencyID' => $_obj->eq($i)
+                                ->find('>TransactionPrice')
+                                ->attr('currencyID'),
+                            'PaidTime' => $doc['OrderArray>Order>PaidTime']->html(),
+                            'PaymentMethods' => $doc['OrderArray>Order>PaymentMethods']->html(),
+                            'ShippingCarrierUsed' => $_obj->eq($i)
+                                ->find('ShippingDetails>ShipmentTrackingDetails>ShippingCarrierUsed')
+                                ->html(),
+                            'ShipmentTrackingNumber' => $_obj->eq($i)
+                                ->find('>ShippingDetails>ShipmentTrackingDetails>ShipmentTrackingNumber')
+                                ->html(),
+                            'ActualShippingCost' => $_obj->eq($i)
+                                ->find('>ActualShippingCost')
+                                ->html(),
+                            'ActualcurrencyID' => $_obj->eq($i)
+                                ->find('>ActualShippingCost')
+                                ->attr('currencyID'),
+                            'ShipedTime' => strtotime($doc['OrderArray>Order>ShippedTime']->html()),
+                            'PaymentMethods' => $doc['OrderArray>Order>PaymentMethods']->html(),
+                            'PaymentTime' => strtotime($doc['OrderArray>Order>MonetaryDetails>Payments>Payment>PaymentTime']->html()),
+                            'OrderLineItemID' => $_obj->eq($i)
+                                ->find('>OrderLineItemID')
+                                ->html(),
+                            'ShippingService' => $doc['OrderArray>Order>ShippingServiceSelected>ShippingService']->html(),
+                            'ShippingServiceCost' => $doc['OrderArray>Order>ShippingServiceSelected>ShippingServiceCost']->html(),
+                            'S_currencyID' => $doc['OrderArray>Order>ShippingServiceSelected>ShippingServiceCost']->attr('currencyID')
                         );
                         
                         $var_length = $_obj['>Variation>VariationSpecifics>NameValueList']->length;
                         $_variation = $_obj['>Variation>VariationSpecifics>NameValueList'];
-                        for($k = 0; $k<$var_length; $k++){
+                        for ($k = 0; $k < $var_length; $k ++) {
                             $variation[] = array(
-                                'Name'=>$_variation->eq($k)->find('>Name')->html(),
-                                'Value'=>$_variation->eq($k)->find('>Value')->html()
-                            );                        
+                                'Name' => $_variation->eq($k)
+                                    ->find('>Name')
+                                    ->html(),
+                                'Value' => $_variation->eq($k)
+                                    ->find('>Value')
+                                    ->html()
+                            );
                         }
                         
-                        $data = EbayShippingServiceDetailsDAO::getInstance()->findByAttributes(array('ShippingService'=>$shippingAddress['ShippingService']),array('Description'));
-                        if(isset($data['Description'])){
+                        $data = EbayShippingServiceDetailsDAO::getInstance()->findByAttributes(
+                            array(
+                                'ShippingService' => $shippingAddress['ShippingService']
+                            ), array(
+                                'Description'
+                            ));
+                        if (isset($data['Description'])) {
                             $shippingAddress['ShippingService'] = $data['Description'];
                         }
                         
@@ -234,26 +283,45 @@ class EbayOtherInfoModel extends BaseModel
                 
                 $length_refund = $doc['OrderArray>Order>MonetaryDetails>Refunds>Refund']->length;
                 $_refund = $doc['OrderArray>Order>MonetaryDetails>Refunds>Refund'];
-                for ($j=0; $j < $length_refund; $j++){
+                for ($j = 0; $j < $length_refund; $j ++) {
                     $refund[] = array(
-                        'RefundStatus'=>$_refund->eq($j)->find('>RefundStatus')->html(),
-                        'RefundType'=>$_refund->eq($j)->find('>RefundType')->html(),
-                        'RefundTo'=>$_refund->eq($j)->find('>RefundTo')->html(),
-                        'RefundTime'=>strtotime($_refund->eq($j)->find('>RefundTime')->html()),
-                        'RefundAmount'=>$_refund->eq($j)->find('>RefundAmount')->html(),
-                        'RcurrencyID'=>$_refund->eq($j)->find('>RefundAmount')->attr('currencyID'),
-                        'ReferenceID'=>$_refund->eq($j)->find('>ReferenceID')->html(),
-                        'FeeOrCreditAmount'=>$_refund->eq($j)->find('>FeeOrCreditAmount')->html(),
-                        'FcurrencyID'=>$_refund->eq($j)->find('>FeeOrCreditAmount')->attr('currencyID')
+                        'RefundStatus' => $_refund->eq($j)
+                            ->find('>RefundStatus')
+                            ->html(),
+                        'RefundType' => $_refund->eq($j)
+                            ->find('>RefundType')
+                            ->html(),
+                        'RefundTo' => $_refund->eq($j)
+                            ->find('>RefundTo')
+                            ->html(),
+                        'RefundTime' => strtotime(
+                            $_refund->eq($j)
+                                ->find('>RefundTime')
+                                ->html()),
+                        'RefundAmount' => $_refund->eq($j)
+                            ->find('>RefundAmount')
+                            ->html(),
+                        'RcurrencyID' => $_refund->eq($j)
+                            ->find('>RefundAmount')
+                            ->attr('currencyID'),
+                        'ReferenceID' => $_refund->eq($j)
+                            ->find('>ReferenceID')
+                            ->html(),
+                        'FeeOrCreditAmount' => $_refund->eq($j)
+                            ->find('>FeeOrCreditAmount')
+                            ->html(),
+                        'FcurrencyID' => $_refund->eq($j)
+                            ->find('>FeeOrCreditAmount')
+                            ->attr('currencyID')
                     );
                 }
                 $result = array(
                     'OrderId' => $doc['OrderArray>Order>OrderID']->html(),
-                    'OrderCreateTime'=>strtotime($doc['OrderArray>Order>CreatedTime']->html()),
+                    'OrderCreateTime' => strtotime($doc['OrderArray>Order>CreatedTime']->html()),
                     'Note' => $doc['OrderArray>Order>BuyerCheckoutMessage']->html(),
                     'Address' => isset($shippingAddress) ? $shippingAddress : '',
-                    'Refund'=> isset($refund)? $refund : '',
-                    'variation' => isset($variation)? $variation:''
+                    'Refund' => isset($refund) ? $refund : '',
+                    'variation' => isset($variation) ? $variation : ''
                 );
                 return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $result);
             } else {
@@ -263,7 +331,7 @@ class EbayOtherInfoModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '#msgid# or #caseid# not found.');
         }
     }
-    
+
     /**
      * @desc (eBay)根据msg表自增ID获取Item详细信息保存入数据库并返回有用的部分
      * @param string $msgid msg表AI
@@ -381,7 +449,7 @@ class EbayOtherInfoModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '#msgid# or #caseid# not found.');
         }
     }
-    
+
     /**
      * @desc 根据ItemID或TransactionID或SKU获取item详细信息
      * @param string $token
@@ -448,7 +516,7 @@ class EbayOtherInfoModel extends BaseModel
         
         return $responseXml;
     }
-    
+
     /**
      * @desc 根据订单号获取订单信息
      * @param string $token token
@@ -471,9 +539,9 @@ class EbayOtherInfoModel extends BaseModel
      * @date 2015-05-05
      * @return mixed
      */
-    public function eBayGetOrders($token, array $OrderIDArray, $CreateTimeFrom, $CreateTimeTo, $OrderStatus = '', $PageNumber = 1,
-         $EntriesPerPage = 100, $ListingType = '', $ModTimeFrom = 0, $ModTimeTo = 0, $NumberOfDays = 0, $OrderRole = '',
-         $siteid = 0, $SortingOrder = '', $DetailLevel = 'ReturnAll', $IncludeFinalValueFee = 'true')
+    public function eBayGetOrders($token, array $OrderIDArray, $CreateTimeFrom, $CreateTimeTo, $OrderStatus = '', $PageNumber = 1, 
+        $EntriesPerPage = 100, $ListingType = '', $ModTimeFrom = 0, $ModTimeTo = 0, $NumberOfDays = 0, $OrderRole = '', $siteid = 0, $SortingOrder = '', 
+        $DetailLevel = 'ReturnAll', $IncludeFinalValueFee = 'true')
     {
         $callName = 'GetOrders';
         if (Yii::app()->params['ebay_api_production']) {
@@ -569,34 +637,37 @@ class EbayOtherInfoModel extends BaseModel
         $responseXml = $session->sendHttpRequest($requestXmlBody);
         
         if (stripos($responseXml, '<Ack>Failure</Ack>')) {
-            iMongo::getInstance()->setCollection('eBayGetOrdersFailure')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'time' => time(),
-                'times' => 1
-            ));
+            iMongo::getInstance()->setCollection('eBayGetOrdersFailure')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'time' => time(),
+                    'times' => 1
+                ));
             sleep(1);
             $responseXml = $session->sendHttpRequest($requestXmlBody);
         }
         
         if (stripos($responseXml, '<Ack>Failure</Ack>')) {
-            iMongo::getInstance()->setCollection('eBayGetOrdersFailure')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'time' => time(),
-                'times' => 2
-            ));
+            iMongo::getInstance()->setCollection('eBayGetOrdersFailure')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'time' => time(),
+                    'times' => 2
+                ));
             sleep(1);
             $responseXml = $session->sendHttpRequest($requestXmlBody);
         }
         
         if (! XMLTool::IsXML($responseXml)) {
-            iMongo::getInstance()->setCollection('eBayGetOrdersBadXML')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'tryCount' => $tryCount,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection('eBayGetOrdersBadXML')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'tryCount' => $tryCount,
+                    'time' => time()
+                ));
             if ($tryCount < 10) {
                 $tryCount ++;
                 goto label1;
@@ -614,7 +685,7 @@ class EbayOtherInfoModel extends BaseModel
         
         return $responseXml;
     }
-    
+
     /**
      * @desc 获取用户信息
      * @param string $token
@@ -672,34 +743,37 @@ class EbayOtherInfoModel extends BaseModel
         $responseXml = $session->sendHttpRequest($requestXmlBody);
         
         if (stripos($responseXml, '<Ack>Failure</Ack>')) {
-            iMongo::getInstance()->setCollection('eBayGetUserF')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'time' => time(),
-                'times' => 1
-            ));
+            iMongo::getInstance()->setCollection('eBayGetUserF')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'time' => time(),
+                    'times' => 1
+                ));
             sleep(1);
             $responseXml = $session->sendHttpRequest($requestXmlBody);
         }
         
         if (stripos($responseXml, '<Ack>Failure</Ack>')) {
-            iMongo::getInstance()->setCollection('eBayGetUserF')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'time' => time(),
-                'times' => 2
-            ));
+            iMongo::getInstance()->setCollection('eBayGetUserF')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'time' => time(),
+                    'times' => 2
+                ));
             sleep(1);
             $responseXml = $session->sendHttpRequest($requestXmlBody);
         }
         
         if (! XMLTool::IsXML($responseXml)) {
-            iMongo::getInstance()->setCollection('eBayGetUserBadXML')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'tryCount' => $tryCount,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection('eBayGetUserBadXML')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'tryCount' => $tryCount,
+                    'time' => time()
+                ));
             if ($tryCount < 10) {
                 $tryCount ++;
                 goto label1;
@@ -709,7 +783,7 @@ class EbayOtherInfoModel extends BaseModel
         
         return $responseXml;
     }
-    
+
     /**
      * @desc 获取eBay枚举信息
      * @param string $token
@@ -755,34 +829,37 @@ class EbayOtherInfoModel extends BaseModel
         $responseXml = $session->sendHttpRequest($requestXmlBody);
         
         if (stripos($responseXml, '<Ack>Failure</Ack>')) {
-            iMongo::getInstance()->setCollection('eBayGeteBayDetailsFailure')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'time' => time(),
-                'times' => 1
-            ));
+            iMongo::getInstance()->setCollection('eBayGeteBayDetailsFailure')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'time' => time(),
+                    'times' => 1
+                ));
             sleep(1);
             $responseXml = $session->sendHttpRequest($requestXmlBody);
         }
         
         if (stripos($responseXml, '<Ack>Failure</Ack>')) {
-            iMongo::getInstance()->setCollection('eBayGeteBayDetailsFailure')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'time' => time(),
-                'times' => 2
-            ));
+            iMongo::getInstance()->setCollection('eBayGeteBayDetailsFailure')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'time' => time(),
+                    'times' => 2
+                ));
             sleep(1);
             $responseXml = $session->sendHttpRequest($requestXmlBody);
         }
         
         if (! XMLTool::IsXML($responseXml)) {
-            iMongo::getInstance()->setCollection('eBayGeteBayDetailsBadXML')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'tryCount' => $tryCount,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection('eBayGeteBayDetailsBadXML')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'tryCount' => $tryCount,
+                    'time' => time()
+                ));
             if ($tryCount < 10) {
                 $tryCount ++;
                 goto label1;
@@ -798,16 +875,17 @@ class EbayOtherInfoModel extends BaseModel
             }
         }
         
-        iMongo::getInstance()->setCollection('eBayGeteBayDetails')->insert(array(
-            'requestXmlBody' => $requestXmlBody,
-            'responseXml' => $responseXml,
-            'tryCount' => $tryCount,
-            'time' => time()
-        ));
+        iMongo::getInstance()->setCollection('eBayGeteBayDetails')->insert(
+            array(
+                'requestXmlBody' => $requestXmlBody,
+                'responseXml' => $responseXml,
+                'tryCount' => $tryCount,
+                'time' => time()
+            ));
         
         return $responseXml;
     }
-    
+
     /**
      * @desc 向买家发送催款信息
      * @param string $token
@@ -822,7 +900,8 @@ class EbayOtherInfoModel extends BaseModel
      * @date 2015-07-23
      * @return mixed
      */
-    public function eBaySendInvoice($token, $ShippingServiceOptions, $AdjustmentAmount, $AdjustmentAmountCurrencyID, $CheckoutInstructions, $OrderLineItemID, $OrderID, $siteid)
+    public function eBaySendInvoice($token, $ShippingServiceOptions, $AdjustmentAmount, $AdjustmentAmountCurrencyID, $CheckoutInstructions, 
+        $OrderLineItemID, $OrderID, $siteid)
     {
         $callName = 'SendInvoice';
         if (Yii::app()->params['ebay_api_production']) {
@@ -839,7 +918,8 @@ class EbayOtherInfoModel extends BaseModel
   </RequesterCredentials>';
         if (! empty($AdjustmentAmount)) {
             $requestXmlBody .= '
-  <AdjustmentAmount currencyID="' . $AdjustmentAmountCurrencyID . '">' . $AdjustmentAmount . '</AdjustmentAmount>';
+  <AdjustmentAmount currencyID="' . $AdjustmentAmountCurrencyID . '">' .
+                 $AdjustmentAmount . '</AdjustmentAmount>';
         }
         if (! empty($CheckoutInstructions)) {
             $requestXmlBody .= '
@@ -859,7 +939,8 @@ class EbayOtherInfoModel extends BaseModel
                     $requestXmlBody .= '
   <ShippingServiceOptions>
     <ShippingService>' . $value['ShippingService'] . '</ShippingService>
-    <ShippingServiceCost currencyID="' . $value['currencyID'] . '">' . $value['ShippingServiceCost'] . '</ShippingServiceCost>
+    <ShippingServiceCost currencyID="' .
+                         $value['currencyID'] . '">' . $value['ShippingServiceCost'] . '</ShippingServiceCost>
   </ShippingServiceOptions>';
                 }
             }
@@ -885,34 +966,37 @@ class EbayOtherInfoModel extends BaseModel
         $responseXml = $session->sendHttpRequest($requestXmlBody);
         
         if (stripos($responseXml, '<Ack>Failure</Ack>')) {
-            iMongo::getInstance()->setCollection('eBaySendInvoiceFailure')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'time' => time(),
-                'times' => 1
-            ));
+            iMongo::getInstance()->setCollection('eBaySendInvoiceFailure')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'time' => time(),
+                    'times' => 1
+                ));
             sleep(1);
             $responseXml = $session->sendHttpRequest($requestXmlBody);
         }
         
         if (stripos($responseXml, '<Ack>Failure</Ack>')) {
-            iMongo::getInstance()->setCollection('eBaySendInvoiceFailure')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'time' => time(),
-                'times' => 2
-            ));
+            iMongo::getInstance()->setCollection('eBaySendInvoiceFailure')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'time' => time(),
+                    'times' => 2
+                ));
             sleep(1);
             $responseXml = $session->sendHttpRequest($requestXmlBody);
         }
         
         if (! XMLTool::IsXML($responseXml)) {
-            iMongo::getInstance()->setCollection('eBaySendInvoiceBadXML')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'tryCount' => $tryCount,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection('eBaySendInvoiceBadXML')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'tryCount' => $tryCount,
+                    'time' => time()
+                ));
             if ($tryCount < 2) {
                 $tryCount ++;
                 goto label1;
@@ -928,16 +1012,17 @@ class EbayOtherInfoModel extends BaseModel
             }
         }
         
-        iMongo::getInstance()->setCollection('eBaySendInvoice')->insert(array(
-            'requestXmlBody' => $requestXmlBody,
-            'responseXml' => $responseXml,
-            'tryCount' => $tryCount,
-            'time' => time()
-        ));
+        iMongo::getInstance()->setCollection('eBaySendInvoice')->insert(
+            array(
+                'requestXmlBody' => $requestXmlBody,
+                'responseXml' => $responseXml,
+                'tryCount' => $tryCount,
+                'time' => time()
+            ));
         
         return $responseXml;
     }
-    
+
     /**
      * @desc 根据交易号、产品ID获取客户评价
      * @param string $token
@@ -958,18 +1043,19 @@ class EbayOtherInfoModel extends BaseModel
         
         $requestXmlBody = '<?xml version="1.0" encoding="utf-8"?>';
         
-  $requestXmlBody  .= '<GetOrderTransactionsRequest xmlns="urn:ebay:apis:eBLBaseComponents">
+        $requestXmlBody .= '<GetOrderTransactionsRequest xmlns="urn:ebay:apis:eBLBaseComponents">
                   <RequesterCredentials>
-                    <eBayAuthToken>'.$token.'</eBayAuthToken>
+                    <eBayAuthToken>' . $token . '</eBayAuthToken>
                   </RequesterCredentials>
 				<ItemTransactionIDArray>';
-                  foreach ($OrderInfoArray as $value){
-          				 $requestXmlBody .= '<ItemTransactionID> 
-           			   <ItemID>'.$value['ItemID'].'</ItemID>
-            			  <TransactionID>'.$value['TransactionID'].'</TransactionID>
+        foreach ($OrderInfoArray as $value) {
+            $requestXmlBody .= '<ItemTransactionID> 
+           			   <ItemID>' . $value['ItemID'] . '</ItemID>
+            			  <TransactionID>' . $value['TransactionID'] . '</TransactionID>
             			
-            			</ItemTransactionID>';}
- 				$requestXmlBody .=' </ItemTransactionIDArray>
+            			</ItemTransactionID>';
+        }
+        $requestXmlBody .= ' </ItemTransactionIDArray>
      				<DetailLevel>ReturnAll</DetailLevel>
                     </GetOrderTransactionsRequest>';
         
@@ -987,7 +1073,7 @@ class EbayOtherInfoModel extends BaseModel
         $responseXml = $session->sendHttpRequest($requestXmlBody);
         return $responseXml;
     }
-    
+
     /**
      * @desc 获取最新一条回复的消息
      * @param int $msgid msg表ID
@@ -1013,7 +1099,8 @@ class EbayOtherInfoModel extends BaseModel
             ':msg_id' => $msgid
         );
         
-        $result = MsgReplyLogDAO::getInstance()->iselect($columns, $conditions, $params, false, array(), '', MsgReplyLogDAO::getInstance()->igetproperty('primaryKey') . ' desc');
+        $result = MsgReplyLogDAO::getInstance()->iselect($columns, $conditions, $params, false, array(), '', 
+            MsgReplyLogDAO::getInstance()->igetproperty('primaryKey') . ' desc');
         
         if (! empty($result['image_urls'])) {
             $result['image_urls'] = json_decode($result['image_urls'], true);
@@ -1025,7 +1112,7 @@ class EbayOtherInfoModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $result);
         }
     }
-    
+
     /**
      * @desc 生成订单下载队列
      * @author YangLong
@@ -1089,7 +1176,7 @@ class EbayOtherInfoModel extends BaseModel
         }
         unset($shop);
     }
-    
+
     /**
      * @desc 运行订单下载队列
      * @author YangLong
@@ -1115,9 +1202,11 @@ class EbayOtherInfoModel extends BaseModel
                     $page ++;
                     
                     if ($Queue['start_time'] > (time() - 3600 * 24 * 90)) {
-                        $dataxml = EbayOtherInfoModel::model()->eBayGetOrders($Queue['token'], array(), 0, 0, '', $page, 100, '', $Queue['start_time'], $Queue['end_time']);
+                        $dataxml = EbayOtherInfoModel::model()->eBayGetOrders($Queue['token'], array(), 0, 0, '', $page, 100, '', 
+                            $Queue['start_time'], $Queue['end_time']);
                     } else {
-                        $dataxml = EbayOtherInfoModel::model()->eBayGetOrders($Queue['token'], array(), $Queue['start_time'], $Queue['end_time'], '', $page, 100, '', 0, 0);
+                        $dataxml = EbayOtherInfoModel::model()->eBayGetOrders($Queue['token'], array(), $Queue['start_time'], $Queue['end_time'], '', 
+                            $page, 100, '', 0, 0);
                     }
                     
                     $columns = array(
@@ -1128,7 +1217,10 @@ class EbayOtherInfoModel extends BaseModel
                     
                     $_pk = EbayOrdersDownQueueDAO::getInstance()->getPk();
                     
-                    if ($dataxml === false || stripos($dataxml, '<ErrorCode>10007</ErrorCode>') !== false || stripos($dataxml, '<ErrorCode>21359</ErrorCode>') !== false || stripos($dataxml, '<ErrorCode>21359</ErrorCode>') !== false || stripos($dataxml, '<ErrorCode>16100</ErrorCode>') !== false || stripos($dataxml, '<ErrorCode>518</ErrorCode>') !== false) {
+                    if ($dataxml === false || stripos($dataxml, '<ErrorCode>10007</ErrorCode>') !== false ||
+                         stripos($dataxml, '<ErrorCode>21359</ErrorCode>') !== false ||
+                         stripos($dataxml, '<ErrorCode>21359</ErrorCode>') !== false ||
+                         stripos($dataxml, '<ErrorCode>16100</ErrorCode>') !== false || stripos($dataxml, '<ErrorCode>518</ErrorCode>') !== false) {
                         // 还原队列
                         $columns = array(
                             'process_sign' => boolConvert::toInt01(false)
@@ -1146,11 +1238,12 @@ class EbayOtherInfoModel extends BaseModel
                             sleep(30);
                         }
                         
-                        iMongo::getInstance()->setCollection('eBayOrdersDownQueueHy')->insert(array(
-                            'dataxml' => $dataxml,
-                            'queue_id' => $Queue[$_pk],
-                            'time' => time()
-                        ));
+                        iMongo::getInstance()->setCollection('eBayOrdersDownQueueHy')->insert(
+                            array(
+                                'dataxml' => $dataxml,
+                                'queue_id' => $Queue[$_pk],
+                                'time' => time()
+                            ));
                     } else {
                         EbayOrdersDownDAO::getInstance()->iinsert($columns);
                     }
@@ -1163,19 +1256,21 @@ class EbayOtherInfoModel extends BaseModel
                         EbayOrdersDownQueueDAO::getInstance()->idelete($conditions, $params);
                         
                         if (stripos($dataxml, '<Ack>Success</Ack>') === false) {
-                            iMongo::getInstance()->setCollection('ebayOrdersDQDelLog')->insert(array(
-                                'conditions' => $conditions,
-                                'params' => $params,
-                                'dataxml' => $dataxml,
-                                'time' => time()
-                            ));
+                            iMongo::getInstance()->setCollection('ebayOrdersDQDelLog')->insert(
+                                array(
+                                    'conditions' => $conditions,
+                                    'params' => $params,
+                                    'dataxml' => $dataxml,
+                                    'time' => time()
+                                ));
                         }
                     } else {
-                        iMongo::getInstance()->setCollection('eBayGetOrdersExeFailure')->insert(array(
-                            'dataxml' => $dataxml,
-                            'queue_id' => $Queue[$_pk],
-                            'time' => time()
-                        ));
+                        iMongo::getInstance()->setCollection('eBayGetOrdersExeFailure')->insert(
+                            array(
+                                'dataxml' => $dataxml,
+                                'queue_id' => $Queue[$_pk],
+                                'time' => time()
+                            ));
                     }
                     
                     if (stripos($dataxml, '<HasMoreOrders>true</HasMoreOrders>') === false) {
@@ -1191,7 +1286,7 @@ class EbayOtherInfoModel extends BaseModel
         
         goto label1;
     }
-    
+
     /**
      * @desc 解析订单下载的数据
      * @author YangLong
@@ -1219,9 +1314,10 @@ class EbayOtherInfoModel extends BaseModel
                         ':primaryKey' => $ordersRow[EbayOrdersDownDAO::getInstance()->igetproperty('primaryKey')]
                     );
                     EbayOrdersDownDAO::getInstance()->idelete($conditions, $params);
-                    iMongo::getInstance()->setCollection('base64dataIsEmpty')->insert(array(
-                        'time' => time()
-                    ));
+                    iMongo::getInstance()->setCollection('base64dataIsEmpty')->insert(
+                        array(
+                            'time' => time()
+                        ));
                     continue;
                 }
                 $doc = phpQuery::newDocumentXML($ordersRow['base64data']);
@@ -1278,12 +1374,13 @@ class EbayOtherInfoModel extends BaseModel
                         );
                         
                         if (empty($params[':OrderID'])) {
-                            iMongo::getInstance()->setCollection('OrderWasFalse')->insert(array(
-                                'shop_id' => $params[':shop_id'],
-                                'OrderID' => $params[':OrderID'],
-                                'xml' => $Order->htmlOuter(),
-                                'time' => time()
-                            ));
+                            iMongo::getInstance()->setCollection('OrderWasFalse')->insert(
+                                array(
+                                    'shop_id' => $params[':shop_id'],
+                                    'OrderID' => $params[':OrderID'],
+                                    'xml' => $Order->htmlOuter(),
+                                    'time' => time()
+                                ));
                         }
                         
                         // PaymentMethods SET
@@ -1508,7 +1605,8 @@ class EbayOtherInfoModel extends BaseModel
                                 'TransactionID' => $Transaction->find('>TransactionID')->html(),
                                 'TransactionPrice' => $Transaction->find('>TransactionPrice')->html(),
                                 'TransactionPrice_currencyID' => $Transaction->find('>TransactionPrice')->attr('currencyID'),
-                                'ProductName' => html_entity_decode(html_entity_decode($Transaction->find('>SellingManagerProductDetails>ProductName')->html())),
+                                'ProductName' => html_entity_decode(
+                                    html_entity_decode($Transaction->find('>SellingManagerProductDetails>ProductName')->html())),
                                 'CustomLabel' => $Transaction->find('>SellingManagerProductDetails>CustomLabel')->html(),
                                 
                                 // 'EstimatedDeliveryTimeMin' => $Transaction->find('>ShippingServiceSelected>ShippingPackageInfo>EstimatedDeliveryTimeMin')->html(),
@@ -1547,13 +1645,14 @@ class EbayOtherInfoModel extends BaseModel
                             );
                             
                             if ($params[':OrderLineItemID'] === false) {
-                                iMongo::getInstance()->setCollection('OrderLineItemIDEmpty')->insert(array(
-                                    'shop_id' => $params[':shop_id'],
-                                    'ebay_orders_id' => $params[':ebay_orders_id'],
-                                    'OrderLineItemID' => $params[':OrderLineItemID'],
-                                    'xml' => $Transaction->html(),
-                                    'time' => time()
-                                ));
+                                iMongo::getInstance()->setCollection('OrderLineItemIDEmpty')->insert(
+                                    array(
+                                        'shop_id' => $params[':shop_id'],
+                                        'ebay_orders_id' => $params[':ebay_orders_id'],
+                                        'OrderLineItemID' => $params[':OrderLineItemID'],
+                                        'xml' => $Transaction->html(),
+                                        'time' => time()
+                                    ));
                             }
                             
                             foreach ($params as $key => $value) {
@@ -1572,13 +1671,14 @@ class EbayOtherInfoModel extends BaseModel
                             
                             // 数据异常写日志
                             if (is_array($_transactionid)) {
-                                iMongo::getInstance()->setCollection('EbayOrderTransRErr')->insert(array(
-                                    'shop_id' => $params[':shop_id'],
-                                    'ebay_orders_id' => $params[':ebay_orders_id'],
-                                    'OrderLineItemID' => $params[':OrderLineItemID'],
-                                    'count' => $_transactionid,
-                                    'time' => time()
-                                ));
+                                iMongo::getInstance()->setCollection('EbayOrderTransRErr')->insert(
+                                    array(
+                                        'shop_id' => $params[':shop_id'],
+                                        'ebay_orders_id' => $params[':ebay_orders_id'],
+                                        'OrderLineItemID' => $params[':OrderLineItemID'],
+                                        'count' => $_transactionid,
+                                        'time' => time()
+                                    ));
                                 imsTool::clearDuplication('EbayOrderTransactionDAO', $_transactionid);
                                 $_transactionid = array_shift($_transactionid);
                                 $_transactionid = array_shift($_transactionid);
@@ -1620,10 +1720,11 @@ class EbayOtherInfoModel extends BaseModel
                     EbayOrdersDownDAO::getInstance()->idelete($conditions, $params);
                     unset($OrderArray);
                 } else {
-                    iMongo::getInstance()->setCollection('eBayParseOrderXMLFailure')->insert(array(
-                        'xml' => $ordersRow['base64data'],
-                        'time' => time()
-                    ));
+                    iMongo::getInstance()->setCollection('eBayParseOrderXMLFailure')->insert(
+                        array(
+                            'xml' => $ordersRow['base64data'],
+                            'time' => time()
+                        ));
                 }
                 unset($doc);
             }
@@ -1634,7 +1735,7 @@ class EbayOtherInfoModel extends BaseModel
             goto label1;
         }
     }
-    
+
     /**
      * @desc 根据ebay userid获取ebay用户信息
      * @param string $userid ebay用户ID
@@ -1679,7 +1780,7 @@ class EbayOtherInfoModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, $result);
         }
     }
-    
+
     /**
      * @desc 根据OrderID获取相关信息
      * @param string $ItemID ItemID
@@ -1789,7 +1890,7 @@ class EbayOtherInfoModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, $result);
         }
     }
-    
+
     /**
      * @desc 根据订单号获取相关信息
      * @param string $OrderLineItemID
@@ -1820,7 +1921,7 @@ class EbayOtherInfoModel extends BaseModel
             'o.ShippingDetailsXML',
             'o.CreatedTime',
             'o.SellerEmail',
-//             'o.ShippingAddressXML',
+            // 'o.ShippingAddressXML',
             'o.ShippingService',
             'o.ShippingServiceCost',
             'o.ShippingServiceCost_currencyID',
@@ -1905,20 +2006,23 @@ class EbayOtherInfoModel extends BaseModel
             $result['ShippingServiceDetails'] = EbayShippingServiceDetailsDAO::getInstance()->iselect($columns, $conditions, $params, false);
             
             foreach ($result['Trans'] as $_key => $_val) {
-                $result['Trans'][$_key]['ShippingServiceSelectedXML'] = XML2Array::createArray('<xml>' . $result['Trans'][$_key]['ShippingServiceSelectedXML'] . '</xml>');
+                $result['Trans'][$_key]['ShippingServiceSelectedXML'] = XML2Array::createArray(
+                    '<xml>' . $result['Trans'][$_key]['ShippingServiceSelectedXML'] . '</xml>');
                 if (! empty($result['Trans'][$_key]['ShippingDetailsXML'])) {
-                    $result['Trans'][$_key]['ShippingDetailsXML'] = XML2Array::createArray('<xml>' . $result['Trans'][$_key]['ShippingDetailsXML'] . '</xml>');
+                    $result['Trans'][$_key]['ShippingDetailsXML'] = XML2Array::createArray(
+                        '<xml>' . $result['Trans'][$_key]['ShippingDetailsXML'] . '</xml>');
                 }
                 // guest email hide
                 if (Yii::app()->session['userInfo']['user_id'] == 99999) {
                     if (isset($result['Trans'][$_key]['ShippingDetailsXML']['xml']['ShipmentTrackingDetails']['ShipmentTrackingNumber'])) {
-                        $result['Trans'][$_key]['ShippingDetailsXML']['xml']['ShipmentTrackingDetails']['ShipmentTrackingNumber'] = preg_replace('/(.*).{4}/', '$1****', 
+                        $result['Trans'][$_key]['ShippingDetailsXML']['xml']['ShipmentTrackingDetails']['ShipmentTrackingNumber'] = preg_replace(
+                            '/(.*).{4}/', '$1****', 
                             $result['Trans'][$_key]['ShippingDetailsXML']['xml']['ShipmentTrackingDetails']['ShipmentTrackingNumber']);
                     }
                 }
             }
             
-//             $result['ShippingAddressXML'] = XML2Array::createArray('<xml>' . $result['ShippingAddressXML'] . '</xml>');
+            // $result['ShippingAddressXML'] = XML2Array::createArray('<xml>' . $result['ShippingAddressXML'] . '</xml>');
             if (! empty($result['ShippingDetailsXML'])) {
                 $result['ShippingDetailsXML'] = XML2Array::createArray('<xml>' . $result['ShippingDetailsXML'] . '</xml>');
             }
@@ -1939,7 +2043,7 @@ class EbayOtherInfoModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, $result);
         }
     }
-    
+
     /**
      * @desc 根据UserId获取orders
      * @param string $BuyerUserID
@@ -1964,7 +2068,7 @@ class EbayOtherInfoModel extends BaseModel
             'Status',
             'CreatedTime',
             'SellerEmail',
-//             'ShippingAddressXML',
+            // 'ShippingAddressXML',
             'ShippingService',
             'ShippingServiceCost',
             'ShippingServiceCost_currencyID',
@@ -2007,7 +2111,7 @@ class EbayOtherInfoModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, $result);
         }
     }
-    
+
     /**
      * @desc 根据UserId获取orders
      * @param string $BuyerUserID
@@ -2083,7 +2187,7 @@ class EbayOtherInfoModel extends BaseModel
             'a.Street1',
             'a.Street2',
             'a.AddressAttributeXML',
-            's.nick_name',
+            's.nick_name'
         );
         if (! empty($EIASToken)) {
             $conditions = 'o.EIASToken=:EIASToken';
@@ -2159,7 +2263,7 @@ class EbayOtherInfoModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, $result);
         }
     }
-    
+
     /**
      * @desc 获取并更新物流服务枚举信息
      * @author YangLong
@@ -2231,7 +2335,7 @@ class EbayOtherInfoModel extends BaseModel
             }
         }
     }
-    
+
     /**
      * @desc 根据ItemID获取备注信息
      * @param unknown $itemId
@@ -2263,7 +2367,7 @@ class EbayOtherInfoModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $result);
         }
     }
-    
+
     /**
      * @desc 获取用户地址信息
      * @param string $userId
@@ -2309,7 +2413,7 @@ class EbayOtherInfoModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $result);
         }
     }
-    
+
     /**
      * @desc 根据ExtTransID获取地址
      * @param string $TransactionID
@@ -2401,7 +2505,7 @@ class EbayOtherInfoModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $result);
         }
     }
-    
+
     /**
      * @desc 获取eBay Item的listting状态
      * @param string $itemId
@@ -2430,7 +2534,7 @@ class EbayOtherInfoModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $result);
         }
     }
-    
+
     /**
      * @desc 获取国家列表
      * @author liaojianwen
@@ -2447,7 +2551,7 @@ class EbayOtherInfoModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '读取国家列表失败');
         }
     }
-    
+
     /**
      * @desc 获取格式化的GMT时间
      * @param int $date
@@ -2457,9 +2561,9 @@ class EbayOtherInfoModel extends BaseModel
      */
     private function fmtDate($date)
     {
-        return gmdate('Y-m-d\TH:i:s\Z',$date);
+        return gmdate('Y-m-d\TH:i:s\Z', $date);
     }
-    
+
     /**
      * @desc 获取用户信息
      * @param string $token
@@ -2503,34 +2607,37 @@ class EbayOtherInfoModel extends BaseModel
         $responseXml = $session->sendHttpRequest($requestXmlBody);
         
         if (stripos($responseXml, '<Ack>Failure</Ack>')) {
-            iMongo::getInstance()->setCollection('eBayGetAccountFailure')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'time' => time(),
-                'times' => 1
-            ));
+            iMongo::getInstance()->setCollection('eBayGetAccountFailure')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'time' => time(),
+                    'times' => 1
+                ));
             sleep(1);
             $responseXml = $session->sendHttpRequest($requestXmlBody);
         }
         
         if (stripos($responseXml, '<Ack>Failure</Ack>')) {
-            iMongo::getInstance()->setCollection('eBayGetAccountFailure')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'time' => time(),
-                'times' => 2
-            ));
+            iMongo::getInstance()->setCollection('eBayGetAccountFailure')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'time' => time(),
+                    'times' => 2
+                ));
             sleep(1);
             $responseXml = $session->sendHttpRequest($requestXmlBody);
         }
         
         if (! XMLTool::IsXML($responseXml)) {
-            iMongo::getInstance()->setCollection('eBayGetAccountBadXML')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'tryCount' => $tryCount,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection('eBayGetAccountBadXML')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'tryCount' => $tryCount,
+                    'time' => time()
+                ));
             if ($tryCount < 10) {
                 $tryCount ++;
                 goto label1;
@@ -2538,16 +2645,17 @@ class EbayOtherInfoModel extends BaseModel
             return false;
         }
         
-        iMongo::getInstance()->setCollection('eBayGetAccount')->insert(array(
-            'requestXmlBody' => $requestXmlBody,
-            'responseXml' => $responseXml,
-            'tryCount' => $tryCount,
-            'time' => time()
-        ));
+        iMongo::getInstance()->setCollection('eBayGetAccount')->insert(
+            array(
+                'requestXmlBody' => $requestXmlBody,
+                'responseXml' => $responseXml,
+                'tryCount' => $tryCount,
+                'time' => time()
+            ));
         
         return $responseXml;
     }
-    
+
     /**
      * @desc 语义分析消息内容读取接口
      * @param string $ModTimeFrom
@@ -2598,7 +2706,7 @@ class EbayOtherInfoModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $result);
         }
     }
-    
+
     /**
      * @desc 发送统计信息
      * @author YangLong
@@ -2662,7 +2770,8 @@ class EbayOtherInfoModel extends BaseModel
         $params = array(
             ':create_time' => time() - 3600 * 24
         );
-        $msgouts = MsgReplyLogDAO::getInstance()->iselect($columns, $conditions, $params, true, array(), '', '', 0, null, '', $groups = 'action_username');
+        $msgouts = MsgReplyLogDAO::getInstance()->iselect($columns, $conditions, $params, true, array(), '', '', 0, null, '', 
+            $groups = 'action_username');
         foreach ($msgouts as $value) {
             echo "{$value['action_username']}:{$value['count']}, ";
         }
@@ -2756,5 +2865,4 @@ class EbayOtherInfoModel extends BaseModel
         $to = Yii::app()->params['tongji'];
         SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
     }
-    
 }

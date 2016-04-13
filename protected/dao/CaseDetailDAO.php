@@ -34,7 +34,7 @@ class CaseDetailDAO extends BaseDAO
         $this->created = 'create_time';
         $this->case = 'case';
     }
-    
+
     /**
      * @desc 获取买家发起case的详细内容
      * @param caseid  case的id
@@ -75,5 +75,4 @@ class CaseDetailDAO extends BaseDAO
         unset($result['shop_id']);
         return $result;
     }
-    
 }

@@ -7,8 +7,9 @@
  */
 class DisputeMsgDAO extends BaseDAO
 {
-    
-    private $shop;// shop表名
+
+    private $shop;
+    // shop表名
     
     /**
      * @desc 对象实例重用
@@ -38,7 +39,7 @@ class DisputeMsgDAO extends BaseDAO
         
         $this->shop = 'shop';
     }
-    
+
     /**
      * @desc 获取卖家发起cancel dispute的历史对话
      * @param disputeid  dispute的id
@@ -47,7 +48,8 @@ class DisputeMsgDAO extends BaseDAO
      * @return resultArr
      * @date 2015-04-08
      */
-    public function getCancelDisputeMessage($disputeid,$shopId){
+    public function getCancelDisputeMessage($disputeid, $shopId)
+    {
         $selects = 'a.disputes_id,a.MessageCreationTime,a.MessageSource,a.MessageText';
         $condition = "b.shop_id in ({$shopId}) and a.disputes_id={$disputeid}";
         $this->dbCommand->reset();

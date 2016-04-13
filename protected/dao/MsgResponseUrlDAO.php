@@ -34,5 +34,4 @@ class MsgResponseUrlDAO extends BaseDAO
         // $this->created = 'create_time';
         // $this->updated = 'update_time';
     }
-
 }

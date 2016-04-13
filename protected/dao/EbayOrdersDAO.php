@@ -34,7 +34,7 @@ class EbayOrdersDAO extends BaseDAO
         $this->created = 'create_time';
         $this->shop = 'shop';
     }
-    
+
     /**
      * @desc 获取退款信息
      * @param string  $orderId_id
@@ -42,37 +42,55 @@ class EbayOrdersDAO extends BaseDAO
      * @author liaojianwen
      * @date 2015-07-17
      */
-    public function getOrdersRefund($orderId_id,$sellerId)
+    public function getOrdersRefund($orderId_id, $sellerId)
     {
-       $refund = array();
+        $refund = array();
         $conditions = "o.OrderID='{$orderId_id}' and s.seller_id = {$sellerId}";
-    	$result = $this->dbCommand->reset()
-    	            ->select('MonetaryDetailsXML')
-    	            ->from("{$this->tableName} o")
-    	            ->join("{$this->shop} s","o.shop_id = s.shop_id")
-    	            ->where($conditions)
-    	            ->queryScalar();
-    	            
-    	            $doc = phpQuery::newDocumentXML($result);
-                    phpQuery::selectDocument($doc);
-                    $refund_length = $doc['>Refunds>Refund']->length();
-                    $_refund = $doc['>Refunds>Refund'];
-                    for ($j=0; $j < $refund_length; $j++){
-                      $refund[] = array(
-                            'RefundStatus'=>$_refund->eq($j)->find('>RefundStatus')->html(),
-                            'RefundType'=>$_refund->eq($j)->find('>RefundType')->html(),
-                            'RefundTo'=>$_refund->eq($j)->find('>RefundTo')->html(),
-                            'RefundTime'=>strtotime($_refund->eq($j)->find('>RefundTime')->html()),
-                            'RefundAmount'=>$_refund->eq($j)->find('>RefundAmount')->html(),
-                            'RcurrencyID'=>$_refund->eq($j)->find('>RefundAmount')->attr('currencyID'),
-                            'ReferenceID'=>$_refund->eq($j)->find('>ReferenceID')->html(),
-                            'FeeOrCreditAmount'=>$_refund->eq($j)->find('>FeeOrCreditAmount')->html(),
-                            'FcurrencyID'=>$_refund->eq($j)->find('>FeeOrCreditAmount')->attr('currencyID')
-                        );
-                    }
-         return $refund;
+        $result = $this->dbCommand->reset()
+            ->select('MonetaryDetailsXML')
+            ->from("{$this->tableName} o")
+            ->join("{$this->shop} s", "o.shop_id = s.shop_id")
+            ->where($conditions)
+            ->queryScalar();
+        
+        $doc = phpQuery::newDocumentXML($result);
+        phpQuery::selectDocument($doc);
+        $refund_length = $doc['>Refunds>Refund']->length();
+        $_refund = $doc['>Refunds>Refund'];
+        for ($j = 0; $j < $refund_length; $j ++) {
+            $refund[] = array(
+                'RefundStatus' => $_refund->eq($j)
+                    ->find('>RefundStatus')
+                    ->html(),
+                'RefundType' => $_refund->eq($j)
+                    ->find('>RefundType')
+                    ->html(),
+                'RefundTo' => $_refund->eq($j)
+                    ->find('>RefundTo')
+                    ->html(),
+                'RefundTime' => strtotime($_refund->eq($j)
+                    ->find('>RefundTime')
+                    ->html()),
+                'RefundAmount' => $_refund->eq($j)
+                    ->find('>RefundAmount')
+                    ->html(),
+                'RcurrencyID' => $_refund->eq($j)
+                    ->find('>RefundAmount')
+                    ->attr('currencyID'),
+                'ReferenceID' => $_refund->eq($j)
+                    ->find('>ReferenceID')
+                    ->html(),
+                'FeeOrCreditAmount' => $_refund->eq($j)
+                    ->find('>FeeOrCreditAmount')
+                    ->html(),
+                'FcurrencyID' => $_refund->eq($j)
+                    ->find('>FeeOrCreditAmount')
+                    ->attr('currencyID')
+            );
+        }
+        return $refund;
     }
-    
+
     /**
      * @desc 获取订单信息列表 
      * @param int $page
@@ -82,7 +100,7 @@ class EbayOrdersDAO extends BaseDAO
      * @author liaojianwen
      * @date 2015-10-31
      */
-    public function getUpaidOrderList($page,$pageSize,$cust,$shopId)
+    public function getUpaidOrderList($page, $pageSize, $cust, $shopId)
     {
         $limit = $pageSize;
         $offset = ($page - 1) * $limit;
@@ -90,9 +108,9 @@ class EbayOrdersDAO extends BaseDAO
             o.ShippingService,o.ShippingServiceCost,o.ShippingServiceCost_currencyID,o.AdjustmentAmount,o.AdjustmentAmount_currencyID,
             o.Total,o.Total_currencyID,t.QuantityPurchased,t.TransactionPrice,t.TransactionPrice_currencyID,t.VariationSpecificsXML,t.ProductName,
             l.gallery_url,s.nick_name,l.item_id,l.title,i.send_count,i.last_send_time,s.site_id';
-        $time_range = time() - 30*24*60*60;
+        $time_range = time() - 30 * 24 * 60 * 60;
         $conditions = "o.OrderStatus =:status and o.shop_id in ({$shopId})";
-       
+        
         $params = array(
             ':status' => 'Active'
         );
@@ -106,7 +124,7 @@ class EbayOrdersDAO extends BaseDAO
             ->join("ebay_order_transaction t", "o.ebay_orders_id = t.ebay_orders_id")
             ->join("ebay_listing l", "l.item_id = t.Item_ItemID")
             ->join("shop s", "s.shop_id = o.shop_id")
-            ->leftJoin("invoices_count i","i.ebay_orders_id = o.ebay_orders_id")
+            ->leftJoin("invoices_count i", "i.ebay_orders_id = o.ebay_orders_id")
             ->where($conditions, $params)
             ->andWhere("o.CreatedTime > '{$time_range}'")
             ->order('o.CreatedTime DESC')
@@ -137,9 +155,8 @@ class EbayOrdersDAO extends BaseDAO
             'pagesize' => $pageSize
         );
         return $result;
-        
     }
-    
+
     /**
      * @desc 获取订单明细
      * @param string $order_Id 订单ID
@@ -153,16 +170,15 @@ class EbayOrdersDAO extends BaseDAO
             o.Total,o.Total_currencyID,t.VariationSpecificsXML,t.ProductName,o.ShippingDetailsXML,o.ShippingService';
         $conditions = "o.OrderID=:orderid";
         $params = array(
-            ':orderid'=>$order_Id
+            ':orderid' => $order_Id
         );
         $result = $this->dbCommand->reset()
             ->select($selections)
             ->from("ebay_orders o")
             ->join("ebay_order_transaction t", "o.ebay_orders_id = t.ebay_orders_id ")
-            ->where($conditions,$params)
+            ->where($conditions, $params)
             ->order('t.CreatedDate DESC')
             ->queryAll();
         return $result;
-        
     }
 }

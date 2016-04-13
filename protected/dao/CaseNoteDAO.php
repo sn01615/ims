@@ -7,7 +7,7 @@
  */
 class CaseNoteDAO extends BaseDAO
 {
-    
+
     /**
      * @desc 对象实例重用
      * @param string $className 需要实例化的类名
@@ -19,7 +19,7 @@ class CaseNoteDAO extends BaseDAO
     {
         return parent::createInstance($className);
     }
-    
+
     /**
      * @desc 构造方法
      * @author lvjianfei
@@ -34,5 +34,4 @@ class CaseNoteDAO extends BaseDAO
         $this->created = 'create_time';
         $this->case = 'case';
     }
-    
 }

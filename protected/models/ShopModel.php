@@ -44,7 +44,7 @@ class ShopModel extends BaseModel
         }
         return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $result);
     }
-    
+
     /**
      * @desc 删除店铺
      * @param string $sids
@@ -120,7 +120,7 @@ class ShopModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_FAILURE);
         }
     }
-    
+
     /**
      * @desc 显示站点列表
      * @author liaojianwen
@@ -146,13 +146,13 @@ class ShopModel extends BaseModel
         } else {
             $result['status'] = 'false';
         }
-        $siteId = isset(Yii::app()->session['switchInfo']['siteId']) ? Yii::app()->session['switchInfo']['siteId'] : -1;
+        $siteId = isset(Yii::app()->session['switchInfo']['siteId']) ? Yii::app()->session['switchInfo']['siteId'] : - 1;
         if ($siteId >= 0) {
             $result['current'] = $siteId;
         }
         return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $result);
     }
-    
+
     /**
      * @desc 获取当前用户店铺列表(用于添加case)
      * @author lvjianfei
@@ -161,13 +161,13 @@ class ShopModel extends BaseModel
      */
     public function getShopName()
     {
-    	$result['list'] = ShopDAO::getInstance()->getShopName();
-    	if(empty($result['list'])){
-    		return $this->handleApiFormat(EnumOther::ACK_FAILURE,'','获取店铺名失败');
-    	}
-    	return $this->handleApiFormat(EnumOther::ACK_SUCCESS,$result,'');
+        $result['list'] = ShopDAO::getInstance()->getShopName();
+        if (empty($result['list'])) {
+            return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '获取店铺名失败');
+        }
+        return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $result, '');
     }
-    
+
     /**
      * @desc 编辑店铺别名
      * @param number $sellerId
@@ -212,7 +212,7 @@ class ShopModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '保存失败');
         }
     }
-    
+
     /**
      * @desc 获取用户对应店铺
      * @param int $shopId
@@ -254,7 +254,7 @@ class ShopModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_WARNING, $result);
         }
     }
-    
+
     /**
      * @desc 设置店铺对应的用户
      * @param array $set
@@ -319,7 +319,7 @@ class ShopModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', 'input data err');
         }
     }
-    
+
     /**
      * @desc 设置用户对应的店铺
      * @param array $set
@@ -384,7 +384,7 @@ class ShopModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', 'input data err');
         }
     }
-    
+
     /**
      * @desc 获取店铺所属的用户信息
      * @param int $userId
@@ -440,5 +440,4 @@ class ShopModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_WARNING, $result);
         }
     }
-    
 }

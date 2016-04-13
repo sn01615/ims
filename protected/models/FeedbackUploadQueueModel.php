@@ -1,10 +1,10 @@
 <?php
 
 /**
-* @desc feedback处理上传类
-* @author liaojianwen
-* @date 2015-08-28
-*/
+ * @desc feedback处理上传类
+ * @author liaojianwen
+ * @date 2015-08-28
+ */
 class FeedbackUploadQueueModel extends BaseModel
 {
 
@@ -19,7 +19,7 @@ class FeedbackUploadQueueModel extends BaseModel
     {
         return parent::model($className);
     }
-    
+
     /**
      * @desc feedback 处理
      * @author liaojianwen
@@ -28,21 +28,21 @@ class FeedbackUploadQueueModel extends BaseModel
     public function executeFeedbackUpload()
     {
         DaemonLockTool::lock(__METHOD__);
-    
+        
         $startTime = time();
         label1:
-    
+        
         $Queues = FeedbackUploadQueueDAO::getInstance()->getFeedbackUploadQueueData(EnumOther::FEEDBACK_UPLOAD_PICK_SIZE);
         if ($Queues !== false && is_array($Queues)) {
             foreach ($Queues as $key => $Queue) {
                 switch ($Queue['upload_type']) {
                     case 'responseFeedback':
-    
+                        
                         // response feedback
                         $result = $this->responseFeedback($Queue);
                         break;
                 }
-    
+                
                 if (isset($result) && $result !== false) {
                     $conditions = 'feedback_upload_queue_id=:feedback_upload_queue_id';
                     $params = array(
@@ -59,9 +59,8 @@ class FeedbackUploadQueueModel extends BaseModel
             }
             return false;
         }
-    
     }
-    
+
     /**
      * @desc 处理回复feedback
      * @param array $Queue
@@ -80,12 +79,13 @@ class FeedbackUploadQueueModel extends BaseModel
         $result = FeedbackDownModel::model()->responseFeedback($token, $FeedbackID, $CommentUser, $responseText, $siteId);
         $res = json_decode($result, true);
         if ($res['ackValue'] === 'SUCCESS') {
-            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
-                'type' => 'Success',
-                'Queue' => $Queue,
-                'json' => $result,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(
+                array(
+                    'type' => 'Success',
+                    'Queue' => $Queue,
+                    'json' => $result,
+                    'time' => time()
+                ));
             // 回复feedback通知
             ob_start();
             echo "apiResult：\n";
@@ -98,12 +98,13 @@ class FeedbackUploadQueueModel extends BaseModel
             SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
             return $Queue['feedback_upload_queue_id'];
         } else {
-            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
-                'type' => 'Err',
-                'Queue' => $Queue,
-                'json' => $result,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(
+                array(
+                    'type' => 'Err',
+                    'Queue' => $Queue,
+                    'json' => $result,
+                    'time' => time()
+                ));
             // 回复feedback通知
             ob_start();
             echo "apiResult：\n";
@@ -117,5 +118,4 @@ class FeedbackUploadQueueModel extends BaseModel
             return false;
         }
     }
-    
 }

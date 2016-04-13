@@ -46,7 +46,7 @@ class HomeController extends Controller
         $this->assign('langlist', $langlist);
         $this->display('index.html');
     }
-    
+
     /**
      * @desc 信息列表页
      * @author YangLong
@@ -61,7 +61,7 @@ class HomeController extends Controller
         $this->assignLangInfo('msglist');
         $this->display('msglist.html');
     }
-    
+
     /**
      * @desc 回复模版列表
      * @author YangLong
@@ -72,11 +72,11 @@ class HomeController extends Controller
         if (! $this->checklogin(ActionsEnum::PUBLIC_READ)) {
             Yii::app()->request->redirect('?r=Home/Login');
         }
-
+        
         $this->assignLangInfo('replytp');
         $this->display('replytp.html');
     }
-	
+
     /**
      * @desc 店铺列表
      * @author YangLong
@@ -91,7 +91,7 @@ class HomeController extends Controller
         $this->assignLangInfo('shopset');
         $this->display('shopset.html');
     }
-	
+
     /**
      * @desc 客户管理
      * @author YangLong
@@ -102,11 +102,11 @@ class HomeController extends Controller
         if (! $this->checklogin(ActionsEnum::PUBLIC_READ)) {
             Yii::app()->request->redirect('?r=Home/Login');
         }
-
+        
         $this->assignLangInfo('cusmanage');
         $this->display('cusmanage.html');
     }
-	
+
     /**
      * @desc 客户管理详情
      * @author YangLong
@@ -121,7 +121,7 @@ class HomeController extends Controller
         $this->assignLangInfo('cusdet');
         $this->display('cusdet.html');
     }
-    
+
     /**
      * @desc 配置管理页面
      * @author YangLong
@@ -136,7 +136,7 @@ class HomeController extends Controller
         $this->assignLangInfo('sellerconfig');
         $this->display('sellerconfig.html');
     }
-    
+
     /**
      * @desc SKU导入和管理页面
      * @author YangLong
@@ -151,7 +151,7 @@ class HomeController extends Controller
         $this->assignLangInfo('skumatch');
         $this->display('skumatch.html');
     }
-    
+
     /**
      * @desc 登录界面
      * @author liaojianwen
@@ -165,7 +165,7 @@ class HomeController extends Controller
         $this->assignLangInfo('login');
         $this->display('login.html');
     }
-    
+
     /**
      * @desc 用户列表
      * @author heguangquan
@@ -180,7 +180,7 @@ class HomeController extends Controller
         $this->assignLangInfo('usermanage');
         $this->display('usermanage.html');
     }
-    
+
     /**
      * @desc 信息详情页
      * @author heguangquan
@@ -199,7 +199,7 @@ class HomeController extends Controller
         $this->assignLangInfo('msgdetail');
         $this->display('msgdetail.html');
     }
-    
+
     /**
      * @desc case列表页面
      * @author lvjianfei
@@ -214,7 +214,7 @@ class HomeController extends Controller
         $this->assignLangInfo('disputeList');
         $this->display('disputeList.html');
     }
-    
+
     /**
      * @desc case详细页面
      * @author lvjianfei
@@ -229,7 +229,7 @@ class HomeController extends Controller
         $this->assignLangInfo('disputeDet');
         $this->display('disputeDet.html');
     }
-    
+
     /**
      * @desc 用户注册页面
      * @author heguangquan
@@ -240,7 +240,7 @@ class HomeController extends Controller
         $this->assignLangInfo('register');
         $this->display('register.html');
     }
-    
+
     /**
      * @desc return 列表页面
      * @author liaojianwen
@@ -254,7 +254,7 @@ class HomeController extends Controller
         $this->assignLangInfo('returnlist');
         $this->display('returnlist.html');
     }
-    
+
     /**
      * @desc return 详情页面
      * @author liaojianwen
@@ -268,7 +268,7 @@ class HomeController extends Controller
         $this->assignLangInfo('returndet');
         $this->display('returndet.html');
     }
-    
+
     /**
      * @desc FeedbackList
      * @author liaojianwen
@@ -283,7 +283,7 @@ class HomeController extends Controller
         $this->assignLangInfo('feedbacklist');
         $this->display('feedbacklist.html');
     }
-    
+
     /**
      * @desc urgepay
      * @author liaojianwen
@@ -291,7 +291,7 @@ class HomeController extends Controller
      */
     public function actionUrgePay()
     {
-        if(! $this->checklogin(ActionsEnum::URGEPAY_READ)){
+        if (! $this->checklogin(ActionsEnum::URGEPAY_READ)) {
             Yii::app()->request->redirect('?r=Home/Login');
         }
         $this->assignLangInfo('urgepay');

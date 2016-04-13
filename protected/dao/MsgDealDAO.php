@@ -15,9 +15,9 @@ class MsgDealDAO extends BaseDAO
     private $msg_tp_class;
 
     private $msg_tp_list;
-    
+
     private $msg_text;
-    
+
     private $msg_content;
 
     /**
@@ -162,7 +162,8 @@ class MsgDealDAO extends BaseDAO
         foreach ($result as $_key => $_value) {
             // 别名
             $result[$_key]['Sender'] = str_ireplace($result[$_key]['account'], $result[$_key]['nick_name'], $result[$_key]['Sender']);
-            $result[$_key]['RecipientUserID'] = str_ireplace($result[$_key]['account'], $result[$_key]['nick_name'], $result[$_key]['RecipientUserID']);
+            $result[$_key]['RecipientUserID'] = str_ireplace($result[$_key]['account'], $result[$_key]['nick_name'], 
+                $result[$_key]['RecipientUserID']);
             $result[$_key]['SendToName'] = str_ireplace($result[$_key]['account'], $result[$_key]['nick_name'], $result[$_key]['SendToName']);
             $result[$_key]['Subject'] = str_ireplace($result[$_key]['account'], $result[$_key]['nick_name'], $result[$_key]['Subject']);
             unset($result[$_key]['account']);
@@ -198,7 +199,7 @@ class MsgDealDAO extends BaseDAO
             'page' => $pageInfo
         );
     }
-    
+
     /**
      * @desc 查询待处理数
      * @param string $express 查询条件
@@ -223,7 +224,7 @@ class MsgDealDAO extends BaseDAO
             ->queryColumn();
         return $res;
     }
-    
+
     /**
      * @desc 添加模板分类
      * @param string $classname 模板类名称         
@@ -295,7 +296,7 @@ class MsgDealDAO extends BaseDAO
         }
         return $data;
     }
-    
+
     /**
      * @desc 模板分类的编辑和添加
      * @param int $cid 分类ID
@@ -361,7 +362,7 @@ class MsgDealDAO extends BaseDAO
         }
         return $result;
     }
-    
+
     /**
      * @desc 模板分类的移动
      * @param int $cid 分类ID
@@ -400,7 +401,7 @@ class MsgDealDAO extends BaseDAO
             ->queryRow();
         return $result;
     }
-    
+
     /**
      * @desc 根据消息ID获取token
      * @param string $mids 信息ID
@@ -510,7 +511,7 @@ class MsgDealDAO extends BaseDAO
         $result = CInputFilter::norepeatInts($result);
         return $result;
     }
-    
+
     /**
      * @desc 从数组里递归获取子类ID
      * @param array $all
@@ -529,7 +530,7 @@ class MsgDealDAO extends BaseDAO
         }
         return $result;
     }
-    
+
     /**
      * @desc 删除模板列表
      * @param string $tpId 删除模板的ID
@@ -547,7 +548,7 @@ class MsgDealDAO extends BaseDAO
         ), "tp_list_id in (" . $tid . ")");
         return $result;
     }
-	
+
     /**
      * @desc 添加模板信息
      * @param int $pid 父ID
@@ -614,24 +615,26 @@ class MsgDealDAO extends BaseDAO
         // 新建分类
         if (! empty($className)) {
             $this->dbCommand->reset();
-            $this->dbCommand->insert($this->msg_tp_class, array(
-                'seller_id' => $sellerId,
-                'classname' => $className,
-                'pid' => $classId,
-                'update_time' => time(),
-                'create_time' => time()
-            ));
+            $this->dbCommand->insert($this->msg_tp_class, 
+                array(
+                    'seller_id' => $sellerId,
+                    'classname' => $className,
+                    'pid' => $classId,
+                    'update_time' => time(),
+                    'create_time' => time()
+                ));
             $classId = $this->dbConnection->getLastInsertID();
         }
         // 插入,$tpId==='0'时,新建一条记录
         if (empty($tpId)) {
             $this->dbCommand->reset();
-            $result['status'] = $this->dbCommand->insert($this->msg_tp_list, array(
-                'class_id' => $classId,
-                'title' => $title,
-                'content' => $content,
-                'update_time' => time()
-            ));
+            $result['status'] = $this->dbCommand->insert($this->msg_tp_list, 
+                array(
+                    'class_id' => $classId,
+                    'title' => $title,
+                    'content' => $content,
+                    'update_time' => time()
+                ));
             $params = array(
                 ':tp_list_id' => $this->dbConnection->getLastInsertID()
             );
@@ -646,7 +649,8 @@ class MsgDealDAO extends BaseDAO
             $this->dbCommand->reset();
             $p = $this->dbCommand->select('tp_list_id')
                 ->from("{$this->msg_tp_list} l")
-                ->join("{$this->msg_tp_class} c", 'l.class_id=c.tp_class_id and c.seller_id=:seller_id', array(
+                ->join("{$this->msg_tp_class} c", 'l.class_id=c.tp_class_id and c.seller_id=:seller_id', 
+                array(
                     ':seller_id' => $sellerId
                 ))
                 ->queryScalar();
@@ -695,14 +699,15 @@ class MsgDealDAO extends BaseDAO
         return $this->dbCommand->select('t.tp_list_id,t.class_id,t.title,t.content,tc.classname')
             ->from("{$this->msg_tp_list} t")
             ->join("{$this->msg_tp_class} tc", 't.class_id=tc.tp_class_id')
-            ->where('tc.seller_id=:seller_id and t.tp_list_id=:tp_list_id', array(
+            ->where('tc.seller_id=:seller_id and t.tp_list_id=:tp_list_id', 
+            array(
                 ':seller_id' => $sellerId,
                 ':tp_list_id' => $tpId
             ))
             ->limit(1)
             ->queryRow();
     }
-    
+
     /**
      * @desc 获取模板明细
      * @param int $tid  模板主键
@@ -723,8 +728,8 @@ class MsgDealDAO extends BaseDAO
             ->from($tpList)
             ->join($tpClass, "{$tpClass}.tp_class_id = {$tpList}.class_id")
             ->where('tp_list_id=:listId', array(
-                ':listId' => $tid
-            ))
+            ':listId' => $tid
+        ))
             ->queryAll();
         $resultArr = array_pop($result);
         $record['pid'] = $resultArr['pid'];
@@ -736,8 +741,8 @@ class MsgDealDAO extends BaseDAO
             $record = $this->dbCommand->select('classname,pid')
                 ->from($tpClass)
                 ->where('tp_class_id=:classId', array(
-                    ':classId' => $record['pid']
-                ))
+                ':classId' => $record['pid']
+            ))
                 ->queryAll();
             $recordCount = count($record);
             $record = array_pop($record);
@@ -791,7 +796,7 @@ class MsgDealDAO extends BaseDAO
             ->where("msg_id in ($mids)")
             ->queryAll();
     }
-    
+
     /**
      * @desc 获取内容页上一封及下一封信息的ID
      * @param int $receiveDate 接收时间
@@ -839,7 +844,7 @@ class MsgDealDAO extends BaseDAO
         }
         return $resultArr;
     }
-    
+
     /**
      * @desc 获取用户关联的消息
      * @param string $buyerId
@@ -848,9 +853,9 @@ class MsgDealDAO extends BaseDAO
      * @date 2015-09-25
      * @return Ambigous <multitype:, mixed>
      */
-    public function getMsgListByClientId($buyerId,$shopId,$page,$pageSize)
+    public function getMsgListByClientId($buyerId, $shopId, $page, $pageSize)
     {
-        $limit = $pageSize=5;
+        $limit = $pageSize = 5;
         $offset = ($page - 1) * $limit;
         $pageInfo['page'] = $page;
         $pageInfo['pageSize'] = $pageSize;

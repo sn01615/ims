@@ -7,7 +7,7 @@
  */
 class ReturnUploadModel extends BaseModel
 {
-    
+
     /**
      * @desc 覆盖父方法,返回此对象的(单)实例
      * @param string $className 需要实例化的类名
@@ -19,14 +19,14 @@ class ReturnUploadModel extends BaseModel
     {
         return parent::model($className);
     }
-    
+
     /**
      * @desc return 处理
      * @author liaojianwen
      * @date 2015-07-01
      */
-     public function executeReturnUpload()
-     {
+    public function executeReturnUpload()
+    {
         DaemonLockTool::lock(__METHOD__);
         
         $startTime = time();
@@ -89,30 +89,30 @@ class ReturnUploadModel extends BaseModel
             }
             return false;
         }
+    }
 
-     }
-     
-     /**
-      * @desc accept return
-      * @param array $Queue
-      * @author liaojianwen
-      * @date 2015-07-01
-      */
-     public function approveRequest($Queue)
-     {
+    /**
+     * @desc accept return
+     * @param array $Queue
+     * @author liaojianwen
+     * @date 2015-07-01
+     */
+    public function approveRequest($Queue)
+    {
         $uploadData = unserialize($Queue['upload_data']);
         $returnId_id = $uploadData['returnId_id'];
         $token = $Queue['token'];
         $result = ReturnDownModel::model()->acceptReturn($returnId_id, $token);
         $res = json_decode($result, true);
         if ($res['ackValue'] === 'SUCCESS') {
-            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
-                'type' => 'Success',
-                'Queue' => $Queue,
-                'uploadData'=>$uploadData,
-                'json' => $result,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(
+                array(
+                    'type' => 'Success',
+                    'Queue' => $Queue,
+                    'uploadData' => $uploadData,
+                    'json' => $result,
+                    'time' => time()
+                ));
             // 发送邮件通知
             ob_start();
             echo "apiResult：\n";
@@ -125,13 +125,14 @@ class ReturnUploadModel extends BaseModel
             SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
             return $Queue['return_upload_queue_id'];
         } else {
-            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
-                'type' => 'Err',
-                'Queue' => $Queue,
-                'uploadData'=>$uploadData,
-                'json' => $result,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(
+                array(
+                    'type' => 'Err',
+                    'Queue' => $Queue,
+                    'uploadData' => $uploadData,
+                    'json' => $result,
+                    'time' => time()
+                ));
             // 发送邮件通知
             ob_start();
             echo "apiResult：\n";
@@ -144,17 +145,16 @@ class ReturnUploadModel extends BaseModel
             SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
             return false;
         }
-     
-     }
-     
-     /**
-      * @desc 确认退货地址,提供RMA
-      * @param  array $Queue
-      * @author liaojianwen
-      * @date 2015-07-01
-      */
-     public function provideRMA($Queue)
-     {
+    }
+
+    /**
+     * @desc 确认退货地址,提供RMA
+     * @param  array $Queue
+     * @author liaojianwen
+     * @date 2015-07-01
+     */
+    public function provideRMA($Queue)
+    {
         $uploadData = unserialize($Queue['upload_data']);
         $returnId_id = $uploadData['returnId_id'];
         $RMA = $uploadData['RMA'];
@@ -163,13 +163,14 @@ class ReturnUploadModel extends BaseModel
         $result = ReturnDownModel::model()->provideRMA($returnId_id, $RMA, $returnAddr, $token);
         $res = json_decode($result, true);
         if ($res['ackValue'] === 'SUCCESS') {
-            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
-                'type' => 'Success',
-                'Queue' => $Queue,
-                'uploadData'=>$uploadData,
-                'json' => $result,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(
+                array(
+                    'type' => 'Success',
+                    'Queue' => $Queue,
+                    'uploadData' => $uploadData,
+                    'json' => $result,
+                    'time' => time()
+                ));
             // 发送邮件通知
             ob_start();
             echo "apiResult：\n";
@@ -182,13 +183,14 @@ class ReturnUploadModel extends BaseModel
             SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
             return $Queue['return_upload_queue_id'];
         } else {
-            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
-                'type' => 'Err',
-                'Queue' => $Queue,
-                'uploadData'=>$uploadData,
-                'json' => $result,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(
+                array(
+                    'type' => 'Err',
+                    'Queue' => $Queue,
+                    'uploadData' => $uploadData,
+                    'json' => $result,
+                    'time' => time()
+                ));
             // 发送邮件通知
             ob_start();
             echo "apiResult：\n";
@@ -201,33 +203,33 @@ class ReturnUploadModel extends BaseModel
             SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
             return false;
         }
-                 
-     }
-     
-     /**
-      * @desc return 退款
-      * @param unknown_type $Queue
-      * @author liaojianwen
-      * @date 2015-07-01
-      */
-     public function issueReturnRefund($Queue)
-     {
-         $uploadData = unserialize($Queue['upload_data']);
-         $returnId_id = $uploadData['returnId_id'];
-         $itemizedRefundDetail = $uploadData['itemRefundDetail'];
-         $token = $Queue['token'];
-       
-         $result = ReturnDownModel::model()->issueReturnRefund($returnId_id,$itemizedRefundDetail,$token);
-         $res = json_decode($result,true);
+    }
+
+    /**
+     * @desc return 退款
+     * @param unknown_type $Queue
+     * @author liaojianwen
+     * @date 2015-07-01
+     */
+    public function issueReturnRefund($Queue)
+    {
+        $uploadData = unserialize($Queue['upload_data']);
+        $returnId_id = $uploadData['returnId_id'];
+        $itemizedRefundDetail = $uploadData['itemRefundDetail'];
+        $token = $Queue['token'];
+        
+        $result = ReturnDownModel::model()->issueReturnRefund($returnId_id, $itemizedRefundDetail, $token);
+        $res = json_decode($result, true);
         if ($res['ackValue'] === 'SUCCESS') {
             iMemcache::getInstance()->set(md5('returnRefund' . $Queue['return_upload_queue_id']), 'success', 3600);
-            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
-                'type' => 'Success',
-                'Queue' => $Queue,
-                'uploadData'=>$uploadData,
-                'json' => $result,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(
+                array(
+                    'type' => 'Success',
+                    'Queue' => $Queue,
+                    'uploadData' => $uploadData,
+                    'json' => $result,
+                    'time' => time()
+                ));
             // 发送邮件通知
             ob_start();
             echo "apiResult：\n";
@@ -242,13 +244,14 @@ class ReturnUploadModel extends BaseModel
         } else {
             iMemcache::getInstance()->set(md5('returnRefund' . $Queue['return_upload_queue_id']), 'err', 3600);
             iMemcache::getInstance()->set(md5('returnRefund' . $Queue['return_upload_queue_id'] . 'result'), serialize($res), 3600);
-            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
-                'type' => 'Err',
-                'Queue' => $Queue,
-                'uploadData' => $uploadData,
-                'json' => $result,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(
+                array(
+                    'type' => 'Err',
+                    'Queue' => $Queue,
+                    'uploadData' => $uploadData,
+                    'json' => $result,
+                    'time' => time()
+                ));
             // 发送邮件通知
             ob_start();
             echo "apiResult：\n";
@@ -261,17 +264,16 @@ class ReturnUploadModel extends BaseModel
             SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
             return false;
         }
-     
-     }
-     
-     /**
-      * @desc return 部分退款
-      * @param $Queue
-      * @author liaojianwen
-      * @date 2015-07-02
-      */
-     public function issueReturnPartRefund($Queue)
-     {
+    }
+
+    /**
+     * @desc return 部分退款
+     * @param $Queue
+     * @author liaojianwen
+     * @date 2015-07-02
+     */
+    public function issueReturnPartRefund($Queue)
+    {
         $uploadData = unserialize($Queue['upload_data']);
         $returnId_id = $uploadData['returnId_id'];
         $amount = $uploadData['amount'];
@@ -283,13 +285,14 @@ class ReturnUploadModel extends BaseModel
         $res = json_decode($result, true);
         if ($res['ackValue'] === 'SUCCESS') {
             iMemcache::getInstance()->set(md5('returnPartRefund' . $Queue['return_upload_queue_id']), 'success', 3600);
-            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
-                'type' => 'Success',
-                'Queue' => $Queue,
-                'uploadData'=>$uploadData,
-                'json' => $result,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(
+                array(
+                    'type' => 'Success',
+                    'Queue' => $Queue,
+                    'uploadData' => $uploadData,
+                    'json' => $result,
+                    'time' => time()
+                ));
             // 发送邮件通知
             ob_start();
             echo "apiResult：\n";
@@ -304,13 +307,14 @@ class ReturnUploadModel extends BaseModel
         } else {
             iMemcache::getInstance()->set(md5('returnPartRefund' . $Queue['return_upload_queue_id']), 'err', 3600);
             iMemcache::getInstance()->set(md5('returnPartRefund' . $Queue['return_upload_queue_id'] . 'result'), serialize($res), 3600);
-            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
-                'type' => 'Err',
-                'Queue' => $Queue,
-                'uploadData'=>$uploadData,
-                'json' => $result,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(
+                array(
+                    'type' => 'Err',
+                    'Queue' => $Queue,
+                    'uploadData' => $uploadData,
+                    'json' => $result,
+                    'time' => time()
+                ));
             // 发送邮件通知
             ob_start();
             echo "apiResult：\n";
@@ -323,8 +327,7 @@ class ReturnUploadModel extends BaseModel
             SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
             return false;
         }
-     
-     }
+    }
 
     /**
      * @desc return 给客户发消息
@@ -344,13 +347,14 @@ class ReturnUploadModel extends BaseModel
         $res = json_decode($result, true);
         if ($res['ackValue'] === 'SUCCESS') {
             iMemcache::getInstance()->set(md5('returnMsg' . $Queue['return_upload_queue_id']), 'success', 3600);
-            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
-                'type' => 'Success',
-                'Queue' => $Queue,
-                'uploadData' => $uploadData,
-                'json' => $result,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(
+                array(
+                    'type' => 'Success',
+                    'Queue' => $Queue,
+                    'uploadData' => $uploadData,
+                    'json' => $result,
+                    'time' => time()
+                ));
             // 发送邮件通知
             ob_start();
             echo "apiResult：\n";
@@ -365,13 +369,14 @@ class ReturnUploadModel extends BaseModel
         } else {
             iMemcache::getInstance()->set(md5('returnMsg' . $Queue['return_upload_queue_id']), 'err', 3600);
             iMemcache::getInstance()->set(md5('returnMsg' . $Queue['return_upload_queue_id'] . 'result'), serialize($res), 3600);
-            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
-                'type' => 'Err',
-                'Queue' => $Queue,
-                'uploadData' => $uploadData,
-                'json' => $result,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(
+                array(
+                    'type' => 'Err',
+                    'Queue' => $Queue,
+                    'uploadData' => $uploadData,
+                    'json' => $result,
+                    'time' => time()
+                ));
             // 发送邮件通知
             ob_start();
             echo "apiResult：\n";
@@ -385,16 +390,15 @@ class ReturnUploadModel extends BaseModel
             return false;
         }
     }
-     
-     /**
-      * @desc return 申请ebay 介入
-      * @param  $Queue
-      * @author liaojianwen
-      * @date 2015-07-01
-      */
-     
-     public function askEbayforHelp($Queue)
-     {
+
+    /**
+     * @desc return 申请ebay 介入
+     * @param  $Queue
+     * @author liaojianwen
+     * @date 2015-07-01
+     */
+    public function askEbayforHelp($Queue)
+    {
         $uploadData = unserialize($Queue['upload_data']);
         $returnId_id = $uploadData['returnId_id'];
         $comments = $uploadData['text'];
@@ -405,13 +409,14 @@ class ReturnUploadModel extends BaseModel
         $res = json_decode($result, true);
         if ($res['ackValue'] === 'SUCCESS') {
             iMemcache::getInstance()->set(md5('returnEbayHelp' . $Queue['return_upload_queue_id']), 'success', 3600);
-            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
-                'type' => 'Success',
-                'Queue' => $Queue,
-                'uploadData'=>$uploadData,
-                'json' => $result,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(
+                array(
+                    'type' => 'Success',
+                    'Queue' => $Queue,
+                    'uploadData' => $uploadData,
+                    'json' => $result,
+                    'time' => time()
+                ));
             // 发送邮件通知
             ob_start();
             echo "apiResult：\n";
@@ -426,13 +431,14 @@ class ReturnUploadModel extends BaseModel
         } else {
             iMemcache::getInstance()->set(md5('returnEbayHelp' . $Queue['return_upload_queue_id']), 'err', 3600);
             iMemcache::getInstance()->set(md5('returnEbayHelp' . $Queue['return_upload_queue_id'] . 'result'), serialize($res), 3600);
-            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
-                'type' => 'Err',
-                'Queue' => $Queue,
-                'uploadData'=>$uploadData,
-                'json' => $result,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(
+                array(
+                    'type' => 'Err',
+                    'Queue' => $Queue,
+                    'uploadData' => $uploadData,
+                    'json' => $result,
+                    'time' => time()
+                ));
             // 发送邮件通知
             ob_start();
             echo "apiResult：\n";
@@ -445,18 +451,17 @@ class ReturnUploadModel extends BaseModel
             SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
             return false;
         }
-     
-     }
-     
-     /**
-      * @desc decline request
-      * @author liaojianwen
-      * @date 2015-08-10
-      * @param string $Queue
-      * @return unknown|boolean
-      */
-     public function declineRequest($Queue)
-     {
+    }
+
+    /**
+     * @desc decline request
+     * @author liaojianwen
+     * @date 2015-08-10
+     * @param string $Queue
+     * @return unknown|boolean
+     */
+    public function declineRequest($Queue)
+    {
         $uploadData = unserialize($Queue['upload_data']);
         $returnId_id = $uploadData['returnId_id'];
         $comments = $uploadData['text'];
@@ -466,13 +471,14 @@ class ReturnUploadModel extends BaseModel
         $res = json_decode($result, true);
         if ($res['ackValue'] === 'SUCCESS') {
             iMemcache::getInstance()->set(md5('returnDecline' . $Queue['return_upload_queue_id']), 'success', 3600);
-            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
-                'type' => 'Success',
-                'Queue' => $Queue,
-                'uploadData'=>$uploadData,
-                'json' => $result,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(
+                array(
+                    'type' => 'Success',
+                    'Queue' => $Queue,
+                    'uploadData' => $uploadData,
+                    'json' => $result,
+                    'time' => time()
+                ));
             // 发送邮件通知
             ob_start();
             echo "apiResult：\n";
@@ -487,13 +493,14 @@ class ReturnUploadModel extends BaseModel
         } else {
             iMemcache::getInstance()->set(md5('returnDecline' . $Queue['return_upload_queue_id']), 'err', 3600);
             iMemcache::getInstance()->set(md5('returnDecline' . $Queue['return_upload_queue_id'] . 'result'), serialize($res), 3600);
-            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
-                'type' => 'Err',
-                'Queue' => $Queue,
-                'uploadData'=>$uploadData,
-                'json' => $result,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(
+                array(
+                    'type' => 'Err',
+                    'Queue' => $Queue,
+                    'uploadData' => $uploadData,
+                    'json' => $result,
+                    'time' => time()
+                ));
             // 发送邮件通知
             ob_start();
             echo "apiResult：\n";
@@ -506,9 +513,8 @@ class ReturnUploadModel extends BaseModel
             SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
             return false;
         }
-         
-     }
-     
+    }
+
     /**
      * @desc 获取return部分退款是否成功
      * @author liaojianwen
@@ -530,11 +536,12 @@ class ReturnUploadModel extends BaseModel
         $result = iMemcache::getInstance()->get(md5($actionType . $uploadId));
         if ($result === false) {}
         
-        iMongo::getInstance()->setCollection('____Return____')->insert(array(
-            'result' => $result,
-            'time' => time(),
-            'oftime' => time() - $startTime
-        ));
+        iMongo::getInstance()->setCollection('____Return____')->insert(
+            array(
+                'result' => $result,
+                'time' => time(),
+                'oftime' => time() - $startTime
+            ));
         
         if ($result == 'success' || $result == 'err') {
             iMemcache::getInstance()->set(md5($actionType . $uploadId), '', 1);

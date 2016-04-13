@@ -33,5 +33,4 @@ class MsgLabelDAO extends BaseDAO
         $this->primaryKey = 'msg_label_id';
         $this->created = 'create_time';
     }
-    
 }

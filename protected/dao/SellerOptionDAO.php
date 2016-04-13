@@ -7,7 +7,7 @@
  */
 class SellerOptionDAO extends BaseDAO
 {
-    
+
     /**
      * @desc 对象实例重用
      * @param string $className 需要实例化的类名
@@ -36,7 +36,7 @@ class SellerOptionDAO extends BaseDAO
         
         $this->shop = 'shop';
     }
-    
+
     /**
      * @desc 获取下一步操作
      * @param int $returnid seller_available_option 外键
@@ -45,19 +45,16 @@ class SellerOptionDAO extends BaseDAO
      * @date 2015-07-06
      * @return array
      */
-    public function getSellerOptions($returnid,$sellerId)
+    public function getSellerOptions($returnid, $sellerId)
     {
         $conditions = "o.return_id ={$returnid} and s.seller_id = {$sellerId}";
         $result = $this->dbCommand->reset()
-                                  ->select('actionType,actionURL')
-                                  ->from("{$this->tableName} o")
-                                  ->join("{$this->return} r" ,"r.return_request_id = o.return_id")
-                                  ->join("{$this->shop} s","s.shop_id = r.shop_id")
-                                  ->where($conditions)
-                                  ->queryAll();
+            ->select('actionType,actionURL')
+            ->from("{$this->tableName} o")
+            ->join("{$this->return} r", "r.return_request_id = o.return_id")
+            ->join("{$this->shop} s", "s.shop_id = r.shop_id")
+            ->where($conditions)
+            ->queryAll();
         return $result;
-                                  
-        
-    
     }
 }

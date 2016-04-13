@@ -38,8 +38,8 @@ class ItemNoteDAO extends BaseDAO
         $this->return = 'return_request';
         $this->detail = 'return_request_detail';
     }
-    
-	/**
+
+    /**
      * @desc 获取对应case的备注信息
      * @param caseid  case的id
      * @param shopId  当前用户所拥有店铺的id
@@ -116,5 +116,4 @@ class ItemNoteDAO extends BaseDAO
                 ->queryAll();
         }
     }
-    
 }

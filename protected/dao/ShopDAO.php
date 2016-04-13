@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @desc shop表操作类
  * @author liaojianwen
@@ -6,6 +7,7 @@
  */
 class ShopDAO extends BaseDAO
 {
+
     /**
      * @desc 对象实例重用
      * @author liaojianwen
@@ -107,7 +109,8 @@ class ShopDAO extends BaseDAO
             $params[':siteId'] = $siteId;
         }
         
-        $result['list'] = $this->dbCommand->select('shop_id,seller_id,site_id,nick_name,status,updated_time,HardExpirationTime', 'SQL_CALC_FOUND_ROWS')
+        $result['list'] = $this->dbCommand->select('shop_id,seller_id,site_id,nick_name,status,updated_time,HardExpirationTime', 
+            'SQL_CALC_FOUND_ROWS')
             ->from($this->tableName)
             ->where($conditions, $params)
             ->limit($limit, $offset)
@@ -159,19 +162,19 @@ class ShopDAO extends BaseDAO
         $params = array(
             ':seller_id' => Yii::app()->session['userInfo']['seller_id']
         );
-        $siteId = isset(Yii::app()->session['switchInfo']['siteId']) ? Yii::app()->session['switchInfo']['siteId'] : -1;
-        if ($siteId > -1) {
+        $siteId = isset(Yii::app()->session['switchInfo']['siteId']) ? Yii::app()->session['switchInfo']['siteId'] : - 1;
+        if ($siteId > - 1) {
             $conditions .= ' and site_id=:siteId and status=1';
             $params[':siteId'] = $siteId;
         }
         $this->dbCommand->reset();
         $result = $this->dbCommand->select('shop_id,account,nick_name,seller_id')
-        	->from($this->tableName)
-        	->where($conditions,$params)
-        	->queryAll();
+            ->from($this->tableName)
+            ->where($conditions, $params)
+            ->queryAll();
         return $result;
     }
-    
+
     /**
      * @desc 获取token,site_id
      * @param string $shopId
@@ -190,7 +193,7 @@ class ShopDAO extends BaseDAO
             ->queryRow();
         return $result;
     }
-    
+
     /**
      * @desc 获取订单关联的店铺的token
      * @param string $orderID
@@ -199,7 +202,7 @@ class ShopDAO extends BaseDAO
      * @date 2015-11-03 
      * @return mixed
      */
-    public function getInvoicesToken($orderID,$sellerId)
+    public function getInvoicesToken($orderID, $sellerId)
     {
         $conditions = "o.OrderID =:orderid and s.seller_id=:sellerid";
         $params = array(

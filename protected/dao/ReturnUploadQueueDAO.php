@@ -33,7 +33,7 @@ class ReturnUploadQueueDAO extends BaseDAO
         $this->primaryKey = 'return_upload_queue_id';
         $this->created = 'create_time';
     }
-    
+
     /**
      * @desc 取出Return上传队列数据
      * @param number $limit
@@ -83,21 +83,19 @@ class ReturnUploadQueueDAO extends BaseDAO
                 return false;
             }
         } catch (Exception $e) {
-            iMongo::getInstance()->setCollection('getReturnUploadQueueData')->insert(array(
-                'getCode' => $e->getCode(),
-                'getFile' => $e->getFile(),
-                'getLine' => $e->getLine(),
-                'getMessage' => $e->getMessage(),
-                'getPrevious' => $e->getPrevious(),
-                'getTrace' => $e->getTrace(),
-                'getTraceAsString' => $e->getTraceAsString(),
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection('getReturnUploadQueueData')->insert(
+                array(
+                    'getCode' => $e->getCode(),
+                    'getFile' => $e->getFile(),
+                    'getLine' => $e->getLine(),
+                    'getMessage' => $e->getMessage(),
+                    'getPrevious' => $e->getPrevious(),
+                    'getTrace' => $e->getTrace(),
+                    'getTraceAsString' => $e->getTraceAsString(),
+                    'time' => time()
+                ));
             $this->rollback();
             return false;
         }
     }
-    
-   
-    
 }

@@ -33,5 +33,4 @@ class EbayMsgContentDAO extends BaseDAO
         $this->primaryKey = 'msg_content_id';
         $this->created = 'create_time';
     }
-
 }

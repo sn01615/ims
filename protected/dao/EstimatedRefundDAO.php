@@ -7,7 +7,7 @@
  */
 class EstimatedRefundDAO extends BaseDAO
 {
-    
+
     /**
      * @desc 对象实例重用
      * @param string $className 需要实例化的类名
@@ -37,9 +37,7 @@ class EstimatedRefundDAO extends BaseDAO
         
         $this->shop = 'shop';
     }
-    
-    
-    
+
     /**
      * @desc 获取退款信息
      * @param $return_id 
@@ -47,43 +45,44 @@ class EstimatedRefundDAO extends BaseDAO
      * @author liaojianwen
      * @date 2015-06-29
      */
-    public function getItemizedRefundDetail($return_id,$sellerId)
+    public function getItemizedRefundDetail($return_id, $sellerId)
     {
         $selects = 'd.S_sTR_estimatedRefundAmount,d.S_sTR_currencyId';
         $conditions = "d.return_id={$return_id} and s.seller_id = {$sellerId}";
         $total = $this->dbCommand->reset()
-                        ->select($selects)
-                        ->from("{$this->return} r")
-                        ->join("{$this->detail} d","d.return_id = r.return_request_id")
-                        ->join("{$this->shop} s","r.shop_id = s.shop_id")
-                        ->where($conditions)
-                        ->limit(1)
-                        ->queryRow();
+            ->select($selects)
+            ->from("{$this->return} r")
+            ->join("{$this->detail} d", "d.return_id = r.return_request_id")
+            ->join("{$this->shop} s", "r.shop_id = s.shop_id")
+            ->where($conditions)
+            ->limit(1)
+            ->queryRow();
         $selects = 'e.refundFeeType,e.estimatedAmount,e.currencyId,e.restockingFeePercentage';
         $conditions = "r.return_request_id={$return_id} and s.seller_id = {$sellerId}";
         $detail = $this->dbCommand->reset()
-                        ->select($selects)
-                        ->from("{$this->tableName} e")
-                        ->join("{$this->return} r","e.return_id = r.return_request_id")
-                        ->join("{$this->shop} s","r.shop_id = s.shop_id")
-                        ->where($conditions)
-                        ->queryAll();
-        foreach ($detail as $value){
+            ->select($selects)
+            ->from("{$this->tableName} e")
+            ->join("{$this->return} r", "e.return_id = r.return_request_id")
+            ->join("{$this->shop} s", "r.shop_id = s.shop_id")
+            ->where($conditions)
+            ->queryAll();
+        foreach ($detail as $value) {
             $itemizedRefundDetail[] = array(
-                    'refundFeeType'=>$value['refundFeeType'] ,
-                    'amount' =>array('value' =>$value['estimatedAmount'],'currencyId'=>$value['currencyId']),
-                    'restockingFeePercentage'=>$value['restockingFeePercentage']
-            ); 
-        }               
-       $result = array(
-           'totalAmount' => array(
-                               'value'=>$total['S_sTR_estimatedRefundAmount'],
-                               'currencyId'=> $total['S_sTR_currencyId']
-                           ),
-           'itemizedRefundDetail'=> $itemizedRefundDetail
-       );
-       return $result;
-    
+                'refundFeeType' => $value['refundFeeType'],
+                'amount' => array(
+                    'value' => $value['estimatedAmount'],
+                    'currencyId' => $value['currencyId']
+                ),
+                'restockingFeePercentage' => $value['restockingFeePercentage']
+            );
+        }
+        $result = array(
+            'totalAmount' => array(
+                'value' => $total['S_sTR_estimatedRefundAmount'],
+                'currencyId' => $total['S_sTR_currencyId']
+            ),
+            'itemizedRefundDetail' => $itemizedRefundDetail
+        );
+        return $result;
     }
-    
 }

@@ -34,5 +34,4 @@ class Ck1ShipToAddressDAO extends BaseDAO
         // $this->created = '';
         // $this->updated = '';
     }
-
 }

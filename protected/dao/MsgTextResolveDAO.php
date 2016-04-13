@@ -34,5 +34,4 @@ class MsgTextResolveDAO extends BaseDAO
         $this->updated = 'update_time';
         $this->created = 'create_time';
     }
-
 }

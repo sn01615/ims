@@ -9,29 +9,29 @@ class MsgQueueModel extends BaseModel
 {
 
     const VESRION = '905';
-
+    
     // 默认优先级
     const P_DEFAULTPRIORITY = 100;
-
+    
     // 新人优先级
     const P_NEWPRIORITY = 200;
-
+    
     // 历史基准优先级
     const P_HISTORYPRIORITY = 52;
-
+    
     // 新人下载尺寸
     const D_FIRSTDOWNLOADSIZE = 30;
-
+    
     // 下载尺寸
     const D_HISDOWNLOADSIZE = 30;
-
+    
     // 内存极限
     const D_MEMORYLIMIT = 32;
 
     private $proxy;
 
-    private $compatabilityLevel; // eBay API version
-
+    private $compatabilityLevel;
+    // eBay API version
     private $devID;
 
     private $appID;
@@ -132,11 +132,11 @@ class MsgQueueModel extends BaseModel
     public function generateMsgDownQueue()
     {
         DaemonLockTool::lock(__METHOD__);
-
+        
         $startTime = time();
-
+        
         label1:
-
+        
         $shops = MsgDownDAO::getInstance()->getEbShop();
         foreach ($shops as $key => &$shop) {
             $folders = $this->uploadFoldersInfo($shop);
@@ -159,7 +159,7 @@ class MsgQueueModel extends BaseModel
                     MsgDownDAO::getInstance()->makeQueue($shop, $folders, $priority - $i, $end - $tSize, $end, true);
                 }
             }
-
+            
             // 校验任务
             if ((time() - $shop['msg_check_down_time']) > EnumOther::MSG_CHECK_TIME) {
                 if (! $newer) {
@@ -172,16 +172,17 @@ class MsgQueueModel extends BaseModel
                     );
                     ShopDAO::getInstance()->iupdate($columns, $conditions, $params);
                     MsgDownDAO::getInstance()->makeQueue($shop, $folders, 11, time() - EnumOther::MSG_CHECK_SIZE, time());
-
-                    iMongo::getInstance()->setCollection('makeMsgCheckQ')->insert(array(
-                        'shop_id' => $shop['shop_id'],
-                        'time' => time()
-                    ));
+                    
+                    iMongo::getInstance()->setCollection('makeMsgCheckQ')->insert(
+                        array(
+                            'shop_id' => $shop['shop_id'],
+                            'time' => time()
+                        ));
                 }
             }
         }
         unset($shop);
-
+        
         // if ($startTime > (time() - 600)) {
         // sleep(30);
         // goto label1;
@@ -239,7 +240,7 @@ class MsgQueueModel extends BaseModel
      */
     private function fmtDate($date)
     {
-        return gmdate('Y-m-d\TH:i:s\Z',$date);
+        return gmdate('Y-m-d\TH:i:s\Z', $date);
     }
 
     /**
@@ -262,7 +263,7 @@ class MsgQueueModel extends BaseModel
         $objSession->setRequestToken($requestToken);
         $objSession->setTokenUsePickupFile(false);
         $objSession->setTokenMode(true);
-
+        
         $this->proxy = new EbatNs_ServiceProxy($objSession, 'EbatNs_DataConverterUtf8');
     }
 
@@ -289,7 +290,7 @@ class MsgQueueModel extends BaseModel
             'shop_id',
             'text_json'
         );
-
+        
         $msgParseResult = $objDowDAO->findAllByAttributes($paramArr, $criteria, '', $taskNumber['limit']);
         foreach ($msgParseResult as $msg) {
             $objDowDAO->update(array(
@@ -317,11 +318,20 @@ class MsgQueueModel extends BaseModel
     public function deteleMsgDown($strId)
     {
         if (empty($strId)) {
-            return array('Ack'=>'Failure','body'=>'');
+            return array(
+                'Ack' => 'Failure',
+                'body' => ''
+            );
         }
         $downId = explode(',', $strId);
         $rowNumber = MsgDownDAO::getInstance()->deleteByPk($downId);
-        return empty($rowNumber) ? array('Ack'=>'Failure','body'=>'') : array('Ack'=>'Success','body'=>'');
+        return empty($rowNumber) ? array(
+            'Ack' => 'Failure',
+            'body' => ''
+        ) : array(
+            'Ack' => 'Success',
+            'body' => ''
+        );
     }
 
     /**
@@ -429,7 +439,7 @@ class MsgQueueModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '提交失败，严重错误，getShopMsgInfo失败');
         }
     }
-    
+
     /**
      * @desc 获取消息回复队列里的消息是否已回复成功(阻塞式)
      * @param int $qpk
@@ -442,7 +452,7 @@ class MsgQueueModel extends BaseModel
         if (empty($qpk)) {
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', 'qpk(队列表ID)不能为空！');
         }
-
+        
         label1:
         $replyStatus = iMemcache::getInstance()->get(md5("msg_reply_status_{$qpk}"));
         if ($replyStatus !== false) {

@@ -33,5 +33,4 @@ class CaseActivityOptionsDAO extends BaseDAO
         $this->primaryKey = 'case_activity_options_id';
         $this->created = 'create_time';
     }
-    
 }

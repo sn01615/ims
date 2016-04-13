@@ -33,5 +33,4 @@ class EbayOrderExtTransDAO extends BaseDAO
         $this->primaryKey = 'ebay_order_ext_trans_id';
         $this->created = 'create_time';
     }
-    
 }

@@ -14,9 +14,7 @@ class RuningController extends Controller
      * @date 2015-02-13
      */
     public function actionIndex()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 001
@@ -199,7 +197,7 @@ class RuningController extends Controller
      */
     public function actionImsJobs017()
     {
-         //下载return
+        // 下载return
         $this->generateReturnDownQueue();
     }
 
@@ -342,7 +340,7 @@ class RuningController extends Controller
      */
     public function actionImsJobs030()
     {
-        //return更新队列
+        // return更新队列
         $this->generateReturnUpdateQueue();
     }
 
@@ -433,9 +431,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs039()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 040
@@ -443,9 +439,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs040()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 041
@@ -453,9 +447,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs041()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 042
@@ -463,9 +455,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs042()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 043
@@ -473,9 +463,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs043()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 044
@@ -483,9 +471,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs044()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 045
@@ -493,9 +479,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs045()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 046
@@ -503,9 +487,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs046()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 047
@@ -513,9 +495,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs047()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 048
@@ -523,9 +503,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs048()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 049
@@ -533,9 +511,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs049()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 050
@@ -543,9 +519,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs050()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 051
@@ -553,9 +527,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs051()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 052
@@ -563,9 +535,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs052()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 053
@@ -573,9 +543,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs053()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 054
@@ -583,9 +551,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs054()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 055
@@ -593,9 +559,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs055()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 056
@@ -603,9 +567,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs056()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 057
@@ -613,9 +575,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs057()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 058
@@ -623,9 +583,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs058()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 059
@@ -633,9 +591,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs059()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 060
@@ -653,9 +609,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs061()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 062
@@ -663,9 +617,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs062()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 063
@@ -673,9 +625,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs063()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 064
@@ -683,9 +633,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs064()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 065
@@ -693,9 +641,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs065()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 066
@@ -703,9 +649,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs066()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 067
@@ -713,9 +657,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs067()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 068
@@ -723,9 +665,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs068()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 069
@@ -733,9 +673,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs069()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 070
@@ -753,9 +691,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs071()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 072
@@ -763,9 +699,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs072()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 073
@@ -773,9 +707,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs073()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 074
@@ -783,9 +715,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs074()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 075
@@ -793,9 +723,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs075()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 076
@@ -823,9 +751,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs078()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 079
@@ -833,9 +759,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs079()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 080
@@ -843,9 +767,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs080()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 081
@@ -853,9 +775,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs081()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 082
@@ -863,9 +783,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs082()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 083
@@ -873,9 +791,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs083()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 084
@@ -883,9 +799,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs084()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 085
@@ -893,9 +807,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs085()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 086
@@ -903,9 +815,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs086()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 087
@@ -913,9 +823,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs087()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 088
@@ -923,9 +831,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs088()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 089
@@ -933,9 +839,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs089()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 090
@@ -943,9 +847,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs090()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 091
@@ -953,9 +855,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs091()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 092
@@ -963,9 +863,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs092()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 093
@@ -973,9 +871,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs093()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 094
@@ -983,9 +879,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs094()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 095
@@ -993,9 +887,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs095()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 096
@@ -1003,9 +895,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs096()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 097
@@ -1013,9 +903,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs097()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 098
@@ -1023,9 +911,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs098()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 099
@@ -1033,9 +919,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs099()
-    {
-
-    }
+    {}
 
     /**
      * @desc jobs 100
@@ -1043,9 +927,7 @@ class RuningController extends Controller
      * @date 2015-07-01
      */
     public function actionImsJobs100()
-    {
-
-    }
+    {}
 
     /**
      * @desc 生成Case状态更新队列
@@ -1144,7 +1026,7 @@ class RuningController extends Controller
             Yii::app()->end(); // safe
         }
     }
-    
+
     /**
      * @desc 获取Case状态原始XML数据
      * @author YangLong
@@ -1153,7 +1035,7 @@ class RuningController extends Controller
     public function actionGetCasesStatus()
     {
         $this->imsEcsCheck();
-
+        
         $result = CaseUpdateModel::model()->getCasesStatus();
         $this->renderJson($result);
     }
@@ -1166,7 +1048,7 @@ class RuningController extends Controller
     public function actionDeleteCasesStatus()
     {
         $this->imsEcsCheck();
-
+        
         $ids = CInputFilter::getnorepeatInts('ids');
         $result = CaseUpdateModel::model()->deleteCasesStatus($ids);
         $this->renderJson($result);
@@ -1177,15 +1059,15 @@ class RuningController extends Controller
         // 配置
         // $homeUrl = Yii::app()->params['ecs_api_url'];
         $homeUrl = Yii::app()->params['home_url'];
-
+        
         // 获取
         $key = imsTokenTool::getInstance()->getToken();
         $url = "{$homeUrl}?r=crontab/Runing/GetCasesStatus&key={$key}";
         $result = getByCurl::get($url);
-
+        
         // 解析
         $resultArr = CaseUpdateModel::model()->parseCasesStatus($result);
-
+        
         // 删除
         if (! empty($resultArr)) {
             $strId = implode(',', $resultArr);
@@ -1239,7 +1121,7 @@ class RuningController extends Controller
     public function actionGetFeedback()
     {
         $this->imsEcsCheck();
-
+        
         $result = FeedbackDownModel::model()->getFeedbackDownData(EnumOther::FEEDBACK_PARSE_SIZE);
         if ($result !== false) {
             $result = array(
@@ -1275,7 +1157,7 @@ class RuningController extends Controller
     public function actionDeleteFeedback()
     {
         $this->imsEcsCheck();
-
+        
         $ids = CInputFilter::getnorepeatInts('ids');
         $result = FeedbackDownModel::model()->deleteFeedbackDownData($ids);
         if ($result !== false) {
@@ -1400,7 +1282,7 @@ class RuningController extends Controller
     public function actionGetReturns()
     {
         $this->imsEcsCheck();
-
+        
         $result = ReturnDownModel::model()->getDownloadData(EnumOther::RETURN_PARSE_SIZE);
         if ($result !== false) {
             $result = array(
@@ -1455,7 +1337,7 @@ class RuningController extends Controller
     public function actionDeleteReturns()
     {
         $this->imsEcsCheck();
-
+        
         $ids = CInputFilter::getnorepeatInts('ids');
         $result = ReturnDownModel::model()->deleteReturnDownData($ids);
         if ($result !== false) {
@@ -1550,8 +1432,8 @@ class RuningController extends Controller
     public function actionGetEbayListing()
     {
         $this->imsEcsCheck();
-
-       $result = EbayListingDownModel::model()->getListingDownData(EnumOther::LISTING_PARSE_SIZE);
+        
+        $result = EbayListingDownModel::model()->getListingDownData(EnumOther::LISTING_PARSE_SIZE);
         if ($result !== false) {
             $result = array(
                 'Ack' => 'Success',
@@ -1592,7 +1474,7 @@ class RuningController extends Controller
     public function actionDeleteEbayListing()
     {
         $this->imsEcsCheck();
-
+        
         $ids = CInputFilter::getnorepeatInts('ids');
         $result = EbayListingDownModel::model()->deleteListingDownData($ids);
         if ($result !== false) {
@@ -1637,7 +1519,7 @@ class RuningController extends Controller
     public function actionGetDisputes()
     {
         $this->imsEcsCheck();
-
+        
         $result = DisputesModel::model()->getDownloadDisputes(EnumOther::DISPUTES_PARSE_SIZE);
         if ($result !== false) {
             $result = array(
@@ -1663,7 +1545,7 @@ class RuningController extends Controller
         set_time_limit(120);
         $i = 0;
         while (true) {
-
+            
             $homeUrl = Yii::app()->params['home_url'];
             $key = imsTokenTool::getInstance()->getToken();
             $disputes = getByCurl::get("{$homeUrl}?r=crontab/Runing/GetDisputes&key={$key}");
@@ -1673,7 +1555,7 @@ class RuningController extends Controller
                 $result = implode(',', $result);
                 getByCurl::get("{$homeUrl}?r=crontab/Runing/DeleteDisputes&key={$key}&ids=" . $result);
             }
-
+            
             $i ++;
             if ($i > 10000 || $disputes['Ack'] != 'Success') {
                 break;
@@ -1690,7 +1572,7 @@ class RuningController extends Controller
     public function actionDeleteDisputes()
     {
         $this->imsEcsCheck();
-
+        
         $ids = CInputFilter::getnorepeatInts('ids');
         $result = DisputesModel::model()->deleteDisputesDownData($ids);
         if ($result !== false) {
@@ -1734,7 +1616,7 @@ WHERE
                 ':msg_label_id' => $labelId['msg_label_id']
             );
             $count = MsgLabelRefDAO::getInstance()->setTextQuery($text, $params, 'queryScalar');
-
+            
             $columns = array(
                 'msg_count' => $count
             );
@@ -1744,9 +1626,9 @@ WHERE
             );
             MsgLabelDAO::getInstance()->iupdate($columns, $conditions, $params);
         }
-
+        
         // mongdb clear.
-
+        
         $clearArray = array(
             'getUserInfoNoSuccess' => array(
                 'holdtime' => 3600
@@ -1811,7 +1693,7 @@ WHERE
      */
     private function sendMailLog()
     {
-//         MonitorModel::model()->jobsTatusMail();
+        // MonitorModel::model()->jobsTatusMail();
     }
 
     /**
@@ -1843,7 +1725,7 @@ WHERE
     {
         SendMail::sendSyncRun();
     }
-    
+
     /**
      * @desc 获取和解析物流轨迹信息
      * @author YangLong
@@ -1853,7 +1735,7 @@ WHERE
     {
         LogisticsModel::model()->updateTracking();
     }
-    
+
     /**
      * @desc 获取和解析包裹信息
      * @author YangLong
@@ -1863,7 +1745,7 @@ WHERE
     {
         LogisticsModel::model()->updatePackages();
     }
-    
+
     /**
      * @desc 发送统计信息
      * @author YangLong
@@ -1873,5 +1755,4 @@ WHERE
     {
         EbayOtherInfoModel::model()->sendTongJi();
     }
-    
 }

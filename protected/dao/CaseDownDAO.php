@@ -58,5 +58,4 @@ class CaseDownDAO extends BaseDAO
             ->queryAll();
         return $result;
     }
-    
 }

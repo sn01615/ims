@@ -135,7 +135,8 @@ class ReturnModel extends BaseModel
                             ':return_id' => $return_id
                         );
                         // 明细
-                        if (isset($value['text_json']['ReturnDetail']) && is_array($value['text_json']['ReturnDetail']) && isset($value['text_json']['ReturnDetail'][$returnId_id])) {
+                        if (isset($value['text_json']['ReturnDetail']) && is_array($value['text_json']['ReturnDetail']) &&
+                             isset($value['text_json']['ReturnDetail'][$returnId_id])) {
                             $det = json_decode($value['text_json']['ReturnDetail'][$returnId_id], true);
                             if (isset($det['ackValue']) && $det['ackValue'] == 'SUCCESS') {
                                 $columns_det = array(
@@ -147,83 +148,115 @@ class ReturnModel extends BaseModel
                                     'S_status' => isset($det['summary']['status']) ? $det['summary']['status'] : '',
                                     'S_CI_reason' => isset($det['summary']['creationInfo']['reason']) ? $det['summary']['creationInfo']['reason'] : '',
                                     'S_CI_comments' => isset($det['summary']['creationInfo']['comments']) ? $det['summary']['creationInfo']['comments'] : '',
-                                    'S_CI_creationDate' => isset($det['summary']['creationInfo']['creationDate']) ? $det['summary']['creationInfo']['creationDate'] / 1000 : 0,
-                                    'S_sTR_estimatedRefundAmount' => isset($det['summary']['sellerTotalRefund']['estimatedRefundAmount']['value']) ? $det['summary']['sellerTotalRefund']['estimatedRefundAmount']['value'] : 0.00,
-                                    'S_sTR_currencyId' => isset($det['summary']['sellerTotalRefund']['estimatedRefundAmount']['currencyId']) ? $det['summary']['sellerTotalRefund']['estimatedRefundAmount']['currencyId'] : '',
-                                    'S_bTR_estimatedRefundAmount' => isset($det['summary']['buyerTotalRefund']['estimatedRefundAmount']['value']) ? $det['summary']['buyerTotalRefund']['estimatedRefundAmount']['value'] : 0.00,
-                                    'S_bTR_currencyId' => isset($det['summary']['buyerTotalRefund']['estimatedRefundAmount']['currencyId']) ? $det['summary']['buyerTotalRefund']['estimatedRefundAmount']['currencyId'] : '',
-                                    'S_sRD_activityDue' => isset($det['summary']['sellerResponseDue']['activityDue']) ? $det['summary']['sellerResponseDue']['activityDue'] : '',
-                                    'S_sRD_respondByDate' => isset($det['summary']['sellerResponseDue']['respondByDate']) ? $det['summary']['sellerResponseDue']['respondByDate'] / 1000 : 0,
-                                    'S_bRD_activityDue' => isset($det['summary']['buyerResponseDue']['activityDue']) ? $det['summary']['buyerResponseDue']['activityDue'] : '',
-                                    'S_bRD_respondByDate' => isset($det['summary']['buyerResponseDue']['respondByDate']) ? $det['summary']['buyerResponseDue']['respondByDate'] / 1000 : 0,
-                                    'S_eI_eBPCaseId' => isset($det['summary']['escalationInfo']['eBPCaseId']) ? $det['summary']['escalationInfo']['eBPCaseId'] : '',
-                                    'S_eI_caseType' => isset($det['summary']['escalationInfo']['caseType']) ? $det['summary']['escalationInfo']['caseType'] : '',
-                                    'D_marketplaceId' => isset($det['detail']['marketplaceId']) ? $det['detail']['marketplaceId'] : '',
-                                    'D_iD_itemId' => isset($det['detail']['itemDetail']['itemId']) ? $det['detail']['itemDetail']['itemId'] : '',
-                                    'D_iD_transactionId' => isset($det['detail']['itemDetail']['transactionId']) ? $det['detail']['itemDetail']['transactionId'] : '',
-                                    'D_iD_returnQuantity' => isset($det['detail']['itemDetail']['returnQuantity']) ? $det['detail']['itemDetail']['returnQuantity'] : 0,
-                                    'D_iD_itemTitle' => isset($det['detail']['itemDetail']['itemTitle']) ? $det['detail']['itemDetail']['itemTitle'] : '',
-                                    'D_iD_itemPicUrl' => isset($det['detail']['itemDetail']['itemPicUrl']) ? $det['detail']['itemDetail']['itemPicUrl'] : '',
-                                    'D_iD_transactionDate' => isset($det['detail']['itemDetail']['transactionDate']) ? $det['detail']['itemDetail']['transactionDate'] / 1000 : 0,
-                                    'D_iD_itemPrice' => isset($det['detail']['itemDetail']['itemPrice']['value']) ? $det['detail']['itemDetail']['itemPrice']['value'] : 0.00,
-                                    'D_iD_currencyId' => isset($det['detail']['itemDetail']['itemPrice']['currencyId']) ? $det['detail']['itemDetail']['itemPrice']['currencyId'] : '',
-                                    'D_buyerEmailAddress' => isset($det['detail']['buyerEmailAddress']) ? $det['detail']['buyerEmailAddress'] : '',
-                                    'D_sellerEmailAddress' => isset($det['detail']['sellerEmailAddress']) ? $det['detail']['sellerEmailAddress'] : '',
-                                    'D_checkoutType' => isset($det['detail']['checkoutType']) ? $det['detail']['checkoutType'] : '',
-                                    'D_bA_name' => isset($det['detail']['buyerAddress']['name']) ? $det['detail']['buyerAddress']['name'] : '',
-                                    'D_bA_street1' => isset($det['detail']['buyerAddress']['street1']) ? $det['detail']['buyerAddress']['street1'] : '',
-                                    'D_bA_street2' => isset($det['detail']['buyerAddress']['street2']) ? $det['detail']['buyerAddress']['street2'] : '',
-                                    'D_bA_city' => isset($det['detail']['buyerAddress']['city']) ? $det['detail']['buyerAddress']['city'] : '',
-                                    'D_bA_county' => isset($det['detail']['buyerAddress']['county']) ? $det['detail']['buyerAddress']['county'] : '',
-                                    'D_bA_stateOrProvince' => isset($det['detail']['buyerAddress']['stateOrProvince']) ? $det['detail']['buyerAddress']['stateOrProvince'] : '',
-                                    'D_bA_country' => isset($det['detail']['buyerAddress']['country']) ? $det['detail']['buyerAddress']['country'] : '',
-                                    'D_bA_postalCode' => isset($det['detail']['buyerAddress']['postalCode']) ? $det['detail']['buyerAddress']['postalCode'] : '',
-                                    'D_bA_any' => isset($det['detail']['buyerAddress']['any']) ? $det['detail']['buyerAddress']['any'] : '',
-                                    'D_sA_name' => isset($det['detail']['sellerAddress']['name']) ? $det['detail']['sellerAddress']['name'] : '',
-                                    'D_sA_street1' => isset($det['detail']['sellerAddress']['street1']) ? $det['detail']['sellerAddress']['street1'] : '',
-                                    'D_sA_street2' => isset($det['detail']['sellerAddress']['street2']) ? $det['detail']['sellerAddress']['street2'] : '',
-                                    'D_sA_city' => isset($det['detail']['sellerAddress']['city']) ? $det['detail']['sellerAddress']['city'] : '',
-                                    'D_sA_county' => isset($det['detail']['sellerAddress']['county']) ? $det['detail']['sellerAddress']['county'] : '',
-                                    'D_sA_stateOrProvince' => isset($det['detail']['sellerAddress']['stateOrProvince']) ? $det['detail']['sellerAddress']['stateOrProvince'] : '',
-                                    'D_sA_country' => isset($det['detail']['sellerAddress']['country']) ? $det['detail']['sellerAddress']['country'] : '',
-                                    'D_sA_postalCode' => isset($det['detail']['sellerAddress']['postalCode']) ? $det['detail']['sellerAddress']['postalCode'] : '',
-                                    'D_sA_any' => isset($det['detail']['sellerAddress']['any']) ? json_encode($det['detail']['sellerAddress']['any']) : '',
-                                    'D_rSI_sT_shippingMethod' => isset($det['detail']['returnShipmentInfo']['shipmentTracking']['shippingMethod']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['shippingMethod'] : '',
-                                    'D_rSI_sT_shippedBy' => isset($det['detail']['returnShipmentInfo']['shipmentTracking']['shippedBy']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['shippedBy'] : '',
-                                    'D_rSI_sT_trackingNumber' => isset($det['detail']['returnShipmentInfo']['shipmentTracking']['trackingNumber']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['trackingNumber'] : '',
-                                    'D_rSI_sT_carrierId' => isset($det['detail']['returnShipmentInfo']['shipmentTracking']['carrierId']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['carrierId'] : '',
-                                    'D_rSI_sT_carrierEnum' => isset($det['detail']['returnShipmentInfo']['shipmentTracking']['carrierEnum']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['carrierEnum'] : '',
-                                    'D_rSI_sT_carrierName' => isset($det['detail']['returnShipmentInfo']['shipmentTracking']['carrierName']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['carrierName'] : '',
-                                    'D_rSI_sT_carrierUsed' => isset($det['detail']['returnShipmentInfo']['shipmentTracking']['carrierUsed']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['carrierUsed'] : '',
-                                    'D_rSI_sT_deliveryStatus' => isset($det['detail']['returnShipmentInfo']['shipmentTracking']['deliveryStatus']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['deliveryStatus'] : '',
-                                    'D_rSI_sT_toShip_name' => isset($det['detail']['returnShipmentInfo']['shipmentTracking']['toShippingAddress']['name']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['toShippingAddress']['name'] : '',
-                                    'D_rSI_sT_toShip_street1' => isset($det['detail']['returnShipmentInfo']['shipmentTracking']['toShippingAddress']['street1']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['toShippingAddress']['street1'] : '',
-                                    'D_rSI_sT_toShip_street2' => isset($det['detail']['returnShipmentInfo']['shipmentTracking']['toShippingAddress']['street2']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['toShippingAddress']['street2'] : '',
-                                    'D_rSI_sT_toShip_city' => isset($det['detail']['returnShipmentInfo']['shipmentTracking']['toShippingAddress']['city']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['toShippingAddress']['city'] : '',
-                                    'D_rSI_sT_toShip_county' => isset($det['detail']['returnShipmentInfo']['shipmentTracking']['toShippingAddress']['county']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['toShippingAddress']['county'] : '',
-                                    'D_rSI_sT_toShip_stateOrProvince' => isset($det['detail']['returnShipmentInfo']['shipmentTracking']['toShippingAddress']['stateOrProvince']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['toShippingAddress']['stateOrProvince'] : '',
-                                    'D_rSI_sT_toShip_country' => isset($det['detail']['returnShipmentInfo']['shipmentTracking']['toShippingAddress']['country']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['toShippingAddress']['country'] : '',
-                                    'D_rSI_sT_toShip_postalCode' => isset($det['detail']['returnShipmentInfo']['shipmentTracking']['toShippingAddress']['postalCode']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['toShippingAddress']['postalCode'] : '',
-                                    'D_rSI_sT_toShip_any' => isset($det['detail']['returnShipmentInfo']['shipmentTracking']['toShippingAddress']['any']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['toShippingAddress']['any'] : '',
-                                    'D_rSI_sT_fromShip_name' => isset($det['detail']['returnShipmentInfo']['shipmentTracking']['fromShippingAddress']['name']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['fromShippingAddress']['name'] : '',
-                                    'D_rSI_sT_fromShip_street1' => isset($det['detail']['returnShipmentInfo']['shipmentTracking']['fromShippingAddress']['street1']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['fromShippingAddress']['street1'] : '',
-                                    'D_rSI_sT_fromShip_street2' => isset($det['detail']['returnShipmentInfo']['shipmentTracking']['fromShippingAddress']['street2']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['fromShippingAddress']['street2'] : '',
-                                    'D_rSI_sT_fromShip_city' => isset($det['detail']['returnShipmentInfo']['shipmentTracking']['fromShippingAddress']['city']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['fromShippingAddress']['city'] : '',
-                                    'D_rSI_sT_fromShip_county' => isset($det['detail']['returnShipmentInfo']['shipmentTracking']['fromShippingAddress']['county']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['fromShippingAddress']['county'] : '',
-                                    'D_rSI_sT_fromShip_stateOrProvince' => isset($det['detail']['returnShipmentInfo']['shipmentTracking']['fromShippingAddress']['stateOrProvince']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['fromShippingAddress']['stateOrProvince'] : '',
-                                    'D_rSI_sT_fromShip_country' => isset($det['detail']['returnShipmentInfo']['shipmentTracking']['fromShippingAddress']['country']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['fromShippingAddress']['country'] : '',
-                                    'D_rSI_sT_fromShip_postalCode' => isset($det['detail']['returnShipmentInfo']['shipmentTracking']['fromShippingAddress']['postalCode']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['fromShippingAddress']['postalCode'] : '',
-                                    'D_rSI_sT_fromShip_any' => isset($det['detail']['returnShipmentInfo']['shipmentTracking']['fromShippingAddress']['any']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['fromShippingAddress']['any'] : '',
-                                    'D_rSI_sT_markAsReceived' => boolConvert::toInt01(isset($det['detail']['returnShipmentInfo']['shipmentTracking']['markAsReceived']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['markAsReceived'] : false),
-                                    'D_rSI_sT_active' => boolConvert::toInt01(isset($det['detail']['returnShipmentInfo']['shipmentTracking']['active']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['active'] : false),
-                                    'D_rSI_sLC_totalAmount' => isset($det['detail']['returnShipmentInfo']['shippingLabelCost']['totalAmount']['value']) ? $det['detail']['returnShipmentInfo']['shippingLabelCost']['totalAmount']['value'] : 0.00,
-                                    'D_rSI_sLC_currencyId' => isset($det['detail']['returnShipmentInfo']['shippingLabelCost']['totalAmount']['currencyId']) ? $det['detail']['returnShipmentInfo']['shippingLabelCost']['totalAmount']['currencyId'] : '',
-                                    'D_rSI_payee' => isset($det['detail']['returnShipmentInfo']['payee']) ? $det['detail']['returnShipmentInfo']['payee'] : '',
-                                    'D_returnMerchandiseAuthorization' => isset($det['detail']['returnMerchandiseAuthorization']) ? $det['detail']['returnMerchandiseAuthorization'] : '',
-                                    'D_closeReason' => isset($det['detail']['closeReason']) ? $det['detail']['closeReason'] : '',
-                                    'D_cI_returnCloseReason' => isset($det['detail']['closeInfo']['returnCloseReason']) ? $det['detail']['closeInfo']['returnCloseReason'] : '',
-                                    'D_cI_buyerCloseReason' => isset($det['detail']['closeInfo']['buyerCloseReason']) ? $det['detail']['closeInfo']['buyerCloseReason'] : '',
-                                    'create_time' => time()
+                                    'S_CI_creationDate' => isset($det['summary']['creationInfo']['creationDate']) ? $det['summary']['creationInfo']['creationDate'] /
+                                         1000 : 0,
+                                        'S_sTR_estimatedRefundAmount' => isset(
+                                            $det['summary']['sellerTotalRefund']['estimatedRefundAmount']['value']) ? $det['summary']['sellerTotalRefund']['estimatedRefundAmount']['value'] : 0.00,
+                                        'S_sTR_currencyId' => isset($det['summary']['sellerTotalRefund']['estimatedRefundAmount']['currencyId']) ? $det['summary']['sellerTotalRefund']['estimatedRefundAmount']['currencyId'] : '',
+                                        'S_bTR_estimatedRefundAmount' => isset(
+                                            $det['summary']['buyerTotalRefund']['estimatedRefundAmount']['value']) ? $det['summary']['buyerTotalRefund']['estimatedRefundAmount']['value'] : 0.00,
+                                        'S_bTR_currencyId' => isset($det['summary']['buyerTotalRefund']['estimatedRefundAmount']['currencyId']) ? $det['summary']['buyerTotalRefund']['estimatedRefundAmount']['currencyId'] : '',
+                                        'S_sRD_activityDue' => isset($det['summary']['sellerResponseDue']['activityDue']) ? $det['summary']['sellerResponseDue']['activityDue'] : '',
+                                        'S_sRD_respondByDate' => isset($det['summary']['sellerResponseDue']['respondByDate']) ? $det['summary']['sellerResponseDue']['respondByDate'] /
+                                         1000 : 0,
+                                        'S_bRD_activityDue' => isset($det['summary']['buyerResponseDue']['activityDue']) ? $det['summary']['buyerResponseDue']['activityDue'] : '',
+                                        'S_bRD_respondByDate' => isset($det['summary']['buyerResponseDue']['respondByDate']) ? $det['summary']['buyerResponseDue']['respondByDate'] /
+                                         1000 : 0,
+                                        'S_eI_eBPCaseId' => isset($det['summary']['escalationInfo']['eBPCaseId']) ? $det['summary']['escalationInfo']['eBPCaseId'] : '',
+                                        'S_eI_caseType' => isset($det['summary']['escalationInfo']['caseType']) ? $det['summary']['escalationInfo']['caseType'] : '',
+                                        'D_marketplaceId' => isset($det['detail']['marketplaceId']) ? $det['detail']['marketplaceId'] : '',
+                                        'D_iD_itemId' => isset($det['detail']['itemDetail']['itemId']) ? $det['detail']['itemDetail']['itemId'] : '',
+                                        'D_iD_transactionId' => isset($det['detail']['itemDetail']['transactionId']) ? $det['detail']['itemDetail']['transactionId'] : '',
+                                        'D_iD_returnQuantity' => isset($det['detail']['itemDetail']['returnQuantity']) ? $det['detail']['itemDetail']['returnQuantity'] : 0,
+                                        'D_iD_itemTitle' => isset($det['detail']['itemDetail']['itemTitle']) ? $det['detail']['itemDetail']['itemTitle'] : '',
+                                        'D_iD_itemPicUrl' => isset($det['detail']['itemDetail']['itemPicUrl']) ? $det['detail']['itemDetail']['itemPicUrl'] : '',
+                                        'D_iD_transactionDate' => isset($det['detail']['itemDetail']['transactionDate']) ? $det['detail']['itemDetail']['transactionDate'] /
+                                         1000 : 0,
+                                        'D_iD_itemPrice' => isset($det['detail']['itemDetail']['itemPrice']['value']) ? $det['detail']['itemDetail']['itemPrice']['value'] : 0.00,
+                                        'D_iD_currencyId' => isset($det['detail']['itemDetail']['itemPrice']['currencyId']) ? $det['detail']['itemDetail']['itemPrice']['currencyId'] : '',
+                                        'D_buyerEmailAddress' => isset($det['detail']['buyerEmailAddress']) ? $det['detail']['buyerEmailAddress'] : '',
+                                        'D_sellerEmailAddress' => isset($det['detail']['sellerEmailAddress']) ? $det['detail']['sellerEmailAddress'] : '',
+                                        'D_checkoutType' => isset($det['detail']['checkoutType']) ? $det['detail']['checkoutType'] : '',
+                                        'D_bA_name' => isset($det['detail']['buyerAddress']['name']) ? $det['detail']['buyerAddress']['name'] : '',
+                                        'D_bA_street1' => isset($det['detail']['buyerAddress']['street1']) ? $det['detail']['buyerAddress']['street1'] : '',
+                                        'D_bA_street2' => isset($det['detail']['buyerAddress']['street2']) ? $det['detail']['buyerAddress']['street2'] : '',
+                                        'D_bA_city' => isset($det['detail']['buyerAddress']['city']) ? $det['detail']['buyerAddress']['city'] : '',
+                                        'D_bA_county' => isset($det['detail']['buyerAddress']['county']) ? $det['detail']['buyerAddress']['county'] : '',
+                                        'D_bA_stateOrProvince' => isset($det['detail']['buyerAddress']['stateOrProvince']) ? $det['detail']['buyerAddress']['stateOrProvince'] : '',
+                                        'D_bA_country' => isset($det['detail']['buyerAddress']['country']) ? $det['detail']['buyerAddress']['country'] : '',
+                                        'D_bA_postalCode' => isset($det['detail']['buyerAddress']['postalCode']) ? $det['detail']['buyerAddress']['postalCode'] : '',
+                                        'D_bA_any' => isset($det['detail']['buyerAddress']['any']) ? $det['detail']['buyerAddress']['any'] : '',
+                                        'D_sA_name' => isset($det['detail']['sellerAddress']['name']) ? $det['detail']['sellerAddress']['name'] : '',
+                                        'D_sA_street1' => isset($det['detail']['sellerAddress']['street1']) ? $det['detail']['sellerAddress']['street1'] : '',
+                                        'D_sA_street2' => isset($det['detail']['sellerAddress']['street2']) ? $det['detail']['sellerAddress']['street2'] : '',
+                                        'D_sA_city' => isset($det['detail']['sellerAddress']['city']) ? $det['detail']['sellerAddress']['city'] : '',
+                                        'D_sA_county' => isset($det['detail']['sellerAddress']['county']) ? $det['detail']['sellerAddress']['county'] : '',
+                                        'D_sA_stateOrProvince' => isset($det['detail']['sellerAddress']['stateOrProvince']) ? $det['detail']['sellerAddress']['stateOrProvince'] : '',
+                                        'D_sA_country' => isset($det['detail']['sellerAddress']['country']) ? $det['detail']['sellerAddress']['country'] : '',
+                                        'D_sA_postalCode' => isset($det['detail']['sellerAddress']['postalCode']) ? $det['detail']['sellerAddress']['postalCode'] : '',
+                                        'D_sA_any' => isset($det['detail']['sellerAddress']['any']) ? json_encode(
+                                            $det['detail']['sellerAddress']['any']) : '',
+                                        'D_rSI_sT_shippingMethod' => isset(
+                                            $det['detail']['returnShipmentInfo']['shipmentTracking']['shippingMethod']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['shippingMethod'] : '',
+                                        'D_rSI_sT_shippedBy' => isset($det['detail']['returnShipmentInfo']['shipmentTracking']['shippedBy']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['shippedBy'] : '',
+                                        'D_rSI_sT_trackingNumber' => isset(
+                                            $det['detail']['returnShipmentInfo']['shipmentTracking']['trackingNumber']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['trackingNumber'] : '',
+                                        'D_rSI_sT_carrierId' => isset($det['detail']['returnShipmentInfo']['shipmentTracking']['carrierId']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['carrierId'] : '',
+                                        'D_rSI_sT_carrierEnum' => isset($det['detail']['returnShipmentInfo']['shipmentTracking']['carrierEnum']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['carrierEnum'] : '',
+                                        'D_rSI_sT_carrierName' => isset($det['detail']['returnShipmentInfo']['shipmentTracking']['carrierName']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['carrierName'] : '',
+                                        'D_rSI_sT_carrierUsed' => isset($det['detail']['returnShipmentInfo']['shipmentTracking']['carrierUsed']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['carrierUsed'] : '',
+                                        'D_rSI_sT_deliveryStatus' => isset(
+                                            $det['detail']['returnShipmentInfo']['shipmentTracking']['deliveryStatus']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['deliveryStatus'] : '',
+                                        'D_rSI_sT_toShip_name' => isset(
+                                            $det['detail']['returnShipmentInfo']['shipmentTracking']['toShippingAddress']['name']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['toShippingAddress']['name'] : '',
+                                        'D_rSI_sT_toShip_street1' => isset(
+                                            $det['detail']['returnShipmentInfo']['shipmentTracking']['toShippingAddress']['street1']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['toShippingAddress']['street1'] : '',
+                                        'D_rSI_sT_toShip_street2' => isset(
+                                            $det['detail']['returnShipmentInfo']['shipmentTracking']['toShippingAddress']['street2']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['toShippingAddress']['street2'] : '',
+                                        'D_rSI_sT_toShip_city' => isset(
+                                            $det['detail']['returnShipmentInfo']['shipmentTracking']['toShippingAddress']['city']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['toShippingAddress']['city'] : '',
+                                        'D_rSI_sT_toShip_county' => isset(
+                                            $det['detail']['returnShipmentInfo']['shipmentTracking']['toShippingAddress']['county']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['toShippingAddress']['county'] : '',
+                                        'D_rSI_sT_toShip_stateOrProvince' => isset(
+                                            $det['detail']['returnShipmentInfo']['shipmentTracking']['toShippingAddress']['stateOrProvince']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['toShippingAddress']['stateOrProvince'] : '',
+                                        'D_rSI_sT_toShip_country' => isset(
+                                            $det['detail']['returnShipmentInfo']['shipmentTracking']['toShippingAddress']['country']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['toShippingAddress']['country'] : '',
+                                        'D_rSI_sT_toShip_postalCode' => isset(
+                                            $det['detail']['returnShipmentInfo']['shipmentTracking']['toShippingAddress']['postalCode']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['toShippingAddress']['postalCode'] : '',
+                                        'D_rSI_sT_toShip_any' => isset(
+                                            $det['detail']['returnShipmentInfo']['shipmentTracking']['toShippingAddress']['any']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['toShippingAddress']['any'] : '',
+                                        'D_rSI_sT_fromShip_name' => isset(
+                                            $det['detail']['returnShipmentInfo']['shipmentTracking']['fromShippingAddress']['name']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['fromShippingAddress']['name'] : '',
+                                        'D_rSI_sT_fromShip_street1' => isset(
+                                            $det['detail']['returnShipmentInfo']['shipmentTracking']['fromShippingAddress']['street1']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['fromShippingAddress']['street1'] : '',
+                                        'D_rSI_sT_fromShip_street2' => isset(
+                                            $det['detail']['returnShipmentInfo']['shipmentTracking']['fromShippingAddress']['street2']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['fromShippingAddress']['street2'] : '',
+                                        'D_rSI_sT_fromShip_city' => isset(
+                                            $det['detail']['returnShipmentInfo']['shipmentTracking']['fromShippingAddress']['city']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['fromShippingAddress']['city'] : '',
+                                        'D_rSI_sT_fromShip_county' => isset(
+                                            $det['detail']['returnShipmentInfo']['shipmentTracking']['fromShippingAddress']['county']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['fromShippingAddress']['county'] : '',
+                                        'D_rSI_sT_fromShip_stateOrProvince' => isset(
+                                            $det['detail']['returnShipmentInfo']['shipmentTracking']['fromShippingAddress']['stateOrProvince']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['fromShippingAddress']['stateOrProvince'] : '',
+                                        'D_rSI_sT_fromShip_country' => isset(
+                                            $det['detail']['returnShipmentInfo']['shipmentTracking']['fromShippingAddress']['country']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['fromShippingAddress']['country'] : '',
+                                        'D_rSI_sT_fromShip_postalCode' => isset(
+                                            $det['detail']['returnShipmentInfo']['shipmentTracking']['fromShippingAddress']['postalCode']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['fromShippingAddress']['postalCode'] : '',
+                                        'D_rSI_sT_fromShip_any' => isset(
+                                            $det['detail']['returnShipmentInfo']['shipmentTracking']['fromShippingAddress']['any']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['fromShippingAddress']['any'] : '',
+                                        'D_rSI_sT_markAsReceived' => boolConvert::toInt01(
+                                            isset($det['detail']['returnShipmentInfo']['shipmentTracking']['markAsReceived']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['markAsReceived'] : false),
+                                        'D_rSI_sT_active' => boolConvert::toInt01(
+                                            isset($det['detail']['returnShipmentInfo']['shipmentTracking']['active']) ? $det['detail']['returnShipmentInfo']['shipmentTracking']['active'] : false),
+                                        'D_rSI_sLC_totalAmount' => isset(
+                                            $det['detail']['returnShipmentInfo']['shippingLabelCost']['totalAmount']['value']) ? $det['detail']['returnShipmentInfo']['shippingLabelCost']['totalAmount']['value'] : 0.00,
+                                        'D_rSI_sLC_currencyId' => isset(
+                                            $det['detail']['returnShipmentInfo']['shippingLabelCost']['totalAmount']['currencyId']) ? $det['detail']['returnShipmentInfo']['shippingLabelCost']['totalAmount']['currencyId'] : '',
+                                        'D_rSI_payee' => isset($det['detail']['returnShipmentInfo']['payee']) ? $det['detail']['returnShipmentInfo']['payee'] : '',
+                                        'D_returnMerchandiseAuthorization' => isset($det['detail']['returnMerchandiseAuthorization']) ? $det['detail']['returnMerchandiseAuthorization'] : '',
+                                        'D_closeReason' => isset($det['detail']['closeReason']) ? $det['detail']['closeReason'] : '',
+                                        'D_cI_returnCloseReason' => isset($det['detail']['closeInfo']['returnCloseReason']) ? $det['detail']['closeInfo']['returnCloseReason'] : '',
+                                        'D_cI_buyerCloseReason' => isset($det['detail']['closeInfo']['buyerCloseReason']) ? $det['detail']['closeInfo']['buyerCloseReason'] : '',
+                                        'create_time' => time()
                                 );
                                 // returndetail表数据更新或插入
                                 
@@ -271,7 +304,8 @@ class ReturnModel extends BaseModel
                                         'sellerReturnAddr_street2' => isset($history['attributes']['sellerReturnAddress']['street2']) ? $history['attributes']['sellerReturnAddress']['street2'] : '',
                                         'sellerReturnAddr_city' => isset($history['attributes']['sellerReturnAddress']['city']) ? $history['attributes']['sellerReturnAddress']['city'] : '',
                                         'sellerReturnAddr_county' => isset($history['attributes']['sellerReturnAddress']['county']) ? $history['attributes']['sellerReturnAddress']['county'] : '',
-                                        'sellerReturnAddr_stateOrProvince' => isset($history['attributes']['sellerReturnAddress']['stateOrProvince']) ? $history['attributes']['sellerReturnAddress']['stateOrProvince'] : '',
+                                        'sellerReturnAddr_stateOrProvince' => isset(
+                                            $history['attributes']['sellerReturnAddress']['stateOrProvince']) ? $history['attributes']['sellerReturnAddress']['stateOrProvince'] : '',
                                         'sellerReturnAddr_country' => isset($history['attributes']['sellerReturnAddress']['country']) ? $history['attributes']['sellerReturnAddress']['country'] : '',
                                         'sellerReturnAddr_postalCode' => isset($history['attributes']['sellerReturnAddress']['postalCode']) ? $history['attributes']['sellerReturnAddress']['postalCode'] : '',
                                         'sellerReturnAddr_any' => isset($history['attributes']['sellerReturnAddress']['any']) ? $history['attributes']['sellerReturnAddress']['any'] : '',
@@ -316,8 +350,10 @@ class ReturnModel extends BaseModel
                                         'refundFeeType' => isset($refund['refundFeeType']) ? $refund['refundFeeType'] : '',
                                         'estimatedAmount' => isset($refund['estimatedAmount']['value']) ? $refund['estimatedAmount']['value'] : 0.00,
                                         'currencyId' => isset($refund['estimatedAmount']['currencyId']) ? $refund['estimatedAmount']['currencyId'] : '',
-                                        'overwritableBySeller' => boolConvert::toInt01(isset($refund['overwritableBySeller']) ? $refund['overwritableBySeller'] : false),
-                                        'amountEditable' => boolConvert::toInt01(isset($refund['amountEditable']) ? $refund['amountEditable'] : false),
+                                        'overwritableBySeller' => boolConvert::toInt01(
+                                            isset($refund['overwritableBySeller']) ? $refund['overwritableBySeller'] : false),
+                                        'amountEditable' => boolConvert::toInt01(
+                                            isset($refund['amountEditable']) ? $refund['amountEditable'] : false),
                                         'restockingFeePercentage' => isset($refund['restockingFeePercentage']) ? $refund['restockingFeePercentage'] : 0,
                                         'create_time' => time()
                                     );
@@ -367,7 +403,8 @@ class ReturnModel extends BaseModel
                                         'fromShip_country' => isset($tracking['fromShippingAddress']['country']) ? $tracking['fromShippingAddress']['country'] : '',
                                         'fromShip_postalCode' => isset($tracking['fromShippingAddress']['postalCode']) ? $tracking['fromShippingAddress']['postalCode'] : '',
                                         'fromShip_any' => isset($tracking['fromShippingAddress']['any']) ? $tracking['fromShippingAddress']['any'] : '',
-                                        'markAsReceived' => boolConvert::toInt01(isset($tracking['markAsReceived']) ? $tracking['markAsReceived'] : false),
+                                        'markAsReceived' => boolConvert::toInt01(
+                                            isset($tracking['markAsReceived']) ? $tracking['markAsReceived'] : false),
                                         'active' => boolConvert::toInt01(isset($tracking['active']) ? $tracking['active'] : false),
                                         'create_time' => time()
                                     );
@@ -376,10 +413,12 @@ class ReturnModel extends BaseModel
                                 }
                             } else {
                                 file_put_contents('parseReturnDetailErr.log', $returnId_id . "\n", FILE_APPEND);
-                                file_put_contents('parseReturnDetailErr.log', $value['text_json']['ReturnDetail'][$returnId_id] . "\n", FILE_APPEND);
+                                file_put_contents('parseReturnDetailErr.log', $value['text_json']['ReturnDetail'][$returnId_id] . "\n", 
+                                    FILE_APPEND);
                             }
                         }
-                        if (isset($value['text_json']['ActivityOptions']) && is_array($value['text_json']['ActivityOptions']) && isset($value['text_json']['ActivityOptions'][$returnId_id])) {
+                        if (isset($value['text_json']['ActivityOptions']) && is_array($value['text_json']['ActivityOptions']) &&
+                             isset($value['text_json']['ActivityOptions'][$returnId_id])) {
                             $activity = ReturnDownModel::model()->parseNamespaceXml($value['text_json']['ActivityOptions'][$returnId_id]);
                             $dat = phpQuery::newDocumentXML($activity);
                             phpQuery::selectDocument($dat);
@@ -401,20 +440,25 @@ class ReturnModel extends BaseModel
                                 }
                                 ReturnActivityDAO::getInstance()->commit();
                             } catch (Exception $e) {
-                                iMongo::getInstance()->setCollection('ReturnActivityOptionsParseErr')->insert(array(
-                                    'getCode' => $e->getCode(),
-                                    'getFile' => $e->getFile(),
-                                    'getLine' => $e->getLine(),
-                                    'getMessage' => $e->getMessage(),
-                                    'time' => time()
-                                ));
+                                iMongo::getInstance()->setCollection('ReturnActivityOptionsParseErr')->insert(
+                                    array(
+                                        'getCode' => $e->getCode(),
+                                        'getFile' => $e->getFile(),
+                                        'getLine' => $e->getLine(),
+                                        'getMessage' => $e->getMessage(),
+                                        'time' => time()
+                                    ));
                                 ReturnActivityDAO::getInstance()->rollback();
                             }
                         }
                         // 图片下载
-                        if (isset($value['text_json']['FileData']) && is_array($value['text_json']['FileData']) && isset($value['text_json']['FileData'][$returnId_id])) {
+                        if (isset($value['text_json']['FileData']) && is_array($value['text_json']['FileData']) &&
+                             isset($value['text_json']['FileData'][$returnId_id])) {
                             // $return_docs = json_decode($value['text_json']['FileData'][$returnId_id], true);
-                            $return_docs = json_decode(FileLog::getInstance()->read(EnumOther::LOG_DIR_RETURN_TEMP_FILE_DATA . $value['text_json']['FileData'][$returnId_id], md5($returnId_id)), true);
+                            $return_docs = json_decode(
+                                FileLog::getInstance()->read(
+                                    EnumOther::LOG_DIR_RETURN_TEMP_FILE_DATA . $value['text_json']['FileData'][$returnId_id], md5($returnId_id)), 
+                                true);
                             ReturnDocsDAO::getInstance()->begintransaction();
                             ReturnDocsDAO::getInstance()->idelete($conditions, $params);
                             if (isset($return_docs['files'])) {
@@ -460,18 +504,20 @@ class ReturnModel extends BaseModel
                                 }
                             }
                             ReturnDocsDAO::getInstance()->commit();
-                            FileLog::getInstance()->delete(EnumOther::LOG_DIR_RETURN_TEMP_FILE_DATA . $value['text_json']['FileData'][$returnId_id], md5($returnId_id));
+                            FileLog::getInstance()->delete(
+                                EnumOther::LOG_DIR_RETURN_TEMP_FILE_DATA . $value['text_json']['FileData'][$returnId_id], md5($returnId_id));
                         }
                     }
                 } else {
-                    iMongo::getInstance()->setCollection('parseReturnErrUnserialize')->insert(array(
-                        'text_json' => $value['text_json'],
-                        'getCode' => $e->getCode(),
-                        'getFile' => $e->getFile(),
-                        'getLine' => $e->getLine(),
-                        'getMessage' => $e->getMessage(),
-                        'time' => time()
-                    ));
+                    iMongo::getInstance()->setCollection('parseReturnErrUnserialize')->insert(
+                        array(
+                            'text_json' => $value['text_json'],
+                            'getCode' => $e->getCode(),
+                            'getFile' => $e->getFile(),
+                            'getLine' => $e->getLine(),
+                            'getMessage' => $e->getMessage(),
+                            'time' => time()
+                        ));
                 }
                 $dids[] = $value['down_id'];
             }
@@ -671,13 +717,14 @@ class ReturnModel extends BaseModel
             SendMail::send(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
             return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $result, '');
         } else {
-            iMongo::getInstance()->setCollection('subMitDocsErr')->insert(array(
-                'type' => 'err',
-                'return_id' => $return_id,
-                'imgUrl' => $imgUrl,
-                'json' => $result,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection('subMitDocsErr')->insert(
+                array(
+                    'type' => 'err',
+                    'return_id' => $return_id,
+                    'imgUrl' => $imgUrl,
+                    'json' => $result,
+                    'time' => time()
+                ));
             // 发送邮件通知
             // ob_start();
             // echo "apiResult：\n";

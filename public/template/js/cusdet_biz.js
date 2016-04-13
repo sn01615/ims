@@ -63,7 +63,8 @@ $(document).ready(function(e) {
 
             (function() {
                 // 选项卡1
-                base_info_ul.find('span[t="clientID"]').html('<a href="http://www.ebay.com/usr/' + buyerId + '" target="_blank" class="fontLinkBtn">' + buyerId + '</a>');
+                base_info_ul.find('span[t="clientID"]').html('<a href="http://www.ebay.com/usr/' + buyerId +
+                    '" target="_blank" class="fontLinkBtn">' + buyerId + '</a>');
             })();
 
             //发送消息
@@ -122,7 +123,8 @@ $(document).ready(function(e) {
 
         $('.imglist_addwindow').empty();
         for (var i in img) {
-            $('<li><i class="icon-close iconBtnS" title="' + lang.cusdet_biz.click_delete + '"></i><img src="' + img[i] + '" width="70px" height="60px"></li>').appendTo('.imglist_addwindow');
+            $('<li><i class="icon-close iconBtnS" title="' + lang.cusdet_biz.click_delete + '"></i><img src="' + img[i] +
+                '" width="70px" height="60px"></li>').appendTo('.imglist_addwindow');
         }
         if (i >= 0 && img.length > 0) { //如果上传了图片以及图片数组长度大于0，则展示图片
             $('.imgShow').show();
@@ -153,7 +155,8 @@ $(document).ready(function(e) {
             onUploadSuccess: function(id, data) {
                 if (data.Ack == 'Success') {
                     img.push(data.Body.filepath);
-                    $('<li><i class="icon-close iconBtnS" title="' + lang.cusdet_biz.click_delete + '" data-id="' + id + '"></i><img src="' + data.Body.filepath + '" width="70px" height="60px"></li>').appendTo('.imglist_addwindow');
+                    $('<li><i class="icon-close iconBtnS" title="' + lang.cusdet_biz.click_delete + '" data-id="' + id + '"></i><img src="' +
+                        data.Body.filepath + '" width="70px" height="60px"></li>').appendTo('.imglist_addwindow');
                 } else {
                     hintShow('hint_f', lang.cusdet_biz.upload_error);
                     return false;
@@ -181,7 +184,8 @@ $(document).ready(function(e) {
         $('.addImgTC').show();
         $('.imglist_addwindow').empty();
         for (var i in img) {
-            $('<li><i class="icon-close iconBtnS" title="' + lang.cusdet_biz.click_delete + '"></i><img src="' + img[i] + '" width="70px" height="60px"></li>').appendTo('.imglist_addwindow');
+            $('<li><i class="icon-close iconBtnS" title="' + lang.cusdet_biz.click_delete + '"></i><img src="' + img[i] +
+                '" width="70px" height="60px"></li>').appendTo('.imglist_addwindow');
         }
     });
     // 点击关闭添加文件窗口
@@ -189,7 +193,8 @@ $(document).ready(function(e) {
         $('.addImgTC').hide();
         $('.imglist_addwindow').empty();
         for (var i in img) {
-            $('<li><i class="icon-close iconBtnS" title="' + lang.cusdet_biz.click_delete + '"></i><img src="' + img[i] + '" width="70px" height="60px"></li>').appendTo('.imglist_addwindow');
+            $('<li><i class="icon-close iconBtnS" title="' + lang.cusdet_biz.click_delete + '"></i><img src="' + img[i] +
+                '" width="70px" height="60px"></li>').appendTo('.imglist_addwindow');
         }
     });
 
@@ -305,7 +310,8 @@ $('#buyHistory_div').find('tbody').on('click', '.iconSended', function() {
                     if (state === 'success') {
                         if (listdata.Body.list !== '') {
                             $.each(listdata.Body.list, function(index, item) {
-                                $("#msgTemp select[pid=" + pid + "]").append('<option value="' + item.tp_list_id + '">' + item.title + '</option>');
+                                $("#msgTemp select[pid=" + pid + "]").append('<option value="' + item.tp_list_id + '">' + item.title +
+                                    '</option>');
                             });
                             $("#msgTemp select[pid=" + pid + "]").change(function(e) {
                                 var fid = $(this).find('option:selected').val();
@@ -436,7 +442,8 @@ function getMsgList(buyerId, pageInfo) {
             var userId;
             $('.sideTab').find('li').remove();
             for (var i in M) {
-                $('.sideTab').append('<li data-msgid=' + M[i].msg_id + '><h3> <span class="name">' + M[i].nick_name + '</span> <span class="ject">' + M[i].Subject + '</span><span class="reDate">' + intToLocalDate(M[i].ReceiveDate, 3) + '</span><i></i></h3></li> ');
+                $('.sideTab').append('<li data-msgid=' + M[i].msg_id + '><h3> <span class="name">' + M[i].nick_name + '</span> <span class="ject">' + M[i].Subject +
+                    '</span><span class="reDate">' + intToLocalDate(M[i].ReceiveDate, 3) + '</span><i></i></h3></li> ');
             }
             page = data.Body.page.page;
             pageSize = data.Body.page.pagesize;
@@ -473,10 +480,17 @@ function SearchOrderPage(buyerId, page, pageSize, total, eventHandler) {
     }
     if (currentPage === 1) {
         // 在第一页，禁用前一页的按钮
-        template += '<div class="pageBtnBox"><select name="" id="pageCli" data-pagesize data-page>' + tt + '</select>' + '<span class="preBtn pageBtn notOpBtn"><i class="icon-chevron-left"></i></span>' + '<span ' + (currentPage === pageCount ? 'class="nextBtn pageBtn notOpBtn"' : ' data-page data-pagesize class="nextBtn pageBtn"') + '><i title="' + lang.common.next_page + '" class="icon-chevron-right"><a data-toggle="tooltip" data-page="' + (currentPage + 1) + '" data-pagesize="' + pageSize + '"></a></i></span></div>';
+        template += '<div class="pageBtnBox"><select name="" id="pageCli" data-pagesize data-page>' + tt + '</select>' +
+            '<span class="preBtn pageBtn notOpBtn"><i class="icon-chevron-left"></i></span>' + '<span ' + (currentPage === pageCount ?
+                'class="nextBtn pageBtn notOpBtn"' : ' data-page data-pagesize class="nextBtn pageBtn"') + '><i title="' + lang.common.next_page +
+            '" class="icon-chevron-right"><a data-toggle="tooltip" data-page="' + (currentPage + 1) + '" data-pagesize="' + pageSize + '"></a></i></span></div>';
     } else {
         //不在第一页，显示前后一页的按钮
-        template += '<div class="pageBtnBox"><select name="" id="" style="width:80px;" data-pagesize data-page>' + tt + '</select>' + '<span data-page data-pagesize class="preBtn pageBtn"><i title="' + lang.common.previous_page + '" class="icon-chevron-left"><a data-toggle="tooltip" data-page="' + (currentPage - 1) + '" data-pagesize="' + pageSize + '"></a></i></span>' + '<span ' + (currentPage === pageCount ? 'class="nextBtn pageBtn notOpBtn"' : ' data-page data-pagesize class="nextBtn pageBtn"') + '><i title="' + lang.common.next_page + '" class="icon-chevron-right"><a data-toggle="tooltip" data-page="' + (currentPage + 1) + '" data-pagesize="' + pageSize + '"></a></i></span></div>';
+        template += '<div class="pageBtnBox"><select name="" id="" style="width:80px;" data-pagesize data-page>' + tt + '</select>' +
+            '<span data-page data-pagesize class="preBtn pageBtn"><i title="' + lang.common.previous_page +
+            '" class="icon-chevron-left"><a data-toggle="tooltip" data-page="' + (currentPage - 1) + '" data-pagesize="' + pageSize + '"></a></i></span>' + '<span ' +
+            (currentPage === pageCount ? 'class="nextBtn pageBtn notOpBtn"' : ' data-page data-pagesize class="nextBtn pageBtn"') + '><i title="' + lang.common.next_page +
+            '" class="icon-chevron-right"><a data-toggle="tooltip" data-page="' + (currentPage + 1) + '" data-pagesize="' + pageSize + '"></a></i></span></div>';
     }
     $paginationNavBar.html(template).show();
     // 页码按钮绑定事件
@@ -518,10 +532,12 @@ $('.sideTab').on('click', 'h3', function() {
             $this.parents('li').find('ul').remove();
             for (var k in V) {
                 if (V[k].FolderID == 1) {
-                    _html += '<li class="sellerMSG"><div class="MSGC"><p><b>' + intToLocalDate(V[k].ReceiveDate, 3) + '</b> &nbsp; SELLER</p><p><i> &lt;SELLER_SEND_MESSAGE &gt;</i>' +
+                    _html += '<li class="sellerMSG"><div class="MSGC"><p><b>' + intToLocalDate(V[k].ReceiveDate, 3) +
+                        '</b> &nbsp; SELLER</p><p><i> &lt;SELLER_SEND_MESSAGE &gt;</i>' +
                         '<br>' + V[k].effect_content + '</p></div></li>';
                 } else {
-                    _html += '<li class="buyerMSG"><div class="MSGC"><p><b>' + intToLocalDate(V[k].ReceiveDate, 3) + '</b> &nbsp; BUYER</p><p>' + V[k].effect_content + '</p></div></li>';
+                    _html += '<li class="buyerMSG"><div class="MSGC"><p><b>' + intToLocalDate(V[k].ReceiveDate, 3) + '</b> &nbsp; BUYER</p><p>' + V[k].effect_content +
+                        '</p></div></li>';
                 }
             }
             $this.siblings('.dialogBox').remove();
@@ -551,7 +567,13 @@ function orderList(buyerId) {
                     for (var x in data.Body) {
                         var transStr = '';
                         for (var y in data.Body[x].ExtTrans) {
-                            transStr += ('<div class="textleft tooltip_td" title="' + lang.cusdet_biz.transaction_time + '：' + intToLocalDate(data.Body[x].ExtTrans[y].ExternalTransactionTime, 3) + '<br />' + lang.cusdet_biz.transaction_amount + '：' + data.Body[x].ExtTrans[y].PaymentOrRefundAmount + data.Body[x].ExtTrans[y].PaymentOrRefundAmount_currencyID + '' + '<br />' + lang.cusdet_biz.final_value_fees + '：' + data.Body[x].ExtTrans[y].FeeOrCreditAmount + data.Body[x].ExtTrans[y].FeeOrCreditAmount_currencyID + '' + '<br />' + lang.cusdet_biz.transaction_status + '：' + data.Body[x].ExtTrans[y].ExternalTransactionStatus + '' + '">' + data.Body[x].ExtTrans[y].ExternalTransactionID + '(' + data.Body[x].ExtTrans[y].PaymentOrRefundAmount + data.Body[x].ExtTrans[y].PaymentOrRefundAmount_currencyID + ')' + '</div>');
+                            transStr += ('<div class="textleft tooltip_td" title="' + lang.cusdet_biz.transaction_time + '：' + intToLocalDate(data.Body[x].ExtTrans[
+                                    y].ExternalTransactionTime, 3) + '<br />' + lang.cusdet_biz.transaction_amount + '：' + data.Body[x].ExtTrans[y].PaymentOrRefundAmount +
+                                data.Body[x].ExtTrans[y].PaymentOrRefundAmount_currencyID + '' + '<br />' + lang.cusdet_biz.final_value_fees + '：' + data.Body[
+                                    x].ExtTrans[y].FeeOrCreditAmount + data.Body[x].ExtTrans[y].FeeOrCreditAmount_currencyID + '' + '<br />' + lang.cusdet_biz
+                                .transaction_status + '：' + data.Body[x].ExtTrans[y].ExternalTransactionStatus + '' + '">' + data.Body[x].ExtTrans[y].ExternalTransactionID +
+                                '(' + data.Body[x].ExtTrans[y].PaymentOrRefundAmount + data.Body[x].ExtTrans[y].PaymentOrRefundAmount_currencyID + ')' +
+                                '</div>');
                         }
                         //                                     // 属性
                         var _shuxing = '';
@@ -598,14 +620,26 @@ function orderList(buyerId) {
                             ))) {
                             if (data.Body[x].VariationSpecificsXML.xml.NameValueList.length > 0) {
                                 for (var j = 0; j < data.Body[x].VariationSpecificsXML.xml.NameValueList.length; j++) {
-                                    _shuxing += '<br/>' + data.Body[x].VariationSpecificsXML.xml.NameValueList[j].Name + ':' + data.Body[x].VariationSpecificsXML.xml.NameValueList[j].Value;
+                                    _shuxing += '<br/>' + data.Body[x].VariationSpecificsXML.xml.NameValueList[j].Name + ':' + data.Body[x].VariationSpecificsXML
+                                        .xml.NameValueList[j].Value;
                                 }
                             } else {
-                                _shuxing += '<br/>' + data.Body[x].VariationSpecificsXML.xml.NameValueList.Name + ':' + data.Body[x].VariationSpecificsXML.xml.NameValueList.Value;
+                                _shuxing += '<br/>' + data.Body[x].VariationSpecificsXML.xml.NameValueList.Name + ':' + data.Body[x].VariationSpecificsXML.xml.NameValueList
+                                    .Value;
                             }
                         }
                         //                                     
-                        $("#buyHistory_div").find('tbody').append('<tr data-key=' + x + '><td>' + data.Body[x].SellerUserID + '</td><td t="sku" style="word-break:break-all;">' + (data.Body[x].Item_SKU != '' ? data.Body[x].Item_SKU : data.Body[x].Variation_SKU) + '<br />ItemID:<a href="http://cgi.ebay.com/ws/eBayISAPI.dll?ViewItem&item=' + data.Body[x].Item_ItemID + '" target="_blank" class="fontLinkBtn">' + data.Body[x].Item_ItemID + '</a>' + (data.Body[x].ProductName.length > 0 ? ('<br />Prodtct:' + HTMLDecode(HTMLDecode(data.Body[x].ProductName))) : '') + _shuxing + '</td><td t="pnum">' + data.Body[x].QuantityPurchased + '<hr />' + data.Body[x].TransactionPrice + data.Body[x].TransactionPrice_currencyID + '</td><td t="ptime" style="word-break:break-all;line-height:1.1em;">' + intToLocalDate(data.Body[x].CreatedDate, 8) + '</td><td t="pm" style="line-height:1.5em;">' + data.Body[x].PaymentMethod + transStr + '</td>' + '<td title="' + addressStr + '" class="tooltip_td"><a href="javascript:;">' + lang.cusdet_biz.view + '</a></td>' + '<td>' + orderStatus + '</td>' + '<td t="note" class="tooltip_td">..</td>' + '<td class="evaluate">' + _feedback + '</td>' + '<td><i class="iconSended" title="' + lang.cusdet_biz.click_contact_buyer + '" data-item=' + data.Body[x].Item_ItemID + ' data-nickname=' + data.Body[x].SellerUserID +
+                        $("#buyHistory_div").find('tbody').append('<tr data-key=' + x + '><td>' + data.Body[x].SellerUserID +
+                            '</td><td t="sku" style="word-break:break-all;">' + (data.Body[x].Item_SKU != '' ? data.Body[x].Item_SKU : data.Body[x].Variation_SKU) +
+                            '<br />ItemID:<a href="http://cgi.ebay.com/ws/eBayISAPI.dll?ViewItem&item=' + data.Body[x].Item_ItemID +
+                            '" target="_blank" class="fontLinkBtn">' + data.Body[x].Item_ItemID + '</a>' + (data.Body[x].ProductName.length > 0 ? (
+                                '<br />Prodtct:' + HTMLDecode(HTMLDecode(data.Body[x].ProductName))) : '') + _shuxing + '</td><td t="pnum">' + data.Body[x]
+                            .QuantityPurchased + '<hr />' + data.Body[x].TransactionPrice + data.Body[x].TransactionPrice_currencyID +
+                            '</td><td t="ptime" style="word-break:break-all;line-height:1.1em;">' + intToLocalDate(data.Body[x].CreatedDate, 8) +
+                            '</td><td t="pm" style="line-height:1.5em;">' + data.Body[x].PaymentMethod + transStr + '</td>' + '<td title="' + addressStr +
+                            '" class="tooltip_td"><a href="javascript:;">' + lang.cusdet_biz.view + '</a></td>' + '<td>' + orderStatus + '</td>' +
+                            '<td t="note" class="tooltip_td">..</td>' + '<td class="evaluate">' + _feedback + '</td>' + '<td><i class="iconSended" title="' +
+                            lang.cusdet_biz.click_contact_buyer + '" data-item=' + data.Body[x].Item_ItemID + ' data-nickname=' + data.Body[x].SellerUserID +
                             ' data-shopid=' + data.Body[x].shop_id + '></td></tr>');
                         var itemlist = [];
                         itemlist.push(data.Body[x].Item_ItemID);
@@ -618,9 +652,12 @@ function orderList(buyerId) {
                                 if (data.Ack == 'Success') {
                                     var noteText = [];
                                     for (var x in data.Body) {
-                                        noteText[x] = (lang.cusdet_biz.author + '：' + data.Body[x].author_name + '\n' + lang.cusdet_biz.content + '：' + data.Body[x].text + '\n' + lang.cusdet_biz.buyer + '：' + data.Body[x].cust + '\n' + lang.cusdet_biz.time + '：' + intToLocalDate(data.Body[x].create_time, 7));
+                                        noteText[x] = (lang.cusdet_biz.author + '：' + data.Body[x].author_name + '\n' + lang.cusdet_biz.content +
+                                            '：' + data.Body[x].text + '\n' + lang.cusdet_biz.buyer + '：' + data.Body[x].cust + '\n' + lang.cusdet_biz
+                                            .time + '：' + intToLocalDate(data.Body[x].create_time, 7));
                                     }
-                                    $("#buyHistory_div").find('tr[data-key=' + _key + ']').find('td[t="note"]').html('<i class="icon-remark"></i>').attr('title', noteText.join('\n\n'));
+                                    $("#buyHistory_div").find('tr[data-key=' + _key + ']').find('td[t="note"]').html('<i class="icon-remark"></i>')
+                                        .attr('title', noteText.join('\n\n'));
                                 } else if (data.Ack == 'Warning') {
                                     $("#buyHistory_div").find('tr[data-key=' + _key + ']').find('td[t="note"]').html(lang.cusdet_biz.none);
                                 } else {
@@ -683,8 +720,10 @@ function caseList(buyerId) {
                         break;
                 }
 
-                $('#case_history').find('tbody').append('<tr><td>' + data.Body[i].nick_name + '</td><td>' + data.Body[i].i_itemId + '</td><td> ' + openReason + '</td><td> ' + intToLocalDate(data.Body[i].creationDate, 8) +
-                    '</td><td>' + ucfirst(data.Body[i].status) + '</td><td><a href="javascript:;" class="fontBtn caseDetail" data-caseid=' + data.Body[i].case_id + ' data-casetype=' + data.Body[i].caseId_type + '> ' + lang.cusdet_biz.details + ' </a></td></tr>');
+                $('#case_history').find('tbody').append('<tr><td>' + data.Body[i].nick_name + '</td><td>' + data.Body[i].i_itemId + '</td><td> ' + openReason +
+                    '</td><td> ' + intToLocalDate(data.Body[i].creationDate, 8) +
+                    '</td><td>' + ucfirst(data.Body[i].status) + '</td><td><a href="javascript:;" class="fontBtn caseDetail" data-caseid=' + data.Body[i].case_id +
+                    ' data-casetype=' + data.Body[i].caseId_type + '> ' + lang.cusdet_biz.details + ' </a></td></tr>');
             }
         } else {
             $('#case_history').find('tbody').append('<tr><td colspan="6">' + lang.cusdet_biz.not_find_data + '</td></tr>');
@@ -704,7 +743,10 @@ function returnList(buyerId) {
         if (status === 'success' && data.Ack === 'Success') {
             $('#return_history').find('tbody').empty();
             for (var j in data.Body) {
-                $('#return_history').find('tbody').append('<tr><td>' + data.Body[j].nick_name + '</td><td>' + data.Body[j].D_iD_itemId + '</td><td>' + ucfirst(data.Body[j].S_CI_reason) + '</td><td>' + intToLocalDate(data.Body[j].S_CI_creationDate, 8) + '</td><td>' + data.Body[j].S_state + '</td><td><a href="javascript:;" class="fontBtn returnDetail" data-returnid=' + data.Body[j].return_request_id + '> ' + lang.cusdet_biz.details + ' </a></td></tr>')
+                $('#return_history').find('tbody').append('<tr><td>' + data.Body[j].nick_name + '</td><td>' + data.Body[j].D_iD_itemId + '</td><td>' + ucfirst(
+                        data.Body[j].S_CI_reason) + '</td><td>' + intToLocalDate(data.Body[j].S_CI_creationDate, 8) + '</td><td>' + data.Body[j].S_state +
+                    '</td><td><a href="javascript:;" class="fontBtn returnDetail" data-returnid=' + data.Body[j].return_request_id + '> ' + lang.cusdet_biz
+                    .details + ' </a></td></tr>')
             }
         } else {
             $('#return_history').find('tbody').append('<tr><td colspan="6">' + lang.cusdet_biz.not_find_data + '</td></tr>')

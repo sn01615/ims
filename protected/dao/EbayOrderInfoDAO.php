@@ -33,5 +33,4 @@ class EbayOrderInfoDAO extends BaseDAO
         $this->primaryKey = 'ebay_order_info_id';
         $this->created = 'create_time';
     }
-    
 }

@@ -34,5 +34,4 @@ class Ck1PackingDAO extends BaseDAO
         // $this->created = '';
         // $this->updated = '';
     }
-
 }

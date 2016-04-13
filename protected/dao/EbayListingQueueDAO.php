@@ -7,7 +7,7 @@
  */
 class EbayListingQueueDAO extends BaseDAO
 {
-    
+
     /**
      * @desc 对象实例重用
      * @param string $className 需要实例化的类名
@@ -35,7 +35,7 @@ class EbayListingQueueDAO extends BaseDAO
         
         $this->shop = 'shop';
     }
-    
+
     /**
      * @desc 取ebay_listing_queue 队列数据
      * @param int $limit
@@ -44,9 +44,9 @@ class EbayListingQueueDAO extends BaseDAO
      */
     public function getListingQueueData($limit = 1)
     {
-        if(empty($limit)){
-			return false;
-		}
+        if (empty($limit)) {
+            return false;
+        }
         $this->begintransaction();
         try {
             $_time = time();
@@ -87,16 +87,16 @@ class EbayListingQueueDAO extends BaseDAO
                 return false;
             }
         } catch (Exception $e) {
-            iMongo::getInstance()->setCollection('getListingQueueData')->insert(array(
-                'getCode' => $e->getCode(),
-                'getFile' => $e->getFile(),
-                'getLine' => $e->getLine(),
-                'getTraceAsString' => $e->getTraceAsString(),
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection('getListingQueueData')->insert(
+                array(
+                    'getCode' => $e->getCode(),
+                    'getFile' => $e->getFile(),
+                    'getLine' => $e->getLine(),
+                    'getTraceAsString' => $e->getTraceAsString(),
+                    'time' => time()
+                ));
             $this->rollback();
             return false;
         }
-    
     }
 }

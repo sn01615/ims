@@ -7,7 +7,7 @@
  */
 class AutoLabelModel extends BaseModel
 {
-    
+
     /**
      * @desc 覆盖父方法,返回当前类的(单)实例
      * @param string $className 需要实例化的类名
@@ -19,7 +19,7 @@ class AutoLabelModel extends BaseModel
     {
         return parent::model($className);
     }
-    
+
     /**
      * @desc 获取消息的自动标签
      * @param int $msgid
@@ -34,7 +34,7 @@ class AutoLabelModel extends BaseModel
         $url .= '?msg_id=' . $msgid;
         return getByCurl::get($url, $error);
     }
-    
+
     /**
      * @desc 定时获取消息的自动标签
      * @author YangLong
@@ -67,7 +67,8 @@ class AutoLabelModel extends BaseModel
         $offset = null;
         $option = '';
         $groups = '';
-        $msgids = MsgTextResolveDAO::getInstance()->iselect($columns, $conditions, $params, true, $joinArray, $tableAlias, $order, $limit, $offset, $option, $groups);
+        $msgids = MsgTextResolveDAO::getInstance()->iselect($columns, $conditions, $params, true, $joinArray, $tableAlias, $order, $limit, 
+            $offset, $option, $groups);
         
         foreach ($msgids as $value) {
             $result = $this->getMsgAutoLabel($value['msg_id'], $error);
@@ -98,5 +99,4 @@ class AutoLabelModel extends BaseModel
             }
         }
     }
-    
 }

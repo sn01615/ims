@@ -7,7 +7,7 @@
  */
 class ReturnHistoryDAO extends BaseDAO
 {
-    
+
     /**
      * @desc 对象实例重用
      * @param string $className 需要实例化的类名
@@ -37,7 +37,7 @@ class ReturnHistoryDAO extends BaseDAO
         
         $this->shop = 'shop';
     }
-    
+
     /**
      * @desc 获取历史信息
      * @param  int $returnid
@@ -60,7 +60,7 @@ class ReturnHistoryDAO extends BaseDAO
             ->queryAll();
         return $result;
     }
-    
+
     /**
      * @desc 通过caseid获取return ID
      * @param $caseid
@@ -82,27 +82,27 @@ class ReturnHistoryDAO extends BaseDAO
         return $result;
     }
     
-//    /**
-//     * @desc 获取退货地址
-//     * @param $returnId_id
-//     * @author liaojianwen
-//     * @date 2015-06-29
-//     * @return mixed
-//     */
-//    public function getReturnAddr($returnId_id)
-//    {
-//        $selects = 'h.sellerReturnAddr_name name,sellerReturnAddr_street1 street1,sellerReturnAddr_street2 street2,sellerReturnAddr_city city,sellerReturnAddr_county county,
-//        			sellerReturnAddr_stateOrProvince stateOrProvince,sellerReturnAddr_country country,sellerReturnAddr_postalCode postalCode,sellerReturnAddr_any any';
-//        $conditions = "r.returnId_id ={$returnId_id}";
-//        $result = $this->dbCommand->reset()
-//            ->select($selects)
-//            ->from("{$this->tableName} h")
-//            ->join("{$this->return} r", "r.return_request_id= h.return_id")
-//            ->where($conditions)
-//            ->limit(1)
-//            ->queryRow();
-//        return $result;
-//    }
+    // /**
+    // * @desc 获取退货地址
+    // * @param $returnId_id
+    // * @author liaojianwen
+    // * @date 2015-06-29
+    // * @return mixed
+    // */
+    // public function getReturnAddr($returnId_id)
+    // {
+    // $selects = 'h.sellerReturnAddr_name name,sellerReturnAddr_street1 street1,sellerReturnAddr_street2 street2,sellerReturnAddr_city city,sellerReturnAddr_county county,
+    // sellerReturnAddr_stateOrProvince stateOrProvince,sellerReturnAddr_country country,sellerReturnAddr_postalCode postalCode,sellerReturnAddr_any any';
+    // $conditions = "r.returnId_id ={$returnId_id}";
+    // $result = $this->dbCommand->reset()
+    // ->select($selects)
+    // ->from("{$this->tableName} h")
+    // ->join("{$this->return} r", "r.return_request_id= h.return_id")
+    // ->where($conditions)
+    // ->limit(1)
+    // ->queryRow();
+    // return $result;
+    // }
     
     /**
      * @desc 通过returnId_id 获取request 历史
@@ -128,5 +128,4 @@ class ReturnHistoryDAO extends BaseDAO
             ->queryAll();
         return $result;
     }
-    
 }

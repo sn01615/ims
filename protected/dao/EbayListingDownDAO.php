@@ -7,7 +7,7 @@
  */
 class EbayListingDownDAO extends BaseDAO
 {
-    
+
     /**
      * @desc 对象实例重用
      * @param string $className 需要实例化的类名
@@ -35,7 +35,7 @@ class EbayListingDownDAO extends BaseDAO
         
         $this->shop = 'shop';
     }
-    
+
     /**
      * @desc 获取已经下载的Listing数据
      * @param int $taskNumber

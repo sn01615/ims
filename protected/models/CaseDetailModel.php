@@ -7,7 +7,7 @@
  */
 class CaseDetailModel extends BaseModel
 {
-    
+
     /**
      * @desc 覆盖父方法返回CaseModel对象
      * @param string $className 需要实例化的类名
@@ -19,8 +19,8 @@ class CaseDetailModel extends BaseModel
     {
         return parent::model($className);
     }
-    
-     /**
+
+    /**
      * @desc 获取case详细信息
      * @param integer $caseid case的id
      * @param String $type case的类型
@@ -77,7 +77,7 @@ class CaseDetailModel extends BaseModel
         
         return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $result, '');
     }
-    
+
     /**
      * @desc 获取case处理过程的历史对话信息
      * @param integer $caseid case的id
@@ -90,31 +90,33 @@ class CaseDetailModel extends BaseModel
         if (empty($caseid)) {
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '信息不存在');
         }
-        //获取客户所有店铺
+        // 获取客户所有店铺
         $shopParam = array();
         $shopParam['seller_id'] = Yii::app()->session['userInfo']['seller_id'];
         $shopParam['is_delete'] = boolConvert::toInt01(false);
-        $shopParam['status'] 	= 1;
-        $shopArr = ShopDAO::getInstance()->findAllByAttributes($shopParam, array('shop_id'));
-    	if (empty($shopArr)) {
-            $res= $this->handleApiFormat(EnumOther::ACK_FAILURE,'','用户还未注册店铺');
+        $shopParam['status'] = 1;
+        $shopArr = ShopDAO::getInstance()->findAllByAttributes($shopParam, array(
+            'shop_id'
+        ));
+        if (empty($shopArr)) {
+            $res = $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '用户还未注册店铺');
             return $res;
         }
         foreach ($shopArr as $value) {
             $shopidArr[] = $value['shop_id'];
         }
         $shopidArr = implode(',', $shopidArr);
-        $result['list'] = CaseResponseHistoryDAO::getInstance()->getCaseHistory($caseid,$shopidArr);
-        foreach($result['list'] as &$value){
-              $value['note_md5'] = md5(trim($value['note']));
-              $value['activityDetial_description_md5'] = md5(trim($value['activityDetial_description']));
+        $result['list'] = CaseResponseHistoryDAO::getInstance()->getCaseHistory($caseid, $shopidArr);
+        foreach ($result['list'] as &$value) {
+            $value['note_md5'] = md5(trim($value['note']));
+            $value['activityDetial_description_md5'] = md5(trim($value['activityDetial_description']));
         }
         if ($result['list'] == false) {
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '信息不存在');
         }
         return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $result, '');
     }
-    
+
     /**
      * @desc 添加case备注
      * @param integer $caseid case的id
@@ -125,7 +127,7 @@ class CaseDetailModel extends BaseModel
      * @modify 2015-05-25
      * @return Ambigous <multitype:, boolean, multitype:string array string >
      */
-    public function addItemNote($text,$caseId,$sellerId)
+    public function addItemNote($text, $caseId, $sellerId)
     {
         if ($caseId <= 0) {
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '`caseid` can not empty.');
@@ -136,7 +138,7 @@ class CaseDetailModel extends BaseModel
             'c.user_role',
             'c.otherParty_userId',
             'c.otherParty_role'
-        );    
+        );
         $conditions = 'c.case_id=:case_id and s.seller_id=:seller_id';
         $params = array(
             ':case_id' => $caseId,
@@ -152,9 +154,9 @@ class CaseDetailModel extends BaseModel
         $tokeninfo = CaseDAO::getInstance()->iselect($columns, $conditions, $params, false, $joinArray, $tableAlias);
         if ($tokeninfo !== false) {
             $cust = '';
-            if($tokeninfo['user_role'] ==='BUYER'){
+            if ($tokeninfo['user_role'] === 'BUYER') {
                 $cust = $tokeninfo['user_userId'];
-            } elseif ($tokeninfo['otherParty_role'] ==='BUYER'){
+            } elseif ($tokeninfo['otherParty_role'] === 'BUYER') {
                 $cust = $tokeninfo['otherParty_userId'];
             }
             
@@ -177,7 +179,7 @@ class CaseDetailModel extends BaseModel
             }
         }
     }
-    
+
     /**
      * @desc 获取case备注列表
      * @param integer $caseid case的id
@@ -208,7 +210,7 @@ class CaseDetailModel extends BaseModel
         $result['list'] = ItemNoteDAO::getInstance()->getItemNote($itemId, $shopidArr, $type, $dealId);
         return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $result, '');
     }
-    
+
     /**
      * @desc 买家发送消息
      * @param int $caseId Case表主键
@@ -283,7 +285,7 @@ class CaseDetailModel extends BaseModel
             }
         }
     }
-    
+
     /**
      * @desc 处理case回复物流单号与承运商
      * @param int $caseId case表主键
@@ -359,7 +361,7 @@ class CaseDetailModel extends BaseModel
             }
         }
     }
-    
+
     /**
      * @desc 处理case 提供承运商，发货日期
      * @param int $caseId case表主键
@@ -407,21 +409,21 @@ class CaseDetailModel extends BaseModel
                     'create_time' => time()
                 );
                 $result2 = CaseUploadQueueDAO::getInstance()->iinsert($columns);
-                //以下部分是插入我的操作日志表的代码
-        		$username = isset(Yii::app()->session['userInfo']['username']) ? Yii::app()->session['userInfo']['username'] : 0;
-        		if ($username !== 0) {
-        		    $paramArr['handle_user'] = $username;
-        		} else {
-         		    return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '用户未登陆');
-        		}
-        		$paramArr['case_id'] = $caseId;
-        		$paramArr['caseType'] = $caseType;
-        		$paramArr['responseText'] = $responseText;
-        		$paramArr['create_time'] = time();
-        		$paramArr['handle_type'] = __FUNCTION__;
-        		$paramArr['shipdate'] = $shipdate;
-        		$paramArr['carrier'] = $carrier;
-        		$result3 = CaseHandleLogDAO::getInstance()->insert($paramArr);
+                // 以下部分是插入我的操作日志表的代码
+                $username = isset(Yii::app()->session['userInfo']['username']) ? Yii::app()->session['userInfo']['username'] : 0;
+                if ($username !== 0) {
+                    $paramArr['handle_user'] = $username;
+                } else {
+                    return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '用户未登陆');
+                }
+                $paramArr['case_id'] = $caseId;
+                $paramArr['caseType'] = $caseType;
+                $paramArr['responseText'] = $responseText;
+                $paramArr['create_time'] = time();
+                $paramArr['handle_type'] = __FUNCTION__;
+                $paramArr['shipdate'] = $shipdate;
+                $paramArr['carrier'] = $carrier;
+                $result3 = CaseHandleLogDAO::getInstance()->insert($paramArr);
                 if ($result === false || $result2 === false || $result3 === false) {
                     CaseResponseHistoryDAO::getInstance()->rollback();
                     return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
@@ -435,7 +437,7 @@ class CaseDetailModel extends BaseModel
             }
         }
     }
-    
+
     /**
      * @desc case全额退款
      * @param int $caseId  case表主键
@@ -507,7 +509,7 @@ class CaseDetailModel extends BaseModel
             }
         }
     }
-    
+
     /**
      * @desc case 部分退款
      * @param int $caseId case表主键
@@ -554,20 +556,20 @@ class CaseDetailModel extends BaseModel
                     'create_time' => time()
                 );
                 $result2 = CaseUploadQueueDAO::getInstance()->iinsert($columns);
-                //以下部分是插入我的操作日志表的代码
-        		$username = isset(Yii::app()->session['userInfo']['username']) ? Yii::app()->session['userInfo']['username'] : 0;
-        		if ($username !== 0) {
-        		    $paramArr['handle_user'] = $username;
-        		} else {
-         		    return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '用户未登陆');
-        		}
-        		$paramArr['case_id'] = $caseId;
-        		$paramArr['caseType'] = $caseType;
-        		$paramArr['responseText'] = $responseText;
-        		$paramArr['create_time'] = time();
-        		$paramArr['handle_type'] = __FUNCTION__;
-        		$paramArr['amount'] = $amount;
-        		$result3 = CaseHandleLogDAO::getInstance()->insert($paramArr);
+                // 以下部分是插入我的操作日志表的代码
+                $username = isset(Yii::app()->session['userInfo']['username']) ? Yii::app()->session['userInfo']['username'] : 0;
+                if ($username !== 0) {
+                    $paramArr['handle_user'] = $username;
+                } else {
+                    return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '用户未登陆');
+                }
+                $paramArr['case_id'] = $caseId;
+                $paramArr['caseType'] = $caseType;
+                $paramArr['responseText'] = $responseText;
+                $paramArr['create_time'] = time();
+                $paramArr['handle_type'] = __FUNCTION__;
+                $paramArr['amount'] = $amount;
+                $result3 = CaseHandleLogDAO::getInstance()->insert($paramArr);
                 if ($result === false || $result2 === false || $result3 === false) {
                     CaseResponseHistoryDAO::getInstance()->rollback();
                     return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
@@ -581,7 +583,7 @@ class CaseDetailModel extends BaseModel
             }
         }
     }
-    
+
     /**
      * @desc 退款兼退货
      * @param int $caseId  case表主键
@@ -630,7 +632,9 @@ class CaseDetailModel extends BaseModel
                 $result = CaseResponseHistoryDAO::getInstance()->insert($param);
                 $columns = array(
                     'upload_type' => __FUNCTION__,
-                    'upload_data' => serialize(compact('caseId_id', 'caseType', 'role', 'responseText', 'country', 'state', 'city', 'street', 'street2', 'contractName', 'postcode', 'merchantAuth')),
+                    'upload_data' => serialize(
+                        compact('caseId_id', 'caseType', 'role', 'responseText', 'country', 'state', 'city', 'street', 'street2', 'contractName', 
+                            'postcode', 'merchantAuth')),
                     'token' => $token['token'],
                     'create_time' => time()
                 );
@@ -661,7 +665,7 @@ class CaseDetailModel extends BaseModel
             }
         }
     }
-    
+
     /**
      * @desc 升级Case(eBay介入)
      * @param int $caseId case表主键
@@ -708,20 +712,20 @@ class CaseDetailModel extends BaseModel
                     'create_time' => time()
                 );
                 $result2 = CaseUploadQueueDAO::getInstance()->iinsert($columns);
-                //以下部分是插入我的操作日志表的代码
-        		$username = isset(Yii::app()->session['userInfo']['username']) ? Yii::app()->session['userInfo']['username'] : 0;
-        		if ($username !== 0) {
-        		    $paramArr['handle_user'] = $username;
-        		} else {
-         		    return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '用户未登陆');
-        		}
-        		$paramArr['case_id'] = $caseId;
-        		$paramArr['caseType'] = $caseType;
-        		$paramArr['responseText'] = $responseText;
-        		$paramArr['create_time'] = time();
-        		$paramArr['handle_type'] = __FUNCTION__;
-        		$paramArr['reason'] = $reason;
-        		$result3 = CaseHandleLogDAO::getInstance()->insert($paramArr);
+                // 以下部分是插入我的操作日志表的代码
+                $username = isset(Yii::app()->session['userInfo']['username']) ? Yii::app()->session['userInfo']['username'] : 0;
+                if ($username !== 0) {
+                    $paramArr['handle_user'] = $username;
+                } else {
+                    return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '用户未登陆');
+                }
+                $paramArr['case_id'] = $caseId;
+                $paramArr['caseType'] = $caseType;
+                $paramArr['responseText'] = $responseText;
+                $paramArr['create_time'] = time();
+                $paramArr['handle_type'] = __FUNCTION__;
+                $paramArr['reason'] = $reason;
+                $result3 = CaseHandleLogDAO::getInstance()->insert($paramArr);
                 if ($result === false || $result2 === false || $result3 === false) {
                     CaseResponseHistoryDAO::getInstance()->rollback();
                     return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
@@ -735,7 +739,7 @@ class CaseDetailModel extends BaseModel
             }
         }
     }
-    
+
     /**
      * @desc 获取我的处理记录
      * @param int caseid case的id
@@ -743,14 +747,15 @@ class CaseDetailModel extends BaseModel
      * @author lvjianfei
      * @date 2015-04-20
      */
-    public function getCaseHandleLog($caseid){
-    	if(empty($caseid)){
-    		return $this->handleApiForMat(EnumOther::ACK_FAILURE,'','获取caseid失败');
-    	}
-    	$result['list'] = CaseHandleLogDAO::getInstance()->getCaseHandleLog($caseid);
-    	return $this->handleApiFormat(EnumOther::ACK_SUCCESS,$result,'');
+    public function getCaseHandleLog($caseid)
+    {
+        if (empty($caseid)) {
+            return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '获取caseid失败');
+        }
+        $result['list'] = CaseHandleLogDAO::getInstance()->getCaseHandleLog($caseid);
+        return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $result, '');
     }
-    
+
     /**
      * @desc 生成提供退货地址的case的队列
      * @param $caseId case 主键
@@ -762,10 +767,10 @@ class CaseDetailModel extends BaseModel
      * @author liaojianwen
      * @date 2015-07-07
      */
-    public function provideReturnInfo($caseId,$caseType,$addr,$rma,$caseId_id,$sellerId)
+    public function provideReturnInfo($caseId, $caseType, $addr, $rma, $caseId_id, $sellerId)
     {
-         if (empty($caseId) || empty($caseType) || empty($addr['name']) || empty($addr['street1']) || empty($addr['street2']) || empty($addr['city']) || empty($addr['state'])
-             || empty($addr['country']) || empty($addr['postalCode'])) {
+        if (empty($caseId) || empty($caseType) || empty($addr['name']) || empty($addr['street1']) || empty($addr['street2']) ||
+             empty($addr['city']) || empty($addr['state']) || empty($addr['country']) || empty($addr['postalCode'])) {
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '数据不能为空');
         }
         $token = CaseDAO::getInstance()->lawfulCaseID($caseId, $sellerId);
@@ -798,23 +803,25 @@ class CaseDetailModel extends BaseModel
                 $result = CaseResponseHistoryDAO::getInstance()->insert($param);
                 $columns = array(
                     'upload_type' => __FUNCTION__,
-                    'upload_data' => serialize(compact('caseId_id', 'caseType', 'name', 'street1', 'street2','city','stateOrProvince','country','postalCode','returnMerchandiseAuthorization')),
+                    'upload_data' => serialize(
+                        compact('caseId_id', 'caseType', 'name', 'street1', 'street2', 'city', 'stateOrProvince', 'country', 'postalCode', 
+                            'returnMerchandiseAuthorization')),
                     'token' => $token['token'],
                     'create_time' => time()
                 );
                 $result2 = CaseUploadQueueDAO::getInstance()->iinsert($columns);
-                //以下部分是插入我的操作日志表的代码
-        		$username = isset(Yii::app()->session['userInfo']['username']) ? Yii::app()->session['userInfo']['username'] : 0;
-        		if ($username !== 0) {
-        		    $paramArr['handle_user'] = $username;
-        		} else {
-         		    return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '用户未登陆');
-        		}
-        		$paramArr['case_id'] = $caseId;
-        		$paramArr['caseType'] = $caseType;
-        		$paramArr['create_time'] = time();
-        		$paramArr['handle_type'] = __FUNCTION__;
-        		$result3 = CaseHandleLogDAO::getInstance()->insert($paramArr);
+                // 以下部分是插入我的操作日志表的代码
+                $username = isset(Yii::app()->session['userInfo']['username']) ? Yii::app()->session['userInfo']['username'] : 0;
+                if ($username !== 0) {
+                    $paramArr['handle_user'] = $username;
+                } else {
+                    return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '用户未登陆');
+                }
+                $paramArr['case_id'] = $caseId;
+                $paramArr['caseType'] = $caseType;
+                $paramArr['create_time'] = time();
+                $paramArr['handle_type'] = __FUNCTION__;
+                $result3 = CaseHandleLogDAO::getInstance()->insert($paramArr);
                 if ($result === false || $result2 === false || $result3 === false) {
                     CaseResponseHistoryDAO::getInstance()->rollback();
                     return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
@@ -822,14 +829,13 @@ class CaseDetailModel extends BaseModel
                     CaseResponseHistoryDAO::getInstance()->commit();
                     return $this->handleApiFormat(EnumOther::ACK_SUCCESS, '');
                 }
-             } catch (Exception $e) {
+            } catch (Exception $e) {
                 CaseResponseHistoryDAO::getInstance()->rollback();
                 return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
             }
         }
-    
     }
-    
+
     /**
      * @desc 向ebay 申诉
      * @param string $caseId
@@ -901,7 +907,7 @@ class CaseDetailModel extends BaseModel
             }
         }
     }
-    
+
     /**
      * @desc 添加case
      * @param array $orderInfo  
@@ -909,25 +915,28 @@ class CaseDetailModel extends BaseModel
      * @author liaojianwen
      * @date 2015-07-30
      */
-    public function addDispute($orderInfo,$sellerId)
+    public function addDispute($orderInfo, $sellerId)
     {
-      foreach($orderInfo as $info){
-          if (array_search($info['DisputeReason'], DisputeExplanationCodeType2::$type) === false) {
+        foreach ($orderInfo as $info) {
+            if (array_search($info['DisputeReason'], DisputeExplanationCodeType2::$type) === false) {
                 return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', 'DisputeReason Error.');
             }
             
-            if ($info['DisputeReason'] == DisputeExplanationCodeType2::$type[0] && array_search($info['DisputeExplanation'], DisputeExplanationCodeType2::$BuyerHasNotPaid) === false) {
+            if ($info['DisputeReason'] == DisputeExplanationCodeType2::$type[0] &&
+                 array_search($info['DisputeExplanation'], DisputeExplanationCodeType2::$BuyerHasNotPaid) === false) {
                 return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', 'UPI DisputeExplanation Error.');
             }
             
-            if ($info['DisputeReason'] == DisputeExplanationCodeType2::$type[1] && array_search($info['DisputeExplanation'], DisputeExplanationCodeType2::$TransactionMutuallyCanceled) === false) {
+            if ($info['DisputeReason'] == DisputeExplanationCodeType2::$type[1] &&
+                 array_search($info['DisputeExplanation'], DisputeExplanationCodeType2::$TransactionMutuallyCanceled) === false) {
                 return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', 'CANCELED DisputeExplanation Error.');
             }
             
-            $token = ShopDAO::getInstance()->getValuesByPk($info['shopid'], array(
-                'token',
-                'site_id'
-            ));
+            $token = ShopDAO::getInstance()->getValuesByPk($info['shopid'], 
+                array(
+                    'token',
+                    'site_id'
+                ));
             if (empty($token)) {
                 return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', 'shopId Error.');
             }
@@ -936,65 +945,65 @@ class CaseDetailModel extends BaseModel
             try {
                 $columns = array(
                     'upload_type' => __FUNCTION__,
-                    'upload_data' => serialize(array(
-                        'DisputeReason' => $info['DisputeReason'],
-                        'DisputeExplanation' => $info['DisputeExplanation'],
-                        'ItemID' => $info['ItemID'],
-                        'TransactionID' => $info['TransactionID'],
-                        'OrderLineItemID' => $info['OrderLineItemID'],
-                        'siteId' => $token['site_id']
-                    )),
+                    'upload_data' => serialize(
+                        array(
+                            'DisputeReason' => $info['DisputeReason'],
+                            'DisputeExplanation' => $info['DisputeExplanation'],
+                            'ItemID' => $info['ItemID'],
+                            'TransactionID' => $info['TransactionID'],
+                            'OrderLineItemID' => $info['OrderLineItemID'],
+                            'siteId' => $token['site_id']
+                        )),
                     'token' => $token['token'],
                     'create_time' => time()
                 );
                 $result = CaseUploadQueueDAO::getInstance()->iinsert($columns);
                 
-                
                 if ($result === false) {
                     CaseUploadQueueDAO::getInstance()->rollback();
-                    iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
-                        'type' => 'Err',
-                        'orderArr' => $orderInfo,
-                        'xml' => $result,
-                        'time' => time()
-                    ));
+                    iMongo::getInstance()->setCollection(__FUNCTION__)->insert(
+                        array(
+                            'type' => 'Err',
+                            'orderArr' => $orderInfo,
+                            'xml' => $result,
+                            'time' => time()
+                        ));
                     return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', 'insert database failure.');
                 } else {
                     CaseUploadQueueDAO::getInstance()->commit();
-                    iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
-                        'type' => 'Success',
-                        'orderArr' => $orderInfo,
-                        'xml' => $result,
-                        'time' => time()
-                    ));
-
+                    iMongo::getInstance()->setCollection(__FUNCTION__)->insert(
+                        array(
+                            'type' => 'Success',
+                            'orderArr' => $orderInfo,
+                            'xml' => $result,
+                            'time' => time()
+                        ));
                 }
             } catch (Exception $e) {
                 CaseUploadQueueDAO::getInstance()->rollback();
                 return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', 'insert database failure.');
             }
-      }
-      return $this->handleApiFormat(EnumOther::ACK_SUCCESS, '');
+        }
+        return $this->handleApiFormat(EnumOther::ACK_SUCCESS, '');
     }
-   
-    
-     /**
+
+    /**
      * @desc 查找处理人、处理方式
      * @param $caseid
      * @param $sellerId
      * @author liaojianwen
      * @date 2015-07-15
      */
-    public function getCaseOperator($caseid,$sellerId)
+    public function getCaseOperator($caseid, $sellerId)
     {
         if (empty($caseid) || empty($sellerId)) {
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '');
         }
         
         $result = CaseHandleLogDAO::getInstance()->getCaseOperator($caseid);
-        if(empty($result)){
-            return $this->handleApiForMat(EnumOther::ACK_FAILURE,'','operation is not exists');
+        if (empty($result)) {
+            return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', 'operation is not exists');
         }
-        return  $this->handleApiFormat(EnumOther::ACK_SUCCESS, $result, '');   
+        return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $result, '');
     }
 }

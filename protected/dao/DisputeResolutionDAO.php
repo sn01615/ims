@@ -7,8 +7,9 @@
  */
 class DisputeResolutionDAO extends BaseDAO
 {
-    
-    private $shop;// shop表名
+
+    private $shop;
+    // shop表名
     
     /**
      * @desc 对象实例重用

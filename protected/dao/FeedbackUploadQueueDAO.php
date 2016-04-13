@@ -33,7 +33,7 @@ class FeedbackUploadQueueDAO extends BaseDAO
         $this->primaryKey = 'feedback_upload_queue_id';
         $this->created = 'create_time';
     }
-    
+
     /**
      * @desc 取出feedback上传队列数据
      * @param number $limit
@@ -54,13 +54,13 @@ class FeedbackUploadQueueDAO extends BaseDAO
                 ':runcount' => EnumOther::MAX_RUN_COUNT
             );
             $data = $this->dbCommand->reset()
-            ->select('feedback_upload_queue_id,upload_type,upload_data,token')
-            ->from($table)
-            ->where($conditions, $params)
-            ->limit($limit)
-            ->order("priority desc,feedback_upload_queue_id asc")
-            ->queryAll();
-    
+                ->select('feedback_upload_queue_id,upload_type,upload_data,token')
+                ->from($table)
+                ->where($conditions, $params)
+                ->limit($limit)
+                ->order("priority desc,feedback_upload_queue_id asc")
+                ->queryAll();
+            
             if (! empty($data)) {
                 $queueIds = array();
                 foreach ($data as $key => $value) {
@@ -74,8 +74,8 @@ class FeedbackUploadQueueDAO extends BaseDAO
                 $conditions = "feedback_upload_queue_id in ({$queueIds})";
                 $this->dbCommand->reset()->update($table, $columns, $conditions);
                 $this->dbCommand->reset()
-                ->setText("UPDATE {$table} SET runcount = runcount + 1 WHERE feedback_upload_queue_id IN ({$queueIds})")
-                ->execute();
+                    ->setText("UPDATE {$table} SET runcount = runcount + 1 WHERE feedback_upload_queue_id IN ({$queueIds})")
+                    ->execute();
                 $this->commit();
                 return $data;
             } else {
@@ -83,16 +83,17 @@ class FeedbackUploadQueueDAO extends BaseDAO
                 return false;
             }
         } catch (Exception $e) {
-            iMongo::getInstance()->setCollection('getFeedbackUploadQueueData')->insert(array(
-            'getCode' => $e->getCode(),
-            'getFile' => $e->getFile(),
-            'getLine' => $e->getLine(),
-            'getMessage' => $e->getMessage(),
-            'getPrevious' => $e->getPrevious(),
-            'getTrace' => $e->getTrace(),
-            'getTraceAsString' => $e->getTraceAsString(),
-            'time' => time()
-            ));
+            iMongo::getInstance()->setCollection('getFeedbackUploadQueueData')->insert(
+                array(
+                    'getCode' => $e->getCode(),
+                    'getFile' => $e->getFile(),
+                    'getLine' => $e->getLine(),
+                    'getMessage' => $e->getMessage(),
+                    'getPrevious' => $e->getPrevious(),
+                    'getTrace' => $e->getTrace(),
+                    'getTraceAsString' => $e->getTraceAsString(),
+                    'time' => time()
+                ));
             $this->rollback();
             return false;
         }

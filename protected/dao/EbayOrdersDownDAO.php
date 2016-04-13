@@ -33,7 +33,7 @@ class EbayOrdersDownDAO extends BaseDAO
         $this->primaryKey = 'ebay_orders_down_id';
         $this->created = 'create_time';
     }
-    
+
     /**
      * @desc 获取区需要解析的订单数据
      * @param number $limit
@@ -74,5 +74,4 @@ class EbayOrdersDownDAO extends BaseDAO
         }
         return $ordersArray;
     }
-    
 }

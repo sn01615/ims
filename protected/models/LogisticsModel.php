@@ -7,7 +7,7 @@
  */
 class LogisticsModel extends BaseModel
 {
-    
+
     /**
      * @desc 覆盖父方法,返回当前类的(单)实例
      * @param string $className 需要实例化的类名
@@ -19,7 +19,7 @@ class LogisticsModel extends BaseModel
     {
         return parent::model($className);
     }
-    
+
     /**
      * @desc 调用API获取包裹信息
      * @param array $pkglst
@@ -35,7 +35,7 @@ class LogisticsModel extends BaseModel
         $url .= '?pkglst=' . urlencode(json_encode($pkglst));
         return getByCurl::get($url, $error);
     }
-    
+
     /**
      * @desc 调用API获取账单信息
      * @param array $pkglst
@@ -51,7 +51,7 @@ class LogisticsModel extends BaseModel
         $url .= '?pkglst=' . urlencode(json_encode($pkglst));
         return getByCurl::get($url, $error);
     }
-    
+
     /**
      * @desc 调用API获取账单信息
      * @param array $pkglst
@@ -67,7 +67,7 @@ class LogisticsModel extends BaseModel
         $url .= '?pkglst=' . urlencode(json_encode($pkglst));
         return getByCurl::get($url, $error);
     }
-    
+
     /**
      * @desc 获取和解析包裹信息
      * @author YangLong
@@ -102,7 +102,8 @@ class LogisticsModel extends BaseModel
         $offset = null;
         $option = '';
         $groups = '';
-        $packages = Ck1PackagesDAO::getInstance()->iselect($columns, $conditions, $params, true, $joinArray, $tableAlias, $order, $limit, $offset, $option, $groups);
+        $packages = Ck1PackagesDAO::getInstance()->iselect($columns, $conditions, $params, true, $joinArray, $tableAlias, $order, $limit, 
+            $offset, $option, $groups);
         
         if (empty($packages)) {
             return null;
@@ -223,9 +224,10 @@ class LogisticsModel extends BaseModel
                         
                         // 安全起见
                         if (is_array($ck1_packing_id)) {
-                            iMongo::getInstance()->setCollection('ck1_packing')->insert(array(
-                                'ck1_packing_id' => $ck1_packing_id
-                            ));
+                            iMongo::getInstance()->setCollection('ck1_packing')->insert(
+                                array(
+                                    'ck1_packing_id' => $ck1_packing_id
+                                ));
                             
                             $ck1_packing_id = array_shift($ck1_packing_id);
                             $ck1_packing_id = array_shift($ck1_packing_id);
@@ -358,7 +360,7 @@ class LogisticsModel extends BaseModel
         usleep(100000);
         goto label1;
     }
-    
+
     /**
      * @desc 获取和解析物流轨迹信息
      * @author YangLong
@@ -393,7 +395,8 @@ class LogisticsModel extends BaseModel
         $offset = null;
         $option = '';
         $groups = '';
-        $trackings = Ck1TrackingsDAO::getInstance()->iselect($columns, $conditions, $params, true, $joinArray, $tableAlias, $order, $limit, $offset, $option, $groups);
+        $trackings = Ck1TrackingsDAO::getInstance()->iselect($columns, $conditions, $params, true, $joinArray, $tableAlias, $order, $limit, 
+            $offset, $option, $groups);
         
         if (empty($trackings)) {
             return null;
@@ -493,7 +496,7 @@ class LogisticsModel extends BaseModel
         usleep(100000);
         goto label1;
     }
-    
+
     /**
      * @desc 读取tracking信息
      * @param string $trackingNumber
@@ -533,7 +536,8 @@ class LogisticsModel extends BaseModel
             $params = array(
                 ':ck1_trackings_id' => $result['ck1_trackings_id']
             );
-            $result['trackingDetails'] = Ck1TrackingDetailsDAO::getInstance()->iselect($columns, $conditions, $params, true, array(), '', 'LocalTimeTimestamp desc');
+            $result['trackingDetails'] = Ck1TrackingDetailsDAO::getInstance()->iselect($columns, $conditions, $params, true, array(), '', 
+                'LocalTimeTimestamp desc');
             
             $columns = array(
                 'sta.Name',
@@ -586,7 +590,7 @@ class LogisticsModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, $result);
         }
     }
-    
+
     /**
      * @desc 读取tracking信息(实时)
      * @param string $trackingNumber
@@ -637,5 +641,4 @@ class LogisticsModel extends BaseModel
         
         return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $result);
     }
-    
 }

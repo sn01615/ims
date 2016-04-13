@@ -33,5 +33,4 @@ class CaseDisputeResolutionDAO extends BaseDAO
         $this->primaryKey = 'case_dispute_resolution_id';
         $this->created = 'create_time';
     }
-    
 }

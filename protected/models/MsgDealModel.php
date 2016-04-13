@@ -9,17 +9,17 @@ class MsgDealModel extends BaseModel
 {
 
     const VESRION = '905';
-    
+
     private $proxy;
 
-    private $compatabilityLevel; // eBay API version
-    
+    private $compatabilityLevel;
+    // eBay API version
     private $devID;
-    
+
     private $appID;
-    
+
     private $certID;
-    
+
     /**
      * @desc 构造方法
      * @author YangLong
@@ -42,7 +42,7 @@ class MsgDealModel extends BaseModel
             // $paypalEmailAddress = 'SANDBOX_PAYPAL_EMAIL_ADDRESS';
         }
     }
-    
+
     /**
      * @desc 覆盖父方法返回MsgDealModel对象
      * @param string $className 需要实例化的类名
@@ -126,7 +126,7 @@ class MsgDealModel extends BaseModel
         }
         return $result;
     }
-    
+
     /**
      * @desc 批量回复邮件
      * @param text $body 邮件正文
@@ -152,7 +152,7 @@ class MsgDealModel extends BaseModel
                 $siteId = $value['siteId'];
                 $result = $this->replyMessage($body, $parentMessageID, $addRecipientID, $token, $siteId);
                 $_arr['ids'] = $mids;
-                $_arr['type']= 'replied';
+                $_arr['type'] = 'replied';
                 $this->dealMsg($_arr);
             }
         }
@@ -184,15 +184,20 @@ class MsgDealModel extends BaseModel
         $addmembermessagertqrequest->setErrorLanguage('zh_CN');
         
         $response = $this->proxy->AddMemberMessageRTQ($addmembermessagertqrequest);
-        if($response->Ack === 'Success'){
-            $result = array('state'=>1);
-        }else{
+        if ($response->Ack === 'Success') {
+            $result = array(
+                'state' => 1
+            );
+        } else {
             $error = $response->Errors;
-            $result = array('state'=>0,'body'=>$error[0]->ShortMessage);
+            $result = array(
+                'state' => 0,
+                'body' => $error[0]->ShortMessage
+            );
         }
         return $result;
     }
-    
+
     /**
      * @desc 上传图片API
      * @param  string token 
@@ -264,7 +269,7 @@ class MsgDealModel extends BaseModel
         $respXmlObj = simplexml_load_string($respXmlStr);
         return $respXmlObj;
     }
-    
+
     /**
      * @desc 设置RequestToken和DevId等
      * @param string $RequestToken            
@@ -372,7 +377,8 @@ class MsgDealModel extends BaseModel
             $express .= " and s.shop_id in ({$shopIds})";
             
             // SKU分配
-            if (isset($userConfig['seller_config']) && isset($userConfig['seller_config']['sku_default_user']) && $userConfig['seller_config']['sku_default_user'] > 0) {
+            if (isset($userConfig['seller_config']) && isset($userConfig['seller_config']['sku_default_user']) &&
+                 $userConfig['seller_config']['sku_default_user'] > 0) {
                 $express .= " and user_id={$userConfig['seller_config']['sku_default_user']}";
             }
         }
@@ -417,7 +423,8 @@ class MsgDealModel extends BaseModel
             $express = "{$express} and m.aggregate_hide='" . boolConvert::toStr01(false) . "'";
         }
         
-        $key = md5(__METHOD__ . ',,' . $express . ',,' . implode(',', $paramArr) . ',,' . $page . ',,' . $pageSize . ',,' . $searchCon . ',,' . $listType);
+        $key = md5(
+            __METHOD__ . ',,' . $express . ',,' . implode(',', $paramArr) . ',,' . $page . ',,' . $pageSize . ',,' . $searchCon . ',,' . $listType);
         $result = iMemcache::getInstance()->get($key);
         if ($result !== false) {
             return $result;
@@ -441,7 +448,7 @@ class MsgDealModel extends BaseModel
             return $result;
         }
     }
-    
+
     /**
      * @desc 查询待处理数
      * @author liaojianwen,YangLong
@@ -501,7 +508,7 @@ class MsgDealModel extends BaseModel
         }
         return $result;
     }
-    
+
     /**
      * @desc 获取信息明细
      * @param int $mids  信息ID
@@ -650,7 +657,7 @@ class MsgDealModel extends BaseModel
             'content' => $result
         ));
     }
-    
+
     /**
      * @desc 添加模板分类
      * @param string $classname 模板名称         
@@ -696,7 +703,7 @@ class MsgDealModel extends BaseModel
                 'Ack' => 'Failure',
                 'error' => array(
                     'error_code' => 'none',
-                    'error_message' => "classname cannot empty.",
+                    'error_message' => "classname cannot empty."
                 )
             );
         }
@@ -804,7 +811,7 @@ class MsgDealModel extends BaseModel
         $result = MsgDealDAO::getInstance()->getTp($tpId, $sellerId);
         return $result;
     }
-    
+
     /**
      * @desc 获取模板明细
      * @param int $tid 模板父ID
@@ -843,13 +850,15 @@ class MsgDealModel extends BaseModel
         $gmTokens = array();
         foreach ($mTokens as $key => $mToken) {
             $gmTokens[$mToken['shop_id']][] = array(
-                'token'=>$mToken['token'],
+                'token' => $mToken['token'],
                 'm' => $mToken['MessageID'],
                 's' => $mToken['site_id']
             );
         }
-        if(empty($gmTokens)){
-            return array('Ack'=>'Failure');
+        if (empty($gmTokens)) {
+            return array(
+                'Ack' => 'Failure'
+            );
         }
         $result = array();
         foreach ($gmTokens as $midsarray) {
@@ -1032,10 +1041,11 @@ class MsgDealModel extends BaseModel
             'site_id' => $siteid
         );
         
-        iMongo::getInstance()->setCollection('fetchToken')->insert(array(
-            'result' => $result,
-            'time' => time()
-        ));
+        iMongo::getInstance()->setCollection('fetchToken')->insert(
+            array(
+                'result' => $result,
+                'time' => time()
+            ));
         
         $accountInfo = $this->geteBayAccount($result['eBayAuthToken'], $errorinfo);
         if ($accountInfo !== false) {
@@ -1147,7 +1157,7 @@ class MsgDealModel extends BaseModel
         }
         return $result;
     }
-    
+
     /**
      * @desc 获取ebay账户唯一标识ID
      * @param string $token
@@ -1201,7 +1211,7 @@ class MsgDealModel extends BaseModel
             return false;
         }
     }
-    
+
     /**
      * @desc 调用cdc回复队列执行结果返回
      * @param unknown_type $msgid 消息id
@@ -1214,19 +1224,19 @@ class MsgDealModel extends BaseModel
     public function UpdateMsgStatus($msgid, $Replied, $handled, $send_status)
     {
         $msgDao = MsgDealDAO::getInstance();
-        $result = $msgDao->updateByPk($msgid, array(
-            'Replied' => (string) $Replied,
-            'handled' => (string) $handled,
-            'send_status' => (string) $send_status
-        ));
+        $result = $msgDao->updateByPk($msgid, 
+            array(
+                'Replied' => (string) $Replied,
+                'handled' => (string) $handled,
+                'send_status' => (string) $send_status
+            ));
         if ($result === false) {
             return false;
         }
         setcookie("DisposeMsgId", "", time() + 3600 * 24);
         return $result;
     }
-    
-    
+
     /**
      * @desc 添加msg备注
      * @param integer $msgid msg的id
@@ -1236,19 +1246,19 @@ class MsgDealModel extends BaseModel
      * @date 2015-05-25
      * @return Ambigous <multitype:, boolean, multitype:string array string >
      */
-    public function addItemNote($text,$msgid,$sellerId)
+    public function addItemNote($text, $msgid, $sellerId)
     {
         if ($msgid <= 0) {
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '`msgid` can not empty.');
         }
-
+        
         $columns = array(
             'm.ItemID',
             'm.Sender',
             'm.SendToName',
             's.account'
-        );    
-          $conditions = 'm.msg_id=:msg_id and s.seller_id=:seller_id';
+        );
+        $conditions = 'm.msg_id=:msg_id and s.seller_id=:seller_id';
         $params = array(
             ':msg_id' => $msgid,
             ':seller_id' => $sellerId
@@ -1261,11 +1271,11 @@ class MsgDealModel extends BaseModel
         );
         $tableAlias = 'm';
         $tokeninfo = MsgDAO::getInstance()->iselect($columns, $conditions, $params, false, $joinArray, $tableAlias);
-            $cust ='';
+        $cust = '';
         if ($tokeninfo !== false) {
-            if($tokeninfo['account'] != $tokeninfo['Sender']){
+            if ($tokeninfo['account'] != $tokeninfo['Sender']) {
                 $cust = $tokeninfo['Sender'];
-            } elseif ($tokeninfo['account'] != $tokeninfo['SendToName']){
+            } elseif ($tokeninfo['account'] != $tokeninfo['SendToName']) {
                 $cust = $tokeninfo['SendToName'];
             } else {
                 $cust = $tokeninfo['account'];
@@ -1288,9 +1298,9 @@ class MsgDealModel extends BaseModel
             } else {
                 return $this->handleApiFormat(EnumOther::ACK_SUCCESS, '');
             }
-       }
+        }
     }
-    
+
     /**
      * @desc 升级最新最多200条消息的一些状态信息（无队列）(收件箱)
      * @author YangLong
@@ -1347,7 +1357,8 @@ class MsgDealModel extends BaseModel
                         'ItemTitle'
                     );
                     
-                    $xml = MsgDownModel::model()->getMyMessages($shop['token'], 'ReturnHeaders', 0, 0, 0, '', $shop['site_id'], $page, $pagesize, array(), false, $OutputSelector);
+                    $xml = MsgDownModel::model()->getMyMessages($shop['token'], 'ReturnHeaders', 0, 0, 0, '', $shop['site_id'], $page, $pagesize, 
+                        array(), false, $OutputSelector);
                     $doc = phpQuery::newDocumentXML($xml);
                     phpQuery::selectDocument($doc);
                     if (pq('Ack')->html() === 'Success') {
@@ -1391,20 +1402,22 @@ class MsgDealModel extends BaseModel
                             }
                             MsgDAO::getInstance()->iupdate($columns, $conditions, $params);
                         }
-                        iMongo::getInstance()->setCollection('updateMsgByListXML')->insert(array(
-                            'shop_id' => $shop['shop_id'],
-                            'page' => $page,
-                            'time' => time(),
-                            'strtime' => gmdate('Y-m-d H:i:s Z')
-                        ));
+                        iMongo::getInstance()->setCollection('updateMsgByListXML')->insert(
+                            array(
+                                'shop_id' => $shop['shop_id'],
+                                'page' => $page,
+                                'time' => time(),
+                                'strtime' => gmdate('Y-m-d H:i:s Z')
+                            ));
                     } else {
-                        iMongo::getInstance()->setCollection('updateMsgByListXMLF')->insert(array(
-                            'shop_id' => $shop['shop_id'],
-                            'xml' => $xml,
-                            'page' => $page,
-                            'time' => time(),
-                            'strtime' => gmdate('Y-m-d H:i:s Z')
-                        ));
+                        iMongo::getInstance()->setCollection('updateMsgByListXMLF')->insert(
+                            array(
+                                'shop_id' => $shop['shop_id'],
+                                'xml' => $xml,
+                                'page' => $page,
+                                'time' => time(),
+                                'strtime' => gmdate('Y-m-d H:i:s Z')
+                            ));
                     }
                     
                     phpQuery::selectDocument($doc);
@@ -1415,7 +1428,7 @@ class MsgDealModel extends BaseModel
             }
         }
     }
-    
+
     /**
      * @desc 通过orderLIneItemID 获取评价
      * @param string $OrderLineItemID
@@ -1444,7 +1457,7 @@ class MsgDealModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', 'no feedback.');
         }
     }
-    
+
     /**
      * @desc 根据UserId获取Msgs
      * @param string $UserID 用户ID
@@ -1499,7 +1512,7 @@ class MsgDealModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '');
         }
     }
-    
+
     /**
      * @desc 获取历史消息正文
      * @param int $sellerId
@@ -1621,7 +1634,8 @@ class MsgDealModel extends BaseModel
         $resultAll['SendToName'] = str_ireplace($shopInfo['account'], $shopInfo['nick_name'], $resultAll['SendToName']);
         $resultAll['Sender'] = str_ireplace($shopInfo['account'], $shopInfo['nick_name'], $resultAll['Sender']);
         
-        if ($UserID == 'eBay' || stripos($UserID, '@ebay.com') !== false || $msgInfo['SendToName'] === $msgInfo['Sender'] || $msgInfo['Sender'] === 'eBay CS Support') {
+        if ($UserID == 'eBay' || stripos($UserID, '@ebay.com') !== false || $msgInfo['SendToName'] === $msgInfo['Sender'] ||
+             $msgInfo['Sender'] === 'eBay CS Support') {
             // $columns = array(
             // 't.Text'
             // );
@@ -1765,7 +1779,8 @@ class MsgDealModel extends BaseModel
             }
             $F0 = $F1 = true;
             foreach ($result as $key => $value) {
-                $result[$key]['effect_content'] = str_ireplace($result[$key]['account'], $result[$key]['nick_name'], $result[$key]['effect_content']);
+                $result[$key]['effect_content'] = str_ireplace($result[$key]['account'], $result[$key]['nick_name'], 
+                    $result[$key]['effect_content']);
                 $result[$key]['Sender'] = str_ireplace($result[$key]['account'], $result[$key]['nick_name'], $result[$key]['Sender']);
                 $result[$key]['SendToName'] = str_ireplace($result[$key]['account'], $result[$key]['nick_name'], $result[$key]['SendToName']);
                 
@@ -1844,7 +1859,7 @@ class MsgDealModel extends BaseModel
         
         return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $resultAll);
     }
-    
+
     /**
      * @desc 获取消息的相关消息的id
      * @author YangLong
@@ -1926,7 +1941,7 @@ class MsgDealModel extends BaseModel
         
         return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $result);
     }
-    
+
     /**
      * @desc 获取消息的客服名
      * @param int $sellerId
@@ -1970,7 +1985,7 @@ class MsgDealModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '');
         }
     }
-    
+
     /**
      * @desc 获取用户的注册站点
      * @param string $userId
@@ -1999,7 +2014,7 @@ class MsgDealModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '');
         }
     }
-    
+
     /**
      * @desc 获取消息详情
      * @param string $msgid
@@ -2086,7 +2101,7 @@ class MsgDealModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '');
         }
     }
-    
+
     /**
      * @desc 获取某个买家对卖家的评价统计信息
      * @param int $userId
@@ -2130,7 +2145,7 @@ class MsgDealModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '');
         }
     }
-    
+
     /**
      * @desc 无队列回复消息
      * @param string $msgId 信息ID
@@ -2196,7 +2211,8 @@ class MsgDealModel extends BaseModel
         );
         $MessageID = rand(1000000000, 9999999999);
         
-        $xml = MsgDownModel::model()->addMemberMessageRTQ($msgInfo['token'], $content, $msgInfo['ExternalMessageID'], $RecipientIDArray, '', $MessageMediaArray, 0, $MessageID, $emailCopyToSender);
+        $xml = MsgDownModel::model()->addMemberMessageRTQ($msgInfo['token'], $content, $msgInfo['ExternalMessageID'], $RecipientIDArray, '', 
+            $MessageMediaArray, 0, $MessageID, $emailCopyToSender);
         
         if (stripos($xml, '<CorrelationID>' . $MessageID . '</CorrelationID>') && stripos($xml, '<Ack>Success</Ack>')) {
             return $this->handleApiFormat(EnumOther::ACK_SUCCESS, '', '');
@@ -2204,7 +2220,7 @@ class MsgDealModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', $xml);
         }
     }
-    
+
     /**
      * @desc 添加新标签
      * @param string $labeltitle 标签标题
@@ -2241,7 +2257,7 @@ class MsgDealModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, $result);
         }
     }
-    
+
     /**
      * @desc 获取标签列表
      * @param int $sellerId
@@ -2306,7 +2322,7 @@ class MsgDealModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, $result);
         }
     }
-    
+
     /**
      * @desc 获取标签列表
      * @param int $sellerId
@@ -2341,14 +2357,15 @@ class MsgDealModel extends BaseModel
                 's.shop_id=m.shop_id and s.is_delete=0'
             )
         );
-        $result = MsgAutoLabelDAO::getInstance()->iselect($columns, $conditions, $params, true, $joinArray, 'mal', '', 0, null, 'DISTINCT SQL_SMALL_RESULT');
+        $result = MsgAutoLabelDAO::getInstance()->iselect($columns, $conditions, $params, true, $joinArray, 'mal', '', 0, null, 
+            'DISTINCT SQL_SMALL_RESULT');
         if ($result !== false) {
             return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $result);
         } else {
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, $result);
         }
     }
-    
+
     /**
      * @desc 编辑标签
      * @param string $labeltitle
@@ -2406,7 +2423,7 @@ class MsgDealModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, $result);
         }
     }
-    
+
     /**
      * @desc 删除标签
      * @param int $labelid 标签ID
@@ -2434,7 +2451,7 @@ class MsgDealModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, $result);
         }
     }
-    
+
     /**
      * @desc 删除标签
      * @param int $labelid
@@ -2494,7 +2511,7 @@ class MsgDealModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, $result);
         }
     }
-    
+
     /**
      * @desc 取消消息标签
      * @param int $labelid
@@ -2539,7 +2556,7 @@ class MsgDealModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, $result);
         }
     }
-    
+
     /**
      * @desc 获取消息的相关Case信息
      * @param int $msgid
@@ -2578,7 +2595,7 @@ class MsgDealModel extends BaseModel
         $msginfo = MsgDAO::getInstance()->iselect($columns, $conditions, $params, false, $joinArray, 'm');
         
         $itemId = empty($msginfo['i1']) ? $msginfo['i2'] : $msginfo['i1'];
-        $userId = $msginfo['FolderID']==1 ? $msginfo['SendToName'] : $msginfo['Sender'];
+        $userId = $msginfo['FolderID'] == 1 ? $msginfo['SendToName'] : $msginfo['Sender'];
         
         // Case
         $columns = array(
@@ -2660,7 +2677,7 @@ class MsgDealModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, $result);
         }
     }
-    
+
     /**
      * @desc 获取用户管理的msg列表
      * @param string $buyerId
@@ -2725,7 +2742,7 @@ class MsgDealModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, $result);
         }
     }
-    
+
     /**
      * @desc 设置某条Msg为已处理
      * @param int $msgid
@@ -2754,5 +2771,4 @@ class MsgDealModel extends BaseModel
             return $this->handleApiFormat(EnumOther::ACK_FAILURE);
         }
     }
-    
 }

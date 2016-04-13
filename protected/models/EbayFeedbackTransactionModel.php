@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @desc feedback处理类
  * @author liaojianwen
@@ -6,7 +7,7 @@
  */
 class EbayFeedbackTransactionModel extends BaseModel
 {
-    
+
     /**
      * @desc 覆盖父方法返回EbayFeedbackTransactionModel对象
      * @param string $className 需要实例化的类名
@@ -18,6 +19,7 @@ class EbayFeedbackTransactionModel extends BaseModel
     {
         return parent::model($className);
     }
+
     /**
      * @desc 获取feedback 列表
      * @param string $type 类型
@@ -26,7 +28,7 @@ class EbayFeedbackTransactionModel extends BaseModel
      * @author liaojianwen
      * @date 2015-08-25
      */
-    public function getFeedbackList($type,$page,$pageSize,$cust,$status)
+    public function getFeedbackList($type, $page, $pageSize, $cust, $status)
     {
         // 获取店铺信息
         $parr = array();
@@ -57,14 +59,13 @@ class EbayFeedbackTransactionModel extends BaseModel
         }
         $paramArr['param'] = $type;
         $paramArr['shop_id'] = $shopId;
-        //查数据库
-        $res = EbayFeedbackTransactionDAO::getInstance()->getFeedbackList($paramArr,$page,$pageSize,$cust,$status);
+        // 查数据库
+        $res = EbayFeedbackTransactionDAO::getInstance()->getFeedbackList($paramArr, $page, $pageSize, $cust, $status);
         if (empty($res['list'])) {
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '查询不到数据');
         }
         $result = $this->handleApiFormat(EnumOther::ACK_SUCCESS, $res, '');
         return $result;
-        
     }
 
     /**
@@ -75,10 +76,10 @@ class EbayFeedbackTransactionModel extends BaseModel
      * @date 2015-09-15
      * @return mixed
      */
-    public function getFeedbackOrder($orderLineItemID,$sellerId)
+    public function getFeedbackOrder($orderLineItemID, $sellerId)
     {
-        if(empty($orderLineItemID) || empty($sellerId)){
-            return $this->handleApiFormat(EnumOther::ACK_FAILURE,'','orderLineItemId or sellerId is invalid');
+        if (empty($orderLineItemID) || empty($sellerId)) {
+            return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', 'orderLineItemId or sellerId is invalid');
         }
         // 获取店铺信息
         $parr = array();
@@ -107,13 +108,14 @@ class EbayFeedbackTransactionModel extends BaseModel
         if (is_numeric($accountId) && $accountId > 0) {
             $shopId = $accountId;
         }
-        //查数据库
-        $res = EbayOrderTransactionDAO::getInstance()->getFeedbackOrder($orderLineItemID,$shopId);
-        if(empty($res)){
+        // 查数据库
+        $res = EbayOrderTransactionDAO::getInstance()->getFeedbackOrder($orderLineItemID, $shopId);
+        if (empty($res)) {
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '查询不到数据');
         }
         return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $res, '');
     }
+
     /**
      * @desc 获取备注
      * @param string $itemId
@@ -121,7 +123,7 @@ class EbayFeedbackTransactionModel extends BaseModel
      * @author liaojianwen
      * @date 2015-08-26
      */
-    public function getFeedbackNote($itemId,$clientId)
+    public function getFeedbackNote($itemId, $clientId)
     {
         if (empty($itemId) && empty($clientId)) {
             return $this->handleApiFormat(EnumOther::ACK_FAILURE);
@@ -137,14 +139,15 @@ class EbayFeedbackTransactionModel extends BaseModel
             'item_id' => $itemId,
             'cust' => $clientId
         );
-        $result = ItemNoteDAO::getInstance()->findAllByAttributes($conditions,$columns,array('create_time desc'));
+        $result = ItemNoteDAO::getInstance()->findAllByAttributes($conditions, $columns, array(
+            'create_time desc'
+        ));
         if (empty($result)) {
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '查询不到数据');
         }
         return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $result, '');
-        
     }
-    
+
     /**
      * @desc 新增备注
      * @param string $itemId
@@ -153,7 +156,7 @@ class EbayFeedbackTransactionModel extends BaseModel
      * @author liaojianwen
      * @date 2015-08-26
      */
-    public function addFeedbackNote($itemId, $clientId,$text)
+    public function addFeedbackNote($itemId, $clientId, $text)
     {
         if (empty($itemId) && empty($clientId)) {
             return $this->handleApiFormat(EnumOther::ACK_FAILURE);
@@ -175,9 +178,8 @@ class EbayFeedbackTransactionModel extends BaseModel
         } else {
             return $this->handleApiFormat(EnumOther::ACK_SUCCESS, '');
         }
-
     }
-    
+
     /**
      * @desc 生成回复feedback队列 
      * @param string $feedbackId
@@ -185,7 +187,7 @@ class EbayFeedbackTransactionModel extends BaseModel
      * @param string $sellerId
      * @return Ambigous <multitype:, boolean, multitype:string array string >
      */
-    public function responseFeedback($feedbackId,$text,$sellerId)
+    public function responseFeedback($feedbackId, $text, $sellerId)
     {
         FeedbackUploadQueueDAO::getInstance()->begintransaction();
         try {
@@ -218,26 +220,27 @@ class EbayFeedbackTransactionModel extends BaseModel
                     );
                     $columns = array(
                         'isResponse' => 1,
-                        'ResponseText'=>$text
+                        'ResponseText' => $text
                     );
                     EbayFeedbackTransactionDAO::getInstance()->iupdate($columns, $conditions, $params);
                     return $this->handleApiFormat(EnumOther::ACK_SUCCESS, '');
                 }
             }
         } catch (Exception $e) {
-            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
-            'getFile' => $e->getFile(),
-            'getLine' => $e->getLine(),
-            'getMessage' => $e->getMessage(),
-            'feedbackID'=>$feedbackId,
-            'responseText'=>$text,
-            'time' => time()
-            ));
+            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(
+                array(
+                    'getFile' => $e->getFile(),
+                    'getLine' => $e->getLine(),
+                    'getMessage' => $e->getMessage(),
+                    'feedbackID' => $feedbackId,
+                    'responseText' => $text,
+                    'time' => time()
+                ));
             FeedbackUploadQueueDAO::getInstance()->rollback();
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
         }
     }
-    
+
     /**
      * @desc 批量回复feedback
      * @param array $replyInfo
@@ -246,7 +249,7 @@ class EbayFeedbackTransactionModel extends BaseModel
      * @date 2015-08-31
      * @return Ambigous <multitype:, boolean, multitype:string array string >
      */
-    public function batchReply($replyInfo,$sellerId)
+    public function batchReply($replyInfo, $sellerId)
     {
         if (empty($replyInfo) && empty($sellerId)) {
             return $this->handleApiFormat(EnumOther::ACK_FAILURE);
@@ -258,7 +261,7 @@ class EbayFeedbackTransactionModel extends BaseModel
         }
         return $result;
     }
-    
+
     /**
      * @desc 发消息
      * @param string $feedbackId feedback主键
@@ -316,7 +319,7 @@ class EbayFeedbackTransactionModel extends BaseModel
             }
         }
     }
-    
+
     /**
      * @desc 执行给客户发消息队列
      * @param array $parameters
@@ -355,14 +358,15 @@ class EbayFeedbackTransactionModel extends BaseModel
                     if ($result->Ack == 'Success' || $result->Ack == 'Warning') {
                         $picPathArr[] = $result->SiteHostedPictureDetails->FullURL;
                     } else {
-                        iMongo::getInstance()->setCollection('UploadPictureErr')->insert(array(
-                            'imsApiUrl' => $imsApiUrl,
-                            'result' => $result,
-                            'ErrorCode' => $result->Errors->ErrorCode,
-                            'LongMessage' => $result->Errors->LongMessage,
-                            'ShortMessage' => $result->Errors->ShortMessage,
-                            'time' => time()
-                        ));
+                        iMongo::getInstance()->setCollection('UploadPictureErr')->insert(
+                            array(
+                                'imsApiUrl' => $imsApiUrl,
+                                'result' => $result,
+                                'ErrorCode' => $result->Errors->ErrorCode,
+                                'LongMessage' => $result->Errors->LongMessage,
+                                'ShortMessage' => $result->Errors->ShortMessage,
+                                'time' => time()
+                            ));
                         if ($runcount < 3) {
                             $runcount ++;
                             goto label;
@@ -371,11 +375,12 @@ class EbayFeedbackTransactionModel extends BaseModel
                 }
             }
         }
-        iMongo::getInstance()->setCollection('UploadPicture')->insert(array(
-            'pathUrl' => $imgUrl,
-            'picPathArr' => $picPathArr,
-            'time' => time()
-        ));
+        iMongo::getInstance()->setCollection('UploadPicture')->insert(
+            array(
+                'pathUrl' => $imgUrl,
+                'picPathArr' => $picPathArr,
+                'time' => time()
+            ));
         $res = ImsjobsModel::model()->addMessagesToPartner($token, $itemId, $content, $sendMyMsg, $picPathArr, $contactUser, $siteId);
         $doc = phpQuery::newDocumentXML($res);
         phpQuery::selectDocument($doc);
@@ -383,19 +388,21 @@ class EbayFeedbackTransactionModel extends BaseModel
             $result = '';
         }
         if (pq('Ack')->html() === 'Success') {
-            iMongo::getInstance()->setCollection('addMessagesToPartner')->insert(array(
-                'result' => $res,
-                'parameters' => $parameters,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection('addMessagesToPartner')->insert(
+                array(
+                    'result' => $res,
+                    'parameters' => $parameters,
+                    'time' => time()
+                ));
             
             return $this->handleApiFormat(EnumOther::ACK_SUCCESS, '');
         } else {
-            iMongo::getInstance()->setCollection('addMessagesToPartnerErr')->insert(array(
-                'result' => $res,
-                'parameters' => $parameters,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection('addMessagesToPartnerErr')->insert(
+                array(
+                    'result' => $res,
+                    'parameters' => $parameters,
+                    'time' => time()
+                ));
             
             // 发送邮件通知
             ob_start();
@@ -444,6 +451,7 @@ class EbayFeedbackTransactionModel extends BaseModel
         EbayFeedbackTransactionDAO::getInstance()->iupdate($columns, $conditions, $params);
         return $this->handleApiFormat(EnumOther::ACK_SUCCESS, '');
     }
+
     /**
      * @desc 获取feedback条数
      * @author liaojianwen
@@ -482,36 +490,34 @@ class EbayFeedbackTransactionModel extends BaseModel
             $shopId = $accountId;
         }
         $result = EbayFeedbackTransactionDAO::getInstance()->getFeedbackCount($shopId);
-        if(!empty($result)){
+        if (! empty($result)) {
             return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $result);
         } else {
             return $this->handleApiFormat(EnumOther::ACK_FAILURE, '');
         }
-        
     }
-    
+
     /**
      * @desc 批量发消息给客户
      * @param array $msgInfo
      * @param string $sellerId
      * @return Ambigous <multitype:, boolean, multitype:string array string >
      */
-    public function batchSendMsg($msgInfo,$sellerId)
+    public function batchSendMsg($msgInfo, $sellerId)
     {
-        if(!is_array($msgInfo) || empty($msgInfo)){
-            return $this->handleApiFormat(EnumOther::ACK_FAILURE,'','the params can not be null');
+        if (! is_array($msgInfo) || empty($msgInfo)) {
+            return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', 'the params can not be null');
         }
-        foreach($msgInfo as $info){
+        foreach ($msgInfo as $info) {
             
             $feedbackId = $info['feedbackId'];
             $content = $info['text'];
-            $imgUrl = isset($info['imgs'])?$info['imgs']:'';
+            $imgUrl = isset($info['imgs']) ? $info['imgs'] : '';
             $emailCopyToSender = $info['issendme'];
             $sellerId = Yii::app()->session['userInfo']['seller_id'];
-            $result = $this->generateContactMsgQueue($feedbackId,$content,$imgUrl,$emailCopyToSender,$sellerId);
+            $result = $this->generateContactMsgQueue($feedbackId, $content, $imgUrl, $emailCopyToSender, $sellerId);
         }
         return $result;
     }
-
 }
     

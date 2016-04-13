@@ -7,7 +7,7 @@
  */
 class DisputesDownDAO extends BaseDAO
 {
-    
+
     /**
      * @desc 对象实例重用
      * @param string $className 需要实例化的类名
@@ -19,7 +19,7 @@ class DisputesDownDAO extends BaseDAO
     {
         return parent::createInstance($className);
     }
-    
+
     /**
      * @desc 构造方法
      * @author YangLong
@@ -33,7 +33,7 @@ class DisputesDownDAO extends BaseDAO
         $this->primaryKey = 'disputes_down_id';
         $this->created = 'create_time';
     }
-    
+
     /**
      * @desc 获取已经下载的ruturn数据
      * @param int $taskNumber

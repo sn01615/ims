@@ -34,5 +34,4 @@ class Ck1BusBillsDAO extends BaseDAO
         // $this->created = '';
         // $this->updated = '';
     }
-
 }

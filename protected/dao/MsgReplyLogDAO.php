@@ -33,5 +33,4 @@ class MsgReplyLogDAO extends BaseDAO
         $this->primaryKey = 'msg_reply_log_id';
         $this->created = 'create_time';
     }
-    
 }

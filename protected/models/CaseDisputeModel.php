@@ -1,23 +1,25 @@
 <?php
+
 /**
  * @desc casedispute处理类
  * @author lvjianfei
  * @date 2015-04-08
  */
-class CaseDisputeModel extends BaseModel{
-	
-	/**
-	 * @desc 覆盖父方法返回CaseDisputeModel对象
-	 * @param string $className 需要实例化的类名
+class CaseDisputeModel extends BaseModel
+{
+
+    /**
+     * @desc 覆盖父方法返回CaseDisputeModel对象
+     * @param string $className 需要实例化的类名
      * @author lvjianfei
      * @date 2015-04-08
      * @return CaseDisputeModel
-	 */
-	public static function model($className = __CLASS__)
+     */
+    public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
-    
+
     /**
      * @desc 获取卖家发起的Case列表
      * @param String  $Type      case类型
@@ -78,7 +80,7 @@ class CaseDisputeModel extends BaseModel{
         $result = $this->handleApiFormat(EnumOther::ACK_SUCCESS, $res, '');
         return $result;
     }
-    
+
     /**
      * @desc 获取卖方发起case的详细信息
      * @param $caseid case的id
@@ -141,7 +143,7 @@ class CaseDisputeModel extends BaseModel{
         
         return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $result, '');
     }
-    
+
     /**
      * @desc 获取卖方发起case的历史对话
      * @param caseid     case的id
@@ -150,22 +152,22 @@ class CaseDisputeModel extends BaseModel{
      */
     public function getCaseDisputeMessage($caseid)
     {
-    	$casedisputemsg = CaseDisputeMessageDAO::getInstance();
-    	if(empty($caseid)){
-    		return $this->handleApiFormat(EnumOther::ACK_FAILURE,'','返回id是空的');
-    	}
-    	//获取店铺信息
+        $casedisputemsg = CaseDisputeMessageDAO::getInstance();
+        if (empty($caseid)) {
+            return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '返回id是空的');
+        }
+        // 获取店铺信息
         $parr = array();
         $parr['seller_id'] = Yii::app()->session['userInfo']['seller_id'];
         $parr['is_delete'] = boolConvert::toInt01(false);
         $parr['status'] = 1;
-        //获取切换店铺信息
+        // 获取切换店铺信息
         $return = array(
-        	'shop_id'
+            'shop_id'
         );
         $shopArr = ShopDAO::getInstance()->findAllByAttributes($parr, $return);
-    	if (empty($shopArr)) {
-            $result= $this->handleApiFormat(EnumOther::ACK_FAILURE,'','用户还未注册店铺');
+        if (empty($shopArr)) {
+            $result = $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '用户还未注册店铺');
             return $result;
         }
         $shopIdArr = array();
@@ -173,47 +175,47 @@ class CaseDisputeModel extends BaseModel{
             $shopIdArr[] = $value['shop_id'];
         }
         $shopId = implode(',', $shopIdArr);
-    	$result['list'] = $casedisputemsg->getCaseDisputeMessage($caseid,$shopId);
-    	if(empty($result['list'])){
-    		return $this->handleApiFormat(EnumOther::ACK_FAILURE,'','查询失败');
-    	}
-    	return $this->handleApiFormat(EnumOther::ACK_SUCCESS,$result,'');
-    	}
-    	
-    	/**
-    	 * @desc  新增case 查找订单
-    	 * @param string $ItemID
-    	 * @param string $BuyerUserID
-    	 * @param string $shop_id
-    	 * @param string $sellerId
-    	 * @author liaojianwen
-    	 * @date 2015-07-14
-    	 */
-    	public function searchOrder($ItemID,$BuyerUserID,$shop_id,$sellerId,$page,$pageSize)
-    	{
-    	  	if(empty($shop_id)){
-    		    return $this->handleApiFormat(EnumOther::ACK_FAILURE,'','the shop_id can not be empty');
-    	    }
-    	     //获取店铺信息
-            $parr = array();
-            $parr['seller_id'] = Yii::app()->session['userInfo']['seller_id'];
-            $parr['is_delete'] = boolConvert::toInt01(false);
-            $parr['status'] = 1;
-            $parr['shop_id'] = $shop_id;
-            //获取切换店铺信息
-            $return = array(
-            	'shop_id'
-            );   
-            $shopArr = ShopDAO::getInstance()->findByAttributes($parr, $return);
-        	 if (empty($shopArr)) {
-                $result= $this->handleApiFormat(EnumOther::ACK_FAILURE,'','the store is unusable');
-                return $result;
-            }
-            $rangeTime = time() - 45*24*60*60;//添加dispute 只能是45天内的订单
-        	$result = EbayOrderTransactionDAO::getInstance()->searchOrder($ItemID,$BuyerUserID,$shopArr['shop_id'],$page,$pageSize,$rangeTime);
-    	    if(empty($result)){
-        		return $this->handleApiFormat(EnumOther::ACK_FAILURE,'','searched fail');
-        	}
-        	return $this->handleApiFormat(EnumOther::ACK_SUCCESS,$result,'');
-    	}
+        $result['list'] = $casedisputemsg->getCaseDisputeMessage($caseid, $shopId);
+        if (empty($result['list'])) {
+            return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', '查询失败');
+        }
+        return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $result, '');
+    }
+
+    /**
+     * @desc  新增case 查找订单
+     * @param string $ItemID
+     * @param string $BuyerUserID
+     * @param string $shop_id
+     * @param string $sellerId
+     * @author liaojianwen
+     * @date 2015-07-14
+     */
+    public function searchOrder($ItemID, $BuyerUserID, $shop_id, $sellerId, $page, $pageSize)
+    {
+        if (empty($shop_id)) {
+            return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', 'the shop_id can not be empty');
+        }
+        // 获取店铺信息
+        $parr = array();
+        $parr['seller_id'] = Yii::app()->session['userInfo']['seller_id'];
+        $parr['is_delete'] = boolConvert::toInt01(false);
+        $parr['status'] = 1;
+        $parr['shop_id'] = $shop_id;
+        // 获取切换店铺信息
+        $return = array(
+            'shop_id'
+        );
+        $shopArr = ShopDAO::getInstance()->findByAttributes($parr, $return);
+        if (empty($shopArr)) {
+            $result = $this->handleApiFormat(EnumOther::ACK_FAILURE, '', 'the store is unusable');
+            return $result;
+        }
+        $rangeTime = time() - 45 * 24 * 60 * 60; // 添加dispute 只能是45天内的订单
+        $result = EbayOrderTransactionDAO::getInstance()->searchOrder($ItemID, $BuyerUserID, $shopArr['shop_id'], $page, $pageSize, $rangeTime);
+        if (empty($result)) {
+            return $this->handleApiFormat(EnumOther::ACK_FAILURE, '', 'searched fail');
+        }
+        return $this->handleApiFormat(EnumOther::ACK_SUCCESS, $result, '');
+    }
 }

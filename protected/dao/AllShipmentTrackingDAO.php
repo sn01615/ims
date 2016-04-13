@@ -7,7 +7,7 @@
  */
 class AllShipmentTrackingDAO extends BaseDAO
 {
-    
+
     /**
      * @desc 对象实例重用
      * @param string $className 需要实例化的类名

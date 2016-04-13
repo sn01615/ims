@@ -7,7 +7,7 @@
  */
 class UsersGroupDAO extends BaseDAO
 {
-    
+
     /**
      * @desc 对象实例重用
      * @param string $className 需要实例化的类名
@@ -19,7 +19,7 @@ class UsersGroupDAO extends BaseDAO
     {
         return parent::createInstance($className);
     }
-    
+
     /**
      * @desc 构造方法
      * @author YangLong
@@ -33,5 +33,4 @@ class UsersGroupDAO extends BaseDAO
         $this->primaryKey = 'users_group_id';
         // $this->created = 'create_time';
     }
-    
 }

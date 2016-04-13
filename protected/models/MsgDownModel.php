@@ -8,20 +8,21 @@
 class MsgDownModel extends BaseModel
 {
 
-    private $compatabilityLevel; // eBay API version
-
+    private $compatabilityLevel;
+    // eBay API version
     private $devID;
 
     private $appID;
 
     private $certID;
 
-    private $serverUrl; // eBay 服务器地址
-
-    private $userToken; // token
-
-    private $siteToUseID; // site id
-
+    private $serverUrl;
+    // eBay 服务器地址
+    private $userToken;
+    // token
+    private $siteToUseID;
+    // site id
+    
     /**
      * @desc 覆盖父方法返回MsgDownModel对象
      * @param string $className 需要实例化的类名
@@ -75,8 +76,8 @@ class MsgDownModel extends BaseModel
      * @date 2015-04-21
      * @return string XML
      */
-    public function getMyMessages($token, $DetailLevel, $FolderID, $StartTime, $EndTime, $MessageIDs, $siteid = 0,
-         $PageNumber = 1, $EntriesPerPage = 200, $ExternalMessageIDs = array(), $HighPriority = false, $OutputSelector = '')
+    public function getMyMessages($token, $DetailLevel, $FolderID, $StartTime, $EndTime, $MessageIDs, $siteid = 0, $PageNumber = 1, 
+        $EntriesPerPage = 200, $ExternalMessageIDs = array(), $HighPriority = false, $OutputSelector = '')
     {
         $callName = 'GetMyMessages';
         if (Yii::app()->params['ebay_api_production']) {
@@ -84,7 +85,7 @@ class MsgDownModel extends BaseModel
         } else {
             $this->serverUrl = 'https://api.sandbox.ebay.com/ws/api.dll';
         }
-
+        
         $requestXmlBody = '<?xml version="1.0" encoding="utf-8"?>';
         $requestXmlBody .= '
 <GetMyMessagesRequest xmlns="urn:ebay:apis:eBLBaseComponents">
@@ -149,7 +150,7 @@ class MsgDownModel extends BaseModel
         }
         $requestXmlBody .= '
 </GetMyMessagesRequest>';
-
+        
         // @see http://developer.ebay.com/DevZone/XML/docs/Reference/eBay/GetMemberMessages.html
         // @see http://developer.ebay.com/DevZone/XML/docs/Reference/eBay/index.html#Limitations
         $session = new eBaySession($this->serverUrl);
@@ -162,57 +163,61 @@ class MsgDownModel extends BaseModel
         $session->headers[] = "X-EBAY-API-SITEID:{$siteid}";
         $session->headers[] = "Content-Type:text/xml";
         $session->headers[] = "Content-Length:" . strlen($requestXmlBody);
-
+        
         $tryCount = 0;
-
+        
         label1:
-
+        
         $responseXml = $session->sendHttpRequest($requestXmlBody);
-
+        
         if (stripos($responseXml, '<Ack>Failure</Ack>')) {
-            iMongo::getInstance()->setCollection('getMyMessagesF')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'time' => time(),
-                'times' => 1
-            ));
+            iMongo::getInstance()->setCollection('getMyMessagesF')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'time' => time(),
+                    'times' => 1
+                ));
             sleep(1);
             $responseXml = $session->sendHttpRequest($requestXmlBody);
         }
-
+        
         if (stripos($responseXml, '<Ack>Failure</Ack>')) {
-            iMongo::getInstance()->setCollection('getMyMessagesF')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'time' => time(),
-                'times' => 2
-            ));
+            iMongo::getInstance()->setCollection('getMyMessagesF')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'time' => time(),
+                    'times' => 2
+                ));
             sleep(1);
             $responseXml = $session->sendHttpRequest($requestXmlBody);
         }
-
+        
         if (! XMLTool::IsXML($responseXml)) {
-            iMongo::getInstance()->setCollection('getMyMessagesBadXML')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'tryCount' => $tryCount,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection('getMyMessagesBadXML')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'tryCount' => $tryCount,
+                    'time' => time()
+                ));
             if ($tryCount < 10) {
                 $tryCount ++;
                 goto label1;
             }
             return false;
         }
-
-        if (stripos($responseXml, '<ErrorClassification>SystemError</ErrorClassification>') && ! stripos($responseXml, '<ErrorCode>20118</ErrorCode>')) {
+        
+        if (stripos($responseXml, '<ErrorClassification>SystemError</ErrorClassification>') &&
+             ! stripos($responseXml, '<ErrorCode>20118</ErrorCode>')) {
             if ($tryCount < 15) {
                 $tryCount ++;
                 sleep(5);
                 goto label1;
             }
         }
-
+        
         return $responseXml;
     }
 
@@ -231,7 +236,8 @@ class MsgDownModel extends BaseModel
      * @date 2015-08-17
      * @return boolean|mixed
      */
-    public function addMemberMessageRTQ($token, $Body, $ParentMessageID, $RecipientIDArray, $ItemID = '', $MessageMediaArray = array(), $siteid = 0, $MessageID = '', $EmailCopyToSender = '', $DisplayToPublic = '')
+    public function addMemberMessageRTQ($token, $Body, $ParentMessageID, $RecipientIDArray, $ItemID = '', $MessageMediaArray = array(), $siteid = 0, 
+        $MessageID = '', $EmailCopyToSender = '', $DisplayToPublic = '')
     {
         $callName = 'AddMemberMessageRTQ';
         if (Yii::app()->params['ebay_api_production']) {
@@ -239,7 +245,7 @@ class MsgDownModel extends BaseModel
         } else {
             $this->serverUrl = 'https://api.sandbox.ebay.com/ws/api.dll';
         }
-
+        
         $requestXmlBody = '<?xml version="1.0" encoding="utf-8"?>';
         $requestXmlBody .= '
 <AddMemberMessageRTQRequest xmlns="urn:ebay:apis:eBLBaseComponents">
@@ -294,7 +300,7 @@ class MsgDownModel extends BaseModel
         }
         $requestXmlBody .= '
 </AddMemberMessageRTQRequest>';
-
+        
         // @see http://developer.ebay.com/DevZone/XML/docs/Reference/eBay/AddMemberMessageRTQ.html
         // @see http://developer.ebay.com/DevZone/XML/docs/Reference/eBay/index.html#Limitations
         $session = new eBaySession($this->serverUrl);
@@ -307,49 +313,52 @@ class MsgDownModel extends BaseModel
         $session->headers[] = "X-EBAY-API-SITEID:{$siteid}";
         $session->headers[] = "Content-Type:text/xml";
         $session->headers[] = "Content-Length:" . strlen($requestXmlBody);
-
+        
         $tryCount = 0;
-
+        
         label1:
-
+        
         $responseXml = $session->sendHttpRequest($requestXmlBody);
-
+        
         if (stripos($responseXml, '<Ack>Failure</Ack>')) {
-            iMongo::getInstance()->setCollection('addMemberMessageRTQ')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'time' => time(),
-                'times' => 1
-            ));
+            iMongo::getInstance()->setCollection('addMemberMessageRTQ')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'time' => time(),
+                    'times' => 1
+                ));
             sleep(1);
             $responseXml = $session->sendHttpRequest($requestXmlBody);
         }
-
+        
         if (stripos($responseXml, '<Ack>Failure</Ack>')) {
-            iMongo::getInstance()->setCollection('addMemberMessageRTQ')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'time' => time(),
-                'times' => 2
-            ));
+            iMongo::getInstance()->setCollection('addMemberMessageRTQ')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'time' => time(),
+                    'times' => 2
+                ));
             sleep(1);
             $responseXml = $session->sendHttpRequest($requestXmlBody);
         }
-
+        
         if (! XMLTool::IsXML($responseXml)) {
-            iMongo::getInstance()->setCollection('addMemberMessageRTQBadXML')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'tryCount' => $tryCount,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection('addMemberMessageRTQBadXML')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'tryCount' => $tryCount,
+                    'time' => time()
+                ));
             if ($tryCount < 0) {
                 $tryCount ++;
                 goto label1;
             }
             return false;
         }
-
+        
         if (stripos($responseXml, '<ErrorClassification>SystemError</ErrorClassification>')) {
             if ($tryCount < 2) {
                 $tryCount ++;
@@ -357,10 +366,10 @@ class MsgDownModel extends BaseModel
                 goto label1;
             }
         }
-
+        
         return $responseXml;
     }
-    
+
     /**
      * @desc 给会员发送信息
      * @param string $token
@@ -434,34 +443,37 @@ class MsgDownModel extends BaseModel
         $responseXml = $session->sendHttpRequest($requestXmlBody);
         
         if (stripos($responseXml, '<Ack>Failure</Ack>')) {
-            iMongo::getInstance()->setCollection('addMemberMessagesAAQToBidder')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'time' => time(),
-                'times' => 1
-            ));
+            iMongo::getInstance()->setCollection('addMemberMessagesAAQToBidder')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'time' => time(),
+                    'times' => 1
+                ));
             sleep(1);
             $responseXml = $session->sendHttpRequest($requestXmlBody);
         }
         
         if (stripos($responseXml, '<Ack>Failure</Ack>')) {
-            iMongo::getInstance()->setCollection('addMemberMessagesAAQToBidder')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'time' => time(),
-                'times' => 2
-            ));
+            iMongo::getInstance()->setCollection('addMemberMessagesAAQToBidder')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'time' => time(),
+                    'times' => 2
+                ));
             sleep(1);
             $responseXml = $session->sendHttpRequest($requestXmlBody);
         }
         
         if (! XMLTool::IsXML($responseXml)) {
-            iMongo::getInstance()->setCollection('addMemberMessagesAAQToBidderBadXML')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'tryCount' => $tryCount,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection('addMemberMessagesAAQToBidderBadXML')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'tryCount' => $tryCount,
+                    'time' => time()
+                ));
             if ($tryCount < 0) {
                 $tryCount ++;
                 goto label1;
@@ -479,7 +491,7 @@ class MsgDownModel extends BaseModel
         
         return $responseXml;
     }
-    
+
     /**
      * @desc 给buyer发送消息
      * @param string $token
@@ -495,7 +507,8 @@ class MsgDownModel extends BaseModel
      * @date 2015-10-16
      * @return string XML
      */
-    public function addMemberMessageAAQToPartner($token, $Subject, $Body, $ItemID, $RecipientIDArray, $MessageMediaArray, $QuestionType, $EmailCopyToSender = false, $siteid = 0)
+    public function addMemberMessageAAQToPartner($token, $Subject, $Body, $ItemID, $RecipientIDArray, $MessageMediaArray, $QuestionType, 
+        $EmailCopyToSender = false, $siteid = 0)
     {
         $callName = 'AddMemberMessageAAQToPartner';
         if (Yii::app()->params['ebay_api_production']) {
@@ -565,34 +578,37 @@ class MsgDownModel extends BaseModel
         $responseXml = $session->sendHttpRequest($requestXmlBody);
         
         if (stripos($responseXml, '<Ack>Failure</Ack>')) {
-            iMongo::getInstance()->setCollection('addMemberMessageAAQToPartner')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'time' => time(),
-                'times' => 1
-            ));
+            iMongo::getInstance()->setCollection('addMemberMessageAAQToPartner')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'time' => time(),
+                    'times' => 1
+                ));
             sleep(1);
             $responseXml = $session->sendHttpRequest($requestXmlBody);
         }
         
         if (stripos($responseXml, '<Ack>Failure</Ack>')) {
-            iMongo::getInstance()->setCollection('addMemberMessageAAQToPartner')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'time' => time(),
-                'times' => 2
-            ));
+            iMongo::getInstance()->setCollection('addMemberMessageAAQToPartner')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'time' => time(),
+                    'times' => 2
+                ));
             sleep(1);
             $responseXml = $session->sendHttpRequest($requestXmlBody);
         }
         
         if (! XMLTool::IsXML($responseXml)) {
-            iMongo::getInstance()->setCollection('addMemberMessageAAQToPartnerBadXML')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'tryCount' => $tryCount,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection('addMemberMessageAAQToPartnerBadXML')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'tryCount' => $tryCount,
+                    'time' => time()
+                ));
             if ($tryCount < 0) {
                 $tryCount ++;
                 goto label1;
@@ -610,7 +626,7 @@ class MsgDownModel extends BaseModel
         
         return $responseXml;
     }
-    
+
     /**
      * @desc 上传图片
      * @param string $token token
@@ -629,8 +645,8 @@ class MsgDownModel extends BaseModel
      * @date 2015-08-18
      * @return boolean|mixed
      */
-    public function uploadSiteHostedPictures($token, $multiPartImageData = '', $PictureName = '', $siteid = 0, $PictureWatermark = '',
-         $MessageID = '', $ExternalPictureURL = '', $PictureData = '', $ExtensionInDays = 0, $PictureSet = 'Supersize', $PictureSystemVersion = '2', $PictureUploadPolicy = '')
+    public function uploadSiteHostedPictures($token, $multiPartImageData = '', $PictureName = '', $siteid = 0, $PictureWatermark = '', $MessageID = '', 
+        $ExternalPictureURL = '', $PictureData = '', $ExtensionInDays = 0, $PictureSet = 'Supersize', $PictureSystemVersion = '2', $PictureUploadPolicy = '')
     {
         $callName = 'UploadSiteHostedPictures';
         if (Yii::app()->params['ebay_api_production']) {
@@ -638,7 +654,7 @@ class MsgDownModel extends BaseModel
         } else {
             $this->serverUrl = 'https://api.sandbox.ebay.com/ws/api.dll';
         }
-
+        
         $requestXmlBody = '<?xml version="1.0" encoding="utf-8"?>';
         $requestXmlBody .= '
 <UploadSiteHostedPicturesRequest xmlns="urn:ebay:apis:eBLBaseComponents">
@@ -683,10 +699,10 @@ class MsgDownModel extends BaseModel
         }
         $requestXmlBody .= '
 </UploadSiteHostedPicturesRequest>';
-
+        
         $boundary = "MIME_boundary";
         $CRLF = "\r\n";
-
+        
         // The complete POST consists of an XML request plus the binary image separated by boundaries
         $firstPart = '';
         $firstPart .= "--" . $boundary . $CRLF;
@@ -694,7 +710,7 @@ class MsgDownModel extends BaseModel
         $firstPart .= 'Content-Type: text/xml;charset=utf-8' . $CRLF . $CRLF;
         $firstPart .= $requestXmlBody;
         $firstPart .= $CRLF;
-
+        
         $secondPart = '';
         $secondPart .= "--" . $boundary . $CRLF;
         $secondPart .= 'Content-Disposition: form-data; name="dummy"; filename="dummy"' . $CRLF;
@@ -703,9 +719,9 @@ class MsgDownModel extends BaseModel
         $secondPart .= $multiPartImageData;
         $secondPart .= $CRLF;
         $secondPart .= "--" . $boundary . "--" . $CRLF;
-
+        
         $requestXmlBody = $firstPart . $secondPart;
-
+        
         // @see http://developer.ebay.com/devzone/xml/docs/reference/ebay/uploadsitehostedpictures.html
         // @see http://developer.ebay.com/DevZone/XML/docs/Reference/eBay/index.html#Limitations
         $session = new eBaySession($this->serverUrl);
@@ -718,49 +734,52 @@ class MsgDownModel extends BaseModel
         $session->headers[] = "X-EBAY-API-SITEID:{$siteid}";
         $session->headers[] = "Content-Type: multipart/form-data; boundary={$boundary}";
         $session->headers[] = "Content-Length:" . strlen($requestXmlBody);
-
+        
         $tryCount = 0;
-
+        
         label1:
-
+        
         $responseXml = $session->sendHttpRequest($requestXmlBody);
-
+        
         if (stripos($responseXml, '<Ack>Failure</Ack>')) {
-            iMongo::getInstance()->setCollection('uploadSiteHostedPictures')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'time' => time(),
-                'times' => 1
-            ));
+            iMongo::getInstance()->setCollection('uploadSiteHostedPictures')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'time' => time(),
+                    'times' => 1
+                ));
             sleep(1);
             $responseXml = $session->sendHttpRequest($requestXmlBody);
         }
-
+        
         if (stripos($responseXml, '<Ack>Failure</Ack>')) {
-            iMongo::getInstance()->setCollection('uploadSiteHostedPictures')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'time' => time(),
-                'times' => 2
-            ));
+            iMongo::getInstance()->setCollection('uploadSiteHostedPictures')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'time' => time(),
+                    'times' => 2
+                ));
             sleep(1);
             $responseXml = $session->sendHttpRequest($requestXmlBody);
         }
-
+        
         if (! XMLTool::IsXML($responseXml)) {
-            iMongo::getInstance()->setCollection('uploadSiteHostedPicturesBadXML')->insert(array(
-                'requestXmlBody' => $requestXmlBody,
-                'responseXml' => $responseXml,
-                'tryCount' => $tryCount,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection('uploadSiteHostedPicturesBadXML')->insert(
+                array(
+                    'requestXmlBody' => $requestXmlBody,
+                    'responseXml' => $responseXml,
+                    'tryCount' => $tryCount,
+                    'time' => time()
+                ));
             if ($tryCount < 5) {
                 $tryCount ++;
                 goto label1;
             }
             return false;
         }
-
+        
         if (stripos($responseXml, '<ErrorClassification>SystemError</ErrorClassification>')) {
             if ($tryCount < 10) {
                 $tryCount ++;
@@ -768,7 +787,7 @@ class MsgDownModel extends BaseModel
                 goto label1;
             }
         }
-
+        
         return $responseXml;
     }
 
@@ -781,7 +800,7 @@ class MsgDownModel extends BaseModel
      */
     private function fmtDate($date)
     {
-        return gmdate('Y-m-d\TH:i:s\Z',$date);
+        return gmdate('Y-m-d\TH:i:s\Z', $date);
     }
 
     /**
@@ -813,7 +832,8 @@ class MsgDownModel extends BaseModel
                     $page ++;
                     $xmlArr = array();
                     $xmlArr['AccountID'] = $Queue['AccountID'];
-                    $xmlArr['list'] = $this->getMyMessages($Queue['token'], 'ReturnHeaders', $Queue['folder_id'], $Queue['start_time'], $Queue['end_time'], '', 0, $page, $pagesize);
+                    $xmlArr['list'] = $this->getMyMessages($Queue['token'], 'ReturnHeaders', $Queue['folder_id'], $Queue['start_time'], 
+                        $Queue['end_time'], '', 0, $page, $pagesize);
                     
                     $doc = phpQuery::newDocumentXML($xmlArr['list']);
                     phpQuery::selectDocument($doc);
@@ -841,12 +861,13 @@ class MsgDownModel extends BaseModel
                         
                         MsgDownDAO::getInstance()->deleteDownQueue($Queue['down_queue_id']);
                     } else {
-                        iMongo::getInstance()->setCollection('v1MsgDownXmlErr')->insert(array(
-                            'Queue' => $Queue,
-                            'list' => $xmlArr['list'],
-                            'page' => $page,
-                            'time' => time()
-                        ));
+                        iMongo::getInstance()->setCollection('v1MsgDownXmlErr')->insert(
+                            array(
+                                'Queue' => $Queue,
+                                'list' => $xmlArr['list'],
+                                'page' => $page,
+                                'time' => time()
+                            ));
                     }
                     
                     phpQuery::selectDocument($doc);
@@ -863,7 +884,7 @@ class MsgDownModel extends BaseModel
             goto label1;
         }
     }
-    
+
     /**
      * @desc 获取用户信息
      * @author YangLong
@@ -873,15 +894,15 @@ class MsgDownModel extends BaseModel
     public function getUserInfo()
     {
         DaemonLockTool::lock(__METHOD__);
-
+        
         $startTime = time();
-
+        
         label1:
-
+        
         if (time() - $startTime > 600) {
             return false;
         }
-
+        
         $columns = array(
             'ebay_user_info_id',
             'shop_id',
@@ -895,7 +916,7 @@ class MsgDownModel extends BaseModel
             ':last_get_time' => time()
         );
         $Queues = EbayUserInfoDAO::getInstance()->iselect($columns, $conditions, $params, true, array(), '', 'last_get_time', 100);
-
+        
         $ids = array();
         foreach ($Queues as $_key => $_value) {
             $ids[] = $_value['ebay_user_info_id'];
@@ -906,7 +927,7 @@ class MsgDownModel extends BaseModel
         if (! empty($ids)) {
             EbayUserInfoDAO::getInstance()->increase($field, $conditions);
         }
-
+        
         $QueueIds = array();
         foreach ($Queues as $Queue) {
             $QueueIds[] = $Queue['ebay_user_info_id'];
@@ -919,7 +940,7 @@ class MsgDownModel extends BaseModel
             $params = array();
             EbayUserInfoDAO::getInstance()->iupdate($columns, $conditions, $params);
         }
-
+        
         $_cacheKey = md5(__METHOD__ . '$shops2');
         $shops2 = iMemcache::getInstance()->get($_cacheKey);
         if ($shops2 === false) {
@@ -929,22 +950,22 @@ class MsgDownModel extends BaseModel
             );
             $conditions = 'is_delete=' . boolConvert::toInt01(false);
             $shops = ShopDAO::getInstance()->iselect($columns, $conditions, array());
-
+            
             $shops2 = array();
             foreach ($shops as $value) {
                 $shops2[$value['shop_id']] = $value['token'];
             }
             unset($shops);
-
+            
             iMemcache::getInstance()->set($_cacheKey, $shops2, 60);
         }
-
+        
         foreach ($Queues as $Queue) {
-
+            
             if ($Queue['UserID'] == 'csfeedback@ebay.com' || $Queue['UserID'] == 'eBay') {
                 continue;
             }
-
+            
             $key = md5(__METHOD__ . 'lock' . $Queue['UserID']);
             $lock = iMemcache::getInstance()->get($key);
             if ($lock === false) {
@@ -952,7 +973,7 @@ class MsgDownModel extends BaseModel
             } else {
                 continue;
             }
-
+            
             if (isset($shops2[$Queue['shop_id']])) {
                 labelx:
                 if (empty($Queue['RItemId'])) {
@@ -960,33 +981,34 @@ class MsgDownModel extends BaseModel
                 } else {
                     $xml = EbayOtherInfoModel::model()->eBayGetUser($shops2[$Queue['shop_id']], $Queue['UserID'], $Queue['RItemId'], 'ReturnAll');
                 }
-
+                
                 if (stripos($xml, '<ErrorCode>17420</ErrorCode>')) {
                     $Queue['RItemId'] = false;
                     goto labelx;
                 }
-
+                
                 // preg_match('/<ErrorCode>(\d+)<\/ErrorCode>/', $xml, $matches);
             } else {
                 continue;
             }
-
+            
             $doc = phpQuery::newDocumentXML($xml);
             phpQuery::selectDocument($doc);
-
+            
             if (pq('Ack')->html() !== 'Success') {
                 if (pq('Ack')->html() !== 'Warning') {
-                    iMongo::getInstance()->setCollection('getUserInfoNoSW')->insert(array(
-                        'UserID' => $Queue['UserID'],
-                        'shop_id' => $Queue['shop_id'],
-                        'RItemId' => $Queue['RItemId'],
-                        'xml' => $xml,
-                        'time' => time()
-                    ));
+                    iMongo::getInstance()->setCollection('getUserInfoNoSW')->insert(
+                        array(
+                            'UserID' => $Queue['UserID'],
+                            'shop_id' => $Queue['shop_id'],
+                            'RItemId' => $Queue['RItemId'],
+                            'xml' => $xml,
+                            'time' => time()
+                        ));
                     continue;
                 }
             }
-
+            
             $columns = array(
                 'shop_id' => $Queue['shop_id'],
                 'EIASToken' => pq('User>EIASToken')->html(),
@@ -1032,10 +1054,13 @@ class MsgDownModel extends BaseModel
                 'si_CheckoutEnabled' => boolConvert::toInt01(pq('User>SellerInfo>CheckoutEnabled')->html()),
                 'si_CIPBankAccountStored' => boolConvert::toInt01(pq('User>SellerInfo>CIPBankAccountStored')->html()),
                 'si_DomesticRateTable' => boolConvert::toInt01(pq('User>SellerInfo>DomesticRateTable')->html()),
-                'si_fe_QualifiedForAuctionOneDayDuration' => boolConvert::toInt01(pq('User>SellerInfo>FeatureEligibility>QualifiedForAuctionOneDayDuration')->html()),
-                'si_fe_QualifiedForFixedPriceOneDayDuration' => boolConvert::toInt01(pq('User>SellerInfo>FeatureEligibility>QualifiedForFixedPriceOneDayDuration')->html()),
+                'si_fe_QualifiedForAuctionOneDayDuration' => boolConvert::toInt01(
+                    pq('User>SellerInfo>FeatureEligibility>QualifiedForAuctionOneDayDuration')->html()),
+                'si_fe_QualifiedForFixedPriceOneDayDuration' => boolConvert::toInt01(
+                    pq('User>SellerInfo>FeatureEligibility>QualifiedForFixedPriceOneDayDuration')->html()),
                 'si_fe_QualifiesForBuyItNow' => boolConvert::toInt01(pq('User>SellerInfo>FeatureEligibility>QualifiesForBuyItNow')->html()),
-                'si_fe_QualifiesForBuyItNowMultiple' => boolConvert::toInt01(pq('User>SellerInfo>FeatureEligibility>QualifiesForBuyItNowMultiple')->html()),
+                'si_fe_QualifiesForBuyItNowMultiple' => boolConvert::toInt01(
+                    pq('User>SellerInfo>FeatureEligibility>QualifiesForBuyItNowMultiple')->html()),
                 'si_fe_QualifiesForVariations' => boolConvert::toInt01(pq('User>SellerInfo>FeatureEligibility>QualifiesForVariations')->html()),
                 'si_GoodStanding' => boolConvert::toInt01(pq('User>SellerInfo>GoodStanding')->html()),
                 'si_IntegratedMerchantCreditCardInfoXML' => pq('User>SellerInfo>IntegratedMerchantCreditCardInfo')->html(),
@@ -1072,7 +1097,7 @@ class MsgDownModel extends BaseModel
             $params = array(
                 ':UserID' => $Queue['UserID']
             );
-
+            
             $SkypeIDs = pq('User>SkypeID');
             $length = $SkypeIDs->length;
             $SkypeIDsArray = array();
@@ -1127,7 +1152,7 @@ class MsgDownModel extends BaseModel
             );
             EbayUserShopsDAO::getInstance()->ireplaceinto($columns, $conditions, $params);
         }
-
+        
         if (count($Queues) < 100) {
             sleep(5);
         }
@@ -1341,10 +1366,11 @@ class MsgDownModel extends BaseModel
             }
         } else {
             // 写下日志
-            iMongo::getInstance()->setCollection('msgListNoSuccess')->insert(array(
-                'list' => $dataArr['text_json']['list'],
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection('msgListNoSuccess')->insert(
+                array(
+                    'list' => $dataArr['text_json']['list'],
+                    'time' => time()
+                ));
         }
         
         // details
@@ -1356,12 +1382,13 @@ class MsgDownModel extends BaseModel
                 $ddoc = phpQuery::newDocumentXML($detail);
                 phpQuery::selectDocument($ddoc);
             } catch (Exception $e) {
-                iMongo::getInstance()->setCollection('pqXmlErrMsgD')->insert(array(
-                    'down_id' => $dataArr['down_id'],
-                    'xml' => $detail,
-                    'errInfo' => $e->getMessage(),
-                    'time' => time()
-                ));
+                iMongo::getInstance()->setCollection('pqXmlErrMsgD')->insert(
+                    array(
+                        'down_id' => $dataArr['down_id'],
+                        'xml' => $detail,
+                        'errInfo' => $e->getMessage(),
+                        'time' => time()
+                    ));
                 continue;
             }
             
@@ -1494,13 +1521,17 @@ class MsgDownModel extends BaseModel
                     pq('#UserInputtedText')->find('*')->removeAttr('style');
                     $effect_content = pq('#UserInputtedText')->html();
                     
-                    iMongo::getInstance()->setCollection('parseMessagesNewF1')->insert(array(
-                        'effect_content' => $effect_content,
-                        'html' => html_entity_decode($Message->find('Text')
-                            ->html()),
-                        'time' => time()
-                    ));
-                } elseif (stripos(html_entity_decode($Message->find('Text')->html()), '                       ') === 0 && stripos(html_entity_decode($Message->find('Text')->html()), '-----------------------------------------------------------------') > 0 && stripos(html_entity_decode($Message->find('Text')->html()), '=================================================================')) {
+                    iMongo::getInstance()->setCollection('parseMessagesNewF1')->insert(
+                        array(
+                            'effect_content' => $effect_content,
+                            'html' => html_entity_decode($Message->find('Text')
+                                ->html()),
+                            'time' => time()
+                        ));
+                } elseif (stripos(html_entity_decode($Message->find('Text')->html()), '                       ') === 0 &&
+                     stripos(html_entity_decode($Message->find('Text')->html()), 
+                        '-----------------------------------------------------------------') > 0 && stripos(
+                        html_entity_decode($Message->find('Text')->html()), '=================================================================')) {
                     // 如果特殊格式A 则取原文
                     $effect_content = $columns['Text'];
                     
@@ -1518,14 +1549,16 @@ class MsgDownModel extends BaseModel
                         $effect_content = $columns['Text'];
                     }
                     
-                    iMongo::getInstance()->setCollection('parseMessagesV1F1')->insert(array(
-                        'effect_content' => $effect_content,
-                        'matches' => $matches,
-                        'html' => html_entity_decode($Message->find('Text')
-                            ->html()),
-                        'time' => time()
-                    ));
-                } elseif (pq('body>#TextCTA')->length == 0 && pq('body>#RawHtmlText')->length == 0 && $Message->find('Sender')->html() != 'eBay' && stripos($Message->find('Sender')->html(), '@ebay.com') === false) {
+                    iMongo::getInstance()->setCollection('parseMessagesV1F1')->insert(
+                        array(
+                            'effect_content' => $effect_content,
+                            'matches' => $matches,
+                            'html' => html_entity_decode($Message->find('Text')
+                                ->html()),
+                            'time' => time()
+                        ));
+                } elseif (pq('body>#TextCTA')->length == 0 && pq('body>#RawHtmlText')->length == 0 && $Message->find('Sender')->html() != 'eBay' &&
+                     stripos($Message->find('Sender')->html(), '@ebay.com') === false) {
                     // 68069017059/fast 特殊格式处理
                     if (pq('#RawHtmlText>div')->eq(0)->find('hr')->length > 0) {
                         // (.*)(<hr[^<>]+[/]? >)
@@ -1553,12 +1586,13 @@ class MsgDownModel extends BaseModel
                         $effect_content = $columns['Text'];
                     }
                     
-                    iMongo::getInstance()->setCollection('parseMessagesV1F2')->insert(array(
-                        'effect_content' => $effect_content,
-                        'html' => html_entity_decode($Message->find('Text')
-                            ->html()),
-                        'time' => time()
-                    ));
+                    iMongo::getInstance()->setCollection('parseMessagesV1F2')->insert(
+                        array(
+                            'effect_content' => $effect_content,
+                            'html' => html_entity_decode($Message->find('Text')
+                                ->html()),
+                            'time' => time()
+                        ));
                 } else {
                     $effect_content = pq('#TextCTA')->eq(0)
                         ->find('td')
@@ -1719,7 +1753,7 @@ class MsgDownModel extends BaseModel
         sleep(5);
         goto label1;
     }
-    
+
     /**
      * @desc 根据Item获取对应的userid
      * @param string $ItemId
@@ -1789,7 +1823,7 @@ class MsgDownModel extends BaseModel
             return $userid;
         }
     }
-    
+
     /**
      * @desc 根据订单号获取对应的userid
      * @param string $OrderId
@@ -1854,7 +1888,7 @@ class MsgDownModel extends BaseModel
             return $userid;
         }
     }
-    
+
     /**
      * @desc 运行图片上传队列
      * @author YangLong
@@ -1864,22 +1898,23 @@ class MsgDownModel extends BaseModel
     public function executeUploadImageQueue()
     {
         DaemonLockTool::lock(__METHOD__);
-
+        
         $startTime = time();
-
+        
         label1:
-
+        
         $key = 'uploadImage';
         $result = iMemQueue::getInstance()->pop($key);
-
-        if ($result === false || ! isset($result['fileUrl']) || ! isset($result['refid']) || ! isset($result['src']) || ! isset($result['fileName'])) {
+        
+        if ($result === false || ! isset($result['fileUrl']) || ! isset($result['refid']) || ! isset($result['src']) ||
+             ! isset($result['fileName'])) {
             if (time() - $startTime > 295) {
                 die(0);
             }
             usleep(200000);
             goto label1;
         }
-
+        
         if ($result['src'] == 'msgid') {
             $columns = array(
                 's.token'
@@ -1900,19 +1935,19 @@ class MsgDownModel extends BaseModel
         } else {
             goto label1;
         }
-
+        
         $result['fileUrl'] = BASE_PATH . '/' . $result['fileUrl'];
         $multiPartImageData = is_file($result['fileUrl']) ? file_get_contents($result['fileUrl']) : null;
         if (empty($multiPartImageData)) {
             goto label1;
         }
         $PictureName = $result['fileName'];
-
+        
         $xml = MsgDownModel::model()->uploadSiteHostedPictures($result['token'], $multiPartImageData, $PictureName);
-
+        
         $doc = phpQuery::newDocumentXML($xml);
         phpQuery::selectDocument($doc);
-
+        
         if (pq('Ack')->html() != 'Failure') {
             $picNameOut = pq('SiteHostedPictureDetails>PictureName')->html();
             empty($picNameOut) ? $picNameOut = '' : null;
@@ -1921,12 +1956,12 @@ class MsgDownModel extends BaseModel
                 'MediaURL' => pq('SiteHostedPictureDetails>FullURL')->html()
             );
             iMemcache::getInstance()->set(md5("{$result['fileUrl']}_ebayimg"), $MessageMedia, 7200);
-
+            
             $_imd5 = md5($multiPartImageData);
             FileLog::getInstance()->write('imageuploadcache', $_imd5, serialize($MessageMedia));
         }
         unset($doc);
-
+        
         goto label1;
     }
 }

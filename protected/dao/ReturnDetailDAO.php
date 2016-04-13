@@ -7,7 +7,7 @@
  */
 class ReturnDetailDAO extends BaseDAO
 {
-    
+
     /**
      * @desc 对象实例重用
      * @param string $className 需要实例化的类名
@@ -36,13 +36,13 @@ class ReturnDetailDAO extends BaseDAO
         
         $this->shop = 'shop';
     }
-    
+
     /**
      * @desc 获取return 明细
      * @author liaojianwen
      * @date 2015-06-19
      */
-    public function getReturnDetail($returnId,$shopId)
+    public function getReturnDetail($returnId, $shopId)
     {
         $selects = "r.returnId_id,S_buyerLoginName,r.responseDue_party_userId,r.responseDue_party_role,r.responseDue_respondByDate,r.creationDate,
         			S_CI_reason,S_state,S_status,D_iD_itemId,D_iD_itemTitle,D_iD_itemPicUrl,D_iD_itemPrice,D_iD_currencyId,D_iD_transactionId,D_iD_returnQuantity,
@@ -70,30 +70,27 @@ class ReturnDetailDAO extends BaseDAO
         ));
         $result['closeTime'] = $colseTime['creationDate'];
         return $result;
-    
     }
-    
+
     /**
      * @desc 获取return 客户
      * @author liaojianwen
      * @date 2015-06-19
      */
-    public function getReturnInfo($returnId,$sellerId)
+    public function getReturnInfo($returnId, $sellerId)
     {
         $selects = "S_buyerLoginName,d.D_iD_itemId";
         
         return $this->dbCommand->reset()
-                        ->select($selects)
-                        ->from("{$this->return} r")
-                        ->join("{$this->tableName} d","r.return_request_id = d.return_id")
-                        ->join("{$this->shop} s","r.shop_id = s.shop_id")
-                        ->where("d.return_id= {$returnId} and s.seller_id = {$sellerId}")
-                        ->limit(1)
-                        ->queryRow();
-                        
+            ->select($selects)
+            ->from("{$this->return} r")
+            ->join("{$this->tableName} d", "r.return_request_id = d.return_id")
+            ->join("{$this->shop} s", "r.shop_id = s.shop_id")
+            ->where("d.return_id= {$returnId} and s.seller_id = {$sellerId}")
+            ->limit(1)
+            ->queryRow();
     }
-    
-    
+
     /**
      * @desc 根据returnid 获取item信息
      * @param string $returnid
@@ -102,21 +99,21 @@ class ReturnDetailDAO extends BaseDAO
      * @date 2015-06-19
      * @return array
      */
-    public function getItemInfoByReturnId($returnid,$sellerId)
+    public function getItemInfoByReturnId($returnid, $sellerId)
     {
         $selects = "D_iD_itemId i_itemId,D_iD_transactionId i_transactionId ,s.site_id,s.token";
         $conditions = "d.return_id ={$returnid} and s.seller_id = {$sellerId}";
-        $tokeninfo =$this->dbCommand->reset()
-                        ->select($selects)
-                        ->from("{$this->tableName} d")
-                        ->join("{$this->return} r","r.return_request_id = d.return_id")
-                        ->join("{$this->shop} s","s.shop_id = r.shop_id")
-                        ->where($conditions)
-                        ->limit(1)
-                        ->queryRow(); 
-         return $tokeninfo;
+        $tokeninfo = $this->dbCommand->reset()
+            ->select($selects)
+            ->from("{$this->tableName} d")
+            ->join("{$this->return} r", "r.return_request_id = d.return_id")
+            ->join("{$this->shop} s", "s.shop_id = r.shop_id")
+            ->where($conditions)
+            ->limit(1)
+            ->queryRow();
+        return $tokeninfo;
     }
-    
+
     /**
      * @desc 根据return_id 获取requestID
      * @param int $returnid
@@ -124,18 +121,16 @@ class ReturnDetailDAO extends BaseDAO
      * @author liaojianwen
      * @date 2015-06-30
      */
-   public function  getReturnID($returnid,$shopidArr)
-   {
-       $conditions = "shop_id in ({$shopidArr}) and return_request_id = {$returnid}";
-       return $this->dbCommand->reset()
-                       ->select('returnId_id')
-                       ->from($this->return)
-                       ->where($conditions)
-                       ->queryScalar();
-        
-       
-   }
-   
+    public function getReturnID($returnid, $shopidArr)
+    {
+        $conditions = "shop_id in ({$shopidArr}) and return_request_id = {$returnid}";
+        return $this->dbCommand->reset()
+            ->select('returnId_id')
+            ->from($this->return)
+            ->where($conditions)
+            ->queryScalar();
+    }
+
     /**
      * @desc 获取退货地址
      * @param $returnId_id

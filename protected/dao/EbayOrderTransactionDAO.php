@@ -36,7 +36,7 @@ class EbayOrderTransactionDAO extends BaseDAO
         $this->shop = 'shop';
         $this->listing = 'ebay_listing';
     }
-    
+
     /**
      * @desc 通过orderLineItemId 获取productName
      * @param $orderLineItemId
@@ -56,7 +56,7 @@ class EbayOrderTransactionDAO extends BaseDAO
         $result['productName'] = html_entity_decode(html_entity_decode($res));
         return $result;
     }
-    
+
     /**
      * @desc 新增case 时查找订单信息
      * @param $ItemID
@@ -65,11 +65,11 @@ class EbayOrderTransactionDAO extends BaseDAO
      * @author liaojianwen
      * @date 2015-07-14
      */
-    public function searchOrder($ItemID, $BuyerUserID, $shop_id, $page, $pageSize,$rangeTime)
+    public function searchOrder($ItemID, $BuyerUserID, $shop_id, $page, $pageSize, $rangeTime)
     {
         $limit = $pageSize;
         $offset = ($page - 1) * $limit;
-        $selections ="TransactionID,Item_ItemID ItemID,t.Item_SKU,t.Variation_SKU,QuantityPurchased,o.OrderID,o.BuyerUserID ,o.CreatedTime created_time,t.ActualShippingCost,t.ActualShippingCost_currencyID,t.VariationSpecificsXML
+        $selections = "TransactionID,Item_ItemID ItemID,t.Item_SKU,t.Variation_SKU,QuantityPurchased,o.OrderID,o.BuyerUserID ,o.CreatedTime created_time,t.ActualShippingCost,t.ActualShippingCost_currencyID,t.VariationSpecificsXML
             ,t.OrderLineItemID,l.gallery_url,t.TransactionPrice,t.TransactionPrice_currencyID,CustomLabel,t.ProductName";
         $conditions = "t.shop_id = :shop_id";
         $params[':shop_id'] = $shop_id;
@@ -82,25 +82,30 @@ class EbayOrderTransactionDAO extends BaseDAO
             $params[':BuyerID'] = '%' . $BuyerUserID . '%';
         }
         $result['list'] = $this->dbCommand->reset()
-                               ->select($selections,'SQL_CALC_FOUND_ROWS')
-                               ->from("{$this->tableName} t")
-                               ->join("{$this->order} o","o.ebay_orders_id = t.ebay_orders_id")
-                               ->join("{$this->listing} l","l.item_id = t.Item_ItemID and l.shop_id = t.shop_id")
-                               ->where($conditions,$params)
-//                                ->andwhere("l.listing_status <>'Ended'")
-                               ->andwhere("o.CreatedTime > '{$rangeTime}'")
-                               ->order("o.CreatedTime DESC")
-                               ->limit($limit, $offset)
-                               ->queryAll();
-        foreach($result['list'] as &$value){
+            ->select($selections, 'SQL_CALC_FOUND_ROWS')
+            ->from("{$this->tableName} t")
+            ->join("{$this->order} o", "o.ebay_orders_id = t.ebay_orders_id")
+            ->join("{$this->listing} l", "l.item_id = t.Item_ItemID and l.shop_id = t.shop_id")
+            ->where($conditions, $params)
+            ->
+        // ->andwhere("l.listing_status <>'Ended'")
+        andwhere("o.CreatedTime > '{$rangeTime}'")
+            ->order("o.CreatedTime DESC")
+            ->limit($limit, $offset)
+            ->queryAll();
+        foreach ($result['list'] as &$value) {
             $specifics = array();
             $doc = phpQuery::newDocumentXML($value['VariationSpecificsXML']);
             phpQuery::selectDocument($doc);
             $varition = pq('NameValueList ');
             $length = $varition->length;
-            for($i=0; $i< $length; $i++){
-                $name = $varition->eq($i)->find('Name')->html();
-                $res = $varition->eq($i)->find('Value')->html();
+            for ($i = 0; $i < $length; $i ++) {
+                $name = $varition->eq($i)
+                    ->find('Name')
+                    ->html();
+                $res = $varition->eq($i)
+                    ->find('Value')
+                    ->html();
                 $specifics[$name] = $res;
             }
             $value['VariationSpecifics'] = $specifics;
@@ -114,7 +119,7 @@ class EbayOrderTransactionDAO extends BaseDAO
         );
         return $result;
     }
-    
+
     /**
      * @desc  评价中获取订单信息
      * @param string $orderLineItemID

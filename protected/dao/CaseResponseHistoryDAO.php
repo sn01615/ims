@@ -34,10 +34,10 @@ class CaseResponseHistoryDAO extends BaseDAO
         $this->created = 'create_time';
         $this->updated = 'update_time';
         $this->case = 'case';
-        $this->returnDet  = 'return_request_detail';
+        $this->returnDet = 'return_request_detail';
         $this->returnHis = 'return_response_history';
     }
-    
+
     /**
      * @desc 获取买家发起case的历史对话
      * @param caseid  case的id

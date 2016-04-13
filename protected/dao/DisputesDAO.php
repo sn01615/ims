@@ -7,8 +7,9 @@
  */
 class DisputesDAO extends BaseDAO
 {
-    
-    private $shop;// shop表名
+
+    private $shop;
+    // shop表名
     
     /**
      * @desc 对象实例重用
@@ -37,7 +38,7 @@ class DisputesDAO extends BaseDAO
         
         $this->shop = 'shop';
     }
-    
+
     /**
      * @desc 获取卖方发起cancel disputes列表
      * @param $paramArr case类型
@@ -117,13 +118,16 @@ class DisputesDAO extends BaseDAO
         foreach ($result['list'] as &$value) {
             $status = $value['DisputeStatus'];
             
-            if ($status == 'Closed' || $status == 'ClosedFVFCreditNoStrike' || $status == 'ClosedFVFCreditStrike' || $status == 'ClosedNoFVFCreditNoStrike' || $status == 'ClosedNoFVFCreditStrike' || $status == 'FVFCreditReversedAfterClosing' || $status == 'StrikeAppealedAfterClosing' || $status == 'StrikeAppealedAndFVFCreditReversed' || $value['DisputeState'] == 'Closed') {
+            if ($status == 'Closed' || $status == 'ClosedFVFCreditNoStrike' || $status == 'ClosedFVFCreditStrike' ||
+                 $status == 'ClosedNoFVFCreditNoStrike' || $status == 'ClosedNoFVFCreditStrike' || $status == 'FVFCreditReversedAfterClosing' ||
+                 $status == 'StrikeAppealedAfterClosing' || $status == 'StrikeAppealedAndFVFCreditReversed' || $value['DisputeState'] == 'Closed') {
                 $value['status'] = 'closed';
             } else {
                 $value['status'] = 'processing';
             }
             // 替换别名
-            $value['SellerUserID'] = str_ireplace($shopInfo[$value['shop_id']]['account'], $shopInfo[$value['shop_id']]['nick_name'], $value['SellerUserID']);
+            $value['SellerUserID'] = str_ireplace($shopInfo[$value['shop_id']]['account'], $shopInfo[$value['shop_id']]['nick_name'], 
+                $value['SellerUserID']);
             
             // guest ItemID hide
             if (Yii::app()->session['userInfo']['user_id'] == 99999) {
@@ -137,7 +141,7 @@ class DisputesDAO extends BaseDAO
         );
         return $result;
     }
-    
+
     /**
      * @desc 获取卖家发起case的详细内容
      * @param caseid  case的id
@@ -167,7 +171,7 @@ class DisputesDAO extends BaseDAO
         
         return $result;
     }
-    
+
     /**
      * @desc 上、下一页的id
      * @param $disputeid  dispute的id

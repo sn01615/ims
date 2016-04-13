@@ -14,10 +14,8 @@ class ImsController extends Controller
      * @date 2015-04-27
      */
     public function actionIndex()
-    {
-        
-    }
-    
+    {}
+
     /**
      * @desc IMS和ECS之间通信的验证
      * @author YangLong
@@ -35,7 +33,7 @@ class ImsController extends Controller
             Yii::app()->end(); // safe
         }
     }
-    
+
     /**
      * @desc IMS获取msg下载数据
      * @author heguangquan,YangLong
@@ -49,7 +47,7 @@ class ImsController extends Controller
         $result = ImsjobsModel::model()->getMsgDownsData($taskNumber);
         $this->renderJson($result);
     }
-    
+
     /**
      * @desc IMS删除msg下载数据
      * @author heguangquan,YangLong
@@ -63,7 +61,7 @@ class ImsController extends Controller
         $result = ImsjobsModel::model()->delMsgDownsData($strId);
         $this->renderJson($result);
     }
-    
+
     /**
      * @desc 接收IMS推送的回复队列数据，并入库
      * @author lvjianfei,YangLong,zhanwei
@@ -81,7 +79,7 @@ class ImsController extends Controller
         $result = ImsjobsModel::model()->generateReplyMsgQueue($replyInfo);
         $this->renderJson($result);
     }
-    
+
     /**
      * @desc 生成队列
      * @author zhanwei,YangLong
@@ -95,5 +93,4 @@ class ImsController extends Controller
         $result = ImsjobsModel::model()->generateDownQueue($msgDownQueueJson, $authKey);
         $this->renderJson($result);
     }
-    
 }

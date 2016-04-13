@@ -7,7 +7,7 @@
  */
 class CaseUploadModel extends BaseModel
 {
-    
+
     /**
      * @desc 覆盖父方法,返回此对象的(单)实例
      * @param string $className 需要实例化的类名
@@ -108,7 +108,7 @@ class CaseUploadModel extends BaseModel
             goto label1;
         }
     }
-    
+
     /**
      * @desc Case回复消息
      * @param array $Queue 队列数据
@@ -139,13 +139,14 @@ class CaseUploadModel extends BaseModel
         phpQuery::selectDocument($doc);
         if (pq('ack')->html() == 'Success') {
             // file_put_contents(__FUNCTION__ . 'Success.log', $doc . "\n", FILE_APPEND);
-            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
-                'type' => 'Success',
-                'Queue' => serialize($Queue),
-                'uploadData'=>$uploadData,
-                'xml' => $result,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(
+                array(
+                    'type' => 'Success',
+                    'Queue' => serialize($Queue),
+                    'uploadData' => $uploadData,
+                    'xml' => $result,
+                    'time' => time()
+                ));
             // 发送邮件通知
             ob_start();
             echo "apiResult：\n";
@@ -159,13 +160,14 @@ class CaseUploadModel extends BaseModel
             return $Queue['case_upload_queue_id'];
         } else {
             // file_put_contents(__FUNCTION__ . 'Err.log', $doc . "\n", FILE_APPEND);
-            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
-                'type' => 'Err',
-                'Queue' => serialize($Queue),
-                'uploadData'=>$uploadData,
-                'xml' => $result,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(
+                array(
+                    'type' => 'Err',
+                    'Queue' => serialize($Queue),
+                    'uploadData' => $uploadData,
+                    'xml' => $result,
+                    'time' => time()
+                ));
             // 发送邮件通知
             ob_start();
             echo "apiResult：\n";
@@ -179,7 +181,7 @@ class CaseUploadModel extends BaseModel
             return false;
         }
     }
-    
+
     /**
      * @desc Case提供物流跟踪号
      * @param array $Queue 队列数据
@@ -204,13 +206,14 @@ class CaseUploadModel extends BaseModel
         phpQuery::selectDocument($doc);
         if (pq('ack')->html() == 'Success') {
             // file_put_contents(__FUNCTION__ . 'Success.log', $doc . "\n", FILE_APPEND);
-            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
-                'type' => 'Success',
-                'Queue' => serialize($Queue),
-                'uploadData'=>$uploadData,
-                'xml' => $result,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(
+                array(
+                    'type' => 'Success',
+                    'Queue' => serialize($Queue),
+                    'uploadData' => $uploadData,
+                    'xml' => $result,
+                    'time' => time()
+                ));
             // 发送邮件通知
             ob_start();
             echo "apiResult：\n";
@@ -224,13 +227,14 @@ class CaseUploadModel extends BaseModel
             return $Queue['case_upload_queue_id'];
         } else {
             // file_put_contents(__FUNCTION__ . 'Err.log', $doc . "\n", FILE_APPEND);
-            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
-                'type' => 'Err',
-                'Queue' => serialize($Queue),
-                'uploadData'=>$uploadData,
-                'xml' => $result,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(
+                array(
+                    'type' => 'Err',
+                    'Queue' => serialize($Queue),
+                    'uploadData' => $uploadData,
+                    'xml' => $result,
+                    'time' => time()
+                ));
             // 发送邮件通知
             ob_start();
             echo "apiResult：\n";
@@ -244,7 +248,7 @@ class CaseUploadModel extends BaseModel
             return false;
         }
     }
-    
+
     /**
      * @desc 提供物流信息（无跟踪号）
      * @param array $Queue 队列数据
@@ -269,13 +273,14 @@ class CaseUploadModel extends BaseModel
         phpQuery::selectDocument($doc);
         if (pq('ack')->html() == 'Success') {
             // file_put_contents(__FUNCTION__ . 'Success.log', $doc . "\n", FILE_APPEND);
-            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
-                'type' => 'Success',
-                'Queue' => serialize($Queue),
-                'uploadData'=>$uploadData,
-                'xml' => $result,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(
+                array(
+                    'type' => 'Success',
+                    'Queue' => serialize($Queue),
+                    'uploadData' => $uploadData,
+                    'xml' => $result,
+                    'time' => time()
+                ));
             // 发送邮件通知
             ob_start();
             echo "apiResult：\n";
@@ -289,13 +294,14 @@ class CaseUploadModel extends BaseModel
             return $Queue['case_upload_queue_id'];
         } else {
             // file_put_contents(__FUNCTION__ . 'Err.log', $doc . "\n", FILE_APPEND);
-            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
-                'type' => 'Err',
-                'Queue' => serialize($Queue),
-                'uploadData'=>$uploadData,
-                'xml' => $result,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(
+                array(
+                    'type' => 'Err',
+                    'Queue' => serialize($Queue),
+                    'uploadData' => $uploadData,
+                    'xml' => $result,
+                    'time' => time()
+                ));
             // 发送邮件通知
             ob_start();
             echo "apiResult：\n";
@@ -309,7 +315,7 @@ class CaseUploadModel extends BaseModel
             return false;
         }
     }
-    
+
     /**
      * @desc 全额退款
      * @param array $Queue 队列数据
@@ -331,13 +337,14 @@ class CaseUploadModel extends BaseModel
         $doc = phpQuery::newDocumentXML($result);
         phpQuery::selectDocument($doc);
         if (pq('ack')->html() == 'Success') {
-            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
-                'type' => 'Success',
-                'Queue' => serialize($Queue),
-                'uploadData' => $uploadData,
-                'xml' => $result,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(
+                array(
+                    'type' => 'Success',
+                    'Queue' => serialize($Queue),
+                    'uploadData' => $uploadData,
+                    'xml' => $result,
+                    'time' => time()
+                ));
             
             // 发送邮件通知
             ob_start();
@@ -352,13 +359,14 @@ class CaseUploadModel extends BaseModel
             
             return $Queue['case_upload_queue_id'];
         } else {
-            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
-                'type' => 'Err',
-                'Queue' => serialize($Queue),
-                'uploadData' => $uploadData,
-                'xml' => $result,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(
+                array(
+                    'type' => 'Err',
+                    'Queue' => serialize($Queue),
+                    'uploadData' => $uploadData,
+                    'xml' => $result,
+                    'time' => time()
+                ));
             
             // 发送邮件通知
             ob_start();
@@ -398,13 +406,14 @@ class CaseUploadModel extends BaseModel
         phpQuery::selectDocument($doc);
         if (pq('ack')->html() == 'Success') {
             // file_put_contents(__FUNCTION__ . 'Success.log', $doc . "\n", FILE_APPEND);
-            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
-                'type' => 'Success',
-                'Queue' => serialize($Queue),
-                'uploadData'=>$uploadData,
-                'xml' => $result,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(
+                array(
+                    'type' => 'Success',
+                    'Queue' => serialize($Queue),
+                    'uploadData' => $uploadData,
+                    'xml' => $result,
+                    'time' => time()
+                ));
             // 发送邮件通知
             ob_start();
             echo "apiResult：\n";
@@ -418,13 +427,14 @@ class CaseUploadModel extends BaseModel
             return $Queue['case_upload_queue_id'];
         } else {
             // file_put_contents(__FUNCTION__ . 'Err.log', $doc . "\n", FILE_APPEND);
-            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
-                'type' => 'Err',
-                'Queue' => serialize($Queue),
-                'uploadData'=>$uploadData,
-                'xml' => $result,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(
+                array(
+                    'type' => 'Err',
+                    'Queue' => serialize($Queue),
+                    'uploadData' => $uploadData,
+                    'xml' => $result,
+                    'time' => time()
+                ));
             // 发送邮件通知
             ob_start();
             echo "apiResult：\n";
@@ -438,7 +448,7 @@ class CaseUploadModel extends BaseModel
             return false;
         }
     }
-    
+
     /**
      * @desc 退款并退货
      * @param array $Queue 队列数据
@@ -462,19 +472,21 @@ class CaseUploadModel extends BaseModel
         $street1 = $uploadData['street'];
         $street2 = $uploadData['street2'];
         
-        $result = CaseDownModel::model()->offerRefundUponReturn($caseId, $token, $returnMerchandiseAuthorization, $additionalReturnInstructions, $city, $country, $name, $postalCode, $stateOrProvince, $street1, $street2);
+        $result = CaseDownModel::model()->offerRefundUponReturn($caseId, $token, $returnMerchandiseAuthorization, $additionalReturnInstructions, 
+            $city, $country, $name, $postalCode, $stateOrProvince, $street1, $street2);
         
         $doc = phpQuery::newDocumentXML($result);
         phpQuery::selectDocument($doc);
         if (pq('ack')->html() == 'Success') {
             // file_put_contents(__FUNCTION__ . 'Success.log', $doc . "\n", FILE_APPEND);
-            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
-                'type' => 'Success',
-                'Queue' => serialize($Queue),
-                'uploadData'=>$uploadData,
-                'xml' => $result,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(
+                array(
+                    'type' => 'Success',
+                    'Queue' => serialize($Queue),
+                    'uploadData' => $uploadData,
+                    'xml' => $result,
+                    'time' => time()
+                ));
             // 发送邮件通知
             ob_start();
             echo "apiResult：\n";
@@ -488,13 +500,14 @@ class CaseUploadModel extends BaseModel
             return $Queue['case_upload_queue_id'];
         } else {
             // file_put_contents(__FUNCTION__ . 'Err.log', $doc . "\n", FILE_APPEND);
-            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
-                'type' => 'Err',
-                'Queue' => serialize($Queue),
-                'uploadData'=>$uploadData,
-                'xml' => $result,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(
+                array(
+                    'type' => 'Err',
+                    'Queue' => serialize($Queue),
+                    'uploadData' => $uploadData,
+                    'xml' => $result,
+                    'time' => time()
+                ));
             // 发送邮件通知
             ob_start();
             echo "apiResult：\n";
@@ -508,7 +521,7 @@ class CaseUploadModel extends BaseModel
             return false;
         }
     }
-    
+
     /**
      * @desc 升级Case(eBay介入)
      * @param array $Queue 队列数据
@@ -533,12 +546,13 @@ class CaseUploadModel extends BaseModel
             $sellerSNADReason = $uploadData['reason'];
         } else {
             // file_put_contents(__FUNCTION__ . 'Err2.log', $Queue['upload_data'] . "\n", FILE_APPEND);
-            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
-                'type' => 'Err2',
-                'Queue' => serialize($Queue),
-                'uploadData' => $uploadData,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(
+                array(
+                    'type' => 'Err2',
+                    'Queue' => serialize($Queue),
+                    'uploadData' => $uploadData,
+                    'time' => time()
+                ));
             return false;
         }
         
@@ -548,13 +562,14 @@ class CaseUploadModel extends BaseModel
         phpQuery::selectDocument($doc);
         if (pq('ack')->html() == 'Success') {
             // file_put_contents(__FUNCTION__ . 'Success.log', $doc . "\n", FILE_APPEND);
-            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
-                'type' => 'Success',
-                'Queue' => serialize($Queue),
-                'uploadData' => $uploadData,
-                'xml' => $result,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(
+                array(
+                    'type' => 'Success',
+                    'Queue' => serialize($Queue),
+                    'uploadData' => $uploadData,
+                    'xml' => $result,
+                    'time' => time()
+                ));
             // 发送邮件通知
             ob_start();
             echo "apiResult：\n";
@@ -568,13 +583,14 @@ class CaseUploadModel extends BaseModel
             return $Queue['case_upload_queue_id'];
         } else {
             // file_put_contents(__FUNCTION__ . 'Err.log', $doc . "\n", FILE_APPEND);
-            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
-                'type' => 'Err',
-                'Queue' => serialize($Queue),
-                'uploadData' => $uploadData,
-                'xml' => $result,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(
+                array(
+                    'type' => 'Err',
+                    'Queue' => serialize($Queue),
+                    'uploadData' => $uploadData,
+                    'xml' => $result,
+                    'time' => time()
+                ));
             // 发送邮件通知
             ob_start();
             echo "apiResult：\n";
@@ -588,7 +604,7 @@ class CaseUploadModel extends BaseModel
             return false;
         }
     }
-    
+
     /**
      * @desc 提供退货地址
      * @param $Queue
@@ -610,18 +626,20 @@ class CaseUploadModel extends BaseModel
         $stateOrProvince = $uploadData['stateOrProvince'];
         $street1 = $uploadData['street1'];
         $street2 = $uploadData['street2'];
-        $result = CaseDownModel::model()->provideReturnInfo($caseId, $caseType, $token, $city, $country, $name, $postalCode, $stateOrProvince, $street1, $street2);
+        $result = CaseDownModel::model()->provideReturnInfo($caseId, $caseType, $token, $city, $country, $name, $postalCode, $stateOrProvince, 
+            $street1, $street2);
         
         $doc = phpQuery::newDocumentXML($result);
         phpQuery::selectDocument($doc);
         if (pq('ack')->html() == 'Success') {
-            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
-                'type' => 'Success',
-                'Queue' => serialize($Queue),
-                'uploadData' => $uploadData,
-                'xml' => $result,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(
+                array(
+                    'type' => 'Success',
+                    'Queue' => serialize($Queue),
+                    'uploadData' => $uploadData,
+                    'xml' => $result,
+                    'time' => time()
+                ));
             
             // 发送邮件通知
             ob_start();
@@ -636,13 +654,14 @@ class CaseUploadModel extends BaseModel
             
             return $Queue['case_upload_queue_id'];
         } else {
-            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
-                'type' => 'Err',
-                'Queue' => serialize($Queue),
-                'uploadData' => $uploadData,
-                'xml' => $result,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(
+                array(
+                    'type' => 'Err',
+                    'Queue' => serialize($Queue),
+                    'uploadData' => $uploadData,
+                    'xml' => $result,
+                    'time' => time()
+                ));
             
             // 发送邮件通知
             ob_start();
@@ -658,7 +677,7 @@ class CaseUploadModel extends BaseModel
             return false;
         }
     }
-    
+
     /**
      * @desc 向ebay 申诉
      * @param array $Queue
@@ -679,13 +698,14 @@ class CaseUploadModel extends BaseModel
         $doc = phpQuery::newDocumentXML($result);
         phpQuery::selectDocument($doc);
         if (pq('ack')->html() == 'Success') {
-            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
-                'type' => 'Success',
-                'Queue' => serialize($Queue),
-                'uploadData'=>$uploadData,
-                'xml' => $result,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(
+                array(
+                    'type' => 'Success',
+                    'Queue' => serialize($Queue),
+                    'uploadData' => $uploadData,
+                    'xml' => $result,
+                    'time' => time()
+                ));
             // 发送邮件通知
             ob_start();
             echo "apiResult：\n";
@@ -698,13 +718,14 @@ class CaseUploadModel extends BaseModel
             SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
             return $Queue['case_upload_queue_id'];
         } else {
-            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
-                'type' => 'Err',
-                'Queue' => serialize($Queue),
-                'uploadData'=>$uploadData,
-                'xml' => $result,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(
+                array(
+                    'type' => 'Err',
+                    'Queue' => serialize($Queue),
+                    'uploadData' => $uploadData,
+                    'xml' => $result,
+                    'time' => time()
+                ));
             // 发送邮件通知
             ob_start();
             echo "apiResult：\n";
@@ -718,7 +739,7 @@ class CaseUploadModel extends BaseModel
             return false;
         }
     }
-    
+
     /**
      * @desc 新增Case
      * @param array $Queue 队列数据
@@ -736,19 +757,21 @@ class CaseUploadModel extends BaseModel
         $TransactionID = $uploadData['TransactionID'];
         $OrderLineItemID = $uploadData['OrderLineItemID'];
         $siteId = $uploadData['siteId'];
-        $result = CaseDownModel::model()->addDispute($token, $DisputeReason, $DisputeExplanation, $ItemID, $OrderLineItemID, $TransactionID, $siteId);
+        $result = CaseDownModel::model()->addDispute($token, $DisputeReason, $DisputeExplanation, $ItemID, $OrderLineItemID, $TransactionID, 
+            $siteId);
         
         $doc = phpQuery::newDocumentXML($result);
         phpQuery::selectDocument($doc);
         if (pq('ack')->html() == 'Success') {
             // file_put_contents(__FUNCTION__ . 'Success.log', $doc . "\n", FILE_APPEND);
-            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
-                'type' => 'Success',
-                'Queue' => serialize($Queue),
-                'uploadData'=>$uploadData,
-                'xml' => $result,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(
+                array(
+                    'type' => 'Success',
+                    'Queue' => serialize($Queue),
+                    'uploadData' => $uploadData,
+                    'xml' => $result,
+                    'time' => time()
+                ));
             // 发送邮件通知
             ob_start();
             echo "apiResult：\n";
@@ -762,13 +785,14 @@ class CaseUploadModel extends BaseModel
             return true;
         } else {
             // file_put_contents(__FUNCTION__ . 'Err.log', $doc . "\n", FILE_APPEND);
-            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(array(
-                'type' => 'Err',
-                'Queue' => serialize($Queue),
-                'uploadData'=>$uploadData,
-                'xml' => $result,
-                'time' => time()
-            ));
+            iMongo::getInstance()->setCollection(__FUNCTION__)->insert(
+                array(
+                    'type' => 'Err',
+                    'Queue' => serialize($Queue),
+                    'uploadData' => $uploadData,
+                    'xml' => $result,
+                    'time' => time()
+                ));
             // 发送邮件通知
             ob_start();
             echo "apiResult：\n";
@@ -782,7 +806,7 @@ class CaseUploadModel extends BaseModel
             return false;
         }
     }
-    
+
     /**
      * @desc 获取格式化的GMT时间
      * @param int $int 时间戳

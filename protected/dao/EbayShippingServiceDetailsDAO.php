@@ -42,7 +42,7 @@ class EbayShippingServiceDetailsDAO extends BaseDAO
      * @date 2015-11-2
      * @return Ambigous <multitype:, mixed>
      */
-    public function getEbayShipService($site_id,$flag)
+    public function getEbayShipService($site_id, $flag)
     {
         $selections = 'ShippingService,Description,ShippingCarrier,ValidForSellingFlow,InternationalService';
         $conditions = "site_id =:site_id  and ValidForSellingFlow=:valid";
@@ -58,10 +58,8 @@ class EbayShippingServiceDetailsDAO extends BaseDAO
             $InternationalService = '1';
             $conditions .= " and InternationalService=:InternationalService";
             $params[':InternationalService'] = $InternationalService;
-        } else {
-
-        }
- 
+        } else {}
+        
         $result = $this->dbCommand->reset()
             ->select($selections)
             ->from("ebay_shipping_service_details ")
