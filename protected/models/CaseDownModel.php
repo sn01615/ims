@@ -922,6 +922,7 @@ class CaseDownModel extends BaseModel
     <DisputeActivity>{$disputeActivity}</DisputeActivity>
     <DisputeID>{$disputeID}</DisputeID>";
         if (! empty($messageText)) {
+            $messageText = htmlspecialchars($messageText, ENT_XML1);
             $requestXmlBody .= "
     <MessageText>{$messageText}</MessageText>";
         }
@@ -1218,7 +1219,7 @@ class CaseDownModel extends BaseModel
     <id>' . $caseId . '</id>
     <type>' . $caseType . '</type>
   </caseId>
-  <messageToBuyer>' . $messageToBuyer . '</messageToBuyer>
+  <messageToBuyer>' . htmlspecialchars($messageToBuyer, ENT_XML1) . '</messageToBuyer>
 </offerOtherSolutionRequest>';
         
         // @see http://developer.ebay.com/Devzone/resolution-case-management/Concepts/MakingACall.html
