@@ -286,7 +286,7 @@ class ImsjobsModel extends BaseModel
         $addmembermessagertqrequest = new AddMemberMessageRTQRequestType();
         $membermessage = new MemberMessageType();
         $addmembermessagertqrequest->setMemberMessage($membermessage);
-        $membermessage->setBody(htmlspecialchars($body, ENT_XML1));
+        $membermessage->setBody($body);
         $membermessage->setEmailCopyToSender($isSendEmail);
         if (! empty($picPath)) {
             foreach ($picPath as $photo) {
