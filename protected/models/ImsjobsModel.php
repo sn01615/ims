@@ -554,7 +554,7 @@ class ImsjobsModel extends BaseModel
         }
         $requestXmlBody .= '<RecipientID>' . $receiveUserID . '</RecipientID>
         <Subject>Thank You for your purchase</Subject>
-        <body>' . $body . '</body>';
+        <body>' . htmlspecialchars($body, ENT_XML1) . '</body>';
         if (! empty($picPath)) {
             foreach ($picPath as $photo) {
                 $requestXmlBody .= '<MessageMedia>
