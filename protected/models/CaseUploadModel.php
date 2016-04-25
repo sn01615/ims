@@ -138,7 +138,6 @@ class CaseUploadModel extends BaseModel
         $doc = phpQuery::newDocumentXML($result);
         phpQuery::selectDocument($doc);
         if (pq('ack')->html() == 'Success') {
-            // file_put_contents(__FUNCTION__ . 'Success.log', $doc . "\n", FILE_APPEND);
             iMongo::getInstance()->setCollection(__FUNCTION__)->insert(
                 array(
                     'type' => 'Success',
@@ -147,19 +146,9 @@ class CaseUploadModel extends BaseModel
                     'xml' => $result,
                     'time' => time()
                 ));
-            // 发送邮件通知
-            ob_start();
-            echo "apiResult：\n";
-            var_export($result);
-            echo "\n\n队列内容：\n";
-            var_export($Queue);
-            $text = ob_get_clean();
-            $subject = "Case 回复消息成功通知 [Success]\n";
-            $to = Yii::app()->params['logmails'];
-            SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
+            
             return $Queue['case_upload_queue_id'];
         } else {
-            // file_put_contents(__FUNCTION__ . 'Err.log', $doc . "\n", FILE_APPEND);
             iMongo::getInstance()->setCollection(__FUNCTION__)->insert(
                 array(
                     'type' => 'Err',
@@ -168,6 +157,7 @@ class CaseUploadModel extends BaseModel
                     'xml' => $result,
                     'time' => time()
                 ));
+            
             // 发送邮件通知
             ob_start();
             echo "apiResult：\n";
@@ -178,6 +168,7 @@ class CaseUploadModel extends BaseModel
             $subject = "Case 回复消息失败通知 [Failure]\n";
             $to = Yii::app()->params['logmails'];
             SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
+            
             return false;
         }
     }
