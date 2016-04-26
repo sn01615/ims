@@ -355,16 +355,7 @@ class ReturnUploadModel extends BaseModel
                     'json' => $result,
                     'time' => time()
                 ));
-            // 发送邮件通知
-            ob_start();
-            echo "apiResult：\n";
-            var_export($res);
-            echo "\n\n队列内容：\n";
-            var_export($Queue);
-            $text = ob_get_clean();
-            $subject = "Request 发送消息成功通知 [Success]\n";
-            $to = Yii::app()->params['logmails'];
-            SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
+            
             return $Queue['return_upload_queue_id'];
         } else {
             iMemcache::getInstance()->set(md5('returnMsg' . $Queue['return_upload_queue_id']), 'err', 3600);
@@ -377,6 +368,7 @@ class ReturnUploadModel extends BaseModel
                     'json' => $result,
                     'time' => time()
                 ));
+            
             // 发送邮件通知
             ob_start();
             echo "apiResult：\n";
@@ -387,6 +379,7 @@ class ReturnUploadModel extends BaseModel
             $subject = "Request 发送消息失败通知 [Failure]\n";
             $to = Yii::app()->params['logmails'];
             SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
+            
             return false;
         }
     }
