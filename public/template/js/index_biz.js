@@ -327,7 +327,7 @@ try {
 
 // 循环执行，每隔30秒钟执行一次 
 setInterval(function() {
-    if (window.frames['main'].location.href.indexOf('Home/MsgList') > -1) {
+    if (window.frames['main'] && window.frames['main'].location.href.indexOf('Home/MsgList') > -1) {
         countDispose();
     } else {
         $.get('?r=api');
