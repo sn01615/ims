@@ -1520,14 +1520,6 @@ class MsgDownModel extends BaseModel
                     // <!--a71f943b-ab8b-549b-4cb2-514a60170b90_v36-->
                     pq('#UserInputtedText')->find('*')->removeAttr('style');
                     $effect_content = pq('#UserInputtedText')->html();
-                    
-                    iMongo::getInstance()->setCollection('parseMessagesNewF1')->insert(
-                        array(
-                            'effect_content' => $effect_content,
-                            'html' => html_entity_decode($Message->find('Text')
-                                ->html()),
-                            'time' => time()
-                        ));
                 } elseif (stripos(html_entity_decode($Message->find('Text')->html()), '                       ') === 0 &&
                      stripos(html_entity_decode($Message->find('Text')->html()), 
                         '-----------------------------------------------------------------') > 0 && stripos(
