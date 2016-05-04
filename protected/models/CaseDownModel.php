@@ -59,6 +59,34 @@ class CaseDownModel extends BaseModel
     }
 
     /**
+     * 获取Case队列生成的时候的偏移时间
+     * @param int $shopId
+     * @return int
+     */
+    private function get_case_offset_time($shopId)
+    {
+        $var = array(
+            7 => 5,
+            15 => 10,
+            30 => 20,
+            45 => 24
+        );
+        
+        $result = 0;
+        
+        foreach ($var as $k => $v) {
+            $key = md5(__METHOD__ . $shopId . $k);
+            $tmp = iMemcache::getInstance()->get($key);
+            if ($tmp === false) {
+                iMemcache::getInstance()->set($key, 3600 * 24 * $k, 3600 * $v);
+                $result = $tmp;
+            }
+        }
+        
+        return $result;
+    }
+
+    /**
      * @desc 生成Case下载队列
      * @author YangLong
      * @date 2015-03-27
@@ -86,7 +114,7 @@ class CaseDownModel extends BaseModel
                     $this->makeCaseDownQueue($fromDate, $toDate, $shop, 20 - $i);
                 }
             } else {
-                $fromDate = $shop['case_down_time'] - EnumOther::OVARLAP_TIME;
+                $fromDate = $shop['case_down_time'] - EnumOther::OVARLAP_TIME - $this->get_case_offset_time($shop['shop_id']);
                 $toDate = $_time;
                 $this->makeCaseDownQueue($fromDate, $toDate, $shop, 19);
             }
