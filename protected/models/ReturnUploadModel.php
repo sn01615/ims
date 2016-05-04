@@ -537,7 +537,7 @@ class ReturnUploadModel extends BaseModel
                 return $this->handleApiFormat(EnumOther::ACK_FAILURE, $result, $error);
             }
         } else {
-            if ($startTime > (time() - 180)) {
+            if (time() - $startTime < 180) {
                 sleep(1);
                 goto label1;
             }
