@@ -510,10 +510,10 @@ class ReturnUploadModel extends BaseModel
 
     /**
      * @desc 获取return部分退款是否成功
-     * @author liaojianwen
-     * @date 2015-08-10
      * @param string $uploadId
      * @param string $actionType return操作项
+     * @author liaojianwen
+     * @date 2015-08-10
      * @return mixed
      */
     public function getReturnReply($uploadId, $actionType)
@@ -527,14 +527,6 @@ class ReturnUploadModel extends BaseModel
         $startTime = time();
         
         $result = iMemcache::getInstance()->get(md5($actionType . $uploadId));
-        if ($result === false) {}
-        
-        iMongo::getInstance()->setCollection('____Return____')->insert(
-            array(
-                'result' => $result,
-                'time' => time(),
-                'oftime' => time() - $startTime
-            ));
         
         if ($result == 'success' || $result == 'err') {
             iMemcache::getInstance()->set(md5($actionType . $uploadId), '', 1);
