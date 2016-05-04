@@ -75,7 +75,7 @@ class CaseDownModel extends BaseModel
         $result = 0;
         
         foreach ($var as $k => $v) {
-            $key = md5(__METHOD__ . $shopId . $k);
+            $key = md5(__METHOD__ . $shopId . '_' . $k);
             $tmp = iMemcache::getInstance()->get($key);
             if ($tmp === false) {
                 iMemcache::getInstance()->set($key, 3600 * 24 * $k, 3600 * $v);
