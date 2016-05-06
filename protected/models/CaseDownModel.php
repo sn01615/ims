@@ -723,7 +723,7 @@ class CaseDownModel extends BaseModel
         
         $responseXml = $session->sendHttpRequest($requestXmlBody);
         
-        if (stripos($responseXml, '<Ack>Failure</Ack>')) {
+        if (stripos($responseXml, '<Ack>Failure</Ack>') && stripos($responseXml, '<errorId>1501</errorId>') === false) {
             iMongo::getInstance()->setCollection('getActivityOptionsF')->insert(
                 array(
                     'requestXmlBody' => $requestXmlBody,
@@ -735,7 +735,7 @@ class CaseDownModel extends BaseModel
             $responseXml = $session->sendHttpRequest($requestXmlBody);
         }
         
-        if (stripos($responseXml, '<Ack>Failure</Ack>')) {
+        if (stripos($responseXml, '<Ack>Failure</Ack>') && stripos($responseXml, '<errorId>1501</errorId>') === false) {
             iMongo::getInstance()->setCollection('getActivityOptionsF')->insert(
                 array(
                     'requestXmlBody' => $requestXmlBody,
