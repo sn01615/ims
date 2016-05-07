@@ -742,7 +742,7 @@ class EbayOtherInfoModel extends BaseModel
         
         $responseXml = $session->sendHttpRequest($requestXmlBody);
         
-        if (stripos($responseXml, '<Ack>Failure</Ack>')) {
+        if (stripos($responseXml, '<Ack>Failure</Ack>') && stripos($responseXml, '<ErrorCode>17420</ErrorCode>') === false) {
             iMongo::getInstance()->setCollection('eBayGetUserF')->insert(
                 array(
                     'requestXmlBody' => $requestXmlBody,
@@ -754,7 +754,7 @@ class EbayOtherInfoModel extends BaseModel
             $responseXml = $session->sendHttpRequest($requestXmlBody);
         }
         
-        if (stripos($responseXml, '<Ack>Failure</Ack>')) {
+        if (stripos($responseXml, '<Ack>Failure</Ack>') && stripos($responseXml, '<ErrorCode>17420</ErrorCode>') === false) {
             iMongo::getInstance()->setCollection('eBayGetUserF')->insert(
                 array(
                     'requestXmlBody' => $requestXmlBody,
