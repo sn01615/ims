@@ -92,6 +92,9 @@ function autoHide() {
 //手动收起提示框
 
 function hintHide() {
+    if (!parent) {
+        return;
+    }
     $(parent.document).find('.hint').animate({
         top: -100
     }, 300, function() {
