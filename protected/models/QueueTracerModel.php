@@ -56,7 +56,7 @@ class QueueTracerModel extends MongoJob
             if (! $result) {
                 sleep(5);
             }
-            if (time() - $startTime > 600) {
+            if (time() - $startTime > 590) {
                 break;
             }
         }

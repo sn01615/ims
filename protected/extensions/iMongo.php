@@ -31,7 +31,7 @@ class iMongo
      * @var iMongo
      */
     private static $_instance;
-    
+
     /**
      * @desc 构造方法
      * @param string $connStr 链接字符串
@@ -52,7 +52,7 @@ class iMongo
             $this->setCollection($Collection);
         }
     }
-    
+
     /**
      * @desc 析构方法
      * @author YangLong
@@ -64,7 +64,7 @@ class iMongo
             $this->m->close();
         }
     }
-    
+
     /**
      * @desc 选择集合(表名)
      * @param string $Collection
@@ -77,7 +77,7 @@ class iMongo
         $this->c = $this->db->selectCollection($Collection);
         return self::$_instance;
     }
-    
+
     /**
      * @desc 设置数据库名
      * @param string $dbname
@@ -100,10 +100,12 @@ class iMongo
      */
     public function setConnstr($connStr = 'mongodb://127.0.0.1:27017')
     {
-        $this->m = new MongoClient($connStr);
+        $this->m = new MongoClient($connStr, array(
+            'connect' => false
+        ));
         return self::$_instance;
     }
-    
+
     /**
      * @desc 获取对象
      * @author YangLong
@@ -117,7 +119,7 @@ class iMongo
         }
         return self::$_instance;
     }
-    
+
     /**
      * @desc 插入一条记录
      * @param array $a 。。。
@@ -136,7 +138,7 @@ class iMongo
         
         return $this->c->insert($a);
     }
-    
+
     /**
      * @desc 将数组或字符串转码为utf-8
      * @param mixed $input
@@ -158,7 +160,7 @@ class iMongo
             }
         }
     }
-    
+
     /**
      * @desc 更新一条记录
      * @param array $criteria 条件
@@ -210,7 +212,7 @@ class iMongo
         }
         return $this->c->findOne($query, $fields);
     }
-    
+
     /**
      * @desc MongoCollection::count — 返回集合中的文档数量
      * @param array $query            
@@ -227,7 +229,7 @@ class iMongo
         }
         return $this->c->count($query, $limit, $skip);
     }
-    
+
     /**
      * @desc 获取MongoCollection对象
      * @param string $Collection
@@ -246,5 +248,4 @@ class iMongo
         }
         return $this->c;
     }
-    
 }
