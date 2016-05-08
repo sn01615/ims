@@ -1402,13 +1402,15 @@ class MsgDealModel extends BaseModel
                             }
                             MsgDAO::getInstance()->iupdate($columns, $conditions, $params);
                         }
-                        iMongo::getInstance()->setCollection('updateMsgByListXML')->insert(
-                            array(
-                                'shop_id' => $shop['shop_id'],
-                                'page' => $page,
-                                'time' => time(),
-                                'strtime' => gmdate('Y-m-d H:i:s Z')
-                            ));
+                        /*
+                         * iMongo::getInstance()->setCollection('updateMsgByListXML')->insert(
+                         * array(
+                         * 'shop_id' => $shop['shop_id'],
+                         * 'page' => $page,
+                         * 'time' => time(),
+                         * 'strtime' => gmdate('Y-m-d H:i:s Z')
+                         * ));
+                         */
                     } else {
                         iMongo::getInstance()->setCollection('updateMsgByListXMLF')->insert(
                             array(
