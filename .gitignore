@@ -4,6 +4,7 @@ _notes
 /.settings
 /rockmongo-mst
 /protected/runtime/*.log
+/protected/runtime/lockfiles
 /demo
 /sql
 /_compareTemp
