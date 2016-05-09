@@ -7,19 +7,19 @@ defined('YII_DEBUG') or define('YII_DEBUG', true);
 
 define('BASE_PATH', dirname(__FILE__));
 
-$alowIps = array(
-    '::1',
-    '127.0.0.1',
-    '192.168.1.30',
-    '192.168.1.134',
-    '192.168.188.1',
-    '192.168.188.128',
-    '192.168.188.130'
-);
+// $alowIps = array(
+//     '::1',
+//     '127.0.0.1',
+//     '192.168.1.30',
+//     '192.168.1.134',
+//     '192.168.188.1',
+//     '192.168.188.128',
+//     '192.168.188.130'
+// );
 
-if (array_search($_SERVER["REMOTE_ADDR"], $alowIps) === false) {
-    die(':(');
-}
+// if (array_search($_SERVER["REMOTE_ADDR"], $alowIps) === false) {
+//     die(':(');
+// }
 
 require_once ($yii);
 
