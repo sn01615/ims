@@ -319,7 +319,7 @@ select { padding: 2px 5px; height: 24px; border-radius: 3px; border: 1px solid #
 /*编辑和纠纷详细页返回箭头*/
 
 .disputeDel .leftTopLeft,
-.ppdisputeDel .leftTopLeft { float: left; width: 52px; height: 40px; background: url("../img/backBtn.png") no-repeat 0 center; cursor: pointer; }
+.ppdisputeDel .leftTopLeft { float: left; width: 52px; height: 40px; background: url("../img/backbtn.png") no-repeat 0 center; cursor: pointer; }
 /*.emailDetails .addImgTC .aaa{ float:left; }*/
 /*.emailDetails .addImgTC .aaa+div{ float:left; margin:-3px 0 0 15px; }*/
 
