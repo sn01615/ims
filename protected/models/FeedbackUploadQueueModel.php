@@ -77,8 +77,11 @@ class FeedbackUploadQueueModel extends BaseModel
         $siteId = $uploadData['site_id'];
         $token = $Queue['token'];
         $result = FeedbackDownModel::model()->responseFeedback($token, $FeedbackID, $CommentUser, $responseText, $siteId);
-        $res = json_decode($result, true);
-        if ($res['ackValue'] === 'SUCCESS') {
+        
+        $doc = phpQuery::newDocumentXML($result);
+        phpQuery::selectDocument($doc);
+        
+        if (pq('Ack')->html() == 'Success') {
             iMongo::getInstance()->setCollection(__FUNCTION__)->insert(
                 array(
                     'type' => 'Success',
@@ -86,6 +89,7 @@ class FeedbackUploadQueueModel extends BaseModel
                     'json' => $result,
                     'time' => time()
                 ));
+            
             // 回复feedback通知
             ob_start();
             echo "apiResult：\n";
@@ -96,6 +100,7 @@ class FeedbackUploadQueueModel extends BaseModel
             $subject = "Feedback回复成功通知 [Success]\n";
             $to = Yii::app()->params['logmails'];
             SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
+            
             return $Queue['feedback_upload_queue_id'];
         } else {
             iMongo::getInstance()->setCollection(__FUNCTION__)->insert(
@@ -105,6 +110,7 @@ class FeedbackUploadQueueModel extends BaseModel
                     'json' => $result,
                     'time' => time()
                 ));
+            
             // 回复feedback通知
             ob_start();
             echo "apiResult：\n";
@@ -115,6 +121,7 @@ class FeedbackUploadQueueModel extends BaseModel
             $subject = "Feedback回复失败通知 [Failure]\n";
             $to = Yii::app()->params['logmails'];
             SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
+            
             return false;
         }
     }
