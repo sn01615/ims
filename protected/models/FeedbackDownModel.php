@@ -307,6 +307,19 @@ class FeedbackDownModel extends BaseModel
         $session->headers[] = "X-EBAY-API-CALL-NAME:{$callName}";
         
         $responseXml = $session->sendHttpRequest($requestXmlBody);
+        
+        if ($responseXml === false) {
+            $responseXml = $session->sendHttpRequest($requestXmlBody);
+        }
+        if ($responseXml === false) {
+            sleep(1);
+            $responseXml = $session->sendHttpRequest($requestXmlBody);
+        }
+        if ($responseXml === false) {
+            sleep(4);
+            $responseXml = $session->sendHttpRequest($requestXmlBody);
+        }
+        
         return $responseXml;
     }
 }
