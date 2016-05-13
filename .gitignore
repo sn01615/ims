@@ -1,23 +1,27 @@
+# other
+_notes
+/_compareTemp
 /.buildpath
 /.project
-_notes
 /.settings
-/rockmongo-mst
-/protected/runtime/*.log
-/protected/runtime/lockfiles
+/baidu_verify_QtX6EhRWL7.html
+/php_errors.log
+# tool
+/.mongo2015sm
+/.memcache.php
+# code
 /demo
 /sql
-/_compareTemp
-/public/compile/*.html.php
-/php_errors.log
-/.mongo2015sm
-/protected/config
 /doc/sql
-/.memcache.php
-/baidu_verify_QtX6EhRWL7.html
+/doc/Cjobs/imsJobs
+/protected/config
+/protected/runtime/*.log
+/protected/runtime/lockfiles
+/public/compile/*.html.php
+/filelog/*
 /uploads/2015/
 /uploads/2016/
 /uploads/2017/
-/returnPic/
-/doc/Cjobs/imsJobs
-/filelog/*
+/datapic/2015/
+/datapic/2016/
+/datapic/2017/
