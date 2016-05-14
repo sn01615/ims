@@ -1718,9 +1718,12 @@ $(document).ready(function(e) {
                                 }
                             }
                             paymentMethod = data.Body[x].PaymentMethod != 'None' ? data.Body[x].PaymentMethod : '';
+                            var SkuStr = (data.Body[x].Item_SKU != '' ? HTMLDecode(HTMLDecode(data.Body[x].Item_SKU)) : HTMLDecode(HTMLDecode(data.Body[
+                                x].Variation_SKU)));
                             $("#buyHistory_div").find('tbody').append('<tr data-key=' + x + '><td>' + data.Body[x].SellerUserID +
-                                '</td><td t="sku" style="word-break:break-all;">' + (data.Body[x].Item_SKU != '' ? data.Body[x].Item_SKU : data.Body[
-                                    x].Variation_SKU) + '<br />ItemID:<a href="http://cgi.ebay.com/ws/eBayISAPI.dll?ViewItem&item=' + data.Body[x].Item_ItemID +
+                                '</td><td t="sku" style="word-break:break-all;">' + SkuStr +
+                                '<br />ItemID:<a href="http://cgi.ebay.com/ws/eBayISAPI.dll?ViewItem&item=' + data.Body[x]
+                                .Item_ItemID +
                                 '" target="_blank" class="fontLinkBtn">' + data.Body[x].Item_ItemID + '</a>' + (data.Body[x].ProductName.length > 0 ?
                                     ('<br />Prodtct:' + HTMLDecode(HTMLDecode(data.Body[x].ProductName))) : '') + _shuxing + '</td><td t="pnum">' +
                                 data.Body[x].QuantityPurchased + '</td><td t="pjg">' + data.Body[x].TransactionPrice + data.Body[x].TransactionPrice_currencyID +
