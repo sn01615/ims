@@ -15,7 +15,8 @@ return array(
         'application.enum.*',
         'application.dao.*',
         'ext.sdk_trading_905.*',
-        'ext.phpQuery.*'
+        'ext.phpQuery.*',
+        'ext.QueryPath'
     ),
     'language' => 'zh_cn',
     'modules' => array(),

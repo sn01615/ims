@@ -10,7 +10,7 @@ class TestController extends Controller
         
         if (! isset($_SERVER['PHP_AUTH_USER']) || ! isset($_SERVER['PHP_AUTH_PW']) || $_SERVER['PHP_AUTH_USER'] != ADMIN_USERNAME ||
              $_SERVER['PHP_AUTH_PW'] != ADMIN_PASSWORD) {
-            Header("WWW-Authenticate: Basic realm=\"Memcache Login\"");
+            Header("WWW-Authenticate: Basic realm=\"TestController Login\"");
             Header("HTTP/1.0 401 Unauthorized");
             
             echo <<<EOB
@@ -566,13 +566,23 @@ eot;
 
     public function actionTest31()
     {
-        imsTool::xmlHeader();
+        // imsTool::xmlHeader();
         $token = 'AgAAAA**AQAAAA**aAAAAA**hVSXVg**nY+sHZ2PrBmdj6wVnY+sEZ2PrA2dj6AGl4qoCJaAqAWdj6x9nY+seQ**B8ICAA**AAMAAA**LrNsub/MnPvFk2Srr358lgIM4BmhhzrF1kpqT6rNDS9QvEAkH+NDj+zrhnzjiErhnkkAaz8nWCg0lhiQUVRAMMDAGnOLhda7p3/UKu0tOVy3HMm8m76Dtg0x7kbzeEaJPXBWvRPYuFV6EihYoMJ8cqB9Joa6AJBTpqjQs8NrjYHs9b+HIKjAeYFxeWtPHHyqhXdnpn9u0p4qQ74xZrZE3dmXRsDash2J4cdgzR3G1umWMacHpCfBZIV0w0BMPx3/oiJnnUh2+TKjYVmdtyyNiX5UrF7dryIKuj5tegFhTyDhTt4uoGRWBGVna4n/E5IKp5mHqDqmovqgrcyp8p63StCvgA/j3XsTYD9aLNdJGAVGr9uff109mA3hwKzR7q8Hn4zUOrv6mfmqfOY20yr4/3G0RUPIii5wGIQv6X6KVJXMIhx3oRmUZgC63IDHfMvdyA6yK3riEVu1HPuC7WcqNt2vnkPs1uz2nFh/enz4fD4gUHJe6Ht7qj1ezwKw4W3+QthxreF3sdzq1NlyHZa+cZ2Hq6eTF7BPVKhSeKH1gTwM5OWnC6HWIz/DC6+LlvJDHXKiSSOI/RS4h84apob3ndFYE4r3lACDeTHw6gYbjgllITLTQdJMwq2HIEi3+PwqtJSpEp0LCZ6i/KAKM2NskRLqunaj8P05t+NTJR5CR5N5mtyLCUpkqSU8J4cf041qsueAfdaZD90W0pOyqFCltbh6xICKsMJSUJNWJjRaU2EfM9Unthon1qCKlcGyoHAz';
         $xml = ReturnDownModel::model()->getUserReturns(time() - 3600 * 24 * 90, time() - 3600 * 24 * 60, '', '', '', $token, 0, 1, 200);
-        echo $xml;
-        // $doc = phpQuery::newDocumentXML($xml);
-        // phpQuery::selectDocument($doc);
+        // echo $xml;
+        $doc = phpQuery::newDocumentXML($xml);
+        phpQuery::selectDocument($doc);
         // echo pq('ReturnId>id')->eq(0)->html();
+        
+        $returns = pq('returns');
+        $length = $returns->length;
+        
+        for ($i = 0; $i < $length; $i ++) {
+            $return_id = pq('ReturnId>id')->eq($i)->html();
+            var_dump($returns->eq($i)->find('ns1:ReturnId')->html());
+        }
+        
+        // var_dump($length);
     }
 
     public function actionTest32()
