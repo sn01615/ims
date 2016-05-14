@@ -123,6 +123,24 @@ class MsgQueueModel extends BaseModel
         }
     }
 
+    private function get_check_offset($shop_id)
+    {
+        $timer = array(
+            24 => 168,
+            10 => 48,
+            5 => 12,
+            2 => 5
+        );
+        foreach ($timer as $key => $value) {
+            $key = md5(__METHOD__ . "-{$shop_id}-" . $key);
+            if (iMemcache::getInstance()->get($key) == false) {
+                iMemcache::getInstance()->set($key, true, $key * 3600);
+                return $value * 3600;
+            }
+        }
+        return 0;
+    }
+
     /**
      * @desc 生成常规下载队列
      * @author YangLong
@@ -147,8 +165,8 @@ class MsgQueueModel extends BaseModel
                 $priority = self::P_NEWPRIORITY; // 新人优先级
                 $shop['msg_down_time'] = time() - 3600 * 24 * self::D_FIRSTDOWNLOADSIZE;
             }
+            $start = $shop['msg_down_time'] - EnumOther::OVARLAP_TIME - $this->get_check_offset($shop['shop_id']);
             $end = time() + EnumOther::OVARLAP_TIME;
-            $start = $shop['msg_down_time'] - EnumOther::OVARLAP_TIME;
             MsgDownDAO::getInstance()->makeQueue($shop, $folders, $priority, $start, $end);
             if ($newer) {
                 // 新人历史任务
