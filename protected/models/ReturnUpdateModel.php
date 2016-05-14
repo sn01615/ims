@@ -120,13 +120,13 @@ class ReturnUpdateModel extends BaseModel
                     $xmldata['Returns'] = ReturnDownModel::model()->getUserReturns($Queue['start_time'], $Queue['end_time'], '', '', '', 
                         $Queue['token'], $Queue['site_id'], $page, $pagesize);
                     
-                    $doc = phpQuery::newDocumentXML($xmldata['Returns']);
-                    phpQuery::selectDocument($doc);
-                    if (pq('ack') == 'Failure') {
+                    Yii::import('ext.QueryPath.qp', true);
+                    $docx = qp($xmldata['Returns']);
+                    if ($docx->find('ack')->innerHTML() == 'Failure') {
                         continue 2;
                     }
                     
-                    $returns = pq('returns');
+                    $returns = $docx->find('returns');
                     $length = $returns->length;
                     
                     if (! $length) {
@@ -135,8 +135,10 @@ class ReturnUpdateModel extends BaseModel
                     }
                     
                     for ($i = 0; $i < $length; $i ++) {
-                        $return_id = pq('ReturnId>id')->eq($i)->html();
-                        if ($return_id !== false) {
+                        $return = $returns->eq($i);
+                        
+                        $return_id = $return->find('ReturnId>id')->innerHTML();
+                        if ($return_id !== null) {
                             $runcount = 0;
                             label:
                             
@@ -182,11 +184,11 @@ class ReturnUpdateModel extends BaseModel
                         ReturnDownDAO::getInstance()->rollback();
                     }
                     unset($columns);
-                    if ($page >= pq('paginationOutput>totalPages')->html()) {
+                    if ($page >= $docx->find('paginationOutput>totalPages')->innerHTML()) {
                         continue 2;
                     }
                     
-                    if (pq('errorMessage>error>errorId') > 0) {
+                    if ($docx->find('errorMessage>error>errorId')->innerHTML() > 0) {
                         iMongo::getInstance()->setCollection('getUserRetrunsErrB')->insert(
                             array(
                                 'xml' => $xmldata['Returns'],
