@@ -186,6 +186,16 @@ class MsgDownDAO extends BaseDAO
                 }
             }
             
+            // count
+            iMongo::getInstance()->setCollection('makeMsgQ')->insert(
+                array(
+                    'shop_id' => $Qcolumns['shop_id'],
+                    'folder_id' => $Qcolumns['folder_id'],
+                    'start_time' => $Qcolumns['start_time'],
+                    'end_time' => $Qcolumns['end_time'],
+                    'time' => time()
+                ));
+            
             array_push($postdata, $Qcolumns);
         }
         $result = EbayMsgDownQueueDAO::getInstance()->iMultiInsert($postdata);

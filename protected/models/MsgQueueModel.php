@@ -167,7 +167,7 @@ class MsgQueueModel extends BaseModel
             }
             $start = $shop['msg_down_time'] - EnumOther::OVARLAP_TIME - $this->get_check_offset($shop['shop_id']);
             $end = time() + EnumOther::OVARLAP_TIME;
-            MsgDownDAO::getInstance()->makeQueue($shop, $folders, $priority, $start, $end);
+            MsgDownDAO::getInstance()->makeQueue($shop, $folders, $priority, $start, $end, true);
             if ($newer) {
                 // 新人历史任务
                 $priority = self::P_HISTORYPRIORITY; // 历史任务基准优先级
