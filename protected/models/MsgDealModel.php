@@ -1332,7 +1332,7 @@ class MsgDealModel extends BaseModel
                 while (true) {
                     $page ++;
                     
-                    if (time() - $startTime > 590) {
+                    if (time() - $startTime > 300) {
                         return;
                     }
                     
