@@ -177,34 +177,8 @@ class MsgQueueModel extends BaseModel
                     MsgDownDAO::getInstance()->makeQueue($shop, $folders, $priority - $i, $end - $tSize, $end, true);
                 }
             }
-            
-            // 校验任务
-            if ((time() - $shop['msg_check_down_time']) > EnumOther::MSG_CHECK_TIME) {
-                if (! $newer) {
-                    $columns = array(
-                        'msg_check_down_time' => time()
-                    );
-                    $conditions = 'shop_id=:shop_id';
-                    $params = array(
-                        ':shop_id' => $shop['shop_id']
-                    );
-                    ShopDAO::getInstance()->iupdate($columns, $conditions, $params);
-                    MsgDownDAO::getInstance()->makeQueue($shop, $folders, 11, time() - EnumOther::MSG_CHECK_SIZE, time());
-                    
-                    iMongo::getInstance()->setCollection('makeMsgCheckQ')->insert(
-                        array(
-                            'shop_id' => $shop['shop_id'],
-                            'time' => time()
-                        ));
-                }
-            }
         }
         unset($shop);
-        
-        // if ($startTime > (time() - 600)) {
-        // sleep(30);
-        // goto label1;
-        // }
     }
 
     /**

@@ -101,7 +101,7 @@ class MsgDownDAO extends BaseDAO
         $data = $this->dbCommand->reset()
             ->select(
             "shop_id,AccountID,seller_id,account,site_id,nick_name,token,status,msg_down_time,
-                msg_check_down_time,case_update_status_time,case_down_time,open_case_down_time,
+                case_update_status_time,case_down_time,open_case_down_time,
                 feedback_down_time,orders_down_time,return_down_time,disputes_down_time,HardExpirationTime")
             ->from($table)
             ->where($conditions, $params)
