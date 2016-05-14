@@ -1333,7 +1333,7 @@ class MsgDealModel extends BaseModel
                     $page ++;
                     
                     if (time() - $startTime > 590) {
-                        return false;
+                        return;
                     }
                     
                     if (iMemcache::getInstance()->get(md5("{$key}_{$page}")) !== false) {
