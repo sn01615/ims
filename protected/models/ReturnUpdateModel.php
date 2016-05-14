@@ -82,14 +82,14 @@ class ReturnUpdateModel extends BaseModel
      */
     public function executeReturnUpdateQueue()
     {
-        DaemonLockTool::lock(__METHOD__ . gmdate('i'));
+        DaemonLockTool::lock(__METHOD__);
         
         $startTime = time();
         
         label1:
         
-        if (time() - $startTime > 555) {
-            return false;
+        if (time() - $startTime > 290) {
+            return;
         }
         
         $pagesize = 200;
@@ -102,6 +102,17 @@ class ReturnUpdateModel extends BaseModel
                     $page ++;
                     
                     if ($page > 100) {
+                        
+                        // 发送邮件通知
+                        ob_start();
+                        echo __METHOD__;
+                        echo "\n";
+                        var_dump($Queue);
+                        $text = ob_get_clean();
+                        $subject = "Fatal error: page > 100";
+                        $to = Yii::app()->params['logmails'];
+                        SendMail::sendSync(Yii::app()->params['server_desc'] . ':' . $subject, $text, $to);
+                        
                         break;
                     }
                     
