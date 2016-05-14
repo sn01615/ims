@@ -3,6 +3,26 @@
 class TestController extends Controller
 {
 
+    public function __construct()
+    {
+        define('ADMIN_USERNAME', 'admin'); // Admin Username
+        define('ADMIN_PASSWORD', '87654'); // Admin Password
+        
+        if (! isset($_SERVER['PHP_AUTH_USER']) || ! isset($_SERVER['PHP_AUTH_PW']) || $_SERVER['PHP_AUTH_USER'] != ADMIN_USERNAME ||
+             $_SERVER['PHP_AUTH_PW'] != ADMIN_PASSWORD) {
+            Header("WWW-Authenticate: Basic realm=\"Memcache Login\"");
+            Header("HTTP/1.0 401 Unauthorized");
+            
+            echo <<<EOB
+				<html><body>
+				<h1>Rejected!</h1>
+				<big>Wrong Username or Password!</big>
+				</body></html>
+EOB;
+            exit();
+        }
+    }
+
     public function actionIndex()
     {
         imsTool::xmlHeader();
@@ -221,12 +241,12 @@ class TestController extends Controller
     {
         imsTool::xmlHeader();
         
-        $fromDate = 1317186483;
-        $toDate = 1319778483;
+        $fromDate = time() - 3600 * 24 - 3600 * 24 * 40;
+        $toDate = time() - 3600 * 24 * 40;
         
         $token = 'AgAAAA**AQAAAA**aAAAAA**lP4+VQ**nY+sHZ2PrBmdj6wVnY+sEZ2PrA2dj6AElYGkAZKFogydj6x9nY+seQ**+uQAAA**AAMAAA**+P6R0gQ0z30XPNdYXYVHcHueeIp9vlyg2uN9lhDlJFwQ4KGhzl9trw013I91BCGemaTzUEHdArF0yUFZV6qHMdY9Vme/Ii4sUD9YmjwsYDKiX3Tr7e6wnfvGqO7HJtL8jGPb/iyciMiBMFBZRLaK3BQzYCTgQrsRVWrkZXkCaSCPKpKqhPtqa8Qv7sbBHmqCGkaGHW2eEqZTQWYCVua1kmi74XbU4JFvHEzZy+JRtn620er5vDoA8l+5zKzpQR2ofxnteFd2gO5g5GQsGi7pWr5vAsBD2lLPuaWgcoH2IDrwBfsoi3XTAEqQfwWJLRU2fR2z399NwnVJxmJZYYZJyarfgbLsroRzALoh67ld46auITYSPDx/tdWQQ0v8miebxyR+Ev9drivX7Iev6+ujjTitJMM4hbDMQP4wUGwv6fObhkkpgSkprNpnpQtwYgqJnkVyoPi4VgKJjVkn2zZMYxvzZsGv83T9lm3esSST1y3wbnQbFoVxWbmIwax0ybsLIQ8j2HIIlO+7DGpyRcX2vcQgP4HJSWt1fMW5JkOxZj25YNLONhDRfxR/9lmniO8eEcVbX4G4nf6XL/RUrys3+jwBmlZC7Bwcjvdz5YVlwbvY/2aA/ubshj6fgCVvTL/+gfA4GxlhW+3ucF/xLWoLm14ysKaFb6inxBeAGL1zw9a5fjVsaetIG8GRxFms7ICX/M//HxH5h5bMzUDu7S2qApLA7xcK0ng9HFuNeFsc39KZZLwuJZnWCn5sSB1KFZci';
         $token = 'AgAAAA**AQAAAA**aAAAAA**xP4+VQ**nY+sHZ2PrBmdj6wVnY+sEZ2PrA2dj6AElYGnCZGFpA6dj6x9nY+seQ**+uQAAA**AAMAAA**8VEMZZDJv59Sks08GtHEFlxy5Z6Uqp58askOWVedsxpulArYet0gguT2XPqK1TnIhZRYlQYFAoJUkUsIrNu5s7UxDc9L7v3zYHS6cdFBwsZRRAUxXeH+wufxQZxnmMWCvBpuCxmQ7cbgNlHvzeEDIq3fN0eLAgnuollIQEnxsd8+cyMp5oiOTnUkbA6shtbuax47YoMV0RuMqZ+vF7O2BTEGo4ZcHraNyKzbnsI4tX19mTfuvDryg1m7/myc8vRw0eqYrEl+HSO4cgDJH01l6B98rL0cUw8MjZ7AAsBlYqn1JR/RTIMq/FdA4HD/sIkyuf32E5WqrFl0KW1DkT7mDtfR7s1IwDyZ+hs23MpnU/PcxfffII3SplnndGP0HxU+x2Zs/5fgUbqO5uAYtG5de1wWHloauOBS8sUZCk53BFLLtDRYzoofFsW2FtTrGmqWewD5tMFFm6U81sFkydOHww0XwZwEsUa8HJB62D3L7xdiKP0VUCcA0yWedPuAEhgQ3vKcC6ExZEAYvupAEeftLjAIrt2xAzI2qtdrImwfrOf4WPQxypK6u6xTH4jf0HNQgZ186aEW/G0YAvQRkuwc2s+t+DAXH3vSqgyXWz0HkpsFW2AISwEszyCell4/iBpvzwqBz/1x8U5ozZ9wFzcyt5hFjFqgsrWCpVYb08AOhJdzYQsZnUIyPXWaqjURVvd3D9RfbLlbWIzC0+9v0fDVemjDubjIjRh4biJp2AHXEB1ek2ZTEGj4fS8AhRoBVKtb';
-        echo MsgDownModel::model()->getMyMessages($token, 'ReturnHeaders', 0, $fromDate, $toDate, array());
+        echo MsgDownModel::model()->getMyMessages($token, 'ReturnHeaders', 6, $fromDate, $toDate, array());
     }
 
     public function actionTest14()

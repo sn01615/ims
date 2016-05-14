@@ -147,14 +147,14 @@ class MsgQueueModel extends BaseModel
                 $priority = self::P_NEWPRIORITY; // 新人优先级
                 $shop['msg_down_time'] = time() - 3600 * 24 * self::D_FIRSTDOWNLOADSIZE;
             }
-            $end = time();
+            $end = time() + EnumOther::OVARLAP_TIME;
             $start = $shop['msg_down_time'] - EnumOther::OVARLAP_TIME;
             MsgDownDAO::getInstance()->makeQueue($shop, $folders, $priority, $start, $end);
             if ($newer) {
                 // 新人历史任务
                 $priority = self::P_HISTORYPRIORITY; // 历史任务基准优先级
                 $tSize = 3 * 24 * 3600;
-                for ($i = 1; $i < 600; $i ++) {
+                for ($i = 1; $i < 30; $i ++) {
                     $end = $start - ($i - 1) * $tSize + EnumOther::OVARLAP_TIME;
                     MsgDownDAO::getInstance()->makeQueue($shop, $folders, $priority - $i, $end - $tSize, $end, true);
                 }

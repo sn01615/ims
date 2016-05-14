@@ -127,9 +127,16 @@ class MsgDownDAO extends BaseDAO
         foreach ($folders as $folder) {
             $fixPriority = $priority;
             if ($folder['FolderID'] == 6) {
+                // 默认30天内是下载不到 归档文件夹的 因为邮件还未归档
+                if ($start > time() - 3600 * 24 * 30) {
+                    if (rand(1, 10) > 1) {
+                        continue;
+                    }
+                }
                 $fixPriority -= 100;
             }
             if ($folder['FolderID'] == 1) {
+                // 发件箱
                 $fixPriority -= 50;
             }
             $Qcolumns = array(
