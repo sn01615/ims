@@ -1,0 +1,14 @@
+{
+  "name": "sticky",
+  "homepage": "https://github.com/ThrivingKings/sticky",
+  "_release": "9eb8d2213c",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "9eb8d2213cafe390de36652d49b72e4cd8fea81f"
+  },
+  "_source": "git://github.com/ThrivingKings/sticky.git",
+  "_target": "*",
+  "_originalSource": "ThrivingKings/sticky",
+  "_direct": true
+}
