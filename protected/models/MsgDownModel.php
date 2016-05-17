@@ -899,8 +899,8 @@ class MsgDownModel extends BaseModel
         
         label1:
         
-        if (time() - $startTime > 600) {
-            return false;
+        if (time() - $startTime > 333) {
+            return;
         }
         
         $columns = array(
