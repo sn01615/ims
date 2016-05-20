@@ -412,9 +412,9 @@ class ReturnModel extends BaseModel
                                     AllShipmentTrackingDAO::getInstance()->iinsert($columns_tracking);
                                 }
                             } else {
-                                file_put_contents('parseReturnDetailErr.log', $returnId_id . "\n", FILE_APPEND);
-                                file_put_contents('parseReturnDetailErr.log', $value['text_json']['ReturnDetail'][$returnId_id] . "\n", 
-                                    FILE_APPEND);
+                                file_put_contents(BASE_PATH . 'parseReturnDetailErr.log', $returnId_id . "\n", FILE_APPEND);
+                                file_put_contents(BASE_PATH . 'parseReturnDetailErr.log', 
+                                    $value['text_json']['ReturnDetail'][$returnId_id] . "\n", FILE_APPEND);
                             }
                         }
                         if (isset($value['text_json']['ActivityOptions']) && is_array($value['text_json']['ActivityOptions']) &&
