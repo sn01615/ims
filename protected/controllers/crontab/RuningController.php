@@ -1665,6 +1665,9 @@ WHERE
             ),
             'eBayGetUserF' => array(
                 'holdtime' => 3600 * 24
+            ),
+            'makeMsgQ' => array(
+                'holdtime' => 3600 * 24 * 3
             )
         );
         foreach ($clearArray as $key => $value) {
