@@ -14,10 +14,10 @@ class TestController extends Controller
             Header("HTTP/1.0 401 Unauthorized");
             
             echo <<<EOB
-				<html><body>
-				<h1>Rejected!</h1>
-				<big>Wrong Username or Password!</big>
-				</body></html>
+<html><body>
+<h1>Rejected!</h1>
+<big>Wrong Username or Password!</big>
+</body></html>
 EOB;
             exit();
         }
