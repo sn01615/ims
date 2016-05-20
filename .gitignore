@@ -26,3 +26,5 @@ _notes
 /datapic/2016/
 /datapic/2017/
 /demos
+#logs
+/logs/*.log
