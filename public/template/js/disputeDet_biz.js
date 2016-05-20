@@ -464,7 +464,7 @@ $(document).ready(function(e) {
                                 hintShow('hint_w', lang.disputeDet_biz.cannot_empty);
                                 return;
                             }
-                            if (fileText.length > 100) {
+                            if (fileText.length > 1000) {
                                 hintShow('hint_f', '内容长度不得超过100！');
                                 return;
                             }
