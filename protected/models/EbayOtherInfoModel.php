@@ -1280,6 +1280,7 @@ class EbayOtherInfoModel extends BaseModel
             }
         } else {
             DaemonLockTool::lock(__METHOD__ . 'one');
+            exit(0);
             sleep(5);
             goto label1;
         }
