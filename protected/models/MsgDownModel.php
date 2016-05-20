@@ -195,13 +195,18 @@ class MsgDownModel extends BaseModel
         }
         
         if (! XMLTool::IsXML($responseXml)) {
-            iMongo::getInstance()->setCollection('getMyMessagesBadXML')->insert(
-                array(
-                    'requestXmlBody' => $requestXmlBody,
-                    'responseXml' => $responseXml,
-                    'tryCount' => $tryCount,
-                    'time' => time()
-                ));
+            // iMongo::getInstance()->setCollection('getMyMessagesBadXML')->insert(
+            // array(
+            // 'requestXmlBody' => $requestXmlBody,
+            // 'responseXml' => $responseXml,
+            // 'tryCount' => $tryCount,
+            // 'time' => time()
+            // ));
+            file_put_contents(BASE_PATH . '/logs/getMyMessagesBadXML.' . date('Y.m.d') . 'log', "\nTime:" . date('Y-m-d h:i:s') . "\n", 
+                FILE_APPEND);
+            file_put_contents(BASE_PATH . '/logs/getMyMessagesBadXML.' . date('Y.m.d') . 'log', "\nrequestXmlBody:\n{$requestXmlBody}", 
+                FILE_APPEND);
+            file_put_contents(BASE_PATH . '/logs/getMyMessagesBadXML.' . date('Y.m.d') . 'log', "\nresponseXml:\n{$responseXml}", FILE_APPEND);
             if ($tryCount < 10) {
                 $tryCount ++;
                 goto label1;
