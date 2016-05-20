@@ -37,18 +37,18 @@ EOB;
         
         // echo MsgDownModel::model()->addMemberMessagesAAQToBidder($token, $Body, $ItemID, $RecipientIDArray, $CorrelationID);
         
-        $token = 'AgAAAA**AQAAAA**aAAAAA**iZ/+VQ**nY+sHZ2PrBmdj6wVnY+sEZ2PrA2dj6AEmYWoCpWGpAudj6x9nY+seQ**B8ICAA**AAMAAA**EHDPZ0eNYQWd/+V6SeRkPb1ZJd3aEeVgkedyp7eQhwlaBTN88KkuYNF8EkDXX20jEQN8jcawk2L8BKyJndIW0GyHFrywK+de2eiXVbYCbNNk2T8NTD+YaDSz3TEF8YSAiXLpzXH+LJ9srqPwvcCyiwi1cVhrQYUzol79Qfl54+pwC+QLwV/QtaVSaA/9tOHcJcvuaNApcvV/B5DfFhgWEL+FsFwmN+RBMRUp/MLpkEI0hoXEOJLNvySViNUWbBcQJ3tGpnghVAGdZRUE0iZZq+OfaUsouDHNRMucbHZOVSc+z7LOpDJ6r4fTBRxjphPbzpCIG1NvyoTsFrsbC3PdsZOY7n/hM+LbLakMcbBnW/JFOI+0XpPusiWP/NjTx80f1K7p0+zbxx0LTFms18zviNxpzYh4U85gJw+z5CN3/bejRvGdMeRCq+gB86vLwGZNFvZrgPLGHGQHuv42lio+rC6z7O8D7L1HiRPlI8ZDa+0HvTuBgH175QiGzcuVqVRAlwghVCR551iBlwcftHkWErxjjFN0ZBr0UcZG91Whq31D4WW4XEkkPrCH/7lxz4MEkUC7aXaMAKgA6AVwEqrGe6nSasG9Uw66aOB9pueaxTP6M333revnBiyYLBuB+eGCTFMGUpoZi4/0uXwsFISPG1zogkvjmcfjmE0QRBr9M8bDfUje9clVNeqBLM4rV65A34m3E8jxDItraSX8+l3EcY3B6Syi7uK3mS5FHzOd5JEpm8KLew421FF9sngf9kOt';
-        $Subject = 'test111';
-        $Body = 'test333333';
-        $ItemID = '151832656239';
-        $RecipientIDArray = array(
-            '9cn8334'
-        );
-        $MessageMediaArray = array();
-        $QuestionType = 'General';
+        // $token = 'AgAAAA**AQAAAA**aAAAAA**iZ/+VQ**nY+sHZ2PrBmdj6wVnY+sEZ2PrA2dj6AEmYWoCpWGpAudj6x9nY+seQ**B8ICAA**AAMAAA**EHDPZ0eNYQWd/+V6SeRkPb1ZJd3aEeVgkedyp7eQhwlaBTN88KkuYNF8EkDXX20jEQN8jcawk2L8BKyJndIW0GyHFrywK+de2eiXVbYCbNNk2T8NTD+YaDSz3TEF8YSAiXLpzXH+LJ9srqPwvcCyiwi1cVhrQYUzol79Qfl54+pwC+QLwV/QtaVSaA/9tOHcJcvuaNApcvV/B5DfFhgWEL+FsFwmN+RBMRUp/MLpkEI0hoXEOJLNvySViNUWbBcQJ3tGpnghVAGdZRUE0iZZq+OfaUsouDHNRMucbHZOVSc+z7LOpDJ6r4fTBRxjphPbzpCIG1NvyoTsFrsbC3PdsZOY7n/hM+LbLakMcbBnW/JFOI+0XpPusiWP/NjTx80f1K7p0+zbxx0LTFms18zviNxpzYh4U85gJw+z5CN3/bejRvGdMeRCq+gB86vLwGZNFvZrgPLGHGQHuv42lio+rC6z7O8D7L1HiRPlI8ZDa+0HvTuBgH175QiGzcuVqVRAlwghVCR551iBlwcftHkWErxjjFN0ZBr0UcZG91Whq31D4WW4XEkkPrCH/7lxz4MEkUC7aXaMAKgA6AVwEqrGe6nSasG9Uw66aOB9pueaxTP6M333revnBiyYLBuB+eGCTFMGUpoZi4/0uXwsFISPG1zogkvjmcfjmE0QRBr9M8bDfUje9clVNeqBLM4rV65A34m3E8jxDItraSX8+l3EcY3B6Syi7uK3mS5FHzOd5JEpm8KLew421FF9sngf9kOt';
+        // $Subject = 'test111';
+        // $Body = 'test333333';
+        // $ItemID = '151832656239';
+        // $RecipientIDArray = array(
+        // '9cn8334'
+        // );
+        // $MessageMediaArray = array();
+        // $QuestionType = 'General';
         
-        echo MsgDownModel::model()->addMemberMessageAAQToPartner($token, $Subject, $Body, $ItemID, $RecipientIDArray, $MessageMediaArray, 
-            $QuestionType);
+        // echo MsgDownModel::model()->addMemberMessageAAQToPartner($token, $Subject, $Body, $ItemID, $RecipientIDArray, $MessageMediaArray,
+        // $QuestionType);
         // echo EbayOtherInfoModel::model()->eBayGetAccount($token);
     }
 
