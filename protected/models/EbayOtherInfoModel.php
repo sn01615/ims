@@ -1731,6 +1731,7 @@ class EbayOtherInfoModel extends BaseModel
             
             goto label1;
         } else {
+            exit(0);
             sleep(5);
             goto label1;
         }
