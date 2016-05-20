@@ -202,11 +202,11 @@ class MsgDownModel extends BaseModel
             // 'tryCount' => $tryCount,
             // 'time' => time()
             // ));
-            file_put_contents(BASE_PATH . '/logs/getMyMessagesBadXML.' . date('Y.m.d') . 'log', "\nTime:" . date('Y-m-d h:i:s') . "\n", 
+            file_put_contents(BASE_PATH . '/logs/getMyMessagesBadXML.' . date('Y.m.d') . '.log', "\nTime:" . date('Y-m-d h:i:s') . "\n", 
                 FILE_APPEND);
-            file_put_contents(BASE_PATH . '/logs/getMyMessagesBadXML.' . date('Y.m.d') . 'log', "\nrequestXmlBody:\n{$requestXmlBody}", 
+            file_put_contents(BASE_PATH . '/logs/getMyMessagesBadXML.' . date('Y.m.d') . '.log', "\nrequestXmlBody:\n{$requestXmlBody}", 
                 FILE_APPEND);
-            file_put_contents(BASE_PATH . '/logs/getMyMessagesBadXML.' . date('Y.m.d') . 'log', "\nresponseXml:\n{$responseXml}", FILE_APPEND);
+            file_put_contents(BASE_PATH . '/logs/getMyMessagesBadXML.' . date('Y.m.d') . '.log', "\nresponseXml:\n{$responseXml}", FILE_APPEND);
             if ($tryCount < 10) {
                 $tryCount ++;
                 goto label1;
