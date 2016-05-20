@@ -190,6 +190,7 @@ class CaseUploadModel extends BaseModel
         $trackingNumber = $uploadData['trackingNum'];
         $token = $Queue['token'];
         $comments = $uploadData['responseText'];
+        $comments = substr($comments, 0, 1000);
         
         $result = CaseDownModel::model()->provideTrackingInfo($caseId, $caseType, $carrierUsed, $trackingNumber, $token, $comments);
         

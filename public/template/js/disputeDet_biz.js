@@ -465,7 +465,7 @@ $(document).ready(function(e) {
                                 return;
                             }
                             if (fileText.length > 1000) {
-                                hintShow('hint_f', '内容长度不得超过100！');
+                                hintShow('hint_f', '内容长度不得超过1000！');
                                 return;
                             }
                             param = {
