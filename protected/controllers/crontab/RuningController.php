@@ -1668,6 +1668,9 @@ WHERE
             ),
             'makeMsgQ' => array(
                 'holdtime' => 3600 * 24 * 3
+            ),
+            'getMyMessagesBadXML' => array(
+                'holdtime' => 3600 * 24 * 15
             )
         );
         foreach ($clearArray as $key => $value) {
