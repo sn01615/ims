@@ -25,7 +25,6 @@ class XMLTool
         $blocksize = 1024 * 1024;
         while (true) {
             $_str = substr($str, $start, $blocksize);
-            $start += $blocksize;
             if ($_str !== false) {
                 xml_parse($xml_parser, $_str);
             } else {
@@ -36,6 +35,7 @@ class XMLTool
                 xml_parser_free($xml_parser);
                 return true;
             }
+            $start += $blocksize;
         }
     }
 }
