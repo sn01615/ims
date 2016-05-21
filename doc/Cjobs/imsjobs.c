@@ -36,7 +36,7 @@ int main()
 
     for (int i = 0; i < THREAD_NUM; ++i)
     {
-        sprintf(message[i], "/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs%03d > /tmp/ImsJobs%03d.log 2>&1", i + 1, i + 1);
+        sprintf(message[i], "/usr/bin/php /var/wwwroot/ims/yiicmd.php crontab/Runing/ImsJobs%03d", i + 1);
     }
     for ( ; ; )
     {
