@@ -8,9 +8,6 @@
 #include <pthread.h>
 #include <time.h>
 #include <sys/file.h>
-// #include <sys/types.h>
-// #include <sys/stat.h>
-// #include <fcntl.h>
 
 #define THREAD_NUM 100
 
@@ -29,14 +26,11 @@ int main()
     char str[15];
     struct tm *timeinfo;
 
-    // 文件名
     sprintf(filename, "/tmp/ImsJobsMaster.lock");
-    // 打开文件
     fp = fopen(filename, "w+");
     fclose(fp);
     fp = fopen(filename, "r+");
     if(flock(fp->_fileno, LOCK_EX|LOCK_NB)!=0){
-        // printf("running...\n");
         exit(EXIT_SUCCESS);
     }
 
@@ -48,9 +42,7 @@ int main()
     {
         for (int i = 0; i < THREAD_NUM; ++i)
         {
-            // 文件名
             sprintf(filename, "/tmp/ImsJobs%03d.lock", i + 1);
-            // 打开文件
             fp = fopen(filename, "rt");
             if (!fp)
             {
@@ -60,12 +52,10 @@ int main()
                 fp = fopen(filename, "rt");
             }
             fgets(str, 15, fp);
-            // printf(">>>>>>>>%s<<<<<<<<<<\n", str);
             fclose(fp);
             t = time(0);
             if (t - atoi(str) > i_diff(i))
             {
-                // 写文件
                 fp = fopen(filename, "wt+");
                 fprintf(fp, "%d", t);
                 fclose(fp);
@@ -76,10 +66,6 @@ int main()
                     perror("Thread creation failed");
                     exit(EXIT_FAILURE);
                 }
-            }
-            else
-            {
-                // printf("x: %i %i %i \n", atoi(str), t, t - atoi(str));
             }
         }
         t = time(NULL);
@@ -92,25 +78,20 @@ int main()
     }
     for (int i = 0; i < THREAD_NUM; ++i)
     {
-        // pthread_detach(threads[i]);
         result = pthread_join(threads[i], &thread_result[i]);
         if (result != 0)
         {
-            perror("THread join failed");
-            exit(EXIT_FAILURE);
+            // perror("THread join failed");
+            // exit(EXIT_FAILURE);
         }
-        // printf("Thread joined, it returned %s\n", thread_result[i]);
-        // printf("Message is now %s\n", message[i]);
     }
-    exit(EXIT_SUCCESS);
+    pthread_exit(NULL);
+    // exit(EXIT_SUCCESS);
 }
 
 void *thread_function(void *arg)
 {
-    // printf("thread_function is running. Argument was %s\n", arg);
-    // strcpy(message, "Bye!");
     system(arg);
-    // system("php -r \"sleep(rand(0,10));\" ");
     pthread_detach(pthread_self());
     pthread_exit(EXIT_SUCCESS);
 }
