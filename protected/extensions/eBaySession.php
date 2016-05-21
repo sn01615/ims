@@ -27,6 +27,11 @@ class eBaySession
     public function sendHttpRequest($requestBody)
     {
         ignore_user_abort(true);
+        $key = 'eBaySessionCount';
+        if (! iMemcache::getInstance()->get($key)) {
+            iMemcache::getInstance()->set($key, 0, 0);
+        }
+        iMemcache::getInstance()->increment($key);
         
         // build eBay headers using variables passed via constructor
         $headers = $this->buildEbayHeaders();

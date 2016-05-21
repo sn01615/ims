@@ -14,7 +14,10 @@ class RuningController extends Controller
      * @date 2015-02-13
      */
     public function actionIndex()
-    {}
+    {
+        $key = 'eBaySessionCount';
+        echo iMemcache::getInstance()->get($key);
+    }
 
     /**
      * @desc jobs 001
