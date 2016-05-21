@@ -1,3 +1,6 @@
+/**
+ * gcc imsjobs.c -o imsJobs -std=c99 -lpthread
+ */
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
