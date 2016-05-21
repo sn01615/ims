@@ -27,6 +27,7 @@ int main()
     time_t t;
     char filename[30];
     char str[15];
+    struct tm *timeinfo;
 
     // 文件名
     sprintf(filename, "/tmp/ImsJobsMaster.lock");
@@ -80,6 +81,12 @@ int main()
             {
                 // printf("x: %i %i %i \n", atoi(str), t, t - atoi(str));
             }
+        }
+        t = time(NULL);
+        timeinfo = localtime(&t);
+        if (timeinfo->tm_hour == 3 && timeinfo->tm_min == 0)
+        {
+            break;
         }
         sleep(5);
     }
