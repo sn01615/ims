@@ -30,7 +30,7 @@ class ReturnHistoryDAO extends BaseDAO
         $this->dbConnection = Yii::app()->db;
         $this->dbCommand = $this->dbConnection->createCommand();
         $this->tableName = 'return_response_history';
-        $this->primaryKey = 'return_response_history_id';
+        $this->primaryKey = 'return_id,num';
         $this->created = 'create_time';
         $this->return = 'return_request';
         $this->detail = 'return_request_detail';
