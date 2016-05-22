@@ -858,11 +858,13 @@ class MsgDownModel extends BaseModel
                         $columns = array(
                             'seller_id' => $Queue['seller_id'],
                             'shop_id' => $Queue['shop_id'],
-                            'text_json' => base64_encode(serialize($xmlArr)),
                             'create_time' => time(),
                             'version' => 1
                         );
-                        MsgDownDAO::getInstance()->iinsert($columns);
+                        $did = MsgDownDAO::getInstance()->iinsert($columns, true);
+                        
+                        file_put_contents(BASE_PATH . "/logs/executeMsgDownQueueXml.{$did}.log", serialize($xmlArr));
+                        unset($xmlArr);
                         
                         MsgDownDAO::getInstance()->deleteDownQueue($Queue['down_queue_id']);
                     } else {
@@ -1212,7 +1214,7 @@ class MsgDownModel extends BaseModel
         // lock
         MsgDownDAO::getInstance()->iupdate($columns, $conditions, $params);
         
-        $dataArr['text_json'] = unserialize(base64_decode($dataArr['text_json']));
+        $dataArr['text_json'] = unserialize(file_get_contents(BASE_PATH . "/logs/executeMsgDownQueueXml.{$dataArr['down_id']}.log"));
         
         // list
         $doc = phpQuery::newDocumentXML($dataArr['text_json']['list']);
@@ -1740,6 +1742,8 @@ class MsgDownModel extends BaseModel
             ':down_id' => $dataArr['down_id']
         );
         MsgDownDAO::getInstance()->idelete($conditions, $params);
+        
+        unlink(BASE_PATH . "/logs/executeMsgDownQueueXml.{$dataArr['down_id']}.log");
         
         // 此处的休眠时为了减小CPU消耗峰值
         usleep(100000);
