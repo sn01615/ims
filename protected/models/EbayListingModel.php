@@ -328,7 +328,11 @@ class EbayListingModel extends BaseModel
                                         ':num' => $paymentMethodInfo['num'],
                                         ':payment_methods' => $paymentMethodInfo['payment_methods']
                                     );
-                                    EbayListingPaymentMethodsDAO::getInstance()->iupdate($columns, $conditions, $params, false);
+                                    try {
+                                        EbayListingPaymentMethodsDAO::getInstance()->iupdate($columns, $conditions, $params, false);
+                                    } catch (Exception $e) {
+                                        EbayListingPaymentMethodsDAO::getInstance()->idelete($conditions, $params);
+                                    }
                                     
                                     $conditions = 'listing_id=:listing_id and num=:num';
                                     $params = array(
