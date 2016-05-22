@@ -28,10 +28,10 @@ class EbayListingSkuDAO extends BaseDAO
     public function __construct()
     {
         $this->tableName = 'ebay_listing_skus';
-        $this->primaryKey = 'sku_id';
+        $this->primaryKey = 'listing_id,num';
         $this->fields = array(
-            'sku_id',
             'listing_id',
+            'num',
             'sku',
             'start_price',
             'quantity',
