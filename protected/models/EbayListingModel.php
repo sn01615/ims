@@ -381,7 +381,7 @@ class EbayListingModel extends BaseModel
                                 ':num' => $skuInfo['num'],
                                 ':sku' => $skuInfo['sku']
                             );
-                            EbayListingSkuDAO::getInstance()->iupdate($columns, $conditions, $params);
+                            EbayListingSkuDAO::getInstance()->iupdate($columns, $conditions, $params, false);
                             
                             $conditions = 'listing_id=:listing_id and num=:num';
                             $params = array(
