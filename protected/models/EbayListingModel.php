@@ -332,10 +332,10 @@ class EbayListingModel extends BaseModel
                         // Listing的多属性SKU
                         $variations = $_item->eq($i)->find('>Variations>Variation');
                         $variation_length = $variations->length;
-                        EbayListingSkuDAO::getInstance()->idelete($conditions, $params);
                         for ($k = 0; $k < $variation_length; $k ++) {
                             $skuInfo = array(
                                 'listing_id' => $listing_id,
+                                'num' => $k,
                                 'sku' => $variations->eq($k)
                                     ->find('>SKU')
                                     ->html(),
@@ -350,7 +350,12 @@ class EbayListingModel extends BaseModel
                                     ->html(),
                                 'create_time' => time()
                             );
-                            EbayListingSkuDAO::getInstance()->iinsert($skuInfo);
+                            $conditions = 'listing_id=:listing_id and num=:num';
+                            $params = array(
+                                ':listing_id' => $skuInfo['listing_id'],
+                                ':num' => $skuInfo['num']
+                            );
+                            EbayListingSkuDAO::getInstance()->ireplaceinto($skuInfo, $conditions, $params);
                         }
                     }
                 } else {
