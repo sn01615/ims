@@ -123,13 +123,16 @@ class EbayListingModel extends BaseModel
                     $columns = array(
                         'seller_id' => $Queue['seller_id'],
                         'shop_id' => $Queue['shop_id'],
-                        'text_json' => base64_encode(serialize($listingData)),
                         'create_time' => time()
                     );
                     EbayListingDownDAO::getInstance()->begintransaction();
                     try {
-                        $lid = EbayListingDownDAO::getInstance()->iinsert($columns);
-                        if ($lid !== false) {
+                        $lid = EbayListingDownDAO::getInstance()->iinsert($columns, true);
+                        if ($lid > 0) {
+                            
+                            file_put_contents(BASE_PATH . "/logs/EbayListingData.{$lid}.log", serialize($listingData));
+                            unset($listingData);
+                            
                             EbayListingQueueDAO::getInstance()->deleteByPk($Queue['down_queue_id']);
                             EbayListingDownDAO::getInstance()->commit();
                         } else {
@@ -162,7 +165,10 @@ class EbayListingModel extends BaseModel
         
         if ($listing !== false) {
             foreach ($listing as $key => &$value) {
-                $listingData = unserialize(base64_decode($value['text_json']));
+                
+                $listingData = file_get_contents(BASE_PATH . "/logs/EbayListingData.{$value['down_id']}.log");
+                $listingData = unserialize($listingData);
+                
                 $doc = phpQuery::newDocumentXML($listingData);
                 phpQuery::selectDocument($doc);
                 if (pq('Ack')->html() == 'Success') {
@@ -352,12 +358,14 @@ class EbayListingModel extends BaseModel
                     iMongo::getInstance()->setCollection('ErrorEbayListingData')->insert(
                         array(
                             'down_id' => $value['down_id'],
-                            'text_json' => $value['text_json'],
+                            'data' => file_get_contents(BASE_PATH . "/logs/EbayListingData.{$value['down_id']}.log"),
                             'time' => time()
                         ));
                 }
                 
                 EbayListingDownModel::model()->deleteListingDownData($value['down_id']);
+                
+                unlink(BASE_PATH . "/logs/EbayListingData.{$value['down_id']}.log");
             }
             unset($value);
             
