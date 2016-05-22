@@ -308,7 +308,7 @@ class EbayListingModel extends BaseModel
                         );
                         for ($j = 0; $j < $payment_length; $j ++) {
                             call_user_func(
-                                function () use($_item, $listing_id) {
+                                function () use($_item, $listing_id, $j) {
                                     $paymentMethodInfo = array(
                                         'listing_id' => $listing_id,
                                         'num' => $j,
