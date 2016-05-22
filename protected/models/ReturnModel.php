@@ -290,9 +290,10 @@ class ReturnModel extends BaseModel
                                 
                                 $return_his = isset($det['detail']['responseHistory']) ? $det['detail']['responseHistory'] : array();
                                 ReturnHistoryDAO::getInstance()->idelete($conditions, $params);
-                                foreach ($return_his as $history) {
+                                foreach ($return_his as $rh_key => $history) {
                                     $columns_his = array(
                                         'return_id' => $return_id,
+                                        'num' => $rh_key,
                                         'author' => isset($history['author']) ? $history['author'] : '',
                                         'activity' => isset($history['activity']) ? $history['activity'] : '',
                                         'fromState' => isset($history['fromState']) ? $history['fromState'] : '',
