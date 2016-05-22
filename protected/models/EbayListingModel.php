@@ -306,17 +306,34 @@ class EbayListingModel extends BaseModel
                         $params = array(
                             ':listing_id' => $listing_id
                         );
-                        // 支付方式删除
-                        EbayListingPaymentMethodsDAO::getInstance()->idelete($conditions, $params);
                         for ($j = 0; $j < $payment_length; $j ++) {
                             $paymentMethodInfo = array(
                                 'listing_id' => $listing_id,
+                                'num' => $j,
                                 'payment_methods' => $_item->eq($i)
                                     ->eq($j)
                                     ->find('>PaymentMethods')
                                     ->html()
                             );
-                            EbayListingPaymentMethodsDAO::getInstance()->iinsert($paymentMethodInfo);
+                            
+                            // clear update old data
+                            $columns = array(
+                                'num' => $j
+                            );
+                            $conditions = 'listing_id=:listing_id and payment_methods=:payment_methods and num!=:num';
+                            $params = array(
+                                ':listing_id' => $paymentMethodInfo['listing_id'],
+                                ':num' => $paymentMethodInfo['num'],
+                                ':payment_methods' => $paymentMethodInfo['payment_methods']
+                            );
+                            EbayListingSkuDAO::getInstance()->iupdate($columns, $conditions, $params);
+                            
+                            $conditions = 'listing_id=:listing_id and payment_methods=:payment_methods';
+                            $params = array(
+                                ':listing_id' => $paymentMethodInfo['listing_id'],
+                                ':num' => $paymentMethodInfo['num']
+                            );
+                            EbayListingPaymentMethodsDAO::getInstance()->ireplaceinto($paymentMethodInfo, $conditions, $params);
                         }
                         
                         // Listing的描述
