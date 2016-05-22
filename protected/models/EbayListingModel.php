@@ -350,6 +350,19 @@ class EbayListingModel extends BaseModel
                                     ->html(),
                                 'create_time' => time()
                             );
+                            
+                            // clear update old data
+                            $columns = array(
+                                'num' => $k
+                            );
+                            $conditions = 'listing_id=:listing_id and sku=:sku and num!=:num';
+                            $params = array(
+                                ':listing_id' => $skuInfo['listing_id'],
+                                ':num' => $skuInfo['num'],
+                                ':sku' => $skuInfo['sku']
+                            );
+                            EbayListingSkuDAO::getInstance()->iupdate($columns, $conditions, $params);
+                            
                             $conditions = 'listing_id=:listing_id and num=:num';
                             $params = array(
                                 ':listing_id' => $skuInfo['listing_id'],
