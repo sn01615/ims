@@ -289,6 +289,7 @@ class ReturnModel extends BaseModel
                                 }
                                 
                                 $return_his = isset($det['detail']['responseHistory']) ? $det['detail']['responseHistory'] : array();
+                                // TODO 免删除
                                 ReturnHistoryDAO::getInstance()->idelete($conditions, $params);
                                 foreach ($return_his as $rh_key => $history) {
                                     $columns_his = array(
@@ -318,7 +319,12 @@ class ReturnModel extends BaseModel
                                         'create_time' => time()
                                     );
                                     // return_response_history表数据插入
-                                    ReturnHistoryDAO::getInstance()->iinsert($columns_his);
+                                    $conditions = 'return_id=:return_id and num=:num';
+                                    $params = array(
+                                        ':return_id' => $columns_his['return_id'],
+                                        ':num' => $columns_his['num']
+                                    );
+                                    ReturnHistoryDAO::getInstance()->ireplaceinto($columns_his, $conditions, $params);
                                 }
                                 
                                 $return_money = isset($det['detail']['moneyMovementInfo']) ? $det['detail']['moneyMovementInfo'] : array();
