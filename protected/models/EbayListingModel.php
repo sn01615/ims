@@ -89,12 +89,14 @@ class EbayListingModel extends BaseModel
                     phpQuery::selectDocument($doc);
                     $runcount = 0;
                     if (strtolower(pq('Ack')->html()) != 'success') {
+                        
                         iMongo::getInstance()->setCollection('getEbayListingErrA')->insert(
                             array(
                                 'status' => 'errA',
                                 'xml' => $listingData,
                                 'time' => time()
                             ));
+                        
                         $runcount ++;
                         if ($runcount < 3) {
                             $columns = array(
@@ -148,16 +150,18 @@ class EbayListingModel extends BaseModel
 
     /**
      * @desc 解析listing 信息
-     * @param  $listing
      * @author liaojianwen
      * @date 2015-07-29
      * @return multitype:mixed
      */
-    public function parseEbayListing($listing)
+    public function parseEbayListing()
     {
-        $dids = array();
-        if ($listing['Ack'] == 'Success' && is_array($listing['body'])) {
-            foreach ($listing['body'] as $key => &$value) {
+        label:
+        
+        $listing = EbayListingDownModel::model()->getListingDownData();
+        
+        if ($listing !== false) {
+            foreach ($listing as $key => &$value) {
                 $listingData = unserialize(base64_decode($value['text_json']));
                 $doc = phpQuery::newDocumentXML($listingData);
                 phpQuery::selectDocument($doc);
@@ -352,11 +356,13 @@ class EbayListingModel extends BaseModel
                             'time' => time()
                         ));
                 }
-                $dids[] = $value['down_id'];
+                
+                EbayListingDownModel::model()->deleteListingDownData($value['down_id']);
             }
             unset($value);
+            
+            goto label;
         }
-        return $dids;
     }
 
     /**

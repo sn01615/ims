@@ -61,7 +61,7 @@ class EbayListingDownModel extends BaseModel
      * @date 2015-06-16
      * @return Ambigous <string, multitype:, mixed>|boolean
      */
-    public function getListingDownData($taskNumber)
+    public function getListingDownData($taskNumber = 1)
     {
         EbayListingDownDAO::getInstance()->begintransaction();
         try {

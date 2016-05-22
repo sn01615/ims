@@ -1428,70 +1428,13 @@ class RuningController extends Controller
     }
 
     /**
-     * @desc 获取和锁定Listing原始下载数据(XML)
-     * @author liaojianwen
-     * @date 2015-07-28
-     */
-    public function actionGetEbayListing()
-    {
-        $this->imsEcsCheck();
-        
-        $result = EbayListingDownModel::model()->getListingDownData(EnumOther::LISTING_PARSE_SIZE);
-        if ($result !== false) {
-            $result = array(
-                'Ack' => 'Success',
-                'body' => $result
-            );
-        } else {
-            $result = array(
-                'Ack' => 'Failure',
-                'body' => ''
-            );
-        }
-        $this->renderJson($result);
-    }
-
-    /**
      * @desc解析listing 信息
      * @author liaojianwen
      * @date 2015-07-28
      */
     private function parseEbayListing()
     {
-        $homeUrl = Yii::app()->params['home_url'];
-        $key = imsTokenTool::getInstance()->getToken();
-        $listingData = getByCurl::get("{$homeUrl}?r=crontab/Runing/GetEbayListing&key={$key}");
-        $listingData = json_decode($listingData, true);
-        $result = EbayListingModel::model()->parseEbayListing($listingData);
-        if ($result !== false && is_array($result)) {
-            $result = implode(',', $result);
-            getByCurl::get("{$homeUrl}?r=crontab/Runing/DeleteEbayListing&key={$key}&ids=" . $result);
-        }
-    }
-
-    /**
-     * @desc 删除returns状态原始XML数据
-     * @author liaojianwen
-     * @date 2015-07-28
-     */
-    public function actionDeleteEbayListing()
-    {
-        $this->imsEcsCheck();
-        
-        $ids = CInputFilter::getnorepeatInts('ids');
-        $result = EbayListingDownModel::model()->deleteListingDownData($ids);
-        if ($result !== false) {
-            $result = array(
-                'Ack' => 'Success',
-                'body' => $result
-            );
-        } else {
-            $result = array(
-                'Ack' => 'Failure',
-                'body' => $result
-            );
-        }
-        $this->renderJson($result);
+        EbayListingModel::model()->parseEbayListing();
     }
 
     /**
