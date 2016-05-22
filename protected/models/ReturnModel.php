@@ -316,13 +316,17 @@ class ReturnModel extends BaseModel
                                         'rma' => isset($history['attributes']['rma']) ? $history['attributes']['rma'] : '',
                                         'create_time' => time()
                                     );
-                                    // return_response_history表数据插入
-                                    $conditions = 'return_id=:return_id and num=:num';
-                                    $params = array(
-                                        ':return_id' => $columns_his['return_id'],
-                                        ':num' => $columns_his['num']
-                                    );
-                                    ReturnHistoryDAO::getInstance()->ireplaceinto($columns_his, $conditions, $params);
+                                    
+                                    call_user_func(
+                                        function () use($columns_his) {
+                                            // return_response_history表数据插入
+                                            $conditions = 'return_id=:return_id and num=:num';
+                                            $params = array(
+                                                ':return_id' => $columns_his['return_id'],
+                                                ':num' => $columns_his['num']
+                                            );
+                                            ReturnHistoryDAO::getInstance()->ireplaceinto($columns_his, $conditions, $params);
+                                        });
                                 }
                                 
                                 $return_money = isset($det['detail']['moneyMovementInfo']) ? $det['detail']['moneyMovementInfo'] : array();
