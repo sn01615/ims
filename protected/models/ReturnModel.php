@@ -289,8 +289,6 @@ class ReturnModel extends BaseModel
                                 }
                                 
                                 $return_his = isset($det['detail']['responseHistory']) ? $det['detail']['responseHistory'] : array();
-                                // TODO 免删除
-                                ReturnHistoryDAO::getInstance()->idelete($conditions, $params);
                                 foreach ($return_his as $rh_key => $history) {
                                     $columns_his = array(
                                         'return_id' => $return_id,
