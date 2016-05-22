@@ -76,7 +76,7 @@ class EbayListingModel extends BaseModel
      */
     public function executeEbayListingQueue()
     {
-        $Queues = EbayListingQueueDAO::getInstance()->getListingQueueData(1); // @todo
+        $Queues = EbayListingQueueDAO::getInstance()->getListingQueueData(1);
         if ($Queues !== false) {
             foreach ($Queues as $key => $Queue) {
                 $page = 0;
@@ -130,7 +130,7 @@ class EbayListingModel extends BaseModel
                         $lid = EbayListingDownDAO::getInstance()->iinsert($columns, true);
                         if ($lid > 0) {
                             
-                            file_put_contents(BASE_PATH . "/logs/EbayListingData.{$lid}.log", serialize($listingData));
+                            file_put_contents(BASE_PATH . "/logs/EbayListingData.{$lid}.log", $listingData);
                             unset($listingData);
                             
                             EbayListingQueueDAO::getInstance()->deleteByPk($Queue['down_queue_id']);
@@ -167,7 +167,6 @@ class EbayListingModel extends BaseModel
             foreach ($listing as $key => &$value) {
                 
                 $listingData = file_get_contents(BASE_PATH . "/logs/EbayListingData.{$value['down_id']}.log");
-                $listingData = unserialize($listingData);
                 
                 $doc = phpQuery::newDocumentXML($listingData);
                 phpQuery::selectDocument($doc);
