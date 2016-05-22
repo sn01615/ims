@@ -330,7 +330,7 @@ class EbayListingModel extends BaseModel
                                     );
                                     EbayListingSkuDAO::getInstance()->iupdate($columns, $conditions, $params);
                                     
-                                    $conditions = 'listing_id=:listing_id and payment_methods=:payment_methods';
+                                    $conditions = 'listing_id=:listing_id and num=:num';
                                     $params = array(
                                         ':listing_id' => $paymentMethodInfo['listing_id'],
                                         ':num' => $paymentMethodInfo['num']
