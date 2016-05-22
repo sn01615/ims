@@ -28,9 +28,10 @@ class EbayListingPaymentMethodsDAO extends BaseDAO
     public function __construct()
     {
         $this->tableName = 'ebay_listing_payment_methods';
-        $this->primaryKey = 'payment_methods_id';
+        $this->primaryKey = 'listing_id,num';
         $this->fields = array(
-            'payment_methods_id',
+            'listing_id',
+            'num',
             'listing_id',
             'payment_methods'
         );
