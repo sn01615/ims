@@ -117,10 +117,11 @@ class EbayListingDownModel extends BaseModel
      * @param string $siteid
      * @param int $page
      * @param int $pageSize
+     * @param int $OutputSelectorArray
      * @author liaojianwen
      * @date 2015-07-28
      */
-    public function getEbayListing($token, $startTime, $endTime, $siteid, $page, $pageSize)
+    public function getEbayListing($token, $startTime, $endTime, $siteid, $page, $pageSize, $OutputSelectorArray = array())
     {
         $callName = 'GetSellerList';
         if (Yii::app()->params['ebay_api_production']) {
@@ -128,14 +129,26 @@ class EbayListingDownModel extends BaseModel
         } else {
             $this->serverUrl = 'https://api.sandbox.ebay.com/ws/api.dll';
         }
-        $requestXML = '<?xml version="1.0" encoding="utf-8"?>
-            <GetSellerListRequest xmlns="urn:ebay:apis:eBLBaseComponents">
-            <RequesterCredentials>
-				<eBayAuthToken>' . $token . '</eBayAuthToken>
-			</RequesterCredentials>' . '<EndTimeFrom>' . $this->fmtDate($startTime) . '</EndTimeFrom>' . '<EndTimeTo>' . $this->fmtDate($endTime) .
-             '</EndTimeTo>' . '<IncludeWatchCount>true</IncludeWatchCount>' . '<IncludeVariations>true</IncludeVariations>' . '<Pagination>' .
-             '<EntriesPerPage>' . $pageSize . '</EntriesPerPage>' . '<PageNumber>' . $page . '</PageNumber>' . '</Pagination>' .
-             '<DetailLevel>ReturnAll</DetailLevel>' . '</GetSellerListRequest>';
+        $requestXML = '<?xml version="1.0" encoding="utf-8"?>';
+        $requestXML .= '<GetSellerListRequest xmlns="urn:ebay:apis:eBLBaseComponents">';
+        $requestXML .= '    <RequesterCredentials>';
+        $requestXML .= '        <eBayAuthToken>' . $token . '</eBayAuthToken>';
+        $requestXML .= '    </RequesterCredentials>';
+        $requestXML .= '    <EndTimeFrom>' . $this->fmtDate($startTime) . '</EndTimeFrom>';
+        $requestXML .= '    <EndTimeTo>' . $this->fmtDate($endTime) . '</EndTimeTo>';
+        $requestXML .= '    <IncludeWatchCount>true</IncludeWatchCount>';
+        $requestXML .= '    <IncludeVariations>true</IncludeVariations>';
+        $requestXML .= '    <Pagination>';
+        $requestXML .= '        <EntriesPerPage>' . $pageSize . '</EntriesPerPage>';
+        $requestXML .= '        <PageNumber>' . $page . '</PageNumber>';
+        $requestXML .= '    </Pagination>';
+        if (! empty($OutputSelectorArray)) {
+            foreach ($OutputSelectorArray as $OutputSelector) {
+                $requestXML .= '    <OutputSelector>' . $OutputSelector . '</OutputSelector>';
+            }
+        }
+        $requestXML .= '    <DetailLevel>ReturnAll</DetailLevel>';
+        $requestXML .= '</GetSellerListRequest>';
         $session = new eBaySession($this->serverUrl);
         $session->headers[] = "X-EBAY-API-COMPATIBILITY-LEVEL:{$this->compatabilityLevel}";
         $session->headers[] = "X-EBAY-API-DEV-NAME:{$this->devID}";
