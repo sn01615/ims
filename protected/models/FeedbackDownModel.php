@@ -108,7 +108,7 @@ class FeedbackDownModel extends BaseModel
      * @date 2015-05-19
      * @return Ambigous <boolean, number>
      */
-    public function deleteFeedbackDownData($ids)
+    private function deleteFeedbackDownData($ids)
     {
         if (is_array($ids)) {
             $ids = implode(',', $ids);
@@ -176,7 +176,7 @@ class FeedbackDownModel extends BaseModel
             }
             unset($value);
             
-            FeedbackDownModel::model()->deleteFeedbackDownData($ids);
+            $this->deleteFeedbackDownData($ids);
             
             goto label;
         }
