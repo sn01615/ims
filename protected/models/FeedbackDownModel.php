@@ -110,6 +110,9 @@ class FeedbackDownModel extends BaseModel
      */
     public function deleteFeedbackDownData($ids)
     {
+        if (is_array($ids)) {
+            $ids = implode(',', $ids);
+        }
         return FeedbackDownDAO::getInstance()->deleteByIds($ids);
     }
 
@@ -126,7 +129,7 @@ class FeedbackDownModel extends BaseModel
         
         $ids = array();
         if ($result !== false) {
-            foreach ($result as $key => &$value) {
+            foreach ($result as &$value) {
                 if (isset($value['text_json'])) {
                     $doc = phpQuery::newDocumentXML($value['text_json']);
                     phpQuery::selectDocument($doc);

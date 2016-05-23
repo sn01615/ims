@@ -1135,7 +1135,7 @@ class RuningController extends Controller
      */
     private function parseFeedback()
     {
-        $result = FeedbackDownModel::model()->parseFeedback();
+        FeedbackDownModel::model()->parseFeedback();
     }
 
     /**
