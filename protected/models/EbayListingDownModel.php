@@ -179,6 +179,7 @@ class EbayListingDownModel extends BaseModel
         if (! XMLTool::IsXML($responseXml)) {
             if ($tryCount < 22) {
                 $tryCount ++;
+                sleep(8);
                 goto label1;
             }
         }
