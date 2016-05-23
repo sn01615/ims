@@ -40,11 +40,6 @@ class EnumOther
     const DISPUTES_PARSE_SIZE = 10;
     
     /**
-     * @var FEEDBACK解析任务数量
-     */
-    const FEEDBACK_PARSE_SIZE = 5;
-    
-    /**
      * @var 待处理信息下载表状态值
      */
     const MSG_DOWN_NOTSTATUS = 0;

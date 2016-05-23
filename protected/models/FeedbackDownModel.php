@@ -65,7 +65,7 @@ class FeedbackDownModel extends BaseModel
      * @date 2015-05-19
      * @return Ambigous <string, multitype:, mixed>|boolean
      */
-    public function getFeedbackDownData($taskNumber)
+    public function getFeedbackDownData($taskNumber = 1)
     {
         FeedbackDownDAO::getInstance()->begintransaction();
         try {
@@ -125,7 +125,7 @@ class FeedbackDownModel extends BaseModel
     {
         label:
         
-        $result = FeedbackDownModel::model()->getFeedbackDownData(EnumOther::FEEDBACK_PARSE_SIZE);
+        $result = FeedbackDownModel::model()->getFeedbackDownData();
         
         $ids = array();
         if ($result !== false) {
