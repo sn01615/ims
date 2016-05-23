@@ -1117,30 +1117,6 @@ class RuningController extends Controller
     }
 
     /**
-     * @desc 获取和锁定feedback原始下载数据(XML)
-     * @author liaojianwen
-     * @date 2015-05-19
-     */
-    public function actionGetFeedback()
-    {
-        $this->imsEcsCheck();
-        
-        $result = FeedbackDownModel::model()->getFeedbackDownData(EnumOther::FEEDBACK_PARSE_SIZE);
-        if ($result !== false) {
-            $result = array(
-                'Ack' => 'Success',
-                'body' => $result
-            );
-        } else {
-            $result = array(
-                'Ack' => 'Failure',
-                'body' => ''
-            );
-        }
-        $this->renderJson($result);
-    }
-
-    /**
      * @desc 消息解析V1
      * @author YangLong
      * @date 2015-07-02
@@ -1153,46 +1129,13 @@ class RuningController extends Controller
     }
 
     /**
-     * @desc 删除已经解析了的feedback数据
-     * @author liaojianwen
-     * @date 2015-05-19
-     */
-    public function actionDeleteFeedback()
-    {
-        $this->imsEcsCheck();
-        
-        $ids = CInputFilter::getnorepeatInts('ids');
-        $result = FeedbackDownModel::model()->deleteFeedbackDownData($ids);
-        if ($result !== false) {
-            $result = array(
-                'Ack' => 'Success',
-                'body' => $result
-            );
-        } else {
-            $result = array(
-                'Ack' => 'Failure',
-                'body' => ''
-            );
-        }
-        $this->renderJson($result);
-    }
-
-    /**
      * @desc feedback数据解析接口
      * @author liaojianwen
      * @date 2015-05-19
      */
     private function parseFeedback()
     {
-        $homeUrl = Yii::app()->params['home_url'];
-        $key = imsTokenTool::getInstance()->getToken();
-        $data = getByCurl::get("{$homeUrl}?r=crontab/Runing/GetFeedback&key={$key}");
-        $data = json_decode($data, true);
-        $result = FeedbackDownModel::model()->parseFeedback($data);
-        if ($result !== false && is_array($result)) {
-            $result = implode(',', $result);
-            getByCurl::get("{$homeUrl}?r=crontab/Runing/DeleteFeedback&key={$key}&ids=" . $result);
-        }
+        $result = FeedbackDownModel::model()->parseFeedback();
     }
 
     /**

@@ -115,15 +115,18 @@ class FeedbackDownModel extends BaseModel
 
     /**
      * @desc 获取feedback 数据存入数据库
-     * @params $data feedback API 返回的数据
-     * @author liaojianwen
+     * @author liaojianwen,YangLong
      * @date 2015-05-15
      */
-    public function parseFeedback($data)
+    public function parseFeedback()
     {
+        label:
+        
+        $result = FeedbackDownModel::model()->getFeedbackDownData(EnumOther::FEEDBACK_PARSE_SIZE);
+        
         $ids = array();
-        if ($data['Ack'] == 'Success' && is_array($data['body'])) {
-            foreach ($data['body'] as $key => &$value) {
+        if ($result !== false) {
+            foreach ($result as $key => &$value) {
                 if (isset($value['text_json'])) {
                     $doc = phpQuery::newDocumentXML($value['text_json']);
                     phpQuery::selectDocument($doc);
@@ -169,8 +172,11 @@ class FeedbackDownModel extends BaseModel
                 $ids[] = $value['down_id'];
             }
             unset($value);
+            
+            FeedbackDownModel::model()->deleteFeedbackDownData($ids);
+            
+            goto label;
         }
-        return $ids;
     }
 
     /**
