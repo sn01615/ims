@@ -543,7 +543,7 @@ class ReturnDetailModel extends BaseModel
                 $paramArr['responseText'] = $text;
                 $paramArr['handle_type'] = __FUNCTION__;
                 $result2 = ReturnHandleLogDAO::getInstance()->insert($paramArr);
-                if ($result === false || $result1 === false || $result2 === false) {
+                if ($result1 === false || $result2 === false) {
                     ReturnHistoryDAO::getInstance()->rollback();
                     return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
                 } else {
