@@ -1195,9 +1195,9 @@ $(document).ready(function(e) {
 
     //切换处理方式
     $('#return_deal').on('change', function() {
-            change();
-        })
-        //提交
+        change();
+    });
+    //提交
     var textOption = $('#text');
     $('#deal').on('click', function() {
         var options = $('#return_deal').val();
@@ -1248,6 +1248,8 @@ $(document).ready(function(e) {
                             })();
                         } else if (data.Error == 'User authentication fails') {
                             hintShow('hint_w', lang.ajaxinfo.permission_denied);
+                        } else {
+                            hintShow('hint_w', '其他错误，请联系管理员！');
                         }
                     }
                 });
@@ -1290,6 +1292,8 @@ $(document).ready(function(e) {
                             })();
                         } else if (data.Error == 'User authentication fails') {
                             hintShow('hint_w', lang.ajaxinfo.permission_denied);
+                        } else {
+                            hintShow('hint_w', '其他错误，请联系管理员！');
                         }
                     }
 
@@ -1349,6 +1353,8 @@ $(document).ready(function(e) {
                             })();
                         } else if (data.Error == 'User authentication fails') {
                             hintShow('hint_w', lang.ajaxinfo.permission_denied);
+                        } else {
+                            hintShow('hint_w', '其他错误，请联系管理员！');
                         }
                     }
                 });
@@ -1399,6 +1405,8 @@ $(document).ready(function(e) {
                             })();
                         } else if (data.Error == 'User authentication fails') {
                             hintShow('hint_w', lang.ajaxinfo.permission_denied);
+                        } else {
+                            hintShow('hint_w', '其他错误，请联系管理员！');
                         }
                     }
 
@@ -1449,6 +1457,8 @@ $(document).ready(function(e) {
                             })();
                         } else if (data.Error == 'User authentication fails') {
                             hintShow('hint_w', lang.ajaxinfo.permission_denied);
+                        } else {
+                            hintShow('hint_w', '其他错误，请联系管理员！');
                         }
                     }
 
@@ -1496,6 +1506,8 @@ $(document).ready(function(e) {
                             })();
                         } else if (data.Error == 'User authentication fails') {
                             hintShow('hint_w', lang.ajaxinfo.permission_denied);
+                        } else {
+                            hintShow('hint_w', '其他错误，请联系管理员！');
                         }
                     }
                 });
