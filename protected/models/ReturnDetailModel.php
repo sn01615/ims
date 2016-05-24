@@ -281,13 +281,13 @@ class ReturnDetailModel extends BaseModel
         } else {
             ReturnHistoryDAO::getInstance()->begintransaction();
             try {
-                $param['return_id'] = $returnid;
-                $param['creationDate'] = time();
-                $param['author'] = 'SELLER';
-                $param['create_time'] = time();
-                $param['activity'] = 'SELLER_PROVIDE_RMA';
-                $param['rma'] = $RMA;
-                $result = ReturnHistoryDAO::getInstance()->insert($param);
+                // $param['return_id'] = $returnid;
+                // $param['creationDate'] = time();
+                // $param['author'] = 'SELLER';
+                // $param['create_time'] = time();
+                // $param['activity'] = 'SELLER_PROVIDE_RMA';
+                // $param['rma'] = $RMA;
+                // $result = ReturnHistoryDAO::getInstance()->insert($param);
                 
                 $param['activity'] = 'SELLER_APPROVE_REQUEST';
                 unset($param['rma']);
@@ -340,7 +340,7 @@ class ReturnDetailModel extends BaseModel
                     $paramRMA['RMA'] = $RMA;
                     $result3 = ReturnHandleLogDAO::getInstance()->insert($paramRMA);
                 }
-                if ($result === false || $result_appr === false || $result_rma === false || $result2 === false || $result3 === false) {
+                if ($result_appr === false || $result_rma === false || $result2 === false || $result3 === false) {
                     ReturnHistoryDAO::getInstance()->rollback();
                     return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
                 } else {
@@ -373,12 +373,12 @@ class ReturnDetailModel extends BaseModel
         } else {
             ReturnHistoryDAO::getInstance()->begintransaction();
             try {
-                $param['return_id'] = $returnid;
-                $param['creationDate'] = time();
-                $param['activity'] = 'SELLER_ISSUE_REFUND';
-                $param['author'] = 'SELLER';
-                $param['create_time'] = time();
-                $result = ReturnHistoryDAO::getInstance()->insert($param);
+                // $param['return_id'] = $returnid;
+                // $param['creationDate'] = time();
+                // $param['activity'] = 'SELLER_ISSUE_REFUND';
+                // $param['author'] = 'SELLER';
+                // $param['create_time'] = time();
+                // $result = ReturnHistoryDAO::getInstance()->insert($param);
                 
                 $returnId_id = $token['returnId_id'];
                 $siteid = $token['site_id'];
@@ -407,7 +407,7 @@ class ReturnDetailModel extends BaseModel
                 $paramArr['handle_type'] = __FUNCTION__;
                 $result2 = ReturnHandleLogDAO::getInstance()->iinsert($paramArr);
                 
-                if ($result === false || $result1 === false || $result2 === false) {
+                if ($result1 === false || $result2 === false) {
                     ReturnHistoryDAO::getInstance()->rollback();
                     return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败,已回滚');
                 } else {
@@ -442,14 +442,14 @@ class ReturnDetailModel extends BaseModel
         } else {
             ReturnHistoryDAO::getInstance()->begintransaction();
             try {
-                $param['return_id'] = $returnid;
-                $param['creationDate'] = time();
-                $param['activity'] = 'SELLER_OFFER_PARTIAL_REFUND';
-                $param['note'] = $text;
-                $param['partialRefundAmount'] = (double) $amount;
-                $param['author'] = 'SELLER';
-                $param['create_time'] = time();
-                $result = ReturnHistoryDAO::getInstance()->insert($param);
+                // $param['return_id'] = $returnid;
+                // $param['creationDate'] = time();
+                // $param['activity'] = 'SELLER_OFFER_PARTIAL_REFUND';
+                // $param['note'] = $text;
+                // $param['partialRefundAmount'] = (double) $amount;
+                // $param['author'] = 'SELLER';
+                // $param['create_time'] = time();
+                // $result = ReturnHistoryDAO::getInstance()->insert($param);
                 
                 $returnId_id = $token['returnId_id'];
                 $siteid = $token['site_id'];
@@ -477,7 +477,7 @@ class ReturnDetailModel extends BaseModel
                 $paramArr['responseText'] = $text;
                 $paramArr['handle_type'] = __FUNCTION__;
                 $result2 = ReturnHandleLogDAO::getInstance()->insert($paramArr);
-                if ($result === false || $result1 === false || $result2 === false) {
+                if ($result1 === false || $result2 === false) {
                     ReturnHistoryDAO::getInstance()->rollback();
                     return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
                 } else {
@@ -578,13 +578,13 @@ class ReturnDetailModel extends BaseModel
         } else {
             ReturnHistoryDAO::getInstance()->begintransaction();
             try {
-                $param['return_id'] = $returnid;
-                $param['creationDate'] = time();
-                $param['activity'] = 'SELLER_ESCALATE';
-                $param['note'] = $text;
-                $param['author'] = 'SELLER';
-                $param['create_time'] = time();
-                $result = ReturnHistoryDAO::getInstance()->insert($param);
+                // $param['return_id'] = $returnid;
+                // $param['creationDate'] = time();
+                // $param['activity'] = 'SELLER_ESCALATE';
+                // $param['note'] = $text;
+                // $param['author'] = 'SELLER';
+                // $param['create_time'] = time();
+                // $result = ReturnHistoryDAO::getInstance()->insert($param);
                 
                 $returnId_id = $token['returnId_id'];
                 $siteid = $token['site_id'];
@@ -611,7 +611,7 @@ class ReturnDetailModel extends BaseModel
                 $paramArr['reason'] = $reason;
                 $paramArr['handle_type'] = __FUNCTION__;
                 $result2 = ReturnHandleLogDAO::getInstance()->insert($paramArr);
-                if ($result === false || $result1 === false || $result2 === false) {
+                if ($result1 === false || $result2 === false) {
                     ReturnHistoryDAO::getInstance()->rollback();
                     return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
                 } else {
@@ -646,13 +646,13 @@ class ReturnDetailModel extends BaseModel
         } else {
             ReturnHistoryDAO::getInstance()->begintransaction();
             try {
-                $param['return_id'] = $returnid;
-                $param['creationDate'] = time();
-                $param['activity'] = 'SELLER_DECLINE_REQUEST';
-                $param['note'] = $text;
-                $param['author'] = 'SELLER';
-                $param['create_time'] = time();
-                $result = ReturnHistoryDAO::getInstance()->insert($param);
+                // $param['return_id'] = $returnid;
+                // $param['creationDate'] = time();
+                // $param['activity'] = 'SELLER_DECLINE_REQUEST';
+                // $param['note'] = $text;
+                // $param['author'] = 'SELLER';
+                // $param['create_time'] = time();
+                // $result = ReturnHistoryDAO::getInstance()->insert($param);
                 
                 $returnId_id = $token['returnId_id'];
                 $siteid = $token['site_id'];
@@ -678,7 +678,7 @@ class ReturnDetailModel extends BaseModel
                 $paramArr['responseText'] = $text;
                 $paramArr['handle_type'] = __FUNCTION__;
                 $result2 = ReturnHandleLogDAO::getInstance()->insert($paramArr);
-                if ($result === false || $result1 === false || $result2 === false) {
+                if ($result1 === false || $result2 === false) {
                     ReturnHistoryDAO::getInstance()->rollback();
                     return $this->handleApiForMat(EnumOther::ACK_FAILURE, '', '写入数据库失败');
                 } else {
