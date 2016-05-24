@@ -511,13 +511,13 @@ class ReturnDetailModel extends BaseModel
         } else {
             ReturnHistoryDAO::getInstance()->begintransaction();
             try {
-                $param['return_id'] = $returnid;
-                $param['creationDate'] = time();
-                $param['activity'] = 'SELLER_SEND_MESSAGE';
-                $param['note'] = $text;
-                $param['author'] = 'SELLER';
-                $param['create_time'] = time();
-                $result = ReturnHistoryDAO::getInstance()->insert($param);
+                // $param['return_id'] = $returnid;
+                // $param['creationDate'] = time();
+                // $param['activity'] = 'SELLER_SEND_MESSAGE';
+                // $param['note'] = $text;
+                // $param['author'] = 'SELLER';
+                // $param['create_time'] = time();
+                // $result = ReturnHistoryDAO::getInstance()->insert($param);
                 
                 $returnId_id = $token['returnId_id'];
                 $siteid = $token['site_id'];
