@@ -1249,7 +1249,7 @@ $(document).ready(function(e) {
                         } else if (data.Error == 'User authentication fails') {
                             hintShow('hint_w', lang.ajaxinfo.permission_denied);
                         } else {
-                            hintShow('hint_w', '其他错误，请联系管理员！');
+                            hintShow('hint_f', '其他错误，请联系管理员！');
                         }
                     }
                 });
@@ -1293,7 +1293,7 @@ $(document).ready(function(e) {
                         } else if (data.Error == 'User authentication fails') {
                             hintShow('hint_w', lang.ajaxinfo.permission_denied);
                         } else {
-                            hintShow('hint_w', '其他错误，请联系管理员！');
+                            hintShow('hint_f', '其他错误，请联系管理员！');
                         }
                     }
 
@@ -1354,7 +1354,7 @@ $(document).ready(function(e) {
                         } else if (data.Error == 'User authentication fails') {
                             hintShow('hint_w', lang.ajaxinfo.permission_denied);
                         } else {
-                            hintShow('hint_w', '其他错误，请联系管理员！');
+                            hintShow('hint_f', '其他错误，请联系管理员！');
                         }
                     }
                 });
@@ -1406,7 +1406,7 @@ $(document).ready(function(e) {
                         } else if (data.Error == 'User authentication fails') {
                             hintShow('hint_w', lang.ajaxinfo.permission_denied);
                         } else {
-                            hintShow('hint_w', '其他错误，请联系管理员！');
+                            hintShow('hint_f', '其他错误，请联系管理员！');
                         }
                     }
 
@@ -1458,7 +1458,7 @@ $(document).ready(function(e) {
                         } else if (data.Error == 'User authentication fails') {
                             hintShow('hint_w', lang.ajaxinfo.permission_denied);
                         } else {
-                            hintShow('hint_w', '其他错误，请联系管理员！');
+                            hintShow('hint_f', '其他错误，请联系管理员！');
                         }
                     }
 
@@ -1507,7 +1507,7 @@ $(document).ready(function(e) {
                         } else if (data.Error == 'User authentication fails') {
                             hintShow('hint_w', lang.ajaxinfo.permission_denied);
                         } else {
-                            hintShow('hint_w', '其他错误，请联系管理员！');
+                            hintShow('hint_f', '其他错误，请联系管理员！');
                         }
                     }
                 });
