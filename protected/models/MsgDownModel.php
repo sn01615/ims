@@ -858,13 +858,18 @@ class MsgDownModel extends BaseModel
                         $columns = array(
                             'seller_id' => $Queue['seller_id'],
                             'shop_id' => $Queue['shop_id'],
-                            'create_time' => time(),
-                            'version' => 1
+                            'create_time' => time()
                         );
-                        $did = MsgDownDAO::getInstance()->iinsert($columns, true);
+                        $down_id = MsgDownDAO::getInstance()->iinsert($columns, true);
                         
-                        file_put_contents(BASE_PATH . "/logs/executeMsgDownQueueXml.{$did}.log", serialize($xmlArr));
+                        file_put_contents(BASE_PATH . "/logs/executeMsgDownQueueXml.{$down_id}.log", serialize($xmlArr));
                         unset($xmlArr);
+                        
+                        MsgDownDAO::getInstance()->iupdate(array(
+                            'version' => 1
+                        ), 'down_id=:down_id', array(
+                            ':down_id' => $down_id
+                        ));
                         
                         MsgDownDAO::getInstance()->deleteDownQueue($Queue['down_queue_id']);
                     } else {
