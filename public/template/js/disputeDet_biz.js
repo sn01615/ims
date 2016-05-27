@@ -1834,6 +1834,19 @@ $(document).ready(function(e) {
 
         loadlist(page);
 
+        $("#his_msgs_up").on('click', function() {
+            if (page > 1) {
+                page--;
+            } else {
+                hintShow('hint_w', lang.disputeDet_biz.msg.is_last_page);
+            }
+            loadlist(page);
+        });
+
+        $("#his_msgs_down").on('click', function() {
+            page++;
+            loadlist(page);
+        });
 
         $("#his_msgs_ul").on('click', 'li', function() {
             // his_msg_box
@@ -1976,19 +1989,7 @@ $(document).ready(function(e) {
             } else {}
         });
     }
-    $("#his_msgs_up").on('click', function() {
-        if (page > 1) {
-            page--;
-        } else {
-            hintShow('hint_w', lang.disputeDet_biz.msg.is_last_page);
-        }
-        loadlist(page);
-    });
 
-    $("#his_msgs_down").on('click', function() {
-        page++;
-        loadlist(page);
-    });
     /**
      * @desc 加载卖家发起case详细信息
      * @author liaojianwen
