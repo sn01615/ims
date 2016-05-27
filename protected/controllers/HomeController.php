@@ -74,8 +74,9 @@ class HomeController extends Controller
             Yii::app()->request->redirect('?r=Home/Login');
         }
         
-        $this->assignLangInfo('replytp');
-        $this->display('replytp.html');
+        // $this->assignLangInfo('replytp');
+        // $this->display('replytp.html');
+        $this->view();
     }
 
     /**
