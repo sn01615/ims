@@ -531,9 +531,10 @@ $(document).ready(function(e) {
                                         }
                                     }
                                     //                                     
+                                    var sku_str = HTMLDecode(HTMLDecode(data.Body[x].Item_SKU != '' ? data.Body[x].Item_SKU : data.Body[
+                                        x].Variation_SKU));
                                     $("#buyHistory_div").find('tbody').append('<tr data-key=' + x + '><td>' + data.Body[x].SellerUserID +
-                                        '</td><td t="sku" style="word-break:break-all;">' + (data.Body[x].Item_SKU != '' ? data.Body[
-                                            x].Item_SKU : data.Body[x].Variation_SKU) +
+                                        '</td><td t="sku" style="word-break:break-all;">' + sku_str +
                                         '<br />ItemID:<a href="http://cgi.ebay.com/ws/eBayISAPI.dll?ViewItem&item=' + data.Body[x].Item_ItemID +
                                         '" target="_blank" class="fontLinkBtn">' + data.Body[x].Item_ItemID + '</a>' + (data.Body[x]
                                             .ProductName.length > 0 ? ('<br />Prodtct:' + HTMLDecode(HTMLDecode(data.Body[x].ProductName))) :
