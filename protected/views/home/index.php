@@ -215,7 +215,7 @@
                     <li>
                         <h3><a href="?r=Home/UserList" target="main"><?= $lang['sidebar']['syssetupitem']['usermanage']; ?></a></h3>
                         <h3><a href="?r=Home/Shoplist" target="main"><?= $lang['sidebar']['syssetupitem']['shopsetup']; ?></a></h3>
-                        <h3><a href="?r=Home/Tplist" target="main"><?= $lang['sidebar']['syssetupitem']['fastreply']; ?></a></h3>
+                        <h3><a href="?r=Home/Replytp" target="main"><?= $lang['sidebar']['syssetupitem']['fastreply']; ?></a></h3>
                         <!-- <h3><a href="?r=Home/ConfigSet" target="main"><?= $lang['sidebar']['syssetupitem']['configmgr']; ?></a></h3>
                         <h3><a href="?r=Home/SkuMatch" target="main"><?= $lang['sidebar']['syssetupitem']['skuimport']; ?></a></h3> -->
                     </li>

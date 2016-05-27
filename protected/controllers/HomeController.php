@@ -68,7 +68,7 @@ class HomeController extends Controller
      * @author YangLong
      * @date 2015-02-09
      */
-    public function actionTplist()
+    public function actionReplytp()
     {
         if (! $this->checklogin(ActionsEnum::PUBLIC_READ)) {
             Yii::app()->request->redirect('?r=Home/Login');
