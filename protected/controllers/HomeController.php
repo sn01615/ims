@@ -19,7 +19,7 @@ class HomeController extends Controller
             Yii::app()->request->redirect('?r=Home/Login');
         }
         
-        $this->assignLangInfo('index');
+        // $this->assignLangInfo('index');
         
         $dirs = scandir('public/lang/');
         $langlist = array();
@@ -42,9 +42,14 @@ class HomeController extends Controller
             $currentLangName = '语言选择';
         }
         
-        $this->assign('currentLangName', $currentLangName);
-        $this->assign('langlist', $langlist);
-        $this->display('index.html');
+        // $this->assign('currentLangName', $currentLangName);
+        // $this->assign('langlist', $langlist);
+        // $this->display('index.html');
+        $data = array(
+            'currentLangName' => $currentLangName,
+            'langlist' => $langlist
+        );
+        $this->view($data);
     }
 
     /**
@@ -161,9 +166,6 @@ class HomeController extends Controller
     {
         session_start();
         $sessionId = session_id();
-        // $this->assign('sid', md5($sessionId));
-        // $this->assignLangInfo('login');
-        // $this->display('login.html');
         $data = array(
             'sid' => md5($sessionId)
         );

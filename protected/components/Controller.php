@@ -270,7 +270,8 @@ class Controller extends CController
         $_lang_dir = Yii::app()->session['cLanguage'];
         ! $_lang_dir and Yii::app()->session['cLanguage'] = $_lang_dir = 'zh-cn';
         
-        $lang = require 'public/lang/' . $_lang_dir . '/' . $tpname . '.tp.php';
+        $file = 'public/lang/' . $_lang_dir . '/' . $tpname . '.tp.php';
+        file_exists($file) ? $lang = require $file : $lang = array();
         
         return array(
             'lang' => $lang,
