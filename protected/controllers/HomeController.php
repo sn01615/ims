@@ -63,8 +63,9 @@ class HomeController extends Controller
             Yii::app()->request->redirect('?r=Home/Login');
         }
         
-        $this->assignLangInfo('msglist');
-        $this->display('msglist.html');
+        // $this->assignLangInfo('msglist');
+        // $this->display('msglist.html');
+        $this->view();
     }
 
     /**

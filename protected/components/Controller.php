@@ -256,7 +256,7 @@ class Controller extends CController
         $this->assign('lang_dir', Yii::app()->session['cLanguage']);
     }
 
-    protected function view(array $data, $view = NULL, $return = FALSE)
+    protected function view(array $data = array(), $view = NULL, $return = FALSE)
     {
         ! $view and $view = $this->action->id;
         $data = array_merge($data, $this->_load_lang());
