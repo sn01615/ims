@@ -42,9 +42,6 @@ class HomeController extends Controller
             $currentLangName = '语言选择';
         }
         
-        // $this->assign('currentLangName', $currentLangName);
-        // $this->assign('langlist', $langlist);
-        // $this->display('index.html');
         $data = array(
             'currentLangName' => $currentLangName,
             'langlist' => $langlist
@@ -63,8 +60,6 @@ class HomeController extends Controller
             Yii::app()->request->redirect('?r=Home/Login');
         }
         
-        // $this->assignLangInfo('msglist');
-        // $this->display('msglist.html');
         $this->view();
     }
 
