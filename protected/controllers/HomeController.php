@@ -74,8 +74,6 @@ class HomeController extends Controller
             Yii::app()->request->redirect('?r=Home/Login');
         }
         
-        // $this->assignLangInfo('replytp');
-        // $this->display('replytp.html');
         $this->view();
     }
 
@@ -90,8 +88,9 @@ class HomeController extends Controller
             Yii::app()->request->redirect('?r=Home/Login');
         }
         
-        $this->assignLangInfo('shopset');
-        $this->display('shopset.html');
+        // $this->assignLangInfo('shopset');
+        // $this->display('shopset.html');
+        $this->view();
     }
 
     /**
