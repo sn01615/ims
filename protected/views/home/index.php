@@ -195,7 +195,7 @@
                 <h2><i class="icon-right"></i><a href="javascript:;"><?= $lang['sidebar']['buyermanage']; ?></a></h2>
                 <ul class="sideF2">
                     <li>
-                        <h3><a href="?r=Home/CusMange" target="main"><?= $lang['sidebar']['buyermanageitem']['allbuyer']; ?></a></h3>
+                        <h3><a href="?r=Home/Cusmanage" target="main"><?= $lang['sidebar']['buyermanageitem']['allbuyer']; ?></a></h3>
                     </li>
                 </ul>
             </li>

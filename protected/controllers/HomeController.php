@@ -98,14 +98,15 @@ class HomeController extends Controller
      * @author YangLong
      * @date 2015-09-06
      */
-    public function actionCusMange()
+    public function actionCusmanage()
     {
         if (! $this->checklogin(ActionsEnum::PUBLIC_READ)) {
             Yii::app()->request->redirect('?r=Home/Login');
         }
         
-        $this->assignLangInfo('cusmanage');
-        $this->display('cusmanage.html');
+        // $this->assignLangInfo('cusmanage');
+        // $this->display('cusmanage.html');
+        $this->view();
     }
 
     /**
