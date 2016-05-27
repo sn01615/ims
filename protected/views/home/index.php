@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="renderer" content="webkit">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<title><?= $['lang']['title']; ?></title>
+<title><?= $lang['title']; ?></title>
 <link rel="stylesheet" type="text/css" href="public/template/css/index.css" />
 <link rel="icon" href="favicon.ico" mce_href="favicon.ico" type="image/x-icon">
 <link rel="shortcut icon" href="favicon.ico" mce_href="favicon.ico" type="image/x-icon">
