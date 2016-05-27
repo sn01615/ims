@@ -161,9 +161,13 @@ class HomeController extends Controller
     {
         session_start();
         $sessionId = session_id();
-        $this->assign('sid', md5($sessionId));
-        $this->assignLangInfo('login');
-        $this->display('login.html');
+        // $this->assign('sid', md5($sessionId));
+        // $this->assignLangInfo('login');
+        // $this->display('login.html');
+        $data = array(
+            'sid' => md5($sessionId)
+        );
+        $this->view($data);
     }
 
     /**

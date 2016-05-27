@@ -51,7 +51,7 @@ class Controller extends CController
     {
         Yii::app()->smarty->display($view);
     }
-    
+
     /**
      * @desc 数据转换成json格式
      * @param mixed $data 数据
@@ -78,14 +78,14 @@ class Controller extends CController
         }
         
         if ($decodezh) {
-            $data = preg_replace_callback('/\\\u[0-9a-fA-F]{4}/i', function ($matches)
-            {
-                return json_decode('"' . $matches[0] . '"', true);
-            }, $data);
+            $data = preg_replace_callback('/\\\u[0-9a-fA-F]{4}/i', 
+                function ($matches) {
+                    return json_decode('"' . $matches[0] . '"', true);
+                }, $data);
         }
         echo $data;
     }
-    
+
     /**
      * @desc 验证用户是否登录等
      * @param string $action
@@ -111,7 +111,7 @@ class Controller extends CController
             return false;
         }
     }
-    
+
     /**
      * @desc 用户登录
      * @param string $username 用户名
@@ -179,20 +179,21 @@ class Controller extends CController
             }
         }
     }
-    
+
     /**
      * @descs 用户注销
      * @author liaojianwen
      * @date 2015-03-04
      */
-    protected function logout(){
+    protected function logout()
+    {
         Yii::app()->getSession()->destroy();
         $result = array(
-                'Ack' => 'Success'
-            );
-       return $result;
+            'Ack' => 'Success'
+        );
+        return $result;
     }
-    
+
     /**
      * @desc API检查登录
      * @param string $action
@@ -208,7 +209,7 @@ class Controller extends CController
             Yii::app()->end();
         }
     }
-    
+
     /**
      * @desc API过滤分类筛选参数
      * @param string $class            
@@ -237,7 +238,7 @@ class Controller extends CController
             return 'pending';
         }
     }
-    
+
     /**
      * @desc assign 语言信息
      * @param 模板名称 $tpname
@@ -254,5 +255,26 @@ class Controller extends CController
         $this->assign('lang', $lang);
         $this->assign('lang_dir', Yii::app()->session['cLanguage']);
     }
-    
+
+    protected function view(array $data, $view = NULL, $return = FALSE)
+    {
+        ! $view and $view = $this->action->id;
+        $data = array_merge($data, $this->_load_lang());
+        return $this->render($view, $data, $return);
+    }
+
+    private function _load_lang($tpname = NULL)
+    {
+        ! $tpname && $tpname = $this->action->id;
+        
+        $_lang_dir = Yii::app()->session['cLanguage'];
+        ! $_lang_dir and Yii::app()->session['cLanguage'] = $_lang_dir = 'zh-cn';
+        
+        $lang = require 'public/lang/' . $_lang_dir . '/' . $tpname . '.tp.php';
+        
+        return array(
+            'lang' => $lang,
+            'lang_dir' => $_lang_dir
+        );
+    }
 }
