@@ -232,10 +232,10 @@
     </div>
     <!-- 右边主要内容 end --> 
 </div>
-<script src="public/template/js/jquery-1.8.3.min.js?v0.0.6"></script>
-<script src="public/lang/<?= $lang_dir; ?>/js/lang.js?v0.0.6"></script>
-<script src="public/template/js/common.js?v0.0.6"></script>
-<script src="public/template/js/index_eft.js?v0.0.6"></script>
-<script src="public/template/js/index_biz.js?v0.0.6"></script>
+<script src="public/template/js/jquery-1.8.3.min.js?v<?= $git_hash; ?>"></script>
+<script src="public/lang/<?= $lang_dir; ?>/js/lang.js?v<?= $git_hash; ?>"></script>
+<script src="public/template/js/common.js?v<?= $git_hash; ?>"></script>
+<script src="public/template/js/index_eft.js?v<?= $git_hash; ?>"></script>
+<script src="public/template/js/index_biz.js?v<?= $git_hash; ?>"></script>
 </body>
 </html>

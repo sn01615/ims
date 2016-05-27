@@ -275,7 +275,15 @@ class Controller extends CController
         
         return array(
             'lang' => $lang,
-            'lang_dir' => $_lang_dir
+            'lang_dir' => $_lang_dir,
+            'git_hash' => $this->git_hash()
         );
+    }
+
+    protected function git_hash()
+    {
+        $file = '.git/index';
+        $content = file_exists($file) ? file_get_contents($file) : '';
+        return substr(md5($content), 13, 6);
     }
 }
