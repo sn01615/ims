@@ -82,12 +82,14 @@ class EbayListingModel extends BaseModel
                 $page = 0;
                 while (true) {
                     $page ++;
+                    $runcount = 0;
+                    
                     label:
+                    
                     $listingData = EbayListingDownModel::model()->getEbayListing($Queue['token'], $Queue['start_time'], $Queue['end_time'], 
                         $Queue['site_id'], $page, 25);
                     $doc = phpQuery::newDocumentXML($listingData);
                     phpQuery::selectDocument($doc);
-                    $runcount = 0;
                     if (strtolower(pq('Ack')->html()) != 'success') {
                         
                         iMongo::getInstance()->setCollection('getEbayListingErrA')->insert(
@@ -109,6 +111,7 @@ class EbayListingModel extends BaseModel
                                 ':down_queue_id' => $Queue['down_queue_id']
                             );
                             EbayListingQueueDAO::getInstance()->iupdate($columns, $conditions, $params);
+                            
                             goto label;
                         }
                         continue 2;
