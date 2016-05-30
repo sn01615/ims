@@ -1,13 +1,20 @@
 /**
  * gcc imsjobs.c -o imsJobs -std=c99 -lpthread
  */
-#include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <sys/file.h>
 #include <time.h>
+#ifdef WIN32
+#include "pthreads.2/pthread.h"
+#define sleep(t) Sleep((t)*1000)
+#endif
+#ifdef __linux__
+#include <pthread.h>
+#include <sys/file.h>
 #include <unistd.h>
+#else
+#endif
 
 #define THREAD_NUM 100
 
