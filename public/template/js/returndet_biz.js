@@ -1647,7 +1647,7 @@ $(document).ready(function(e) {
             }, function(listdata, state) {
                 removeloading();
                 if (state === 'success') {
-                    if (listdata.Body.list !== '') {
+                    if (listdata.Body && listdata.Body.list && listdata.Body.list.length > 0) {
                         $.each(listdata.Body.list, function(index, item) {
                             $("#classbox select[pid=" + pid + "]").append('<option value="' + item.tp_list_id + '">' + item.title + '</option>');
                         });
