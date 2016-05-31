@@ -162,6 +162,8 @@ class EbayListingModel extends BaseModel
      */
     public function parseEbayListing()
     {
+        DaemonLockTool::lock(__METHOD__);
+        
         label:
         
         $listing = EbayListingDownModel::model()->getListingDownData();
